@@ -1,0 +1,106 @@
+<!--Banner
+style="background-image:url(assets/images/banner-inside/4.jpg)"-->
+<div class="banner-wrapper">
+<div class="container" style="background-image:url(assets/images/banner-inside/4.jpg)">
+  <h1><span>customize your order</span></h1>
+  <div class="leftButtons buttons"><a href="#" class="whiteBtn cta-btn">Quick View</a><span class="cost">{{totalCost}} AED</span><a (click)="checkout()" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>
+
+</div>
+</div>
+ <div class="clearfix"></div>
+<!--<div class="chekout-header">
+</div>-->
+
+ <div class="spinner" *ngIf="item == null">
+      <div class="cube1"></div>
+      <div class="cube2"></div>
+    </div>
+
+<!--Inside Sections-->
+<div class="container-fluid" *ngIf="item != null">
+  <div class="row">
+    <div class="three-column-wrapper">
+      
+      
+      <!--Second Col-->
+      <div class="inside-column-container thirdCol">
+        <div class="col-md-6" *ngFor="let mod of item.ProductModifier">
+        <h3 class="bgGrey">{{mod.Modifier.title}}</h3>
+        <div class="content-wrapper">
+          <div class="content-container">
+            <div class="control-group">
+              <ng-container *ngFor="let option of mod.Modifier.ModifierOption">
+                <label class="control radio" *ngIf="mod.is_required == 1">
+                  <h4>{{option.Option.name}}</h4>
+                  <p></p>                  
+                  <a class="grayBtn cta-btn active" *ngIf="mod.display_price == 1">{{option.Option.price}} AED</a>
+                  <input type="radio" name="radio" checked="{{mod.default_option_id == option.Option.id? 'checked': ''}}"/>
+                  <div class="control__indicator"></div>    
+                </label>
+
+                <ng-container *ngIf="mod.is_required == 0">
+                  <div class="control checkbox" [ngClass]="{'extra': option.Option.add_extra, 'checked': option.Option.is_checked == true}">
+                    
+                    <h4 (click)="updateModifier(option.Option.id)">{{option.Option.name}}</h4> 
+                    <a class="grayBtn cta-btn" (click)="updateExtra(option.Option.id, 'modifier')">add Extra</a>                                
+                    <div class="control__indicator" (click)="updateModifier(option.Option.id)"><img src="assets/images/blog/img-4.jpg" alt=""></div>
+                    <!--<small class="circle"></small>
+                    <small class="circle half"> </small>
+                    <small class="circle right half"> </small>-->
+                
+                  </div>
+                </ng-container>
+              </ng-container>
+             
+            </div>
+          </div>
+        </div>
+        </div>
+
+    <ng-container *ngIf="item.ProductIncludedModifier.length > 0">
+     <div class="col-md-6" *ngFor="let imod of item.ProductIncludedModifier">
+        <h3 class="bgGrey">{{imod.title}}</h3>
+        <div class="content-wrapper">
+          <div class="content-container">
+            <div class="control-group">
+              <ng-container *ngFor="let ioption of imod.option">
+
+               
+                  <div class="control checkbox" [ngClass]="{'extra': ioption.add_extra, 'checked': ioption.is_checked == true}">
+                    
+                    <h4 (click)="updateIncludedModifier(ioption.id)">{{ioption.name}}</h4> 
+                    <a class="grayBtn cta-btn" (click)="updateExtra(ioption.id, 'includedModifier')">add Extra</a>                                
+                    <div class="control__indicator" (click)="updateIncludedModifier(ioption.id)"><img src="assets/images/blog/img-4.jpg" alt=""></div>
+                    <!--<small class="circle"></small>
+                    <small class="circle half"> </small>
+                    <small class="circle right half"> </small>-->
+                
+                  </div>
+                
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        </div>
+    </ng-container>
+
+      </div>
+      <div class="inside-column-container">
+        <h3>{{item.Product.title}} <a href class="fav-icon"><span class="icon-favorite"></span>Add to fav</a></h3>
+        <div class="content-wrapper">
+          <div class="img-wrapper" style="background-image:url(assets/images/pizza-img-lg.jpg)"> 
+            <!--<img src="assets/images/pizza-img-lg.jpg" class="img-responsive center-block"/>--> 
+          </div>
+          <div class="content-container">
+            <div class="ins">
+              <h5>{{item.Product.title}} CONTAINS</h5>
+              <p>{{item.Product.short_description}}</p>
+              <h5 class="bottomHeading">NUTRITIONAL VALUE</h5>
+              <p class="bold">456 CAL</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

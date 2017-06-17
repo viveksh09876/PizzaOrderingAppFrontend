@@ -1,0 +1,127 @@
+<!--Banner-->
+<div class="banner-wrapper">
+<div class="container" style="background-image:url(assets/images/banner-inside/3.jpg)">
+  <h1><span>choose your order</span></h1>
+  <div class="leftButtons buttons hidden-md hidden-lg"><a href="#" class="whiteBtn cta-btn">Quick View</a><span class="cost">84 AED</span><a href="#" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>
+  <!--<div class="leftButtons searchBox">
+    <input type="text" class="form-control" placeholder="">
+    <button class="icon-search"></button>
+  </div>-->
+  </div>
+</div>
+ <div class="clearfix"></div>
+
+
+<!--Inside Sections-->
+<div class="container-fluid">
+
+    <div class="spinner" *ngIf="menuData == null">
+      <div class="cube1"></div>
+      <div class="cube2"></div>
+    </div>
+
+  <div class="two-column-wrapper" *ngIf="menuData != null">
+  <!--Left Panel Starts-->
+    <div class="inside-column-container"> 
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs hidden-xs  orderTabs" role="tablist" id="tabSwitch">
+        <li role="presentation" *ngFor="let cat of menuData; let i = index" [ngClass]="(i==0)? 'active': ''"> <a href="#{{cat.name}}" aria-controls="applyNow" role="tab" data-toggle="tab">{{cat.name}}</a> </li>
+        <!--<li role="presentation" class="active"> <a href="#pizza" aria-controls="pizza" role="tab" data-toggle="tab">PIZZAS</a> </li>
+        <li role="presentation"> <a href="#salad" aria-controls="salad" role="tab" data-toggle="tab">SALADS</a> </li>
+        <li role="presentation"> <a href="#sides" aria-controls="sides" role="tab" data-toggle="tab">SIDES</a> </li>
+        <li role="presentation"> <a href="#dessert" aria-controls="dessert" role="tab" data-toggle="tab">DESSERTS</a> </li>
+        <li role="presentation"> <a href="#beverages" aria-controls="applyNow" role="tab" data-toggle="tab">BEVERAGES</a> </li>-->
+      </ul>
+      <select class="custom-select visible-xs" target="#tabSwitch">
+        <option *ngFor="let cat of menuData" value="{{cat.name}}">{{cat.name}}</option>
+      </select>
+      
+      <!-- Tab panes -->
+      <div class="tab-content">
+
+        <div role="tabpanel" *ngFor="let data of menuData"  class="tab-pane" id="{{data.name}}">
+            <div class="content-wrapper">
+                <div class="content-container">
+                    <div class="favSection">
+                        <div class="row">
+
+                            <div class="sub-cat-section" *ngIf="data.subCatsName.length > 0">
+                              
+                              <div class="col-md-6" *ngFor="let subCt of data.subCats">
+                                <h3 class="sub-head">{{subCt.name}}</h3>
+                                <div class="row">
+                                <div *ngFor="let subProd of subCt.products" class="col-md-12">
+                                  <ng-container *ngIf="subProd.is_price_mapped == 1">
+                                  <div class="createWrapper">
+                                    <div class="media">
+                                      <div class="media-left">
+                                        <div class="img-Wrapper" style="background-image:url(assets/images/pizza-images/2.jpg)"> </div>
+                                      </div>
+                                      <div class="media-body media-middle">
+                                        <div class="description">
+                                          <div class="leftSection"> <a href="#">
+                                            <h4 class="media-heading">{{subProd.title}}</h4>
+                                            </a>
+                                            <h5>{{subProd.price}} <span>onwards</span> </h5>
+                                            <p>{{subProd.short_description}}</p>
+                                          </div>
+                                          <div class="rightSection bottom"> <a [routerLink]="['/item',subProd.slug]" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  </ng-container>
+                                </div>
+                                                               
+                                </div>
+                              </div>                             
+               
+                            </div> 
+
+                            <ng-container *ngIf="data.subCatsName.length == 0">
+                            <div  class="col-md-6" *ngFor="let prod of data.products">
+                                <div class="createWrapper">
+                                  <ng-container *ngIf="prod.is_price_mapped == 1">
+                                  <div class="media">
+                                    <div class="media-left">
+                                      <div class="img-Wrapper" style="background-image:url(assets/images/pizza-images/2.jpg)"> </div>
+                                    </div>
+                                    <div class="media-body media-middle">
+                                      <div class="description">
+                                        <div class="leftSection"> <a href="#">
+                                          <h4 class="media-heading">{{prod.title}}</h4>
+                                          </a>
+                                          <h5>{{prod.price}} <span>{{prod.price_title}}</span> </h5>
+                                          <p>{{prod.short_description}}</p>
+                                        </div>
+                                        <div class="rightSection bottom"> <a [routerLink]="['/item',prod.slug]" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  </ng-container>
+                                </div>
+                            </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </div>
+    </div>
+    <!--Left Panel Ends-->
+    <!--Right Panel Starts-->
+    <!--<div class="inside-column-container aside-wrapper orderProcessIns hidden-xs">
+      <h3>My Order</h3>
+      <div class="content-wrapper">
+        <div class="content-container">
+          <div class="cart_img">
+            <h6>Your cart is empty</h6>
+            <img src="assets/images/cart-img.png" alt="" > </div>
+        </div>
+      </div>
+    </div>-->
+    <!--Right Panel Ends -->
+  </div>
+</div>

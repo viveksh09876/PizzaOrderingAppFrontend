@@ -19,9 +19,24 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "assets/css/slick.css",
+        "assets/css/jquery.fancybox.css",
+        "assets/css/animate.css",
+        "assets/css/scrolling-nav.css",
+        "assets/css/glyphs.css",
+        "assets/css/fonts.css",
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.js",
+        "assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js",
+        "assets/js/vendor/bootstrap.min.js",
+        "assets/js/vendor/slick.min.js",
+	 
+        "assets/js/vendor/jquery.validate.min.js",
+        "assets/js/vendor/jquery.fancybox.min.js",
+        "assets/js/main.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

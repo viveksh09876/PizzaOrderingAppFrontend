@@ -1,0 +1,210 @@
+<!--Carousel-->
+<div class="slider-wrapper">
+  <div class="slides" id="home-slider" *ngIf="slideArr.length > 0">
+    <ng-container *ngFor="let slide of slideArr">
+    <div class="slide" [ngStyle]="{ 'background-image': 'url(' + slide.Slide.image + ')'}">
+      <div class="container">
+        <div class="fade-bg visible-xs"></div>
+        <div class="slide-content fadeIn animated"> <img src="assets/images/banner-home/text-1.png" class="img-responsive" alt="slide content"/></div>
+        <!--<div class="hidden-md hidden-lg"><a href="#" class="custom-button" data-toggle="modal" data-target="#pickupdeliveryModal"><span>order now</span></a> </div>-->
+      </div>
+    </div>
+    </ng-container>
+  </div>
+</div>
+
+<!--How are we different-->
+<div class="how-are-we-different-wrapper">
+  <div class="container">
+    <h3 class="text-center">how we are <span>different</span></h3>
+    <p>We're all flavour, no filler. Pizza we feel good about serving. Pizza you feel good about eating. Pizza that puts itself out there in all of its natural, naked glory.</p>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="section-wrapper">
+          <div class="section-container">
+            <h4>fresh</h4>
+            <img src="assets/images/how-are-we-different/1.jpg" class="img-responsive center-block" alt="image-fresh"/>
+            <!--<p>Our crust is made from an Ancestral Blend® of 10 grains</p>-->
+            <a href class="arrow-button icon-keyboard_arrow_right"></a> </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="section-wrapper">
+          <div class="section-container">
+            <h4>ancestral blend</h4>
+            <img src="assets/images/how-are-we-different/2.jpg" class="img-responsive center-block" alt="image-fresh"/>
+            <!--<p>Our crust is made from an Ancestral Blend® of 10 grains</p>-->
+            <a href class="arrow-button icon-keyboard_arrow_right"></a> </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="section-wrapper">
+          <div class="section-container no-border">
+            <h4>house made tomato sauce</h4>
+            <img src="assets/images/how-are-we-different/3.jpg" class="img-responsive center-block" alt="image-fresh"/>
+           <!-- <p>Our crust is made from an Ancestral Blend® of 10 grains</p>-->
+            <a href class="arrow-button icon-keyboard_arrow_right"></a> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Our Journey-->
+<!--<div class="our-journey-wrapper" style="background-image:url(assets/images/our-journey.jpg);">
+  <div class="container"><span class="video-icon"><img src="assets/images/video-icon.png"/></span><a class="icon-play" data-fancybox href="https://www.youtube.com/watch?v=xCGSZhlCkeg&amp;autoplay=1&amp;rel=0&amp;controls=0&amp;showinfo=0"></a> <img class="title-img img-responsive" src="assets/images/our-journey-text.png" alt="Our Journey"/> </div>
+</div>-->
+
+<!--Blog-->
+<div class="blog-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-6">
+        <div class="blog-content" style="background-image:url(assets/images/blog/img-1.jpg);">
+          <div class="media">
+            <div class="media-left media-middle"> <i class="icon-instagram"></i> </div>
+            <div class="media-body">
+              <h4 class="media-heading">Bill Marshalj</h4>
+              <p>just love the authentic handmade pizza at nkd. can’t get enough</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <div class="blog-content" style="background-image:url(assets/images/blog/img-2.jpg);">
+          <div class="media">
+            <div class="media-left media-middle"> <i class="icon-facebook"></i> </div>
+            <div class="media-body">
+              <h4 class="media-heading">Mohammed Khalid</h4>
+              <p>just love the authentic handmade pizza at nkd. can’t get enough</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6">
+      <div class="blog-media" style="background-image:url(assets/images/our-journey.jpg);">
+         <div class="media">
+         <span class="video-icon">
+         <a class="video-btn icon-play" data-fancybox href="https://player.vimeo.com/video/157487447?autoplay=1"></a>
+         </span>
+         <img class="title-img img-responsive" src="assets/images/our-journey-text.png" alt="Our Journey" style="margin-top:60px;"/>
+            <!--<div class="media-left media-middle"> <i class="icon-facebook"></i> </div>-->
+           <!-- <div class="media-body">
+              <h4 class="media-heading">Mohammed Khalid</h4>
+              <p>just love the authentic handmade pizza at nkd. can’t get enough</p>
+            </div>-->
+            <!--<span class="video-icon"><img src="assets/images/video-icon.png"/></span> -->
+            
+            <!--<a class="icon-play" data-fancybox href="https://www.youtube.com/watch?v=xCGSZhlCkeg&amp;autoplay=1&amp;rel=0&amp;controls=0&amp;showinfo=0"></a><img class="title-img img-responsive" src="assets/images/our-journey-text.png" alt="Our Journey"/>--></div>
+          
+       </div>
+        <!--<div class="blog-content white">
+          <h4>people</h4>
+          <h3>love us</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+            ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <ul class="list-inline">
+            <li><a href="#"><i class="icon-facebook"></i></a></li>
+            <li><a href="#"><i class="icon-twitter"></i></a></li>
+            <li><a href="#"><i class="icon-instagram"></i></a></li>
+          </ul>
+        </div>-->
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <div class="blog-content red">
+          <div class="media">
+            <div class="media-left media-middle"> <i class="icon-twitter"></i> </div>
+            <div class="media-body media-middle">
+              <h4 class="media-heading">@chaitanyaKolwankar</h4>
+            </div>
+          </div>
+          <p>Happy<br />
+            Halloween!@ilovenkdpizza KIDS Make their own pizzaon Halloween Day#ilovenkdpizza</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <div class="blog-content" style="background-image:url(assets/images/blog/img-3.jpg);">
+          <div class="media">
+            <div class="media-left media-middle"> <i class="icon-instagram"></i> </div>
+            <div class="media-body">
+              <h4 class="media-heading">Elton Affonso</h4>
+              <p>just love the authentic handmade pizza at nkd. can’t get enough</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <div class="blog-content" style="background-image:url(assets/images/blog/img-4.jpg);">
+          <div class="media">
+            <div class="media-left media-middle"> <i class="icon-instagram"></i> </div>
+            <div class="media-body">
+              <h4 class="media-heading">Martin Garnhoud</h4>
+              <p>just love the authentic handmade pizza at nkd. can’t get enough</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Locations-->
+<div class="map-wrapper">
+  <div id="mapCanvas" class="map-canvas">
+      <!--<sebm-google-map 
+                        [latitude]="lat"
+                        [longitude]="lng"
+                        [zoom]="zoom"
+                        [zoomControl]="true"
+                        [styles]="styles"
+                        [scrollwheel]="true"
+                        [disableDoubleClickZoom] = "false"
+                        >
+                        
+                        <sebm-google-map-marker 
+                            
+                            *ngFor="let m of places; let i = index"                            
+                            [latitude]="m.lat"
+                            [longitude]="m.lng"                            
+                            [iconUrl]="m.icon"
+                            (markerClick)="test(i)"
+                            >
+                            
+                            <sebm-google-map-info-window
+                                [isOpen]="m.infoWindowOpen"                               
+                                [disableAutoPan]="false"
+                              >
+
+                              <div class="infoWrapper inf_{{i}}">
+                                <a class="close-btn" id="closeBtn"></a>
+                                <a href="#" class="custom-button"><span>order now</span></a>
+                                <div class="image-container">
+                                  <img src="{{m.infoImgPath}}" class="img-responsive" alt="Map Image"/>
+                                </div>
+                                <div class="content-container">
+                                  <div class="media">
+                                    <div class="media-body">
+                                      <h4 class="media-heading">{{m.infoTitle}}</h4>
+                                      <p>{{m.infoAddress}}</p>
+                                    </div>
+                                    <div class="media-right">
+                                      <a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a>
+                                    </div>
+                                  </div>
+                                  <ul class="list-inline">
+                                    <li>
+                                      <a><img src="assets/images/time-icon.jpg"/><span>{{m.infoTime}}</span></a>
+                                    </li>
+                                    <li><a><img src="assets/images/phone-icon.jpg"/><span>{{m.infoPhone}}</span></a>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="tail-wrapper"></div>
+                              </div>
+                            </sebm-google-map-info-window>
+                            
+                        </sebm-google-map-marker>                  
+                     </sebm-google-map>-->
+  </div>
+  <img src="assets/images/map-title.png" class="title-image img-responsive" alt="Currently open at 3 Locations in UAE"/> 
+</div>
