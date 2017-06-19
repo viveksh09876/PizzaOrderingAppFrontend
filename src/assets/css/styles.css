@@ -2249,7 +2249,7 @@ color:#fff
 	border-radius: 50%;
 	position: relative
 }
-.modal-dialog .modal-content .modal-body.white .location-wrapper .radio label input:checked ~ .control__indicator:after {
+.modal-dialog .modal-content .modal-body.white .location-wrapper .radio label .checked .control__indicator:after {
 	content: "";
 	position: absolute;
 	width: 20px;
@@ -2705,6 +2705,31 @@ color:#fff
 .bottom_slidebanners span{ color: #fff; float: left; background: #789c48; width: 200px; padding: 27px 35px 26px; font-size: 45px; line-height: 35px; font-family: "bureaueaglebookregular";}
 
 .bottom_slidebanners.caterslide ul{ width: 100%;}
+
+
+/*order now modal popup*/
+.fancypopup .form-control{ height: 45px; margin-bottom: 0; border: 1px solid #901c27; font-size: 16px; font-family: 'proxima_nova_ltlight';}
+.fancypopup select.form-control.full{  background: url(../images/down-arrow.png) no-repeat 99% 15px;}
+.fancypopup select.form-control{ appearance:none; -moz-appearance:none; -webkit-appearance:none; background: url(../images/down-arrow.png) no-repeat 95% 15px;}
+
+.fancypopup .form_sec .optional small{ display: inline-block; float: right; color: #5b5a56; font-size: 20px; line-height: 40px;}
+.fancypopup .continue-btn{ background: #901c27; color: #fff; border-radius: 5px; font-size: 20px; line-height: 30px; transition:.5s; margin: 25px 0 0;}
+.fancypopup .continue-btn:hover{ opacity: .9;}
+.fancypopup .use-location{ font-size: 16px; line-height: 40px; font-family: "proxima_nova_rgregular"; margin: 10px 0}
+
+.fancypopup .nav-tabs{ margin: 0;}
+.fancypopup .nav-tabs li{ background: none; margin: 0; display: inline-block;}
+.fancypopup .nav-tabs .control__indicator{ left: -30px!important;}
+.fancypopup .nav-tabs li.active .control__indicator:after{ left: 2px !important; display: block!important;}
+.fancypopup .nav-tabs li:after{ display: none;}
+.fancypopup .nav-tabs li a{ color: #901c27; min-width: 150px; padding: 0; font-size: 20px; line-height: 22px; text-align: left;}
+.fancypopup .nav-tabs li a:hover, .fancypopup .nav-tabs li a:focus{ color: #901c27; font-size: 20px; line-height: 22px; text-align: left;}
+.fancypopup .nav-tabs li.active a{ opacity: 1;}
+.fancypopup button.close{background: #fff; color: #333; border: 2px solid #fff; font-size: 20px; top: -15px; right: -15px;}
+
+#pickupdeliveryModal .modal-body{ padding: 30px;}
+
+
 
 
 /*======Catering page css==========*/

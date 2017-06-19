@@ -30,20 +30,21 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
           <div class="content-container">
             <div class="control-group">
               <ng-container *ngFor="let option of mod.Modifier.ModifierOption">
-                <label class="control radio" *ngIf="mod.is_required == 1">
-                  <h4>{{option.Option.name}}</h4>
-                  <p></p>                  
-                  <a class="grayBtn cta-btn active" *ngIf="mod.display_price == 1">{{option.Option.price}} AED</a>
-                  <input type="radio" name="radio" checked="{{mod.default_option_id == option.Option.id? 'checked': ''}}"/>
-                  <div class="control__indicator"></div>    
-                </label>
-
+                <ng-container *ngIf="mod.is_required == 1">
+                  <label class="control radio" [ngClass]="{'checked': option.Option.is_checked == true}" (click)="updateModifier(option.Option.id, 'radio')">
+                    <h4>{{option.Option.name}}</h4>
+                    <p></p>                  
+                    <a class="grayBtn cta-btn active" *ngIf="mod.display_price == 1">{{option.Option.price}} AED</a>
+                    <!--<input type="radio" name="radio" checked="{{mod.default_option_id == option.Option.id? 'checked': ''}}"/>-->
+                    <div class="control__indicator"></div>    
+                  </label>
+                </ng-container>
                 <ng-container *ngIf="mod.is_required == 0">
                   <div class="control checkbox" [ngClass]="{'extra': option.Option.add_extra, 'checked': option.Option.is_checked == true}">
                     
-                    <h4 (click)="updateModifier(option.Option.id)">{{option.Option.name}}</h4> 
+                    <h4 (click)="updateModifier(option.Option.id,'checkbox')">{{option.Option.name}}</h4> 
                     <a class="grayBtn cta-btn" (click)="updateExtra(option.Option.id, 'modifier')">add Extra</a>                                
-                    <div class="control__indicator" (click)="updateModifier(option.Option.id)"><img src="assets/images/blog/img-4.jpg" alt=""></div>
+                    <div class="control__indicator" (click)="updateModifier(option.Option.id, 'checkbox')"><img src="assets/images/blog/img-4.jpg" alt=""></div>
                     <!--<small class="circle"></small>
                     <small class="circle half"> </small>
                     <small class="circle right half"> </small>-->
@@ -88,6 +89,7 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
       <div class="inside-column-container">
         <h3>{{item.Product.title}} <a href class="fav-icon"><span class="icon-favorite"></span>Add to fav</a></h3>
         <div class="content-wrapper">
+            <button class="add-to-cart" (click)="add_to_cart()">Add to Cart</button>
           <div class="img-wrapper" style="background-image:url(assets/images/pizza-img-lg.jpg)"> 
             <!--<img src="assets/images/pizza-img-lg.jpg" class="img-responsive center-block"/>--> 
           </div>

@@ -68,15 +68,15 @@
                     <th>Qty</th>
                     <th>Price</th>
                 </tr>
-                <tr>
+                <tr *ngFor="let item of items; let i = index">
                     <td class="action">
-                        <a href="#"><img src="assets/images/close.jpg" alt=""></a>
-                        <a href="#"><img src="assets/images/edit.jpg" alt=""></a>
+                        <a (click)="deleteItem(i, item)"><img src="assets/images/close.jpg" alt=""></a>
+                        <!--<a href="#"><img src="assets/images/edit.jpg" alt=""></a>-->
                     </td>
                     <td class="img"><img src="assets/images/pizza-images/2.jpg" alt=""></td>
                     <td class="details">
-                        <h4>{{items.Product.title}}</h4>
-                        <ng-container *ngFor="let mod of items.ProductModifier">
+                        <h4>{{item.Product.title}}</h4>
+                        <ng-container *ngFor="let mod of item.ProductModifier">
                         <h5>{{mod.Modifier.title}}</h5>
                         <ul>
                             <ng-container *ngFor="let option of mod.Modifier.ModifierOption">
@@ -86,9 +86,9 @@
                         </ng-container>
                     </td>
                     <td>
-                        <div class="quantity"><a (click)="updateQuantity(0)">-</a><a class="num">{{items.Product.qty}}</a><a (click)="updateQuantity(1)">+</a></div>
+                        <div class="quantity"><a (click)="updateQuantity(0, item.Product.plu_code)">-</a><a class="num">{{item.Product.qty}}</a><a (click)="updateQuantity(1, item.Product.plu_code)">+</a></div>
                     </td>
-                    <td class="price">{{totalCost}} AED</td>
+                    <td class="price">{{item.totalItemCost}} AED</td>
                 </tr>
 
             </table>

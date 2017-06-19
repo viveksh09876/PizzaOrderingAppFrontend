@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from "ng2-bootstrap-modal";
 import { LoginComponent } from './login/login.component';
+import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,14 @@ export class AppComponent implements OnInit {
   }
 
   openModal(type) {
-    this.dialogService.addDialog(LoginComponent, {  }, { closeByClickingOutside:true });
- 
+
+    console.log(type);
+    if(type == 'login') {
+      this.dialogService.addDialog(LoginComponent, {  }, { closeByClickingOutside:true });
+    }else if(type == 'ordernow') {
+      this.dialogService.addDialog(OrdernowmodalComponent, {  }, { closeByClickingOutside:true });
+    }
+    
   }
 
   ngOnInit() {

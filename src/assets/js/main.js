@@ -26,7 +26,7 @@ function initSlider() {
 
 $(document).ready(function(){
 
-  initSlider();
+  //initSlider();
     $('#signinModal button.signup, #signupModal button[type="submit"]').click(function(){
         $('body').addClass('modalopen');
     });

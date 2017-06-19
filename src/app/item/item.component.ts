@@ -12,15 +12,21 @@ export class ItemComponent implements OnInit {
   item = null;
   totalCost = 0;
   selectedModifiers = [];
+  allItems = null;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-
+      
       this.route.params.subscribe(params => {
         
         if(params['slug'] && params['slug']!= '') {
           this.getItemData(params['slug']);
+
+          if(this.dataService.getLocalStorageData('allItems') != null) {
+            this.allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+          }
+
         }else{
           alert('Invalid Page Requested!');
         }
@@ -34,10 +40,27 @@ export class ItemComponent implements OnInit {
           .subscribe(data => {
                 
              if(data.ProductModifier.length == 0) {
-                this.dataService.setLocalStorageData('item', JSON.stringify(data));
-                this.dataService.setLocalStorageData('totalCost', data.Product.price);
-                 this.router.navigate(['/order-review']);
-             }else{
+                
+                data.originalItemCost = data.Product.price;
+                data.totalItemCost = data.Product.price;
+                let temp = this.dataService.getLocalStorageData('allItems');
+                
+                if(temp == null || temp == 'null') {
+
+                  let allItems = [];                  
+                  allItems.push(data);
+                  this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+                 
+                }else{
+
+                  let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));                  
+                  allItems.push(data);  
+                  this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+                }
+
+                this.router.navigate(['/order-review']);
+             
+            }else{
                 this.item = data;
                 this.getTotalCost();
              }
@@ -63,17 +86,27 @@ export class ItemComponent implements OnInit {
 
     total += parseInt(this.item.Product.price);
     this.totalCost = total;
-    this.dataService.setLocalStorageData('item', JSON.stringify(this.item));
-    this.dataService.setLocalStorageData('totalCost', this.totalCost);
+
+    this.item.originalItemCost = this.totalCost;
+    this.item.totalItemCost = this.totalCost;
+
+    //this.dataService.setLocalStorageData('item', JSON.stringify(this.item));
+    //this.dataService.setLocalStorageData('totalCost', this.totalCost);
   }
 
-  updateModifier(option_id) {
+  updateModifier(option_id, type) {
     
     
     if(this.item.ProductModifier.length > 0) {
       for(var i = 0; i < this.item.ProductModifier.length; i++) {
         let options = this.item.ProductModifier[i].Modifier.ModifierOption;
         for(var j = 0; j < options.length; j++) {
+
+            if(type == 'radio') {
+              if(options[j].Option.id != option_id) {
+                options[j].Option.is_checked = false;
+              }
+            }
 
             if(options[j].Option.id == option_id) {
               options[j].Option.is_checked = !options[j].Option.is_checked;
@@ -85,8 +118,11 @@ export class ItemComponent implements OnInit {
     let total = this.calculateTotalCost();
     this.totalCost = total;
     
-    this.dataService.setLocalStorageData('item', JSON.stringify(this.item));
-    this.dataService.setLocalStorageData('totalCost', this.totalCost);
+    this.item.originalItemCost = this.totalCost;
+    this.item.totalItemCost = this.totalCost;
+
+    // this.dataService.setLocalStorageData('item', JSON.stringify(this.item));
+    // this.dataService.setLocalStorageData('totalCost', this.totalCost);
   }
 
 
@@ -113,7 +149,7 @@ export class ItemComponent implements OnInit {
       }
     }
     
-    this.dataService.setLocalStorageData('item', JSON.stringify(this.item));
+    //this.dataService.setLocalStorageData('item', JSON.stringify(this.item));
 
   }
 
@@ -167,9 +203,12 @@ export class ItemComponent implements OnInit {
      
       let total = this.calculateTotalCost();
       this.totalCost = total;
+      
+      this.item.originalItemCost = this.totalCost;
+      this.item.totalItemCost = this.totalCost;
           
-      this.dataService.setLocalStorageData('item', JSON.stringify(this.item));
-      this.dataService.setLocalStorageData('totalCost', this.totalCost);
+      // this.dataService.setLocalStorageData('item', JSON.stringify(this.item));
+      // this.dataService.setLocalStorageData('totalCost', this.totalCost);
 
   }
 
@@ -226,7 +265,37 @@ export class ItemComponent implements OnInit {
 
 
   checkout() {    
+
+    if(this.dataService.getLocalStorageData('allItems') != null) {
+       let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+       allItems.push(this.item);  
+       this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+    }else{
+      let allItems = [];
+      allItems.push(this.item);
+      this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+    }
+    
+    this.dataService.setLocalStorageData('totalCost', this.totalCost); 
     this.router.navigate(['/order-review']);
+  }
+
+
+  add_to_cart() {
+
+    if(this.dataService.getLocalStorageData('allItems') != null) {
+       let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+       allItems.push(this.item);  
+       this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+    }else{
+      let allItems = [];
+      allItems.push(this.item);
+      this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+    }
+    
+    this.dataService.setLocalStorageData('totalCost', this.totalCost); 
+    this.router.navigate(['/menu']);
+
   }
 
 }

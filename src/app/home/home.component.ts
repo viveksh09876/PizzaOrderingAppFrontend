@@ -56,13 +56,15 @@ export class HomeComponent implements OnInit, AfterContentInit {
               this.slideArr = slides; 
               console.log(this.slideArr);
               
-              
-               jQuery("#home-slider").slick({
-                infinite: true,
-                dots: true,
-                prevArrow: false,
-                nextArrow: false
-              });
+              setTimeout(function(){
+                  jQuery("#home-slider").slick({
+                    infinite: true,
+                    dots: true,
+                    prevArrow: false,
+                    nextArrow: false
+                  });
+              }, 1000);
+               
           });
   }
 

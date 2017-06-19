@@ -1,0 +1,115 @@
+<div id="pickupdeliveryModal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="icon icon-close" ></span></button>
+      <div class="modal-body white">
+          <div class="row added-exclass pick">
+              <div class="col-md-8 col-sm-8 ">
+                <div class="row">
+                  <div class="col-md-9">
+                    <h4>pick up or delivery?</h4>
+                    <h5>How would you like to get your pizza</h5>
+                  </div>
+                  <div class="col-md-3"><img src="assets/images/pickup-delivery.png" alt="" class="img-responsive"/></div>
+                </div>
+                <form >
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active checkbox-inline control--checkbox"><a href="#pickup" aria-controls="pickup" role="tab" data-toggle="tab">pick up <input type="radio" name="pickup" checked="checked">
+                  <div class="control__indicator"></div></a></li>
+                    <li role="presentation" class="checkbox-inline control--checkbox"><a href="#delivery" aria-controls="delivery" role="tab" data-toggle="tab">delivery <input type="radio" name="pickup">
+                  <div class="control__indicator"></div></a></li>
+                  </ul>
+                </form>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="pickup">
+                        <div class="row form_sec">
+                            <div class="col-md-4 col-sm-4 optional">
+                                <select class="form-control">
+                                    <option>City</option>
+                                    <option>City1</option>
+                                    <option>City2</option>
+                                    <option>City3</option>
+                                </select>
+                                <small>or</small>
+                            </div>
+                            <div class="col-md-4 col-sm-4 optional">
+                                <input class="form-control" type="text" placeholder="Postal code">
+                                <small>or</small>  
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <a href="#" class="use-location"><i class="fa fa-map-marker"></i> Use my Location</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <select class="form-control full">
+                                    <option>Select Restaurent / Outlet</option>
+                                    <option>Select Restaurent / Outlet</option>
+                                    <option>Select Restaurent / Outlet</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-danger btn-block continue-btn">Continue</button>  
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="delivery">
+                        <div class="row form_sec">
+                            <div class="col-md-4 col-sm-4 optional">
+                                <select class="form-control">
+                                    <option>City</option>
+                                    <option>City1</option>
+                                    <option>City2</option>
+                                    <option>City3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-sm-4 optional">
+                                <input class="form-control" type="text" placeholder="State">
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <input class="form-control" type="text" placeholder="Postal code">
+                            </div>
+                        </div>
+                        
+                        <p class="use-location">or <a href="#" ><i class="fa fa-map-marker"></i> Use my Location</a></p>
+                        
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 optional">
+                                <input class="form-control" type="text" placeholder="Appt#">
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <input class="form-control" type="text" placeholder="Street#">
+                            </div>
+                            <div class="col-md-4 col-sm-4 optional">
+                                <input class="form-control" type="text" placeholder="Street Name / Building Name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-danger btn-block continue-btn" data-toggle="modal" data-target="#Choosetime-pop" onclick="$('#pickupdeliveryModal').modal('hide')">Continue</button>  
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+              
+              <div class="col-md-4 col-sm-4">
+                <div class="location-wrapper">
+                  <div class="img-wrapper" style="background-image:url(assets/images/pickup-delivery/img-1.jpg);"></div>
+                  <h4>Motor City</h4>
+                  <p>Shop 1, Kojak Bldg, <br>
+                    Motor City-Dubai, UAE</p>
+                  <p>Open now:  10:30am-1:00am</p>
+                  <p>04 421 3734</p>
+                  <p><span class="fa fa-phone"></span>
+                    <span class="dir"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></span></p>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+ 

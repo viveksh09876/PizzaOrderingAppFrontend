@@ -13,6 +13,7 @@ import { MenuComponent } from './menu/menu.component';
 import { RegisterComponent } from './register/register.component';
 import { ItemComponent } from './item/item.component';
 import { OrderreviewComponent } from './orderreview/orderreview.component';
+import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { OrderreviewComponent } from './orderreview/orderreview.component';
     MenuComponent,
     RegisterComponent,
     ItemComponent,
-    OrderreviewComponent
+    OrderreviewComponent,
+    OrdernowmodalComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,7 @@ import { OrderreviewComponent } from './orderreview/orderreview.component';
     BootstrapModalModule,
     JsonpModule
   ],
-  entryComponents: [LoginComponent, RegisterComponent],
+  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent],
   schemas:  [CUSTOM_ELEMENTS_SCHEMA],
   providers: [DataService],
   bootstrap: [AppComponent]
