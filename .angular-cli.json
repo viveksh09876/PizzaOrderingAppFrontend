@@ -23,8 +23,6 @@
         "assets/css/jquery.fancybox.css",
         "assets/css/animate.css",
         "assets/css/scrolling-nav.css",
-        "assets/css/glyphs.css",
-        "assets/css/fonts.css",
         "styles.css"
       ],
       "scripts": [

@@ -42,11 +42,6 @@ a{cursor: pointer;}
   animation-delay: -0.9s;
 }
 
-button:disabled {
-    background: #ddd !important;
-	color: #999 !important;
-}
-
 @-webkit-keyframes sk-cubemove {
   25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
   50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
@@ -1315,21 +1310,17 @@ header.navigation .logo {
 }
 button.close {
 	position: absolute;
-
-
+	right: 20px;
+	top: 15px;
 	opacity: 1;
 	z-index: 9;
-
-
+	font-size: 26px;
+	color: #fff;
 	width: 30px;
 	height: 30px;
 	line-height: 20px;
-	border-radius: 50%; background: #fff;
-    color: #333;
-    border: 2px solid #fff;
-    font-size: 20px;
-    top: -15px;
-    right: -15px;
+	background: #789c48;
+	border-radius: 50%;
 }
 #signinModal .modal-dialog {
 	margin-top: 8%;
@@ -1587,12 +1578,12 @@ button.close {
 .aside-wrapper .item_info{ font-family: "proxima_nova_rgregular"; float: left; width: 60%;}
 .cartbox .item_info h4{ color: #5b5a56; font-size: 20px; line-height: 25px; margin: 0 0 10px;}
 .cartbox .item_info h5.space{ margin-top: 10px;}
-.cartbox .item_info h5{ font-family: 'proxima_nova_ltsemibold'; font-size: 15px; line-height: 20px; color: #5b5a56; margin: 0;}
+.cartbox .item_info h5{ font-family: "proxima_nova_rgbold"; font-size: 15px; line-height: 20px; color: #5b5a56; margin: 0;}
 .cartbox .item_info h5 span{font-family: "proxima_nova_rgregular";}
 .cartbox .item_info ul{ list-style: none; padding: 0; margin: 0 0 10px; color: #5b5a56;}
-.cartbox .item_info ul li{ font-size: 14px; line-height: 17px; font-family: 'proxima_nova_ltlight';}
+.cartbox .item_info ul li{ font-size: 14px; line-height: 20px;}
 
-.cartbox .item_pic{ float: right; width: 40%; padding:0 0 0 10px; text-align: center;}
+.cartbox .item_pic{ float: right; width: 38%; padding: 0 10px; text-align: center;}
 .cartbox .item_pic .item{ max-width: 100%; margin: 10px 0; height: 100px; border-radius: 50%;}
 .cartbox .item_pic .img-control a{ color: #bb0315; text-decoration:none;
     margin: 0 2px;
@@ -2070,12 +2061,11 @@ button.close {
 }
 .modal-dialog .modal-content .modal-body.green .close {
 	color: #fff;
-	background: #7b994a;
 	border-radius: 50%;
-	border: 2px solid #7b994a;
-
-
-
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border: 2px solid #fff;
+	padding: 4px 8px;
 	opacity: 1
 }
 .modal-dialog .modal-content .modal-body.green .close:hover {
@@ -2170,11 +2160,6 @@ color:#fff
 	color: #5b5a56;
 	margin: 0
 }
-
-.added-exclass.delry > .col-md-8{ width: 100%;}
-.added-exclass.delry > .col-md-4{  display: none;}
-#pickup.tab-pane .optional .form-control{ display: inline-block; width: 80%; margin-bottom: 30px;}
-#pickup.tab-pane .use-location{font-family: "proxima_nova_rgregular"; font-size: 16px; line-height: 20px; color: #911c27; text-transform: uppercase; display: inline-block;}
 .modal-dialog .modal-content .modal-body.white h5 {
 	font: normal 18px "proxima_nova_rgregular";
 	color: #5b5a56;
@@ -2182,10 +2167,8 @@ color:#fff
 }
 .modal-dialog .modal-content .modal-body.white form {
 	width: 100%;
-/*
 	border-bottom: 1px solid #cdcdcc;
 	padding-bottom: 2em;
-*/
 	margin-bottom: 2em
 }
 .modal-dialog .modal-content .modal-body.white form .checkbox-inline {
@@ -2223,15 +2206,14 @@ color:#fff
 	top: -2px;
 	left: 2px; display: none;
 }
-.modal-dialog .modal-content .modal-body.white .use-location{ font-size: 16px;}
-.modal-dialog .modal-content .modal-body.white .use-location a{
+.modal-dialog .modal-content .modal-body.white a.use-location {
 	font-size: 16px;
 	color: #911c27;
 	text-transform: uppercase;
+	float: right
 }
-
-.modal-dialog .modal-content .modal-body.white .use-location:hover {
-	color: #000; text-decoration: none;
+.modal-dialog .modal-content .modal-body.white a.use-location:hover {
+	color: #000
 }
 .modal-dialog .modal-content .modal-body.white .location-wrapper {
 	width: 100%;
@@ -2327,36 +2309,18 @@ color:#fff
 .three-column-wrapper .inside-column-container {
 	display: table-cell;
 	vertical-align: top;
-	overflow: hidden; position:relative;
+	background-color: #5b5a56;
+	overflow: hidden
 }
-.three-column-wrapper .inside-column-container .item-qty-price{background:#f4f4f4; padding:1em; float: left;
-    width: 100%;}
-.three-column-wrapper .inside-column-container .item-qty-price button{float:right; color: #fff;
-    background: #911c28;
-    text-align: center;
-    font-weight: 300;
-    border-radius: 5px;
-    padding: 5px 10px;
-    font-size: 14px;
-    line-height: 18px;
-    border: none;
-    font-family: "proxima_nova_rgregular";}
-.three-column-wrapper .inside-column-container .item-qty-price .quantity{text-align:center; float:left; color:#911c27;}	
-.three-column-wrapper .inside-column-container .item-qty-price .quantity a{ border: 1px solid #911c27;; color: #911c27;; width: 30px; height: 25px; line-height: 25px; display: inline-block;  text-decoration:none;float:left}
-.three-column-wrapper .inside-column-container .item-qty-price .quantity .num{ border-left: 0; border-right: 0; background: #911c27; color: #fff;  display: inline-block;  width: 30px; height: 25px; vertical-align: top;float:left}
-.three-column-wrapper .inside-column-container .item-qty-price .quantity a:first-child{ border-radius: 2px 0 0 2px;}
-.three-column-wrapper .inside-column-container .item-qty-price .quantity .num+a{ border-radius:0 2px 2px 0; margin:0 10px 0 0;}
-
 .three-column-wrapper .inside-column-container .content-wrapper .img-wrapper {
-	height: calc(100vh - 47vh);
+	height: 450px;
 	width: 100%;
 	background-size: cover;
-	background-position: center; float:left;
+	background-position: center
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container {
 	color: #fff;
-	padding: 1em 20px;
-	
+	padding: 0em 20px
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container a.grayBtn {
 	background-color: #aaaaa9;
@@ -2404,12 +2368,7 @@ color:#fff
 	font: 2.75em "proxima_nova_rgbold"
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .ins {
-	padding: 2.5em 2em;
-	margin:-1em -20px;
-	position:absolute;
-	bottom:0px;
-	left:0px;
-	background-color: #5b5a56;
+	padding: 2.5em 2em
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group {
 	display: inline-block;
@@ -2644,8 +2603,8 @@ color:#fff
 .steprow ul li:last-child:after{ width: 80%;}
 .steprow ul li:after{ position: absolute; left: 0; content: ''; top: 25px; width: 100%; border-bottom: 1px solid #dfdfdf;}
 .steprow ul li small{ display: block; background: #fff; margin: 0 auto 10px; color:#a7a7a7; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #dfdfdf; line-height: 50px; font-size: 25px; position: relative; z-index: 9;}
-.steprow ul li.active small{background: #5b5a56; border-color: #5b5a56; color: #fff;}
-.steprow ul li.active{ color: #a7a7a7;}
+.steprow ul li.active small{background: #789C48; border-color: #789C48; color: #fff;}
+.steprow ul li.active{ color: #789C48;}
 
 .reviewbox{ background: #F4F4F4; padding: 15px; min-height: 215px;}
 .reviewbox h5{font-family: "proxima_nova_ltsemibold"; font-size: 18px; line-height: 20px; margin: 0 0 10px; color: #5B5A56; text-transform: uppercase; min-height: 40px;}
@@ -2682,108 +2641,6 @@ color:#fff
 
 .steporder-tab table td.price{font-family:  "proxima_nova_ltsemibold"; color: #5b5a56}
 
-
-/*=============New step design css==========*/
-.stepboxes .green-title{background: #789c48; color: #ffffff; font-size: 22px; line-height: 30px; font-family: 'proxima_nova_rgbold'; padding: 10px 20px;}
-.stepboxes .green-title.gray{ color: #5b5a56; background: #f4f4f4;}
-.stepboxes .gray_box{ background: #f4f4f4; padding: 10px 20px;}
-.stepboxes .gray_box .item_info { float: left; font-family: "proxima_nova_rgregular"; width: 60%;}
-.gray_box .cartbox .item_pic .img-control a{ float: none; display: inline-block}
-.gray_box .cartbox{ border: 0; padding-bottom: 0; margin-bottom: 0;} 
-.gray_box .cartbox .item_pic .item{ height: 120px; width: 120px;}
-
-.stepboxes .save_orderbox{ background: #789c48; display: inline-block; width: 100%; padding: 5px 15px 10px;}
-.stepboxes .save_orderbox h5{ font-size: 22px; color: #fff; line-height: 25px; margin: 0 0 10px; font-family: 'proxima_nova_rgbold';}
-.stepboxes .save_orderbox input[type="text"]{ color: #5b5a56; font-size: 16px; font-family: 'proxima_nova_ltlight'; border: 1px solid #acacac; border-radius: 5px; height: 34px; padding: 5px 10px; width: calc(100% - 130px); float: left;}
-.stepboxes .save_orderbox input[type="submit"]{ background: #911c27; height: 34px; color: #fff; border: 0; border-bottom: 2px solid #270304; font-size: 16x; line-height: 34px; border-radius: 3px; padding: 0 20px; width: 120px; float: right;}
-
-.order_reviewform{ padding: 20px 15px 0; display: inline-block; width: 100%;}
-.order_reviewform .form-control{ color: #5b5a56;  font-family: 'proxima_nova_ltlight'; font-size: 16px; border: 1px solid #acacac; border-radius: 3px;}
-.order_reviewform select.form-control{ appearance:none; -moz-appearance:none; -webkit-appearance:none; background:#fff url(../images/down-arrow.png) no-repeat 96% 12px;}
-.order_reviewform .form-group{ margin-bottom: 20px;}
-.order_reviewform > div{ padding: 0 5px;}
-
-.stepboxes .col-md-8{ padding-left: 0;}
-
-.stepboxes .radio_tabs{ margin: 20px 20px 0; padding: 0;}
-.stepboxes .radio_tabs li{ display: inline-block; vertical-align: middle; color: #911c27; font-size: 20px; font-family: 'proxima_nova_rgbold'; list-style-type: none; line-height: 23px; margin-right: 30px;}
-.stepboxes .radio_tabs li label{ font-weight: 400; position: relative}
-.stepboxes .radio_tabs li input{ position: absolute; left: 0; top: 0; margin: 0; opacity: 0; width: 23px; height: 23px;}
-.stepboxes .radio_tabs li input:checked + small{background: url(../images/radio-button.png) no-repeat 0 -23px;}
-.stepboxes .radio_tabs li small{ display: inline-block; vertical-align: top; width: 23px; height: 23px; background: url(../images/radio-button.png) no-repeat 0 0;}
-
-.dottedlist_box{ background: #f4f4f4; padding: 10px 15px 20px;}
-.dottedlist_box .coupan_box{ margin: 10px 0}
-.dottedlist_box .coupan_box input[type="submit"]{ font-size: 16px; line-height: 20px; color: #fff; font-family: 'proxima_nova_ltlight'; background: #911c27; border: 0; border-bottom: 2px solid #4f050c; width: 100px; text-align: center; height: 35px; border-radius: 3px; float: right;}
-.dottedlist_box .coupan_box input[type="text"]{ width: calc(100% - 110px); background: #fff; border: 0; font-size: 16px; font-family: 'proxima_nova_ltsemibold'; line-height: 25px; padding: 5px 10px; height: 35px;}
-
-.dottedlist_box .dotted-list{ margin: 0; clear: both; padding: 0 10px 5px; list-style: none;}
-.dottedlist_box .dotted-list li{ font-size: 15px; color: #5b5a56; line-height: 29px; padding: 5px 0; border-bottom: 1px dashed #929292;  font-family: 'proxima_nova_ltlight';}
-.dottedlist_box .dotted-list li:last-child{ border: none;}
-.dottedlist_box .dotted-list li span{ float: right}
-
-.dottedlist_box .grand-total{ background: #5b5a56; color: #fff; font-size: 18px; font-family: 'proxima_nova_ltsemibold'; line-height: 22px; padding: 10px;}
-.dottedlist_box .grand-total span{ float: right}
-
-.choosetime_box{ padding: 20px 10px 0;}
-.choosetime_box h4{ color: #5b5a56; font-size: 22px; margin: 0 0 10px; font-family: 'proxima_nova_rgbold'; line-height: 25px;}
-.choosetime_box .radio_tabs{ margin: 0;}
-.choosetime_box .order_reviewform{ padding: 10px 0 0; margin: 0 -5px}
-.dottedlist_box .fullred-btn{ font-size: 18px; line-height: 29px; padding: 5px; display: block; background: #911c27; text-align: center; border-radius: 3px; border-bottom: 2px solid #4f050c; color: #fff; font-family: 'proxima_nova_ltsemibold';}
-
-.delivery_addrs{ padding: 20px 10px 0; margin: 0;}
-.delivery_addrs h4{ font-size: 22px; color: #5b5a56; font-family: 'bureaueaglebookregular'; line-height: 25px; margin:0 0 5px;}
-.delivery_addrs p{ font-size: 16px; color: #5b5a56; font-family: 'proxima_nova_ltlight'; line-height: 19px;}
-.delivery_addrs p strong{ font-weight: normal; font-family: 'proxima_nova_ltsemibold';}
-
-.payment_method{ background: #f4f4f4; padding: 20px 3%; display: inline-block; vertical-align: top; min-height: 360px; width: 100%;}
-.payment_method .nav-tabs{ width: 25%; margin: 0; position: relative; z-index: 9; float: left;}
-
-.payment_method .nav-tabs > li{ display: block; background: none;}
-.payment_method .nav-tabs > li.active::after{ display: none;}
-.payment_method .nav-tabs > li a{ opacity: 1; background: none; padding: 20px 15px 20px 0; font-size: 18px; color: #5b5a56; text-align: right; font-family: 'proxima_nova_ltlight'; line-height: 25px; border-right:4px solid #cfcfcf;}
-.payment_method .nav-tabs > li a:hover, .payment_method .nav-tabs > li a:focus{ opacity: 1; font-family: 'proxima_nova_ltlight'; font-size: 18px; border-right:4px solid #cfcfcf; text-align: right}
-.payment_method .nav-tabs > li.active a{ border-color: #789c48; color: #789c48; font-family: 'proxima_nova_rgbold'; }
-
-.payment_method .tab-content{ float: right; width: 75%; padding: 20px 0 0 5%; height: 310px; position: relative}
-.payment_method .tab-content:after{ position: absolute; left: -4px; top: 0; width: 4px; height: 100%; content: ''; background: #cfcfcf;}
-.payment_method .tab-content h5{ color: #5b5a56; font-size: 18px; line-height: 22px; font-family: 'proxima_nova_rgbold'; margin: 0 0 15px;}
-.payment_method .tab-content p{ color: #5b5a56; font-size: 18px; line-height: 22px; font-family: 'proxima_nova_ltlight'; margin: 0 0 20px;}
-.payment_method .tab-content .btn-red{ padding: 10px; background: #911c27; color: #fff; font-size: 20px; line-height: 27px; text-align: center;  font-family: 'proxima_nova_rgbold'; border-bottom: 2px solid #4f050c; border-radius: 3px;}
-
-.thankyou_box{ color: #5b5a56; background: #f4f4f4; padding: 30px 0 60px; display: inline-block; width: 100%;}
-.thankyou_box h4{ font-size: 30px; line-height: 40px; font-family: 'proxima_nova_rgbold'; margin: 0;}
-.thankyou_box h5{ font-size: 22px; font-family: 'proxima_nova_ltlight'; line-height: 30px; margin: 0 0 30px;}
-
-.thankyou_box address strong{ font-family: 'proxima_nova_rgbold'; font-weight: normal; color: #789c48; font-size: 22px; line-height: 25px; margin: 0 0 5px; display: block} 
-.thankyou_box address{ display: inline-block; width: 49%; vertical-align: top; padding-top: 10px; padding-bottom: 10px;}
-.thankyou_box address.d-add{ padding-right: 15px; text-align: right; border-right:2px solid #cacac9;}
-.thankyou_box address.r-add{ padding-left: 15px; text-align: left;}
-    
-.thankyou_box address p{ font-size: 16px; line-height: 19px; font-family: 'proxima_nova_ltlight'; }
-.thankyou_box addr.another-orderess p span{ font-family: 'proxima_nova_ltsemibold';}
-.thankyou_box ul{ display: inline-block; margin: 30px 0 0; padding: 0; vertical-align: top; list-style: none;}
-.thankyou_box ul li{ display: inline-block; vertical-align: top; margin: 0 4px;}
-.thankyou_box ul li .another-order{ background: #911c27; border-bottom: 2px solid #4f050c; border-radius: 3px; color: #ffffff; display: block; font-family: "proxima_nova_ltsemibold"; font-size: 18px; line-height: 29px; padding: 5px 25px; text-align: center;}
-
-.complete-summary{ font-family: 'proxima_nova_ltlight'; font-size: 16px; line-height: 20px;}
-.complete-summary table{ width: 100%;}
-.complete-summary thead{ background: #789c48; color: #fff;}
-.complete-summary thead th{ padding: 15px; font-weight: normal}
-.complete-summary thead th.main{ font-size: 22px; font-family: 'proxima_nova_rgbold';}
-
-.complete-summary tbody{ background: #f4f4f4; color: #5b5a56;}
-.complete-summary td{ padding:12px 15px; border-bottom: 1px dashed #aaaaaa;}
-.complete-summary td h4{ font-size: 20px; font-family: 'bureaueaglebookregular'; line-height: 24px;}
-.complete-summary td p{font-family: 'proxima_nova_ltlight'; font-size: 16px; line-height: 18px;}
-.complete-summary td p span{ font-family: 'proxima_nova_ltsemibold';}
-.complete-summary td:last-child, .complete-summary th:last-child{ text-align: right;}
-
-.complete-summary .blackbox{ background: #f4f4f4; padding:0 15px 20px;}
-.complete-summary .blackbox .grand-total{ background: #5b5a56; color: #fff; font-size: 18px; font-family: 'proxima_nova_ltsemibold'; line-height: 22px; padding: 10px;}
-.complete-summary .blackbox .grand-total span{ float: right}
-
-
 .two-column-wrapper .leftContent.col-md-8{ padding-right: 0;}
 .coupan-card h3{font-size:20px; background: #789C48; color: #fff; padding:10px; text-transform: uppercase;}
 .coupan-card .coupan_box input[type="text"]{ background: #fff; border: none; width: 70%; height: 40px; padding: 5px 10px; font-family:  "proxima_nova_ltsemibold"; color: #5B5A56; text-transform: uppercase; font-size: 16px;}
@@ -2799,24 +2656,25 @@ color:#fff
 .coupan-card .coupan_box .total button{ display: block; width:100%; background: #911C27; color: #fff; font-size: 17px; line-height: 25px; border: 0; padding: 5px 0; border-radius: 5px; font-family:  "proxima_nova_ltsemibold";}
 
 
-.fancypopup .form-control{ height: 45px; margin-bottom: 0; border: 1px solid #901c27; font-size: 16px; font-family: 'proxima_nova_ltlight';}
-.fancypopup select.form-control.full{  background: url(../images/down-arrow.png) no-repeat 99% 15px;}
-.fancypopup select.form-control{ appearance:none; -moz-appearance:none; -webkit-appearance:none; background: url(../images/down-arrow.png) no-repeat 95% 15px;}
+#pickupdeliveryModal .form-control{ height: 40px; margin-bottom: 30px; border: 1px solid #901c27; font-size: 16px; font-family: "proxima_nova_rgregular";}
+#pickupdeliveryModal select.form-control.full{  background: url(../images/down-arrow.png) no-repeat 99% 15px;}
+#pickupdeliveryModal select.form-control{ appearance:none; -moz-appearance:none; -webkit-appearance:none; background: url(../images/down-arrow.png) no-repeat 95% 15px;}
 
-.fancypopup .form_sec .optional small{ display: inline-block; float: right; color: #5b5a56; font-size: 20px; line-height: 40px;}
-.fancypopup .continue-btn{ background: #901c27; color: #fff; border-radius: 5px; font-size: 20px; line-height: 30px; transition:.5s; margin: 25px 0 0;}
-.fancypopup .continue-btn:hover{ opacity: .9;}
-.fancypopup .use-location{ font-size: 16px; line-height: 40px; font-family: "proxima_nova_rgregular"; margin: 10px 0}
+#pickupdeliveryModal .form_sec .optional .form-control{ width: 80%; display: inline-block;}
+#pickupdeliveryModal .form_sec .optional small{ display: inline-block; float: right; color: #5b5a56; font-size: 20px; line-height: 40px;}
+#pickupdeliveryModal .continue-btn{ background: #901c27; color: #fff; border-radius: 0; font-size: 20px; line-height: 30px; transition:.5s;}
+#pickupdeliveryModal .continue-btn:hover{ opacity: .9;}
+#pickupdeliveryModal .use-location{ font-size: 16px; line-height: 40px; font-family: "proxima_nova_rgregular";}
+#pickupdeliveryModal .use-location:hover{ text-decoration: underline}
 
-.fancypopup .nav-tabs{ margin: 0;}
-.fancypopup .nav-tabs li{ background: none; margin: 0; display: inline-block;}
-.fancypopup .nav-tabs .control__indicator{ left: -30px!important;}
-.fancypopup .nav-tabs li.active .control__indicator:after{ left: 2px !important; display: block!important;}
-.fancypopup .nav-tabs li:after{ display: none;}
-.fancypopup .nav-tabs li a{ color: #901c27; min-width: 150px; padding: 0; font-size: 20px; line-height: 22px; text-align: left;}
-.fancypopup .nav-tabs li a:hover, .fancypopup .nav-tabs li a:focus{ color: #901c27; font-size: 20px; line-height: 22px; text-align: left;}
-.fancypopup .nav-tabs li.active a{ opacity: 1;}
-.fancypopup button.close{background: #fff; color: #333; border: 2px solid #fff; font-size: 20px; top: -15px; right: -15px;}
+#pickupdeliveryModal .nav-tabs{ margin: 0;}
+#pickupdeliveryModal .nav-tabs li{ background: none; margin: 0; display: inline-block;}
+#pickupdeliveryModal .nav-tabs .control__indicator{ left: -30px;}
+#pickupdeliveryModal .nav-tabs li.active .control__indicator:after{ left: 2px; display: block;}
+#pickupdeliveryModal .nav-tabs li:after{ display: none;}
+#pickupdeliveryModal .nav-tabs li a{ color: #901c27; min-width: 150px; padding: 0; font-size: 20px; line-height: 22px; text-align: left;}
+#pickupdeliveryModal .nav-tabs li.active a{ opacity: 1;}
+#pickupdeliveryModal button.close{ background: none; color: #fff; border: 2px solid #fff; font-size: 20px; top: -21px; right: -27px;}
 
 #pickupdeliveryModal .modal-body{ padding: 30px;}
 
@@ -2849,6 +2707,31 @@ color:#fff
 .bottom_slidebanners.caterslide ul{ width: 100%;}
 
 
+/*order now modal popup*/
+.fancypopup .form-control{ height: 45px; margin-bottom: 0; border: 1px solid #901c27; font-size: 16px; font-family: 'proxima_nova_ltlight';}
+.fancypopup select.form-control.full{  background: url(../images/down-arrow.png) no-repeat 99% 15px;}
+.fancypopup select.form-control{ appearance:none; -moz-appearance:none; -webkit-appearance:none; background: url(../images/down-arrow.png) no-repeat 95% 15px;}
+
+.fancypopup .form_sec .optional small{ display: inline-block; float: right; color: #5b5a56; font-size: 20px; line-height: 40px;}
+.fancypopup .continue-btn{ background: #901c27; color: #fff; border-radius: 5px; font-size: 20px; line-height: 30px; transition:.5s; margin: 25px 0 0;}
+.fancypopup .continue-btn:hover{ opacity: .9;}
+.fancypopup .use-location{ font-size: 16px; line-height: 40px; font-family: "proxima_nova_rgregular"; margin: 10px 0}
+
+.fancypopup .nav-tabs{ margin: 0;}
+.fancypopup .nav-tabs li{ background: none; margin: 0; display: inline-block;}
+.fancypopup .nav-tabs .control__indicator{ left: -30px!important;}
+.fancypopup .nav-tabs li.active .control__indicator:after{ left: 2px !important; display: block!important;}
+.fancypopup .nav-tabs li:after{ display: none;}
+.fancypopup .nav-tabs li a{ color: #901c27; min-width: 150px; padding: 0; font-size: 20px; line-height: 22px; text-align: left;}
+.fancypopup .nav-tabs li a:hover, .fancypopup .nav-tabs li a:focus{ color: #901c27; font-size: 20px; line-height: 22px; text-align: left;}
+.fancypopup .nav-tabs li.active a{ opacity: 1;}
+.fancypopup button.close{background: #fff; color: #333; border: 2px solid #fff; font-size: 20px; top: -15px; right: -15px;}
+
+#pickupdeliveryModal .modal-body{ padding: 30px;}
+
+
+
+
 /*======Catering page css==========*/
 .left-caterbox{ background: #789c48; padding: 15px;}
 .left-caterbox p{ font-size: 29px; color: #fff; font-family: "bureaueaglebookregular"; line-height: 29px;}
@@ -2861,44 +2744,12 @@ color:#fff
 
 @media  (min-width: 992px) and (max-width: 1100px) {
     .form_design .file-attach span{ font-size: 16px;}
-    .gray_box .cartbox .item_pic .item{ height: 90px;}
-    .complete-summary thead th.main{ font-size: 20px;}
-    .complete-summary td h4{ font-size: 18px; line-height: 20px; margin: 0 0 5px;}
 }
 
 @media  (min-width: 768px) and (max-width: 991px) {
     .form_design{ margin: 0;}
     .form_design h3{ line-height: 30px; margin: 0 0 20px;}
     .form_design .form-group{ margin-bottom: 20px;}
-    .steprow ul{ width: 90%;}
-    .stepboxes .green-title{ font-size: 18px; line-height: 20px; padding: 10px 15px;}
-    .stepboxes .gray_box .item_info{ width: 100%;}
-    .cartbox .item_pic{ width: 100%;}
-    .stepboxes .save_orderbox h5{ font-size: 18px; margin: 0 0 5px;}
-    .stepboxes .save_orderbox input[type="text"]{ width: 100%;}
-    .stepboxes .save_orderbox input[type="submit"]{ width: 100%; margin: 10px 0 0;}
-    .stepboxes .radio_tabs{ margin: 10px 10px 0;}
-    .stepboxes .radio_tabs li{ margin-right: 10px;}
-    .order_reviewform{ padding: 15px 5px 0;}
-    .order_reviewform .form-group{ margin-bottom: 15px;}
-    .dottedlist_box .coupan_box input[type="text"]{ width: 100%;}
-    .dottedlist_box .coupan_box input[type="submit"]{ width: 100%; margin: 10px 0 0}
-    .dottedlist_box .coupan_box{ margin: 0;}
-    .dottedlist_box .grand-total { font-size: 14px; line-height: 18px;}
-    .choosetime_box{ padding: 10px 0 0;}
-    .choosetime_box .order_reviewform{ margin: 0;}
-    
-    .delivery_addrs h4{ font-size: 20px;}
-    .payment_method .nav-tabs{ width: 35%;}
-    .payment_method .tab-content{ width: 65%;}
-    .payment_method .tab-content .btn-red{ font-size: 20px; line-height: 25px;}
-    .payment_method .nav-tabs > li a{ font-size: 15px; padding: 10px 10px 10px 0;}
-    
-    .complete-summary thead th{ padding:10px 8px;}
-    .complete-summary thead th.main{ font-size: 14px;}
-    .complete-summary td{ padding: 10px 8px;}
-    .complete-summary td h4{ font-size: 16px; line-height: 18px;}
-    .complete-summary .blackbox .grand-total{ font-size: 14px; line-height: 18px;}
 }
 
 @media (max-width: 767px) {
@@ -2916,41 +2767,4 @@ color:#fff
     .bottom_slidebanners{ margin: 30px 0;}
     .bottom_slidebanners span{ font-size:30px; padding: 15px 10px; width: 100%;}
     .bottom_slidebanners ul{ width: 100%;}
-    
-    .steprow { padding: 0;}
-    .steprow ul{ width: 100%; margin: 45px 0 15px;}
-    .steprow ul li{ padding: 0 3px; font-size: 11px;}
-    .stepboxes{ padding: 0;}
-    .stepboxes .green-title{ font-size: 18px; line-height: 25px; padding: 5px 25px;}
-    .stepboxes .col-md-4{ margin-bottom: 15px;}
-    .gray_box .cartbox .item_pic .item{ height: 90px;}
-    .stepboxes .col-md-4:nth-child(2){ padding: 0 15px;}
-    .order_reviewform{ padding: 20px 0 0;}
-    .stepboxes .radio_tabs{ margin: 15px 0 0;}
-    .order_reviewform .form-group{ margin-bottom: 15px;}
-    
-    .choosetime_box, .delivery_addrs{ padding: 10px 0 0;}
-    .stepboxes .col-md-8{ padding-left: 15px;}
-    .payment_method .nav-tabs{ width: 100%;}
-    .payment_method .tab-content{ width: 100%; height: auto; margin: 0; padding: 10px 0 0;}
-    .payment_method .tab-content:after{ display: none;}
-    .payment_method .nav-tabs > li a{ padding: 10px; }
-    .payment_method .tab-content h5{ font-size: 16px; margin: 0 0 10px;}
-    .payment_method .tab-content .btn-red{ font-size: 15px; line-height: 20px;}
-    .payment_method{ min-height: 10px;}
-    
-    .complete-summary thead th.main{ font-size: 18px;}
-    .complete-summary .table-responsive{ margin: 0;}
-    .thankyou_box{ padding: 10px 0 15px;}
-    .thankyou_box h4{ font-size: 20px; line-height: 30px;}
-    .thankyou_box h5{ font-size: 18px; line-height: 25px;}
-    .thankyou_box address{ width: 100%; padding: 0; margin-bottom: 10px;}
-    .thankyou_box address.d-add{ border: 0; text-align: left;}
-    .thankyou_box address.r-add{ padding: 0;}
-    .thankyou_box ul{ margin: 10px 0 0;}
-    .thankyou_box ul li .another-order{ font-size: 16px; padding: 5px 10px;}
-    .thankyou_box ul li{ margin: 0;}
-    .thankyou_box ul li:first-child{ display: block; margin-bottom: 5px;}
-    .thankyou_box ul{ width: 100%;}
-    
 }

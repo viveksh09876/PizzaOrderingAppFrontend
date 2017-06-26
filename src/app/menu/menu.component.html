@@ -2,7 +2,7 @@
 <div class="banner-wrapper">
 <div class="container" style="background-image:url(assets/images/banner-inside/3.jpg)">
   <h1><span>choose your order</span></h1>
-  <div class="leftButtons buttons hidden-md hidden-lg"><a href="#" class="whiteBtn cta-btn">Quick View</a><span class="cost">84 AED</span><a href="#" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>
+  <div class="leftButtons buttons hidden-md hidden-lg"><a class="whiteBtn cta-btn">Quick View</a><span class="cost">84 AED</span><a (click)="checkout()" class="greenBtn cta-btn hidden-xs">Checkout</a><a class="greenBtn cta-btn visible-xs btn-sm" (click)="checkout()">Checkout</a> </div>
   <!--<div class="leftButtons searchBox">
     <input type="text" class="form-control" placeholder="">
     <button class="icon-search"></button>
@@ -32,25 +32,47 @@
         <li role="presentation"> <a href="#dessert" aria-controls="dessert" role="tab" data-toggle="tab">DESSERTS</a> </li>
         <li role="presentation"> <a href="#beverages" aria-controls="applyNow" role="tab" data-toggle="tab">BEVERAGES</a> </li>-->
       </ul>
-      <select class="custom-select visible-xs" target="#tabSwitch">
+      <select class="custom-select visible-xs" target="#tabSwitch" (change)="changTab($event.target.value)">
         <option *ngFor="let cat of menuData" value="{{cat.name}}">{{cat.name}}</option>
       </select>
       
       <!-- Tab panes -->
       <div class="tab-content">
 
-        <div role="tabpanel" *ngFor="let data of menuData"  class="tab-pane" id="{{data.name}}">
+        <div role="tabpanel" *ngFor="let data of menuData; let z=index;" [ngClass]="{'active': z== 0}"  class="tab-pane" id="{{data.name}}">
             <div class="content-wrapper">
                 <div class="content-container">
+                  <ng-container *ngFor="let prod of data.products">
+                    <div class="createWrapper" *ngIf="prod.plu_code == 999999">
+                      <div class="media">
+                        <div class="media-left">
+                          <div class="img-Wrapper" style="background-image:url(assets/images/pizza-images/1.jpg)"> </div>
+                        </div>
+                        <div class="media-body media-middle">
+                            <div class="description">
+                              <div class="leftSection"> <a>
+                                <h4 class="media-heading">{{prod.title}}</h4>
+                                </a>
+                                <h5>{{prod.price}} <span>{{prod.price_title}}</span> </h5>
+                                <p>{{prod.short_description}}</p>
+                              </div>
+                              <div class="rightSection bottom"> <a [routerLink]="['/item',prod.slug]" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </ng-container>
                     <div class="favSection">
                         <div class="row">
 
                             <div class="sub-cat-section" *ngIf="data.subCatsName.length > 0">
                               
-                              <div class="col-md-6" *ngFor="let subCt of data.subCats">
-                                <h3 class="sub-head">{{subCt.name}}</h3>
+                              <div class="col-md-6" *ngFor="let subCt of data.subCats | keysPipe">
+                                <h3 class="sub-head">{{subCt.key}}</h3>
                                 <div class="row">
-                                <div *ngFor="let subProd of subCt.products" class="col-md-12">
+                                  
+                                <div *ngFor="let subProducts of subCt.value" class="col-md-12">
+                                  <ng-container *ngFor="let subProd of subProducts.products">
                                   <ng-container *ngIf="subProd.is_price_mapped == 1">
                                   <div class="createWrapper">
                                     <div class="media">
@@ -62,7 +84,7 @@
                                           <div class="leftSection"> <a href="#">
                                             <h4 class="media-heading">{{subProd.title}}</h4>
                                             </a>
-                                            <h5>{{subProd.price}} <span>onwards</span> </h5>
+                                            <h5>{{subProd.price.small}} AED <span>onwards</span> </h5>
                                             <p>{{subProd.short_description}}</p>
                                           </div>
                                           <div class="rightSection bottom"> <a [routerLink]="['/item',subProd.slug]" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
@@ -70,6 +92,7 @@
                                       </div>
                                     </div>
                                   </div>
+                                  </ng-container>
                                   </ng-container>
                                 </div>
                                                                
@@ -112,16 +135,57 @@
     </div>
     <!--Left Panel Ends-->
     <!--Right Panel Starts-->
-    <!--<div class="inside-column-container aside-wrapper orderProcessIns hidden-xs">
-      <h3>My Order</h3>
-      <div class="content-wrapper">
-        <div class="content-container">
-          <div class="cart_img">
-            <h6>Your cart is empty</h6>
-            <img src="assets/images/cart-img.png" alt="" > </div>
+    <div class="inside-column-container aside-wrapper orderProcessIns hidden-xs" *ngIf="showViewCart">
+
+      <ng-container *ngIf="items.length == 0">  
+        <h3>My Order</h3>
+        <div class="content-wrapper">
+          <div class="content-container">
+            <div class="cart_img">
+              <h6>Your cart is empty</h6>
+              <img src="assets/images/cart-img.png" alt="" > </div>
+          </div>
         </div>
-      </div>
-    </div>-->
+      </ng-container>  
+      <ng-container *ngIf="items.length > 0">  
+        <h3>View Cart</h3>
+        <div class="content-wrapper">
+          <div class="right-padd">
+              <div class="scroller">
+                  <div class="cartbox" *ngFor="let item of items; let i=index;">
+                      <div class="item_info">
+                          <h4>{{item.Product.title}}</h4>  
+                          <ng-container *ngFor="let mod of item.ProductModifier">
+                            <h5 class="space">{{mod.Modifier.title}}</h5>                      
+                            <ul>                            
+                                <ng-container *ngFor="let option of mod.Modifier.ModifierOption">
+                                  <li *ngIf="option.Option.is_checked">Add {{option.Option.name}}</li>
+                                </ng-container>                    
+                            </ul>  
+                          </ng-container>                      
+                      </div>
+                      <div class="item_pic">
+                          <div class="img-control">
+                              <a (click)="deleteItem(i, item)"><span class="icon icon-close"></span></a>
+                              <!--<a href="#"><span class="icon icon-edit"></span></a>-->
+                          </div>
+                          <img src="assets/images/pizza-images/2.jpg" alt="" class="item">
+                          <div class="quantity"><a (click)="updateQuantity(0, item.Product.plu_code, i)">-</a><span class="num">{{item.Product.qty}}</span><a (click)="updateQuantity(1, item.Product.plu_code, i)">+</a></div>
+                      </div>
+                  </div>
+                  
+              </div>
+          </div>
+          <div class="sumarry-box">
+          <div class="total">
+          <label>Sub total</label>
+          <span>AED {{netCost}}</span>
+          </div>
+          <a (click)="checkout()">Checkout</a>
+          </div>
+        </div>
+      </ng-container>                
+    </div>
     <!--Right Panel Ends -->
   </div>
 </div>

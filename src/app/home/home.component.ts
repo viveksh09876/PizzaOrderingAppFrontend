@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
   slideArr = [];
   domain = 'http://mavin360.com/demo/nkd/dev';
+  latestTweet = '';
 
   constructor(private dataService: DataService) { }
 
@@ -32,11 +33,19 @@ export class HomeComponent implements OnInit, AfterContentInit {
       document.body.appendChild(script);
     }
 
+    this.getTwitterFeeds('NKDPizzaUSA');
 
   }
 
   ngAfterContentInit() {
     
+  }
+
+  getTwitterFeeds(name) {
+     this.dataService.getTwitterFeeds(name)
+        .subscribe(data => {
+            this.latestTweet = data[0];
+        })
   }
 
 

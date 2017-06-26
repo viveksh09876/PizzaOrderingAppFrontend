@@ -3,7 +3,9 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
 <div class="banner-wrapper">
 <div class="container" style="background-image:url(assets/images/banner-inside/4.jpg)">
   <h1><span>customize your order</span></h1>
-  <div class="leftButtons buttons"><a href="#" class="whiteBtn cta-btn">Quick View</a><span class="cost">{{totalCost}} AED</span><a (click)="checkout()" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>
+  <div class="leftButtons buttons">
+    <a [routerLink]="['/menu']" class="whiteBtn cta-btn">Back To Menu</a>
+    <a class="whiteBtn cta-btn">Quick View</a><span class="cost">{{netCost}} AED</span><a (click)="checkout()" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>
 
 </div>
 </div>
@@ -31,7 +33,7 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
             <div class="control-group">
               <ng-container *ngFor="let option of mod.Modifier.ModifierOption">
                 <ng-container *ngIf="mod.is_required == 1">
-                  <label class="control radio" [ngClass]="{'checked': option.Option.is_checked == true}" (click)="updateModifier(option.Option.id, 'radio')">
+                  <label class="control radio" [ngClass]="{'checked': option.Option.is_checked == true}" (click)="updateModifier(option.Option.id, 'radio', mod.modifier_id)">
                     <h4>{{option.Option.name}}</h4>
                     <p></p>                  
                     <a class="grayBtn cta-btn active" *ngIf="mod.display_price == 1">{{option.Option.price}} AED</a>
@@ -42,9 +44,9 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                 <ng-container *ngIf="mod.is_required == 0">
                   <div class="control checkbox" [ngClass]="{'extra': option.Option.add_extra, 'checked': option.Option.is_checked == true}">
                     
-                    <h4 (click)="updateModifier(option.Option.id,'checkbox')">{{option.Option.name}}</h4> 
-                    <a class="grayBtn cta-btn" (click)="updateExtra(option.Option.id, 'modifier')">add Extra</a>                                
-                    <div class="control__indicator" (click)="updateModifier(option.Option.id, 'checkbox')"><img src="assets/images/blog/img-4.jpg" alt=""></div>
+                    <h4 (click)="updateModifier(option.Option.id,'checkbox', mod.modifier_id)">{{option.Option.name}}</h4> 
+                    <a class="grayBtn cta-btn" (click)="updateExtra(option.Option.id, 'modifier','checkbox')">add Extra</a>                                
+                    <div class="control__indicator" (click)="updateModifier(option.Option.id, 'checkbox', mod.modifier_id)"><img src="assets/images/blog/img-4.jpg" alt=""></div>
                     <!--<small class="circle"></small>
                     <small class="circle half"> </small>
                     <small class="circle right half"> </small>-->
@@ -70,7 +72,7 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                   <div class="control checkbox" [ngClass]="{'extra': ioption.add_extra, 'checked': ioption.is_checked == true}">
                     
                     <h4 (click)="updateIncludedModifier(ioption.id)">{{ioption.name}}</h4> 
-                    <a class="grayBtn cta-btn" (click)="updateExtra(ioption.id, 'includedModifier')">add Extra</a>                                
+                    <a class="grayBtn cta-btn" (click)="updateExtra(ioption.id, 'includedModifier','checkbox')">add Extra</a>                                
                     <div class="control__indicator" (click)="updateIncludedModifier(ioption.id)"><img src="assets/images/blog/img-4.jpg" alt=""></div>
                     <!--<small class="circle"></small>
                     <small class="circle half"> </small>
@@ -87,9 +89,17 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
 
       </div>
       <div class="inside-column-container">
-        <h3>{{item.Product.title}} <a href class="fav-icon"><span class="icon-favorite"></span>Add to fav</a></h3>
+        <h3>{{item.Product.title}} <a href class="fav-icon"><span class="icon-favorite"></span></a></h3>
         <div class="content-wrapper">
-            <button class="add-to-cart" (click)="add_to_cart()">Add to Cart</button>
+            <div class="item-qty-price">
+              <button class="add-to-cart" (click)="add_to_cart()">Add to Cart</button>
+              <div class="quantity">
+                  <a (click)="updateQuantity(0)">-</a>
+                  <span class="num">{{item.Product.qty}}</span>
+                  <a (click)="updateQuantity(1)">+</a>
+                  <span class="cost">{{totalCost}} AED</span>
+              </div>
+            </div>
           <div class="img-wrapper" style="background-image:url(assets/images/pizza-img-lg.jpg)"> 
             <!--<img src="assets/images/pizza-img-lg.jpg" class="img-responsive center-block"/>--> 
           </div>

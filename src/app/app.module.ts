@@ -4,8 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { routing } from './app.routing';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
+import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
+import { CustomFormsModule } from 'ng2-validation'
 
 import { DataService } from './data.service';
+import { UtilService } from './util.service';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -14,6 +17,8 @@ import { RegisterComponent } from './register/register.component';
 import { ItemComponent } from './item/item.component';
 import { OrderreviewComponent } from './orderreview/orderreview.component';
 import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component';
+import { MessageComponent } from './message/message.component';
+import { KeysPipePipe } from './keys-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,9 @@ import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component'
     RegisterComponent,
     ItemComponent,
     OrderreviewComponent,
-    OrdernowmodalComponent
+    OrdernowmodalComponent,
+    MessageComponent,
+    KeysPipePipe
   ],
   imports: [
     BrowserModule,
@@ -32,11 +39,13 @@ import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component'
     HttpModule,
     routing,
     BootstrapModalModule,
-    JsonpModule
+    JsonpModule,
+    NguiDatetimePickerModule,
+    CustomFormsModule
   ],
-  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent],
+  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent],
   schemas:  [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [DataService],
+  providers: [DataService, UtilService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,7 +2,7 @@
 <div class="banner-wrapper">
 <div class="container" style="background-image:url(assets/images/banner-inside/3.jpg)">
   <h1><span>choose your order</span></h1>
-  <div class="leftButtons buttons hidden-md hidden-lg"><a href="#" class="whiteBtn cta-btn">Quick View</a><span class="cost">84 AED</span><a href="#" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>
+  <div class="leftButtons buttons"><a [routerLink]="['/menu']" class="whiteBtn cta-btn">Back To Menu</a></div>
   <!--<div class="leftButtons searchBox">
     <input type="text" class="form-control" placeholder="">
     <button class="icon-search"></button>
@@ -10,8 +10,10 @@
   </div>
 </div>
  <div class="clearfix"></div>
+
+
 <!--Inside Sections-->
-<div class="container-fluid" *ngIf="items != null">
+<div class="container-fluid">
   <div class="col-md-12 steprow text-center">
       <ul>
         <li class="active"><small>1</small> Order Review</li>  
@@ -19,103 +21,201 @@
         <li><small>3</small> Order Complete</li>  
       </ul>  
   </div>
-  <div class="row stepboxes">
+  <div class="col-md-12 stepboxes">
+  <div class="row step1" *ngIf="showStep == 'step1'">
      <div class="col-md-4 col-sm-4">
-        <div class="reviewbox">
-            <h5>Please enter the details below to complete your order</h5>
-            <div class="row">
-                <div class="col-md-6 col-sm-6"><input type="text" [(ngModel)]="order.user.first_name" class="form-control" Placeholder="First name*" required></div>
-                <div class="col-md-6 col-sm-6"><input type="text" [(ngModel)]="order.user.last_name" class="form-control" Placeholder="Last name*" required></div>
-                <div class="col-md-12 col-sm-12"><input type="email" [(ngModel)]="order.user.email" class="form-control" Placeholder="Email address*" required></div>
-                <div class="col-md-12 col-sm-12"><input type="tel" [(ngModel)]="order.user.phone" class="form-control last" Placeholder=" Mobile Number*" required></div>
+          <h3 class="green-title">order summary</h3>
+          <div class="gray_box">
+            <div class="scroller">
+                <div class="cartbox" *ngFor="let item of items; let i=index;">
+                    <div class="item_info">
+                        <h4>{{item.Product.title}}</h4>
+                        <ng-container *ngFor="let mod of item.ProductModifier">
+                            <h5 class="space">{{mod.Modifier.title}}</h5>                      
+                            <ul>                            
+                                <ng-container *ngFor="let option of mod.Modifier.ModifierOption">
+                                  <li *ngIf="option.Option.is_checked">Add {{option.Option.name}}</li>
+                                </ng-container>                    
+                            </ul>  
+                          </ng-container>                        
+                    </div>
+                    <div class="item_pic">
+                        <div class="img-control">
+                            <a (click)="deleteItem(i, item)"><span class="icon icon-close"></span></a>
+                              <!--<a href="#"><span class="icon icon-edit"></span></a>-->
+                        </div>
+                        <img src="assets/images/pizza-images/2.jpg" alt="" class="item">
+                        <div class="quantity"><a (click)="updateQuantity(0, item.Product.plu_code, i)">-</a><span class="num">{{item.Product.qty}}</span><a (click)="updateQuantity(1, item.Product.plu_code, i)">+</a></div>
+                    </div>
+                </div>
             </div>
-        </div>   
-     </div>  
-     <div class="col-md-4 col-sm-4">
-         <div class="reviewbox">
-            <h5><input type="radio" [(ngModel)]="order.order_type" value="pickup" (change)="addDeliveryCost($event,'pickup')" checked="{{order.order_type == 'pickup'? 'checked': ''}}" name="pick"> Pickup <input type="radio" name="pick" [(ngModel)]="order.order_type" value="delivery" checked="{{order.order_type == 'delivery'? 'checked': ''}}" (change)="addDeliveryCost($event,'delivery')"> delivery</h5>
-           
-            <div class="row" *ngIf="order.order_type == 'delivery'">
-                <div class="col-md-12 col-sm-12"><input type="email" class="form-control" [(ngModel)]="order.address_house_no" Placeholder="Flat house number*" required></div>
-                <div class="col-md-12 col-sm-12"><input type="tel" class="form-control" [(ngModel)]="order.address_street" Placeholder=" Street/society name*" required></div>
-                <div class="col-md-12 col-sm-12"><input type="text" class="form-control last" [(ngModel)]="order.delivery_time" Placeholder="Delivery Time" required></div>
-            </div>
+        </div>
+         <div class="save_orderbox text-center">
+            <h5>save as favorite order</h5>
+            <input type="text" placeholder="Order Name">
+            <input type="submit" value="Save Favorite">
          </div>
      </div>  
      <div class="col-md-4 col-sm-4">
-        <div class="reviewbox favorite">
-            <h5>Save as favorite order</h5>
-            <p>Order quickly next time from your saved order</p>
-            <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <input type="email" class="form-control">
-                    <input type="submit" value="Save favorite">
+         <h3 class="green-title gray">enter details</h3>
+         <div name="addressForm" class="order_reviewform" ngForm #newRuleForm="ngForm">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <input class="form-control" placeholder="First Name*" name="firstName" type="text" [(ngModel)]="order.user.first_name" required>
                 </div>
             </div>
-         </div> 
-     </div>  
-  </div>
-  <div class="two-column-wrapper">
-  <!--Left Panel Starts-->
-    <div class="row">
-    <div class="col-md-8 col-sm-8 leftContent"> 
-        <div class="table-responsive steporder-tab">
-            <table class="table">
-                <tr>
-                    <th></th>
-                    <th>Item</th>
-                    <th></th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                </tr>
-                <tr *ngFor="let item of items; let i = index">
-                    <td class="action">
-                        <a (click)="deleteItem(i, item)"><img src="assets/images/close.jpg" alt=""></a>
-                        <!--<a href="#"><img src="assets/images/edit.jpg" alt=""></a>-->
-                    </td>
-                    <td class="img"><img src="assets/images/pizza-images/2.jpg" alt=""></td>
-                    <td class="details">
-                        <h4>{{item.Product.title}}</h4>
-                        <ng-container *ngFor="let mod of item.ProductModifier">
-                        <h5>{{mod.Modifier.title}}</h5>
-                        <ul>
-                            <ng-container *ngFor="let option of mod.Modifier.ModifierOption">
-                            <li *ngIf="option.Option.is_checked">{{option.Option.name}}</li>
-                            </ng-container>
-                        </ul>
-                        </ng-container>
-                    </td>
-                    <td>
-                        <div class="quantity"><a (click)="updateQuantity(0, item.Product.plu_code)">-</a><a class="num">{{item.Product.qty}}</a><a (click)="updateQuantity(1, item.Product.plu_code)">+</a></div>
-                    </td>
-                    <td class="price">{{item.totalItemCost}} AED</td>
-                </tr>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <input class="form-control" placeholder="Last Name*" type="text" name="lastName" [(ngModel)]="order.user.last_name" required>
+                </div>
+            </div>
 
-            </table>
-        </div>
- 
-    </div>
-    <!--Left Panel Ends-->
-      
-    <!--Right Panel Starts-->
-    <div class="col-md-4 col-sm-4 coupan-card hidden-xs">
-        <h3>Cart</h3>
-        <div class="coupan_box">
-            <input type="text" placeholder="coupon code">
-            <input type="submit" value="Apply">
-            <ul>
-                <li>Coupon Discount <span>0.0</span></li>
-                <li>Net Price <span>{{netCost}}</span></li>
-                <li *ngIf="order.order_type=='delivery'">Delivery Charges <span>6.0</span></li>
-                <li>Service tax <span>0</span></li>
-            </ul>
-            <div class="total">
-                <p>Grand Total <span>AED {{totalCost}}</span></p>
-                <button (click)="confirmOrder()">Confirm Order</button>
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group">
+                    <input class="form-control" placeholder="Email address*" name="email" type="email" [(ngModel)]="order.user.email" required>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group">
+                    <input class="form-control" placeholder="Mobile number*" name="phone" type="number" [(ngModel)]="order.user.phone" required>
+                </div>
             </div>
         </div>
-    </div>
-    <!--Right Panel Ends -->
-        </div>
+         <h3 class="green-title gray">confirm pickup or delivery?</h3>
+         <ul class="radio_tabs">
+            <li><label><input type="radio" name="pick" [(ngModel)]="order.order_type" value="pickup" (change)="addDeliveryCost($event,'pickup')" checked="{{order.order_type == 'pickup'? 'checked': ''}}"><small></small> pick up </label></li>
+            <li><label><input type="radio" name="pick" [(ngModel)]="order.order_type" value="delivery" checked="{{order.order_type == 'delivery'? 'checked': ''}}" (change)="addDeliveryCost($event,'delivery')"><small></small> delivery </label></li>
+         </ul>
+         <ng-container *ngIf="order.order_type == 'delivery'">
+            <form class="order_reviewform" name="orderReviewForm">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Appt#" type="text" name="apartment" [(ngModel)]="order.address.apartment">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Street#" type="text" name="streetNo" [(ngModel)]="order.address.streetNo">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Street / Building name" name="street" type="text" [(ngModel)]="order.address.street">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="City" type="text" name="city" [(ngModel)]="order.address.city">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="State" type="text" name="state" [(ngModel)]="order.address.state">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Postal Code" type="text" name="postal_code" [(ngModel)]="order.address.postal_code">
+                    </div>
+                </div>
+            </form>
+         </ng-container>
+     </div>  
+     <div class="col-md-4 col-sm-4">
+        <h3 class="green-title">order details</h3>
+         <div class="dottedlist_box">
+            <form class="coupan_box">
+                <input type="text" placeholder="Coupon Code">
+                <input type="submit" value="Apply">
+            </form>
+            <ul class="dotted-list">
+                <li>Coupon Discount<span>0.0</span></li> 
+                <li>Sub Total<span>{{netCost}}</span></li> 
+                <li>Taxes<span>0.00</span></li> 
+                <li *ngIf="order.order_type=='delivery'">Delivery Charges <span>6.0</span></li> 
+            </ul>
+             <div class="grand-total">
+                Grand Total <span>AED {{totalCost}}</span>
+             </div>
+             <div class="choosetime_box">
+                 <ng-container *ngIf="order.order_type == 'delivery'">
+                <h4>choose time</h4>
+                 <ul class="radio_tabs">
+                    <li><label><input type="radio" name="time" [checked]="order.delivery_time_type == 'asap'" (click)="updateDeliveryTimeType('asap');"><small></small> asap </label></li>
+                    <li><label><input type="radio" name="time" [checked]="order.delivery_time_type == 'defer'" (click)="updateDeliveryTimeType('defer');"><small></small> later </label></li>
+                 </ul>
+                 <form class="order_reviewform">
+                    <div class="col-md-6 col-sm-12" *ngIf="order.delivery_time_type == 'defer'">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="dateTime" [(ngModel)]="order.delivery_time" ngui-datetime-picker 
+                                            date-format="MM/DD/YYYY HH:mm"
+                                            min-date="{{curDate}}">
+                        </div>
+                    </div>
+                    
+                 </form>
+                 </ng-container>
+                 <button (click)="confirmOrder()" [disabled]="!newRuleForm.valid" class="fullred-btn placeorder-btn">Place Order</button>
+             </div>
+         </div>
+     </div>  
   </div>
+
+
+    <div class="row step2" *ngIf="showStep == 'step2'">
+      <div class="col-md-4 col-sm-4">
+         <h3 class="green-title">payment summary</h3>
+         <div class="dottedlist_box">
+            <ul class="dotted-list">
+                <li>Coupon Discount<span>0.0</span></li> 
+                <li>Sub Total<span>{{netCost}}</span></li> 
+                <li>Taxes<span>0.00</span></li> 
+                <li *ngIf="order.order_type=='delivery'">Delivery Charges <span>6.0</span></li> 
+            </ul>
+             <div class="grand-total">
+                Grand Total <span>AED {{totalCost}}</span>
+             </div>
+             <address class="delivery_addrs" *ngIf="order.order_type == 'delivery'">
+                <h4>delivery address</h4>
+                <p><strong>{{order.user.firstName}} {{order.user.lastName}}<br></strong>
+                {{order.address.apartment}} {{order.address.streetNo}}, {{order.address.street}}<br>
+                {{order.address.city}}, {{order.address.state}} - {{order.address.postal_code}}
+                Mobile: {{order.user.phone}}</p>
+             </address>
+             <address class="delivery_addrs pickupStore" *ngIf="order.order_type == 'pickup'">
+                <h4>Store address</h4>
+                <p><strong>{{order.user.firstName}} {{order.user.lastName}}<br></strong>
+                {{order.address.apartment}} {{order.address.streetNo}}, {{order.address.street}}<br>
+                {{order.address.city}}, {{order.address.state}} - {{order.address.postal_code}}<br>
+                Mobile: {{order.user.phone}}</p>
+             </address>
+         </div>
+      </div>
+      <div class="col-md-8 col-sm-8">
+        <h3 class="green-title">choose a payment method</h3>
+        <div class="payment_method">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"> <a href="#cod" aria-controls="cod" role="tab" data-toggle="tab">Payment on Delivery</a> </li> 
+                <li role="presentation"> <a href="#cd-cards" aria-controls="cd-cards" role="tab" data-toggle="tab">Credit / Debit Card</a> </li> 
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="cod">
+                    <h5>pay using payment on Delivery</h5>
+                    <p>Generate an OTP to my registered mobile number for verification</p>
+                    <a class="btn-red btn-block" href="#">Click to Authenticate & place order</a>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="cd-cards">
+                    <h5>pay using Credit / Debit Card</h5>
+                    <p>Generate an OTP to my registered mobile number for verification</p>
+                    <a class="btn-red btn-block" (click)="placeFinalOrder()">Click to Authenticate & place order</a>
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+ 
 </div>
+
+
+
