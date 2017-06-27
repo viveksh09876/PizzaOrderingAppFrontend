@@ -16,6 +16,7 @@ export class MessageComponent extends DialogComponent<MessageModal, null> {
 
   message = this.message;
   buttonText = this.buttonText;
+  doReload = this.doReload;
 
   ngOnInit() {
 
@@ -27,6 +28,10 @@ export class MessageComponent extends DialogComponent<MessageModal, null> {
 
   closeModal() {
     this.close();
+    if(this.doReload) {
+      location.reload();
+    }
+
   }
  
 }
@@ -35,4 +40,5 @@ export interface MessageModal {
   title: string;
   message: string;
   buttonText: string;
+  doReload: boolean;
 }

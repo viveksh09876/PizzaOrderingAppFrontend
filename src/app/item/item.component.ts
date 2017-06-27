@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DialogService } from "ng2-bootstrap-modal";
+import { LoginComponent } from '../login/login.component';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 
@@ -15,8 +17,10 @@ export class ItemComponent implements OnInit {
   netCost = 0;
   selectedModifiers = [];
   allItems = null;
+  is_fav = false;
 
-  constructor(private dataService: DataService, 
+  constructor(private dialogService:DialogService,
+              private dataService: DataService, 
                 private route: ActivatedRoute, 
                   private router: Router,
                     private utilService: UtilService) { }
@@ -132,6 +136,18 @@ export class ItemComponent implements OnInit {
                 
                 
               }
+
+              if(options[j].Option.is_checked && options[j].Option.default_checked == false) {      
+                         
+                options[j].Option.send_code = 1;                                  
+              }else if(options[j].Option.is_checked == false && options[j].Option.default_checked == true) {
+                
+                options[j].Option.send_code = 0;
+              }else if(options[j].Option.is_checked == true && options[j].Option.default_checked == true) {
+                
+                options[j].Option.send_code = 1;                    
+              }
+
           }
         }
       }
@@ -388,11 +404,14 @@ export class ItemComponent implements OnInit {
                     addPrice += parseInt(options[j].Option.price);                       
                   }
 
-                  if(options[j].Option.is_checked && options[j].Option.default_checked == false) {              
+                  if(options[j].Option.is_checked && options[j].Option.default_checked == false) {      
+                         
                     options[j].Option.send_code = 1;                                  
                   }else if(options[j].Option.is_checked == false && options[j].Option.default_checked == true) {
+                   
                     options[j].Option.send_code = 0;
                   }else if(options[j].Option.is_checked == true && options[j].Option.default_checked == true) {
+                    
                     options[j].Option.send_code = 1;                    
                   }
 
@@ -497,7 +516,7 @@ export class ItemComponent implements OnInit {
 
 
   checkout() {    
-
+    
     if(this.dataService.getLocalStorageData('allItems') != null
           && this.dataService.getLocalStorageData('allItems') != 'null') {
        let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
@@ -515,7 +534,7 @@ export class ItemComponent implements OnInit {
 
 
   add_to_cart() {
-
+    //console.log(this.item);
     if(this.dataService.getLocalStorageData('allItems') != null
           && this.dataService.getLocalStorageData('allItems') != 'null') {
        let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
@@ -531,5 +550,27 @@ export class ItemComponent implements OnInit {
     this.router.navigate(['/menu']);
 
   }
+
+
+  addToFav() {
+    if(this.is_fav == false) {
+
+      let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
+      if(isLoggedIn == undefined || isLoggedIn == 'false') {
+        //do login
+         this.dialogService.addDialog(LoginComponent, {  }, { closeByClickingOutside:true });
+      }else{
+        //add fav
+        let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
+        let userId = userDetails.id;
+        this.dataService.saveFavItem(userId, this.item)
+          .subscribe(data => {
+              console.log(data);
+          });
+      }
+    }
+  }
+
+
 
 }

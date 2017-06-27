@@ -1,0 +1,69 @@
+<!--Banner-->
+<div class="banner-wrapper">
+<div class="container" style="background-image:url(assets/images/banner-inside/3.jpg)">
+  <h1><span>Choose Payment Method</span></h1>
+  <!--<div class="leftButtons buttons hidden-md hidden-lg"><a href="#" class="whiteBtn cta-btn">Quick View</a><span class="cost">84 AED</span><a href="#" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>-->
+  <!--<div class="leftButtons searchBox">
+    <input type="text" class="form-control" placeholder="">
+    <button class="icon-search"></button>
+  </div>-->
+  </div>
+</div>
+ <div class="clearfix"></div>
+<!--Inside Sections-->
+<div class="container-fluid">
+  <div class="col-md-12 steprow text-center">
+      <ul>
+        <li><small>1</small> Order Review</li>  
+        <li class="active"><small>2</small> Checkout</li>  
+        <li><small>3</small> Order Complete</li>  
+      </ul>  
+  </div>
+
+ <div class="col-md-12 stepboxes">
+  <div class="row" >
+      <div class="col-md-4 col-sm-4">
+         <h3 class="green-title">payment summary</h3>
+         <div class="dottedlist_box">
+            <ul class="dotted-list">
+                <li>Coupon Discount<span>0.0</span></li> 
+                <li>Sub Total<span>440.00</span></li> 
+                <li>Taxes<span>26.40</span></li> 
+                <li>Delivery Charge<span>4.00</span></li> 
+            </ul>
+             <div class="grand-total">
+                Grand Total <span>AED 450.40</span>
+             </div>
+             <address class="delivery_addrs">
+                <h4>delivery address</h4>
+                <p><strong>Ankush Arya <br></strong>
+                Omaxe Royal, Sector 44<br>
+                Noida-201301<br>
+                Mobile: 9958199295</p>
+             </address>
+         </div>
+      </div>
+      <div class="col-md-8 col-sm-8">
+        <h3 class="green-title">choose a payment method</h3>
+        <div class="payment_method">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"> <a href="#cod" aria-controls="cod" role="tab" data-toggle="tab">Payment on Delivery</a> </li> 
+                <li role="presentation"> <a href="#cd-cards" aria-controls="cd-cards" role="tab" data-toggle="tab">Credit / Debit Card</a> </li> 
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="cod">
+                    <h5>pay using payment on Delivery</h5>
+                    <p>Generate an OTP to my registered mobile number for verification</p>
+                    <a class="btn-red btn-block" (click)="placeOrder()">Click to Authenticate & place order</a>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="cd-cards">
+                    <h5>pay using Credit / Debit Card</h5>
+                    <p>Generate an OTP to my registered mobile number for verification</p>
+                    <a class="btn-red btn-block" (click)="placeOrder()">Click to Authenticate & place order</a>
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+ </div> 
+</div>

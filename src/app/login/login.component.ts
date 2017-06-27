@@ -4,6 +4,8 @@ import { RegisterComponent } from '../register/register.component';
 import { MessageComponent } from '../message/message.component';
 import { DataService } from '../data.service';
 
+declare var jQuery: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -29,7 +31,7 @@ export class LoginComponent extends DialogComponent<LoginModal, null> {
   openMessageModal(messageText) {
      let self = this;
      self.close();
-     self.dialogService.addDialog(MessageComponent, { title: 'Welcome', message: messageText, buttonText: 'Start Ordering' }, { closeByClickingOutside:true });   
+     self.dialogService.addDialog(MessageComponent, { title: 'Welcome', message: messageText, buttonText: 'Start Ordering', doReload: true }, { closeByClickingOutside:true });   
   }
 
 
@@ -44,13 +46,14 @@ export class LoginComponent extends DialogComponent<LoginModal, null> {
               }else if(data.Status == 'OK') {
 
                 let user = {
-                  id: data.Id,
+                  id: data.id,
                   firstName : data.FirstName,
                   lastName: data.LastName,
                   email: this.username
                 }
 
-                this.dataService.setLocalStorageData('user-details', user);
+                this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
+                this.dataService.setLocalStorageData('isLoggedIn', true);                
                 this.openMessageModal('Welcome '+user.firstName + '!');
               }        
              

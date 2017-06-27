@@ -224,7 +224,10 @@ export class OrderreviewComponent implements OnInit {
                     
                     let opt = products.ProductModifier[i].Modifier.ModifierOption[j].Option;
                     
-                    if(opt.send_code == 1) {
+                    if((opt.send_code == 1) 
+                        || (opt.plu_code == 999991 && opt.is_checked)
+                          || (opt.plu_code == 999992 && opt.is_checked)  
+                            || (opt.plu_code == 999992 && opt.is_checked)) {
                       
                       let val = {
                           plu: opt.plu_code,                   
@@ -306,13 +309,9 @@ export class OrderreviewComponent implements OnInit {
         }
 
         this.order.order_details = finalOrder;
-        console.log('order data:', orderData);
-        this.dataService.placeOrder(orderData).subscribe(data => {
-              this.dataService.setLocalStorageData('allItems', null);
-               console.log(data);               
-               alert('Order Placed');
-               this.router.navigate(['/menu']);
-            });
+        this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
+        this.router.navigate(['/checkout']);
+
       
       }
       

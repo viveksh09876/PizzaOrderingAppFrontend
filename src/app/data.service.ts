@@ -133,5 +133,18 @@ export class DataService {
 
   }
 
+  saveFavItem(userId, itemData): Observable<any>{   
+    
+    let data = {  user_id: userId,
+                  fav_name: 'fav',
+                  fav_type: 'item',
+                  fav_detail: itemData
+                };
+    return this.http.post( this.domain + '/webservice/saveFavItem', data)
+                    .map((res: Response) => res.json())
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+                
+  }
+
 
 }

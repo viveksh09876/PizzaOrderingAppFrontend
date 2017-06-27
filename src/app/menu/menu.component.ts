@@ -26,6 +26,7 @@ export class MenuComponent implements OnInit {
   totalCost = 0;
   netCost = 0;
   showViewCart = false;
+  showFooter = false;
 
 
   ngOnInit() {

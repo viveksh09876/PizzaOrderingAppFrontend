@@ -19,6 +19,13 @@ import { OrderreviewComponent } from './orderreview/orderreview.component';
 import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component';
 import { MessageComponent } from './message/message.component';
 import { KeysPipePipe } from './keys-pipe.pipe';
+import { ProfileComponent } from './profile/profile.component';
+import { AccountComponent } from './account/account.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { CateringComponent } from './catering/catering.component';
+import { EventsComponent } from './events/events.component';
+import { CareersComponent } from './careers/careers.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +38,14 @@ import { KeysPipePipe } from './keys-pipe.pipe';
     OrderreviewComponent,
     OrdernowmodalComponent,
     MessageComponent,
-    KeysPipePipe
+    KeysPipePipe,
+    ProfileComponent,
+    AccountComponent,
+    CheckoutComponent,
+    CateringComponent,
+    EventsComponent,
+    CareersComponent,
+    ConfirmationComponent
   ],
   imports: [
     BrowserModule,

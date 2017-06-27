@@ -334,6 +334,7 @@ function initialize() {
       $.get('http://mavin360.com/demo/nkd/dev/webservice/getCountryStores/'+country, function(res){
   
           var stData = JSON.parse(res);
+          console.log(stData);
           if(stData.length > 0) {
             
             var coord = [];
