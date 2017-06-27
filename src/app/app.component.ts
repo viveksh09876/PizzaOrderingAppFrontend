@@ -5,6 +5,8 @@ import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component'
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from './data.service';
 
+declare var jQuery: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -36,7 +38,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
       let loc = window.location.href;
       let locArr = loc.split('/');
-
+      console.log(locArr);
       if(locArr.indexOf('menu') > -1 || locArr.indexOf('item') > -1) {
         this.showFooter = false;
       }
@@ -48,6 +50,12 @@ export class AppComponent implements OnInit {
       }  
 
      
+  }
+
+  navigateMenu(page) {
+    let pageLink = '/'+page;
+    jQuery("body").toggleClass("menu-open");
+    this.router.navigate([pageLink]);
   }
 
 

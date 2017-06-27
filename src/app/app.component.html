@@ -4,10 +4,10 @@
     <ul>
       <li class="active"> <a href="/">Home</a> </li>
       <li> <a href="franchising.html">franchising </a> </li>
-      <li> <a [routerLink]="['/catering']">catering</a> </li>
-      <li> <a [routerLink]="['/events']">events</a> </li>
+      <li> <a (click)="navigateMenu('catering')">catering</a> </li>
+      <li> <a (click)="navigateMenu('events')">events</a> </li>
       <li> <a href="#" data-toggle="modal" data-target="#contactusModal">contact us</a> </li>
-      <li> <a [routerLink]="['/careers']">join our team</a> </li>
+      <li> <a (click)="navigateMenu('careers')">join our team</a> </li>
       <li> <a href="#">news</a> </li>
     </ul>
     <hr class="clearfix visible-xs">
