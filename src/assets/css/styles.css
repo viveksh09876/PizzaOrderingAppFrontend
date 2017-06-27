@@ -991,10 +991,16 @@ header.navigation .logo {
 }
 .map-wrapper .title-image {
 	position: absolute;
-	top: 45px;
-	left: 10px;
-	pointer-events: none
+    top: 45px;
+    left: 10px;
+    font-family: "bureaueaglebookregular";
+    font-size: 40px; line-height: 38px;
+    color: #789c48;
+    pointer-events: none;
 }
+.map-wrapper .title-image span{color:#fff;}
+.map-wrapper .title-image strong{color:#911c27; text-transform: uppercase;font-size: 50px;
+    line-height: 44px;}
 
 @media (max-width: 2560px) {
 .map-wrapper .title-image {
@@ -1308,6 +1314,7 @@ header.navigation .logo {
 
 
 /*==============16 may css start here=========*/
+.modal.fade.in{background: rgba(0,0,0,.5);}
 .modal-header {
 	padding: 0;
 	border: none;
@@ -1315,12 +1322,8 @@ header.navigation .logo {
 }
 button.close {
 	position: absolute;
-
-
 	opacity: 1;
 	z-index: 9;
-
-
 	width: 30px;
 	height: 30px;
 	line-height: 20px;
@@ -1331,6 +1334,7 @@ button.close {
     top: -15px;
     right: -15px;
 }
+button.close:hover,button.close:focus{opacity: 1;}
 #signinModal .modal-dialog {
 	margin-top: 8%;
 }
@@ -1593,7 +1597,13 @@ button.close {
 .cartbox .item_info ul li{ font-size: 14px; line-height: 17px; font-family: 'proxima_nova_ltlight';}
 
 .cartbox .item_pic{ float: right; width: 40%; padding:0 0 0 10px; text-align: center;}
-.cartbox .item_pic .item{ max-width: 100%; margin: 10px 0; height: 100px; border-radius: 50%;}
+.cartbox .item_pic .item{ min-width: 113px;
+    margin: 10px 0;
+    border-radius: 100%;
+    height: initial;
+    min-height: 113px;
+    max-width: 113px;
+    max-height: 113px;}
 .cartbox .item_pic .img-control a{ color: #bb0315; text-decoration:none;
     margin: 0 2px;
     float: right;
@@ -1609,7 +1619,15 @@ button.close {
     margin-bottom: 15px;
     padding-bottom: 10px;}
 	
-.sumarry-box{background:#fff; border-top: 1px solid #789c48;  display:block; padding:10px; margin:10px 20px;}
+.sumarry-box{background: #fff;
+    border-top: 1px solid #789c48;
+    display: block;
+    padding: 10px 3%;
+    margin: 10px 5%;
+    position: absolute;
+    width: 90%;
+    left: 0px;
+    bottom: 0px;}
 .sumarry-box .total{display:block; }
 .sumarry-box .total label{text-align:left; color:#911c28; text-transform:uppercase;}
 .sumarry-box .total span{float:right; color:#911c28; text-transform:uppercase; font-weight:bold;}
@@ -1789,7 +1807,8 @@ button.close {
 	margin: 0 -15px
 }
 .two-column-wrapper .inside-column-container.aside-wrapper .content-wrapper {
-	margin: 0 -15px
+	margin: 0 -15px;
+	min-height: calc(100vh - 34vh);
 }
 .two-column-wrapper .inside-column-container.aside-wrapper .content-wrapper .content-container {
 	padding: 2em 15px
@@ -2329,6 +2348,8 @@ color:#fff
 	vertical-align: top;
 	overflow: hidden; position:relative;
 }
+.three-column-wrapper .inside-column-container.fixed{position: fixed;
+    width: 28%;}
 .three-column-wrapper .inside-column-container .item-qty-price{background:#f4f4f4; padding:1em; float: left;
     width: 100%;}
 .three-column-wrapper .inside-column-container .item-qty-price button{float:right; color: #fff;
@@ -2346,6 +2367,9 @@ color:#fff
 .three-column-wrapper .inside-column-container .item-qty-price .quantity .num{ border-left: 0; border-right: 0; background: #911c27; color: #fff;  display: inline-block;  width: 30px; height: 25px; vertical-align: top;float:left}
 .three-column-wrapper .inside-column-container .item-qty-price .quantity a:first-child{ border-radius: 2px 0 0 2px;}
 .three-column-wrapper .inside-column-container .item-qty-price .quantity .num+a{ border-radius:0 2px 2px 0; margin:0 10px 0 0;}
+.three-column-wrapper .inside-column-container .item-qty-price .quantity span.cost{font: 1.8em "proxima_nova_ltsemibold";
+    color: #5b5a56;
+    line-height: 1.2em;}
 
 .three-column-wrapper .inside-column-container .content-wrapper .img-wrapper {
 	height: calc(100vh - 47vh);
@@ -2353,6 +2377,23 @@ color:#fff
 	background-size: cover;
 	background-position: center; float:left;
 }
+.three-column-wrapper .inside-column-container .content-wrapper .nuitrition{position: absolute;
+    width: 64px;
+    right: 20px;
+    top: 25vh;
+    background: #5b5a56; text-align: center;}
+.three-column-wrapper .inside-column-container .content-wrapper .nuitrition p{    color: #fff;
+    font: 1.6em "proxima_nova_ltsemibold";
+    line-height: 0.8em;
+    background: #332b1e;
+    padding: 8px 0;}    
+.three-column-wrapper .inside-column-container .content-wrapper .nuitrition a{background: #789c48;
+    font: 1em "proxima_nova_ltsemibold";
+    line-height: 1em;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 5px 0;
+    display: block;}
 .three-column-wrapper .inside-column-container .content-wrapper .content-container {
 	color: #fff;
 	padding: 1em 20px;
@@ -2367,7 +2408,7 @@ color:#fff
 	margin-top: 4px;
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container h5 {
-	margin-top: 1em;
+	margin-top: 0em;
 	text-transform: uppercase;
 	font: 1.5em "proxima_nova_ltsemibold";
 	margin-bottom: 0
@@ -2404,12 +2445,18 @@ color:#fff
 	font: 2.75em "proxima_nova_rgbold"
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .ins {
-	padding: 2.5em 2em;
-	margin:-1em -20px;
-	position:absolute;
-	bottom:0px;
-	left:0px;
-	background-color: #5b5a56;
+	padding: 1em 3em;
+    margin: -1em -20px;
+    position: absolute;
+    overflow: auto;
+    width: 106%;
+    bottom: 16px;
+    left: 0px;
+    background-color: #5b5a56;
+}
+.three-column-wrapper .inside-column-container .content-wrapper .content-container .ins p{    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group {
 	display: inline-block;
@@ -2424,11 +2471,11 @@ color:#fff
 	margin-bottom: 15px;
 	padding-left: 35px;
 	/*cursor: pointer;*/
-	font: 2em "proxima_nova_ltsemibold"
+	font: 2em "proxima_nova_ltsemibold";
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control h4{
 
-	font: 1em "proxima_nova_ltsemibold"
+	font: 1em "proxima_nova_ltsemibold";
 }
 
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control p {
@@ -2537,19 +2584,19 @@ color:#fff
 	text-decoration: none;
 	text-align: center;
 	font: 15px "proxima_nova_rgbold";
-	padding: 1em 0
+	padding: 1.5em 0;
 }
 .three-column-wrapper .inside-column-container h3 a.fav-icon span.icon-favorite {
 	margin: auto;
-	font-size: 12px;
-	line-height: 26px;
+	font-size: 20px;
+	line-height: 32px;
 	display: block;
-	height: 27px;
-	width: 27px;
+	height: 34px;
+	width: 34px;
 	border-radius: 50%;
 	border: 2px solid #fff
 }
-.three-column-wrapper .inside-column-container h3 a.fav-icon:focus span, .three-column-wrapper .inside-column-container h3 a.fav-icon:active span {
+.three-column-wrapper .inside-column-container h3 a.fav-icon.active span {
 	color: #911c27;
 	border-color: #911c27
 }
@@ -2563,7 +2610,8 @@ color:#fff
 @media (max-width: 2560px) {
 .three-column-wrapper .inside-column-container h3 {
 	font-size: 2.40em;
-	padding: 1.50rem 15px
+	padding: 1.50rem 15px;
+	float: left; width: 100%;
 }
 }
 
@@ -2857,6 +2905,78 @@ color:#fff
 
 .left-caterbox .check{ display: block; font-size: 20px; color: #911c27; font-family: 'proxima_nova_ltsemibold'; background: #fff; line-height: 37px; padding: 5px; border-radius: 5px; border-bottom: 2px solid #546d32;}
 
+
+/*======My account page css==========*/
+.myaccount-page{ margin-top: 60px;}
+.banner-wrapper.myaccount h1{ margin-top: 0; color: #fff;}
+.account-sidebar .box{ border: 1px solid #e1e1e1; background: #f4f4f4; margin: 0 0 30px;}
+.account-sidebar h4{ font-size: 22px; color: #fff; font-family: 'proxima_nova_ltsemibold'; background: #789c48; line-height: 25px; padding: 10px 10px;}
+.account-sidebar ul{ margin: 0; padding: 0; list-style: none;}
+.account-sidebar ul li{ color: #65646a; font-size: 16px; padding: 10px; border-bottom: 1px solid #e1e1e1; line-height: 20px; font-family: 'proxima_nova_ltlight';}
+.account-sidebar ul li:last-child{ border: 0;}
+.account-sidebar ul li.active a{ font-family: 'proxima_nova_rgbold'; color: #789c48;}
+.account-sidebar ul li a{color: #65646a; font-family: 'proxima_nova_ltlight';}
+.account-sidebar ul li a:hover{ color: #789c48;}
+
+.account_container { border: 1px solid #e1e1e1;}
+.account_container .title{ font-size: 22px; color: #65646a; background: #f4f4f4; padding: 10px; line-height: 25px; font-family: 'proxima_nova_ltsemibold'; border-bottom: 1px solid #e1e1e1;}
+.account_container #accordion{ padding: 20px; margin: 0;}
+
+.account_container .panel-heading{ padding: 0;}
+.account_container .panel-title{ color: #5b5a56; font-size: 14px; font-family: 'proxima_nova_ltsemibold'; line-height:25px;}
+.account_container .panel-title a{font-family: 'proxima_nova_ltsemibold'; display: block; padding: 10px 35px 10px 10px; position: relative; background: #fafafa; text-decoration: none!important;}
+
+.account_container .panel-title a span{ color: #789c48; display: inline-block; margin: 0 10px; font-family: 'proxima_nova_ltlight';}
+.account_container .panel-title a .fa-check{ background: #789c48; width: 25px; height: 25px; text-align: center; line-height: 22px; border-radius: 5px; color: #fff; border: 1px solid #e1e1e1; margin-right: 8px;}
+.account_container .panel-title a strong{ float: right; font-weight: normal;}
+.account_container .panel-title a .fa-angle-down{ position: absolute; right: 10px; top: 12px; color: #911c27; font-size: 20px;}
+.account_container .panel-title a.active .fa-angle-down{transform: rotate(180deg);}
+.account_container .panel-title a.active.collapsed .fa-angle-down{transform: rotate(0deg);}
+
+.account_container .panel-title a.active{ background: #fff;}
+.account_container .panel-body{ border: 0 !Important;}
+.account_container .panel-group .panel + .panel{ margin-top: 20px;}
+
+.account_container .panel-body .details h4{background: #f0f0f0; color: #789c48; font-size: 15px; line-height: 20px; padding: 5px  10px; font-family: 'proxima_nova_rgbold'; font-weight: normal; margin: 0 0 10px;}
+.account_container .panel-body .details ul{list-style: none; margin: 0 10px; padding: 0;}
+.account_container .panel-body .details ul li{font-size: 14px; line-height: 18px; color: #5b5a56; border-bottom: 1px dashed #5b5a56; padding: 5px 0;}
+.account_container .panel-body .details ul li span{font-family: 'proxima_nova_ltsemibold';}
+
+
+.account_container table{ margin: 0;}
+.account_container table th{ background: #f0f0f0; color: #789c48; font-size: 15px; line-height: 20px; padding: 5px  10px; font-family: 'proxima_nova_rgbold'; font-weight: normal; border: 0!important;}
+.account_container table td{ border-top: 1px dashed #b2b2b2 !important;}
+.account_container table tr:nth-child(1) td{border: 0!important;}
+.account_container table h4{ color: #5b5a56; font-size: 15px; font-family: 'proxima_nova_rgbold'; line-height: 18px;}
+.account_container table p span{font-family: 'proxima_nova_rgbold'; color: #5b5a56;}
+.account_container .table-responsive{ height: 240px; overflow: auto; }
+
+.account_container .blackbox .grand-total{ background: #5b5a56; color: #fff; font-size: 18px; font-family: 'proxima_nova_ltsemibold'; line-height: 22px; padding: 10px;}
+.account_container .blackbox .grand-total span{ float: right;}
+
+.account_box{ border: 1px solid #e1e1e1; margin: 20px 0 0;}
+.account_box h4.title{font-size: 22px; color: #65646a; background: #f4f4f4; padding: 10px; line-height: 25px; font-family: 'proxima_nova_ltsemibold'; border-bottom: 1px solid #e1e1e1;}
+.accountmain_sec{ padding: 20px; position: relative;}
+.accountmain_sec.space{ padding-bottom: 150px;}
+.accountmain_sec .form-horizontal label{ text-align: left; font-size: 16px; color: #5b5a56; font-family: 'proxima_nova_ltlight'; font-weight: normal}
+.accountmain_sec .form-horizontal .form-control{ border: 1px solid #acacac; font-size: 16px; color: #5b5a56; font-family: 'proxima_nova_ltlight'; }
+.accountmain_sec .form-horizontal .form-group{ margin-bottom: 20px;}
+.accountmain_sec .form-horizontal .buttons{ position: absolute; bottom: 0; left: 0; width: 100%; margin: 0; background: #f4f4f4; border-top: 1px solid #e1e1e1; padding: 15px 20px;}
+.accountmain_sec .form-horizontal .buttons button{ font-size: 16px; color: #fff; font-family: 'proxima_nova_ltlight'; background: #911c27; border: 0; border-radius: 2px; border-bottom: 2px solid #4f050c; line-height: 34px; padding: 0 25px;}
+
+.address_box{ border: 1px solid #e1e1e1; min-height: 215px; margin-bottom: 30px;}
+.address_box h5{ font-size: 15px; color: #5b5a56; line-height: 22px; padding: 5px 10px; background: #fafafa; border-bottom: 1px solid #e1e1e1; margin: 0; font-family: 'proxima_nova_ltlight';}
+.address_box h5 span{ color: #789c48; float: right}
+.address_box .content{ padding: 10px 10px 0; font-size: 15px; color: #5b5a56; line-height: 17px; font-family: 'proxima_nova_ltlight';}
+.address_box .content p{font-family: 'proxima_nova_ltlight'; margin: 0 0 16px;}
+.address_box .content strong{ font-weight: normal; font-family: 'proxima_nova_ltsemibold';}
+.address_box .content p a{font-family: 'proxima_nova_ltlight'; font-size: 15px; color: #911c28;}
+.address_box .content p a:hover{ text-decoration: underline;}
+
+.address_box.addaddress{ display: flex; border: 2px dashed #e1e1e1; background: #fafafa; justify-content: center; align-items: center; text-align: center}
+.address_box.addaddress a{ color: #65646a; font-size: 15px;}
+.address_box.addaddress i{ border: 4px solid #911c28; border-radius: 50%; color: #911c28; font-size: 20px; width: 35px; height: 35px; line-height: 28px; margin: 0 auto 10px; display: block}
+
 /*======Responsive work=====*/
 
 @media  (min-width: 992px) and (max-width: 1100px) {
@@ -2864,6 +2984,8 @@ color:#fff
     .gray_box .cartbox .item_pic .item{ height: 90px;}
     .complete-summary thead th.main{ font-size: 20px;}
     .complete-summary td h4{ font-size: 18px; line-height: 20px; margin: 0 0 5px;}
+    .address_box .content{ font-size: 13px; line-height: 15px;}
+    .address_box{ min-height: 230px;}
 }
 
 @media  (min-width: 768px) and (max-width: 991px) {
@@ -2899,6 +3021,14 @@ color:#fff
     .complete-summary td{ padding: 10px 8px;}
     .complete-summary td h4{ font-size: 16px; line-height: 18px;}
     .complete-summary .blackbox .grand-total{ font-size: 14px; line-height: 18px;}
+
+    .account_container .panel-title{ font-size: 13px;}
+    .account_container .panel-title a strong{ float: left;}
+    .account_container .panel-title a{ display: inline-block; width: 100%;}
+    .account_container .panel-body .details{ margin-top: 10px;}
+    .account-sidebar ul li{ padding: 8px 10px; font-size: 14px;}
+    .account-sidebar h4{ font-size: 20px; padding: 8px 10px;}
+    .address_box .content{ font-size: 14px;}
 }
 
 @media (max-width: 767px) {
@@ -2952,5 +3082,24 @@ color:#fff
     .thankyou_box ul li{ margin: 0;}
     .thankyou_box ul li:first-child{ display: block; margin-bottom: 5px;}
     .thankyou_box ul{ width: 100%;}
+
+    .myaccount-page{ margin-top: 75px;}
+		.account-sidebar h4, .account_container .title{ padding: 5px 10px; font-size: 18px;}
+		.account-sidebar ul li{ padding: 5px 10x; font-size: 13px;}
+		.account-sidebar .box{ margin-bottom: 15px;}
+		.account_container #accordion{ padding: 10px;}
+
+		.account_container .panel-title{ font-size: 12px; line-height: 25px;}
+		.account_container .panel-title a{ padding: 5px 20px 5px 10px}
+		.account_container .panel-title a span{ margin: 3px 0; display: block;}
+		.account_container .panel-title a strong{ float: none;  display: block;}
+		.account_container .panel-body .details{ margin: 15px 0 0;}
+		.account_container .blackbox .grand-total{ font-size: 15px; line-height: 20px;}
+    
+    .accountmain_sec .form-horizontal .form-group{ margin-bottom: 10px;}
+    .accountmain_sec.space{ padding-bottom: 80px;}
+    .accountmain_sec .form-horizontal .buttons{ padding: 10px 0;}
+    .accountmain_sec{ padding: 15px;}
+    .address_box{ margin-bottom: 20px;}
     
 }
