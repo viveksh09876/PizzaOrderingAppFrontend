@@ -1,7 +1,7 @@
 <!--Banner
 style="background-image:url(assets/images/banner-inside/4.jpg)"-->
 <div class="banner-wrapper">
-<div class="container" style="background-image:url(assets/images/banner-inside/4.jpg)">
+<div class="container" style="background-image:url(assets/images/cater-banner.jpg)">
   <h1><span>customize your order</span></h1>
   <div class="leftButtons buttons">
     <a [routerLink]="['/menu']" class="whiteBtn cta-btn">Back To Menu</a>
@@ -91,7 +91,7 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
     </ng-container>
 
       </div>
-      <div class="inside-column-container">
+      <div class="inside-column-container fixed">
         <h3>{{item.Product.title}} <a href class="fav-icon"><span class="icon-favorite"></span></a></h3>
         <div class="content-wrapper">
             <div class="item-qty-price">
@@ -106,12 +106,15 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
           <div class="img-wrapper" style="background-image:url(assets/images/pizza-img-lg.jpg)"> 
             <!--<img src="assets/images/pizza-img-lg.jpg" class="img-responsive center-block"/>--> 
           </div>
+          <div class="nuitrition">
+            <!-- <h5 class="bottomHeading">NUTRITIONAL VALUE</h5> -->
+              <p class="bold">456 CAL</p>
+              <a href="">Know More</a>
+          </div>
           <div class="content-container">
             <div class="ins">
               <h5>{{item.Product.title}} CONTAINS</h5>
               <p>{{item.Product.short_description}}</p>
-              <h5 class="bottomHeading">NUTRITIONAL VALUE</h5>
-              <p class="bold">456 CAL</p>
             </div>
           </div>
         </div>
