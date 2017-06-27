@@ -329,58 +329,98 @@ function initialize() {
       resp = JSON.parse(resp);
       
       country = resp.geoplugin_countryName;
-      lat = resp.geoplugin_latitude;
-      lng = resp.geoplugin_longitude;
+      var mapText = 'Coming Soon nearby your location';
 
-      //lat = 25.2667;
-      //lng = 55.3167;
+      $.get('http://mavin360.com/demo/nkd/dev/webservice/getCountryStores/'+country, function(res){
+  
+          var stData = JSON.parse(res);
+          if(stData.length > 0) {
+            
+            var coord = [];
+            var cont = [];
+
+            for(var p=0; p<stData.length; p++) {
+              var ltlng = [];
+              ltlng.push(stData[p].Store.latitude);
+              ltlng.push(stData[p].Store.longitude); 
+
+              coord.push(ltlng);
+
+              var ct = '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">'+stData[p].Store.store_name+'</h4><p>'+stData[p].Store.store_address+'</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  11AM - 3AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>'+stData[p].Store.store_phone+'<span/></a></li></ul></div><div class="tail-wrapper"></div></div>';
+
+              cont.push(ct);
+              p++;              
+            }
+
+            coordinates = coord;
+            contentString = cont;
+            if(stData.length > 1) {
+              var locText = ' locations';
+            }else{
+              var locText = ' location';
+            }
+            mapText = 'Currently open at <span>'+stData.length + locText + '</span> <strong>' + country + '</strong>';
+
+          }
+
+          lat = resp.geoplugin_latitude;
+          lng = resp.geoplugin_longitude;
+
+          //lat = 25.2667;
+          //lng = 55.3167;
 
 
-      //country = 'UAE';
+          //country = 'UAE';
+          
+          if(country == 'UAE' || country == 'United Arab Emirates') {
+
+            cordinates = [[25.040657,55.197286],[25.074192,55.139092],[25.184279,55.263638]];
+            places = ['Location 1','Location 2','Location 3'];
+            contentString = [
+                '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">NKD Pizza Motor City</h4><p>Shop 1, Kojak Bldg, Motor City - Dubai</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  10:30AMâ€“2AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>04 421 3734<span/></a></li></ul></div><div class="tail-wrapper"></div></div>',
+
+                '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-2.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">Dubai Marina</h4><p>G05, West Avenue Bldg, <br>Dubai Marina-Dubai, UAE</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  10:30AMâ€“2AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>04 421 3734<span/></a></li></ul></div><div class="tail-wrapper"></div></div>',
+
+                '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-3.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">Business Bay</h4><p>G02, Bayswater Bldg, <br>Business Bay-Dubai, UAE</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  10:30AMâ€“2AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>04 421 3734<span/></a></li></ul></div><div class="tail-wrapper"></div></div>'
+            ];
+            
+            zoom = 12;
+          }
+          
+          //console.log(contentString[0]);
+          var mapCanvas = document.getElementById('mapCanvas');
+            var mapOptions = {
+                center: new google.maps.LatLng(lat, lng),
+                zoom: 5,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                scrollwheel: false
+            }
+          // console.log(typeof lat, lng, country, mapOptions);
+            map = new google.maps.Map(mapCanvas, mapOptions);
+
+            
+            if(places.length > 0) {
+                infowindow = new google.maps.InfoWindow({
+                  content: contentString[0],
+                  maxWidth: 350
+              });
+            }
+
+            if(places.length > 0) {
+              addMarkers();
+            }
+            
+
+          // Set the map's style to the initial value of the selector.
+          var styleSelector = document.getElementById('style-selector');
+          map.setOptions({styles: mapStyle});
+          
+
+          $('#mapText').html(mapText);
+
+      });
       
-      if(country == 'UAE' || country == 'United Arab Emirates') {
-
-        cordinates = [[25.040657,55.197286],[25.074192,55.139092],[25.184279,55.263638]];
-        places = ['Location 1','Location 2','Location 3'];
-        contentString = [
-            '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">NKD Pizza Motor City</h4><p>Shop 1, Kojak Bldg, Motor City - Dubai</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  10:30AMâ€“2AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>04 421 3734<span/></a></li></ul></div><div class="tail-wrapper"></div></div>',
-
-            '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-2.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">Dubai Marina</h4><p>G05, West Avenue Bldg, <br>Dubai Marina-Dubai, UAE</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  10:30AMâ€“2AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>04 421 3734<span/></a></li></ul></div><div class="tail-wrapper"></div></div>',
-
-            '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-3.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">Business Bay</h4><p>G02, Bayswater Bldg, <br>Business Bay-Dubai, UAE</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  10:30AMâ€“2AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>04 421 3734<span/></a></li></ul></div><div class="tail-wrapper"></div></div>'
-        ];
-        
-        zoom = 12;
-      }
-      
-      //console.log(contentString[0]);
-       var mapCanvas = document.getElementById('mapCanvas');
-        var mapOptions = {
-            center: new google.maps.LatLng(lat, lng),
-            zoom: 5,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            scrollwheel: false
-        }
-       // console.log(typeof lat, lng, country, mapOptions);
-        map = new google.maps.Map(mapCanvas, mapOptions);
-
-        
-        if(places.length > 0) {
-            infowindow = new google.maps.InfoWindow({
-              content: contentString[0],
-              maxWidth: 350
-          });
-        }
-
-        if(places.length > 0) {
-          addMarkers();
-        }
-        
-
-       // Set the map's style to the initial value of the selector.
-      var styleSelector = document.getElementById('style-selector');
-      map.setOptions({styles: mapStyle});
-        
+       
 
     });    
 
