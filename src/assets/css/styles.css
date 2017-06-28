@@ -1431,18 +1431,18 @@ button.close:hover,button.close:focus{opacity: 1;}
 	position: relative
 }
 #signupModal button.close {
-	position: absolute;
-	right: 20px;
-	top: 15px;
-	opacity: 1;
-	z-index: 9;
-	font-size: 26px;
-	color: #fff;
-	width: 30px;
-	height: 30px;
-	line-height: 20px;
-	background: #789c48;
-	border-radius: 50%;
+	    position: absolute;
+    right: -15px;
+    top: -15px;
+    opacity: 1;
+    z-index: 9;
+    font-size: 20px;
+    color: #333;
+    width: 30px;
+    height: 30px;
+    line-height: 20px;
+    background: #fff;
+    border-radius: 50%;
 }
 #signupModal .modal-body {
 	padding: 30px;
@@ -1945,6 +1945,9 @@ button.close:hover,button.close:focus{opacity: 1;}
 	    position: fixed;
     z-index: 99;
     width: 64.3%;
+}
+.nav-tabs.orderTabs.full {
+    width: 95.5% !important;
 }
 .leftContent .nav-tabs.orderTabs {
 	    margin-bottom: 2em;
@@ -2454,13 +2457,14 @@ color:#fff
     overflow: auto;
     width: 106%;
     bottom: 16px;
+    height: 120px;
     left: 0px;
     background-color: #5b5a56;
 }
-.three-column-wrapper .inside-column-container .content-wrapper .content-container .ins p{    text-overflow: ellipsis;
+/*.three-column-wrapper .inside-column-container .content-wrapper .content-container .ins p{    text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-}
+}*/
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group {
 	display: inline-block;
 	width: 100%;
@@ -2737,7 +2741,9 @@ color:#fff
 /*=============New step design css==========*/
 .stepboxes .green-title{background: #789c48; color: #ffffff; font-size: 22px; line-height: 30px; font-family: 'proxima_nova_rgbold'; padding: 10px 20px;}
 .stepboxes .green-title.gray{ color: #5b5a56; background: #f4f4f4;}
+
 .stepboxes .gray_box{ background: #f4f4f4; padding: 10px 20px;}
+.stepboxes .gray_box .scroller{height: 200px; overflow: auto;}
 .stepboxes .gray_box .item_info { float: left; font-family: "proxima_nova_rgregular"; width: 60%;}
 .gray_box .cartbox .item_pic .img-control a{ float: none; display: inline-block}
 .gray_box .cartbox{ border: 0; padding-bottom: 0; margin-bottom: 0;} 
