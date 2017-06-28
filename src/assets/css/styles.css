@@ -1079,7 +1079,7 @@ header.navigation .logo {
 	margin: 5px auto 0
 }
 .banner-wrapper .leftButtons.buttons a.greenBtn.btn-sm {
-	max-width: 110px;
+	max-width: 95px;
 	margin: 0
 }
 .banner-wrapper .leftButtons.buttons a.whiteBtn {
@@ -1942,6 +1942,9 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 .nav-tabs.orderTabs {
 	    margin-bottom: 2em;
+	    position: fixed;
+    z-index: 99;
+    width: 64.3%;
 }
 .leftContent .nav-tabs.orderTabs {
 	    margin-bottom: 2em;
