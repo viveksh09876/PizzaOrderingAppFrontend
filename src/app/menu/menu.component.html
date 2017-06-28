@@ -18,7 +18,7 @@
 
   <div class="two-column-wrapper" *ngIf="menuData != null">
   <!--Left Panel Starts-->
-    <div class="inside-column-container"> 
+    <div class="inside-column-container leftContent"> 
       <!-- Nav tabs -->
       <ul class="nav nav-tabs hidden-xs  orderTabs" role="tablist" id="tabSwitch">
         <li role="presentation" *ngFor="let cat of menuData; let i = index" [ngClass]="(i==0)? 'active': ''"> <a href="#{{cat.name}}" aria-controls="applyNow" role="tab" data-toggle="tab">{{cat.name}}</a> </li>
@@ -42,9 +42,9 @@
                         </div>
                         <div class="media-body media-middle">
                             <div class="description">
-                              <div class="leftSection"> <a>
+                              <div class="leftSection"> 
                                 <h4 class="media-heading">{{prod.title}}</h4>
-                                </a>
+                                
                                 <h5>{{prod.price}} <span>{{prod.price_title}}</span> </h5>
                                 <p>{{prod.short_description}}</p>
                               </div>
@@ -74,9 +74,9 @@
                                       </div>
                                       <div class="media-body media-middle">
                                         <div class="description">
-                                          <div class="leftSection"> <a href="#">
+                                          <div class="leftSection">
                                             <h4 class="media-heading">{{subProd.title}}</h4>
-                                            </a>
+                                            
                                             <h5>{{subProd.price.small}} AED <span>onwards</span> </h5>
                                             <p>{{subProd.short_description}}</p>
                                           </div>
@@ -105,9 +105,9 @@
                                     </div>
                                     <div class="media-body media-middle">
                                       <div class="description">
-                                        <div class="leftSection"> <a href="#">
+                                        <div class="leftSection">
                                           <h4 class="media-heading">{{prod.title}}</h4>
-                                          </a>
+                                          
                                           <h5>{{prod.price}} <span>{{prod.price_title}}</span> </h5>
                                           <p>{{prod.short_description}}</p>
                                         </div>
