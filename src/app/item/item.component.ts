@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { environment } from '../../environments/environment';
 import { DialogService } from "ng2-bootstrap-modal";
 import { LoginComponent } from '../login/login.component';
 import { DataService } from '../data.service';
@@ -18,6 +19,7 @@ export class ItemComponent implements OnInit {
   selectedModifiers = [];
   allItems = null;
   is_fav = false;
+  cmsApiPath = environment.cmsApiPath;
 
   constructor(private dialogService:DialogService,
               private dataService: DataService, 

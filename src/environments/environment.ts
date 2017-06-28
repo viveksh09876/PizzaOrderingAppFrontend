@@ -4,5 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  cmsApiPath: 'http://mavin360.com/demo/nkd/dev',
+  posApiPath: 'http://35.185.240.172/nkd/index.php'
 };

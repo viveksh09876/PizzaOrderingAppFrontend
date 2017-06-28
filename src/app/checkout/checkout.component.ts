@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../data.service';
+import { UtilService } from '../util.service';
 
 @Component({
   selector: 'app-checkout',
@@ -11,10 +12,11 @@ export class CheckoutComponent implements OnInit {
 
   constructor(private dataService: DataService, 
                   private route: ActivatedRoute, 
-                    private router: Router) { }
+                    private router: Router,
+                      private utilService: UtilService) { }
 
   ngOnInit() {
-
+    
   }
 
 

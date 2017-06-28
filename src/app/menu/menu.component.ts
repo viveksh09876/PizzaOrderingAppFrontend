@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PipeTransform, Pipe } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
@@ -27,9 +28,12 @@ export class MenuComponent implements OnInit {
   netCost = 0;
   showViewCart = false;
   showFooter = false;
+  cmsApiPath = environment.cmsApiPath;
 
 
   ngOnInit() {
+
+ 
     this.getAllCategories();
     let items = this.dataService.getLocalStorageData('allItems'); 
     let orderNowDetails = this.dataService.getLocalStorageData('order-now'); 

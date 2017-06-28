@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UtilService } from '../util.service';
 
 @Component({
   selector: 'app-catering',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CateringComponent implements OnInit {
 
-  constructor() { }
+  constructor(private utilService: UtilService) { }
 
   ngOnInit() {
+     
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { environment } from '../../environments/environment';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 
@@ -47,6 +48,7 @@ export class OrderreviewComponent implements OnInit {
     }
 
     showStep = 'step1';
+    cmsApiPath = environment.cmsApiPath;
 
   constructor(private dataService: DataService,
                 private utilService: UtilService, 

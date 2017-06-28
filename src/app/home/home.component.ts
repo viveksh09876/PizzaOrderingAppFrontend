@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, AfterContentInit } from '@angular/core';
 import { DataService } from '../data.service';
+import { UtilService } from '../util.service';
+
 
 //import * as $ from 'jquery';
 declare var jQuery: any;
@@ -16,11 +18,11 @@ export class HomeComponent implements OnInit, AfterContentInit {
   domain = 'http://mavin360.com/demo/nkd/dev';
   latestTweet = '';
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+                private utilService: UtilService) { }
 
 
   ngOnInit() {
-
 
     this.getSlideImages();
     loadScript();
@@ -56,15 +58,13 @@ export class HomeComponent implements OnInit, AfterContentInit {
               let slides = data;
 
               if(slides.length > 0) {
-
                 for(var i=0; i<slides.length; i++) {
                   slides[i].Slide.image = this.domain + '/img/admin/slides/' + slides[i].Slide.image;
                 }
               }
 
               this.slideArr = slides; 
-              console.log(this.slideArr);
-              
+                            
               setTimeout(function(){
                   jQuery("#home-slider").slick({
                     infinite: true,

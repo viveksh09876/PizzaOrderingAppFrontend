@@ -5,6 +5,7 @@ export class UtilService {
 
   constructor() { }
 
+  showFooter = true;
 
   calculateOverAllCost(items) {
     let overAllPrice = 0;
@@ -37,6 +38,10 @@ export class UtilService {
         ':' + pad(dt.getSeconds()) +
         dif + pad(tzo / 60) +
         ':' + pad(tzo % 60);  
+  }
+
+  updateFooterDisplay(isShow) {
+    this.showFooter = isShow; 
   }
 
 

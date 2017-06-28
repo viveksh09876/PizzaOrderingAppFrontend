@@ -44,7 +44,8 @@
                             <a (click)="deleteItem(i, item)"><span class="icon icon-close"></span></a>
                               <!--<a href="#"><span class="icon icon-edit"></span></a>-->
                         </div>
-                        <img src="assets/images/pizza-images/2.jpg" alt="" class="item">
+                        <img *ngIf="item.Product.thumb_image == null" src="assets/images/pizza-images/2.jpg" alt="" class="item">
+                        <img *ngIf="item.Product.thumb_image != null" src="{{cmsApiPath + '/' + item.Product.thumb_image}}" alt="" class="item">
                         <div class="quantity"><a (click)="updateQuantity(0, item.Product.plu_code, i)">-</a><span class="num">{{item.Product.qty}}</span><a (click)="updateQuantity(1, item.Product.plu_code, i)">+</a></div>
                     </div>
                 </div>

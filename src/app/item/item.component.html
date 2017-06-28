@@ -46,7 +46,7 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                     
                     <h4 (click)="updateModifier(option.Option.id,'checkbox', mod.modifier_id)">{{option.Option.name}}</h4> 
                     <a class="grayBtn cta-btn" (click)="updateExtra(option.Option.id, 'modifier','checkbox')">add Extra</a>                                
-                    <div class="control__indicator" (click)="updateModifier(option.Option.id, 'checkbox', mod.modifier_id)"><img src="assets/images/blog/img-4.jpg" alt=""></div>
+                    <div class="control__indicator" (click)="updateModifier(option.Option.id, 'checkbox', mod.modifier_id)"><img *ngIf="option.Option.image == null" src="assets/images/blog/img-4.jpg" alt=""><img *ngIf="option.Option.image != null" src="{{cmsApiPath + '/' + option.Option.image}}" alt=""></div>
                     <!--<ng-container *ngIf="option.Option.OptionSuboption != '' && option.Option.OptionSuboption.length > 0">
                       <ng-container *ngFor="let subop of option.Option.OptionSuboption">{{subop.SubOption.name}}<small [ngClass]="{'active': (subop.SubOption.is_active == 1), 
                                             'circle': (subop.SubOption.name == 'Full'), 
@@ -76,7 +76,7 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                     
                     <h4 (click)="updateIncludedModifier(ioption.id)">{{ioption.name}}</h4> 
                     <a class="grayBtn cta-btn" (click)="updateExtra(ioption.id, 'includedModifier','checkbox')">add Extra</a>                                
-                    <div class="control__indicator" (click)="updateIncludedModifier(ioption.id)"><img src="assets/images/blog/img-4.jpg" alt=""></div>
+                    <div class="control__indicator" (click)="updateIncludedModifier(ioption.id)"><img *ngIf="ioption.image == null" src="assets/images/blog/img-4.jpg" alt=""><img *ngIf="ioption.image != null" src="{{cmsApiPath + '/' + ioption.image}}" alt=""></div>
                     <!--<small class="circle"></small>
                     <small class="circle half"> </small>
                     <small class="circle right half"> </small>-->
@@ -103,9 +103,8 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                   <span class="cost">{{totalCost}} AED</span>
               </div>
             </div>
-          <div class="img-wrapper" style="background-image:url(assets/images/pizza-img-lg.jpg)"> 
-            <!--<img src="assets/images/pizza-img-lg.jpg" class="img-responsive center-block"/>--> 
-          </div>
+          <div class="img-wrapper" *ngIf="item.Product == null" style="background-image:url(assets/images/pizza-img-lg.jpg)"></div>
+          <div class="img-wrapper" *ngIf="item.Product != null" [ngStyle]="{'background-image': 'url(' + cmsApiPath + '/' + item.Product.image + ')'}"></div>
           <div class="nuitrition">
             <!-- <h5 class="bottomHeading">NUTRITIONAL VALUE</h5> -->
               <p class="bold">456 CAL</p>

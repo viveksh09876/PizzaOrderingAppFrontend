@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DialogService } from "ng2-bootstrap-modal";
 import { LoginComponent } from './login/login.component';
 import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { DataService } from './data.service';
 
 declare var jQuery: any;
@@ -14,14 +14,28 @@ declare var jQuery: any;
 })
 export class AppComponent implements OnInit {
 
+  showFooter = true;
+
   constructor(private dialogService:DialogService,
                 private route: ActivatedRoute,
                 private router: Router,
                 private dataService: DataService){
 
+        this.router.events.subscribe((e) => {
+          if (e instanceof NavigationEnd) {
+            let urlArr = e.url.split('/');
+            if(urlArr.indexOf('menu') > -1 || urlArr.indexOf('item') > -1) {
+              this.showFooter = false;
+            }else{
+              this.showFooter = true;
+            } 
+            console.log(e.url);
+          }
+        });         
+
   }
 
-  showFooter = true;
+  
   showLogin = true;
 
   openModal(type) {
@@ -35,21 +49,12 @@ export class AppComponent implements OnInit {
     
   }
 
-  ngOnInit() {
-      let loc = window.location.href;
-      let locArr = loc.split('/');
-      console.log(locArr);
-      if(locArr.indexOf('menu') > -1 || locArr.indexOf('item') > -1) {
-        this.showFooter = false;
-      }
-
+  ngOnInit() {      
       //check if user logged In
       let user = this.dataService.getLocalStorageData('isLoggedIn');
       if(user != undefined && user == 'true') {
         this.showLogin = false;
-      }  
-
-     
+      }    
   }
 
   navigateMenu(page) {

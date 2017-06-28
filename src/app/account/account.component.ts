@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
+import { UtilService } from '../util.service';
 
 @Component({
   selector: 'app-account',
@@ -8,7 +9,8 @@ import { DataService } from '../data.service';
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+                private utilService: UtilService) { }
   name = '';
 
   ngOnInit() {
