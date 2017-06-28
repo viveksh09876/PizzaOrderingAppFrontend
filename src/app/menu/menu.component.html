@@ -20,7 +20,7 @@
   <!--Left Panel Starts-->
     <div class="inside-column-container leftContent"> 
       <!-- Nav tabs -->
-      <ul class="nav nav-tabs hidden-xs  orderTabs" role="tablist" id="tabSwitch">
+      <ul class="nav nav-tabs hidden-xs  orderTabs" role="tablist" id="tabSwitch" [ngClass]="{'full': showViewCart ==  false}">
         <li role="presentation" *ngFor="let cat of menuData; let i = index" [ngClass]="(i==0)? 'active': ''"> <a href="#{{cat.name}}" aria-controls="applyNow" role="tab" data-toggle="tab">{{cat.name}}</a> </li>
       </ul>
       <select class="custom-select visible-xs" target="#tabSwitch" (change)="changTab($event.target.value)">
