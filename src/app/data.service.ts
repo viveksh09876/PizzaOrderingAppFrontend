@@ -69,7 +69,7 @@ export class DataService {
 
   getCitiesSuggestions(countryCode, searchKey): Observable<any>{   
   
-    return this.http.get( 'http://gd.geobytes.com/AutoCompleteCity?filter='+countryCode+'&q='+searchKey)
+    return this.http.get( this.domain + '/webservice/getCitiesSuggestion/'+searchKey+'/'+countryCode)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
 

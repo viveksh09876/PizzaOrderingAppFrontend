@@ -31,6 +31,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   delivery_time = new Date();
   showTimeError = '';
   curDate = new Date();
+  showStoreLoading = false;
 
 
   order = {
@@ -68,24 +69,27 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
             .subscribe(data => {
                 
                 this.cityList = data;
-                
+                this.getStores(searchKey);
             });
     }
   
   }
 
   getStores(cityVal) {
-    
+    this.showStoreLoading = true;
     this.dataService.getStoreList(cityVal)
           .subscribe(data => {                    
-                    this.storeList = data;                    
+                    this.storeList = data;   
+                    this.showStoreLoading = false;                 
                 }); 
   }
 
   getStoresFromPostalCode(postal_code) {
+    this.showStoreLoading = true;
     this.dataService.getStoresFromPostalCode(postal_code)
         .subscribe(data => {                    
-                    this.storeList = data;                    
+                    this.storeList = data;
+                    this.showStoreLoading = false;                    
                 }); 
   }
 

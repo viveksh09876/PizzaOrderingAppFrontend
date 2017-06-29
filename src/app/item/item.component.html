@@ -103,8 +103,8 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                   <span class="cost">{{totalCost}} AED</span>
               </div>
             </div>
-          <div class="img-wrapper" *ngIf="item.Product == null" style="background-image:url(assets/images/pizza-img-lg.jpg)"></div>
-          <div class="img-wrapper" *ngIf="item.Product != null" [ngStyle]="{'background-image': 'url(' + cmsApiPath + '/' + item.Product.image + ')'}"></div>
+          <div class="img-wrapper" *ngIf="item.Product.image == null" style="background-image:url(assets/images/pizza-img-lg.jpg)"></div>
+          <div class="img-wrapper" *ngIf="item.Product.image != null" [ngStyle]="{'background-image': 'url(' + cmsApiPath + '/' + item.Product.image + ')'}"></div>
           <div class="nuitrition">
             <!-- <h5 class="bottomHeading">NUTRITIONAL VALUE</h5> -->
               <p class="bold">456 CAL</p>
