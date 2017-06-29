@@ -73,7 +73,7 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                   <a (click)="updateQuantity(0)">-</a>
                   <span class="num">{{item.Product.qty}}</span>
                   <a (click)="updateQuantity(1)">+</a>
-                  <span class="cost">{{totalCost}} AED</span>
+                  <span class="cost">{{item.totalItemCost}} AED</span>
               </div>
             </div>
           <div class="img-wrapper" *ngIf="item.Product.image == null" style="background-image:url(assets/images/pizza-img-lg.jpg)"></div>
