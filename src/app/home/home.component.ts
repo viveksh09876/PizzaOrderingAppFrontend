@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, AfterContentInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
+import { environment } from '../../environments/environment';
 
 
 //import * as $ from 'jquery';
@@ -15,7 +16,7 @@ declare var google: any;
 export class HomeComponent implements OnInit, AfterContentInit {
 
   slideArr = [];
-  domain = 'http://mavin360.com/demo/nkd/dev';
+  domain = environment.cmsApiPath;
   latestTweet = '';
 
   constructor(private dataService: DataService,

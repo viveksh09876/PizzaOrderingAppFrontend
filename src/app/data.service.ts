@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Jsonp  } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
+import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/map';
@@ -11,7 +12,7 @@ export class DataService {
 
   constructor(private http: Http, private jsonp:Jsonp) { }
 
-  domain = 'http://mavin360.com/demo/nkd/dev';
+  domain = environment.cmsApiPath;
 
   
   getSlides(lang_id): Observable<any>{

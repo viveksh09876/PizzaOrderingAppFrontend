@@ -63,33 +63,6 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
         </div>
         </div>
 
-    <ng-container *ngIf="item.ProductIncludedModifier.length > 0">
-     <div class="col-md-6" *ngFor="let imod of item.ProductIncludedModifier">
-        <h3 class="bgGrey">{{imod.title}}</h3>
-        <div class="content-wrapper">
-          <div class="content-container">
-            <div class="control-group">
-              <ng-container *ngFor="let ioption of imod.option">
-
-               
-                  <div class="control checkbox" [ngClass]="{'extra': ioption.add_extra, 'checked': ioption.is_checked == true}">
-                    
-                    <h4 (click)="updateIncludedModifier(ioption.id)">{{ioption.name}}</h4> 
-                    <a class="grayBtn cta-btn" (click)="updateExtra(ioption.id, 'includedModifier','checkbox')">add Extra</a>                                
-                    <div class="control__indicator" (click)="updateIncludedModifier(ioption.id)"><img *ngIf="ioption.image == null" src="assets/images/blog/img-4.jpg" alt=""><img *ngIf="ioption.image != null" src="{{cmsApiPath + '/' + ioption.image}}" alt=""></div>
-                    <!--<small class="circle"></small>
-                    <small class="circle half"> </small>
-                    <small class="circle right half"> </small>-->
-                
-                  </div>
-                
-              </ng-container>
-            </div>
-          </div>
-        </div>
-        </div>
-    </ng-container>
-
       </div>
       <div class="inside-column-container fixed">
         <h3>{{item.Product.title}} <a (click)="addToFav()" class="fav-icon" [ngClass]="{'active': is_fav == true}"><span class="icon-favorite"></span></a></h3>

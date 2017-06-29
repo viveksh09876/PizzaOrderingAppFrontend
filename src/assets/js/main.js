@@ -324,14 +324,14 @@ var mapStyle = [
 
 function initialize() {
 
-  $.get('http://mavin360.com/demo/nkd/dev/webservice/getip', function(resp){
+  $.get('https://mavin360.com/demo/nkd/dev/webservice/getip', function(resp){
 
       resp = JSON.parse(resp);
       
       country = resp.geoplugin_countryName;
       var mapText = 'Coming Soon nearby your location';
 
-      $.get('http://mavin360.com/demo/nkd/dev/webservice/getCountryStores/'+country, function(res){
+      $.get('https://mavin360.com/demo/nkd/dev/webservice/getCountryStores/'+country, function(res){
   
           var stData = JSON.parse(res);
           console.log(stData);
