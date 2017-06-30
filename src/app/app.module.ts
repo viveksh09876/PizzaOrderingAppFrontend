@@ -26,6 +26,7 @@ import { CateringComponent } from './catering/catering.component';
 import { EventsComponent } from './events/events.component';
 import { CareersComponent } from './careers/careers.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { SortPipe } from './sort.pipe';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     CateringComponent,
     EventsComponent,
     CareersComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    SortPipe
   ],
   imports: [
     BrowserModule,

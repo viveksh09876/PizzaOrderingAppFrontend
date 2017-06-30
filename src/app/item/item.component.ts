@@ -324,6 +324,31 @@ export class ItemComponent implements OnInit {
   }
 
 
+  updateSubOption(mainPos, modOpPos, optionId, subOptionId) {
+    //console.log(this.item.ProductModifier, mainPos,modOpPos, optionId, subOptionId);
+    for(var i=0; i<this.item.ProductModifier.length; i++) {
+      if(i == mainPos) {
+        let modOpt = this.item.ProductModifier[i].Modifier.ModifierOption;
+        for(var j=0; j < modOpt.length; j++) {
+          if(j == modOpPos) {
+            let subOp = modOpt[j].Option.OptionSuboption;
+            for(var k = 0; k < subOp.length; k++) {
+              
+              if(subOptionId == subOp[k].SubOption.id) {
+                this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.OptionSuboption[k].SubOption.is_active = true;
+              }else{
+                this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.OptionSuboption[k].SubOption.is_active = false; 
+              }
+            }
+            break;
+          }
+        }
+        break;
+      }
+    }
+  }
+
+
 
   calculateTotalCost() {
 

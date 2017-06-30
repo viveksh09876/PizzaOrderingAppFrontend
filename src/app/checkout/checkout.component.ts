@@ -23,14 +23,14 @@ export class CheckoutComponent implements OnInit {
   placeOrder() {
     
     let orderData = JSON.parse(this.dataService.getLocalStorageData('finalOrder'));
-
-        this.dataService.placeOrder(orderData).subscribe(data => {
-              this.dataService.setLocalStorageData('allItems', null);
-               console.log(data);               
-               //alert('Order Placed');
-               this.dataService.setLocalStorageData('finalOrder', null);
-               this.router.navigate(['/confirmation']);
-            });
+        console.log(orderData);
+        // this.dataService.placeOrder(orderData).subscribe(data => {
+        //       this.dataService.setLocalStorageData('allItems', null);
+        //        console.log(data);               
+        //        //alert('Order Placed');
+        //        this.dataService.setLocalStorageData('finalOrder', null);
+        //        this.router.navigate(['/confirmation']);
+        //     });
   }
         
 

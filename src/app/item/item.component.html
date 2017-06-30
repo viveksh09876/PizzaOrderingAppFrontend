@@ -26,12 +26,12 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
       
       <!--Second Col-->
       <div class="inside-column-container thirdCol">
-        <div class="col-md-6" *ngFor="let mod of item.ProductModifier">
+        <div class="col-md-6" *ngFor="let mod of item.ProductModifier; let q = index;">
         <h3 class="bgGrey">{{mod.Modifier.title}}</h3>
         <div class="content-wrapper">
           <div class="content-container">
             <div class="control-group">
-              <ng-container *ngFor="let option of mod.Modifier.ModifierOption">
+              <ng-container *ngFor="let option of mod.Modifier.ModifierOption | sort:'Option.is_included_mod'; let m = index;">
                 <ng-container *ngIf="mod.is_required == 1">
                   <label class="control radio" [ngClass]="{'checked': option.Option.is_checked == true}" (click)="updateModifier(option.Option.id, 'radio', mod.modifier_id)">
                     <h4>{{option.Option.name}}</h4>
@@ -47,13 +47,13 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                     <h4 (click)="updateModifier(option.Option.id,'checkbox', mod.modifier_id)">{{option.Option.name}}</h4> 
                     <a class="grayBtn cta-btn" (click)="updateExtra(option.Option.id, 'modifier','checkbox')">add Extra</a>                                
                     <div class="control__indicator" (click)="updateModifier(option.Option.id, 'checkbox', mod.modifier_id)"><img *ngIf="option.Option.image == null" src="assets/images/blog/img-4.jpg" alt=""><img *ngIf="option.Option.image != null" src="{{cmsApiPath + '/' + option.Option.image}}" alt=""></div>
-                    <!--<ng-container *ngIf="option.Option.OptionSuboption != '' && option.Option.OptionSuboption.length > 0">
-                      <ng-container *ngFor="let subop of option.Option.OptionSuboption">{{subop.SubOption.name}}<small [ngClass]="{'active': (subop.SubOption.is_active == 1), 
-                                            'circle': (subop.SubOption.name == 'Full'), 
-                                              'circle half': (subop.SubOption.name == 'First Half'), 
-                                                'circle right half': (subop.SubOption.name == 'Second Half')}"></small>                      
+                    <ng-container *ngIf="option.Option.OptionSuboption != '' && option.Option.OptionSuboption.length > 0">
+                      <ng-container *ngFor="let subop of option.Option.OptionSuboption">
+                          <a [ngClass]="{'active': (subop.SubOption.is_active == 1)}" (click)="updateSubOption(q, m, option.Option.id, subop.SubOption.id);"><small *ngIf="subop.SubOption.name == 'Full'" class="Full circle"></small></a>
+                          <a [ngClass]="{'active': (subop.SubOption.is_active == 1)}" (click)="updateSubOption(q, m, option.Option.id, subop.SubOption.id);"><small *ngIf="subop.SubOption.name == 'First Half'" class="circle half" [ngClass]="{'active': (subop.SubOption.is_active == 1)}"></small></a>
+                          <a [ngClass]="{'active': (subop.SubOption.is_active == 1)}" (click)="updateSubOption(q, m, option.Option.id, subop.SubOption.id);"><small *ngIf="subop.SubOption.name == 'Second Half'" class="circle right half" [ngClass]="{'active': (subop.SubOption.is_active == 1)}"></small></a>                                            
                       </ng-container>
-                    </ng-container>  -->
+                    </ng-container>  
                   </div>
                 </ng-container>
               </ng-container>
