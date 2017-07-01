@@ -49,9 +49,9 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                     <div class="control__indicator" (click)="updateModifier(option.Option.id, 'checkbox', mod.modifier_id)"><img *ngIf="option.Option.image == null" src="assets/images/blog/img-4.jpg" alt=""><img *ngIf="option.Option.image != null" src="{{cmsApiPath + '/' + option.Option.image}}" alt=""></div>
                     <ng-container *ngIf="option.Option.OptionSuboption != '' && option.Option.OptionSuboption.length > 0">
                       <ng-container *ngFor="let subop of option.Option.OptionSuboption">
-                          <a [ngClass]="{'active': (subop.SubOption.is_active == 1)}" (click)="updateSubOption(q, m, option.Option.id, subop.SubOption.id);"><small *ngIf="subop.SubOption.name == 'Full'" class="Full circle"></small></a>
-                          <a [ngClass]="{'active': (subop.SubOption.is_active == 1)}" (click)="updateSubOption(q, m, option.Option.id, subop.SubOption.id);"><small *ngIf="subop.SubOption.name == 'First Half'" class="circle half" [ngClass]="{'active': (subop.SubOption.is_active == 1)}"></small></a>
-                          <a [ngClass]="{'active': (subop.SubOption.is_active == 1)}" (click)="updateSubOption(q, m, option.Option.id, subop.SubOption.id);"><small *ngIf="subop.SubOption.name == 'Second Half'" class="circle right half" [ngClass]="{'active': (subop.SubOption.is_active == 1)}"></small></a>                                            
+                          <a [ngClass]="{'active': (subop.SubOption.is_active == true)}" title="Full" (click)="updateSubOption(q, m, option.Option.id, subop.SubOption.id);" *ngIf="subop.SubOption.name == 'Full'"><small class="Full circle"></small></a>
+                          <a [ngClass]="{'active': (subop.SubOption.is_active == true)}" title="First half" (click)="updateSubOption(q, m, option.Option.id, subop.SubOption.id);" *ngIf="subop.SubOption.name == 'First Half'"><small class="circle half" [ngClass]="{'active': (subop.SubOption.is_active == 1)}"></small></a>
+                          <a [ngClass]="{'active': (subop.SubOption.is_active == true)}" title="Second half" (click)="updateSubOption(q, m, option.Option.id, subop.SubOption.id);" *ngIf="subop.SubOption.name == 'Second Half'"><small class="circle right half" [ngClass]="{'active': (subop.SubOption.is_active == 1)}"></small></a>                                            
                       </ng-container>
                     </ng-container>  
                   </div>

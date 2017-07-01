@@ -229,8 +229,25 @@ export class ItemComponent implements OnInit {
             }
 
             if(options[j].Option.id == option_id) {
-              //console.log(options[j].Option.name + ' reversed', options[j].Option.is_checked);
+              
               options[j].Option.is_checked = !options[j].Option.is_checked;
+              
+              if(options[j].Option.OptionSuboption != undefined && options[j].Option.OptionSuboption.length > 0) {
+                if(options[j].Option.is_checked == true) {                  
+                  for(var n=0; n<options[j].Option.OptionSuboption.length; n++) {
+                    if(n==0) {
+                      options[j].Option.OptionSuboption[n].SubOption.is_active = true;
+                    }else{
+                      options[j].Option.OptionSuboption[n].SubOption.is_active = false;
+                    }                    
+                  }                 
+                }else{
+                  
+                   for(var l=0; l<options[j].Option.OptionSuboption.length; l++) {
+                    options[j].Option.OptionSuboption[l].SubOption.is_active = false;
+                   } 
+                }                
+              }
 
               //hard code for pizza
               if(this.item.Product.category_id == '1') {
@@ -247,11 +264,14 @@ export class ItemComponent implements OnInit {
                         if(p_options[y].Option.id == p_op_id) {
                           //console.log(p_options[y].Option.name + ' checked');
                           p_options[y].Option.is_checked = true;
+
                         }else{
                           //console.log(p_options[y].Option.name + ' unchecked');
                           p_options[y].Option.is_checked = false;
+                          
                         }
                       }
+
 
                     }
                   }
@@ -295,6 +315,19 @@ export class ItemComponent implements OnInit {
                 
                 if(options[j].Option.add_extra == true) {
                   options[j].Option.is_checked = true;
+
+                  if(options[j].Option.OptionSuboption != undefined && options[j].Option.OptionSuboption.length > 0) {
+                      
+                        for(var n=0; n<options[j].Option.OptionSuboption.length; n++) {
+                          if(n==0) {
+                            options[j].Option.OptionSuboption[n].SubOption.is_active = true;
+                          }else{
+                            options[j].Option.OptionSuboption[n].SubOption.is_active = false;
+                          }
+                          
+                        }
+                      
+                  }    
                 }
 
                 if(options[j].Option.add_extra == true) {
@@ -339,6 +372,9 @@ export class ItemComponent implements OnInit {
               }else{
                 this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.OptionSuboption[k].SubOption.is_active = false; 
               }
+              if(this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.is_checked == true) {
+                this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.send_code = 1;
+              }
             }
             break;
           }
@@ -361,11 +397,12 @@ export class ItemComponent implements OnInit {
         for(var i = 0; i < this.item.ProductModifier.length; i++) {
           let options = this.item.ProductModifier[i].Modifier.ModifierOption;
           for(var j = 0; j < options.length; j++) {
-
-              if(options[j].Option.is_checked) {                
+              //console.log(options[j].Option);
+              if(options[j].Option.is_checked || options[j].Option.is_included_mod) {                
                 if(options[j].Option.price) {
 
                   let addPrice = parseFloat(options[j].Option.price);
+                  
                   if(options[j].Option.price.small) {
 
                     for(var x = 0; x < this.item.ProductModifier.length; x++) {

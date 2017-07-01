@@ -231,12 +231,21 @@ export class OrderreviewComponent implements OnInit {
                           || (opt.plu_code == 999992 && opt.is_checked)  
                             || (opt.plu_code == 999992 && opt.is_checked)) {
                       
+                      let circle_type = 'Full';
+
+                      for(var a=0; a < opt.OptionSuboption.length; a++) {
+                        if(opt.OptionSuboption[a].SubOption.is_active == true) {
+                          circle_type = opt.OptionSuboption[a].SubOption.name;
+                        }
+                      }
+                      
                       let val = {
                           plu: opt.plu_code,                   
                           add_extra: opt.add_extra,
                           quantity: opt.quantity,
                           type: 0,
-                          modifier_type: 'modifier'
+                          modifier_type: 'modifier',
+                          choice: circle_type
                       }
 
                       if(opt.is_checked || opt.add_extra == true) {
@@ -248,36 +257,6 @@ export class OrderreviewComponent implements OnInit {
 
                 }
               }
-
-              for(var i = 0; i<products.ProductIncludedModifier.length; i++) {
-                
-                for(var j = 0; j < products.ProductIncludedModifier[i].option.length; j++) {
-                  
-                    let iopt = products.ProductIncludedModifier[i].option[j];
-                                    
-                      let ival = {
-                          plu: iopt.plu_code,                    
-                          add_extra: iopt.add_extra,
-                          quantity: 1,
-                          type: 0,
-                          modifier_type: 'included_modifier'
-                      }
-
-                      if(iopt.send_code == 0) {
-                        ival.type = 0;
-                      }
-
-                      if(iopt.add_extra == true) {
-                        ival.type = 1;
-                      }
-                      
-                      if(iopt.send_code == 1) {
-                        product.modifier.push(ival);
-                      }
-                  
-                }          
-              }
-              
             }
             
             finalOrder.push(product); 
@@ -314,12 +293,8 @@ export class OrderreviewComponent implements OnInit {
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
         this.router.navigate(['/checkout']);
 
-      
       }
       
-
-      
-
   }
 
 

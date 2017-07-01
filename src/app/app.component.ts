@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
             }else{
               this.showFooter = true;
             } 
-            console.log(e.url);
+            //console.log(e.url);
           }
         });         
 
