@@ -45,7 +45,7 @@
                               <div class="leftSection"> 
                                 <h4 class="media-heading">{{prod.title}}</h4>
                                 
-                                <h5>{{prod.price}} <span>{{prod.price_title}}</span> </h5>
+                                <h5>{{prod.price_title}}</h5>
                                 <p>{{prod.short_description}}</p>
                               </div>
                               <div class="rightSection bottom"> <a [routerLink]="['/item',prod.slug]" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
@@ -108,7 +108,7 @@
                                         <div class="leftSection">
                                           <h4 class="media-heading">{{prod.title}}</h4>
                                           
-                                          <h5>{{prod.price_title}}</span> </h5>
+                                          <h5>{{prod.price_title}} </h5>
                                           <p>{{prod.short_description}}</p>
                                         </div>
                                         <div class="rightSection bottom"> <a [routerLink]="['/item',prod.slug]" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
