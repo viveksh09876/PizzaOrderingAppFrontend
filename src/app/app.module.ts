@@ -27,6 +27,7 @@ import { EventsComponent } from './events/events.component';
 import { CareersComponent } from './careers/careers.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { SortPipe } from './sort.pipe';
+import { FavmodalComponent } from './favmodal/favmodal.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { SortPipe } from './sort.pipe';
     EventsComponent,
     CareersComponent,
     ConfirmationComponent,
-    SortPipe
+    SortPipe,
+    FavmodalComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,7 @@ import { SortPipe } from './sort.pipe';
     NguiDatetimePickerModule,
     CustomFormsModule
   ],
-  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent],
+  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent],
   schemas:  [CUSTOM_ELEMENTS_SCHEMA],
   providers: [DataService, UtilService],
   bootstrap: [AppComponent]

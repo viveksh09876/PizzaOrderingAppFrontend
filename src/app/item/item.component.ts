@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { DialogService } from "ng2-bootstrap-modal";
 import { LoginComponent } from '../login/login.component';
+import { FavmodalComponent } from '../favmodal/favmodal.component';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 
@@ -597,12 +598,14 @@ export class ItemComponent implements OnInit {
          this.dialogService.addDialog(LoginComponent, {  }, { closeByClickingOutside:true });
       }else{
         //add fav
-        let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
-        let userId = userDetails.id;
-        this.dataService.saveFavItem(userId, this.item)
-          .subscribe(data => {
-              console.log(data);
-          });
+        // let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
+        // let userId = userDetails.id;
+        // this.dataService.saveFavItem(userId, this.item)
+        //   .subscribe(data => {
+        //       console.log(data);
+        //   });
+
+        this.dialogService.addDialog(FavmodalComponent, { item: this.item  }, { closeByClickingOutside:true });
       }
     }
   }

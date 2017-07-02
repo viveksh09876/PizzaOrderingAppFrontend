@@ -134,10 +134,10 @@ export class DataService {
 
   }
 
-  saveFavItem(userId, itemData): Observable<any>{   
+  saveFavItem(userId, favTitle, itemData): Observable<any>{   
     
     let data = {  user_id: userId,
-                  fav_name: 'fav',
+                  fav_name: favTitle,
                   fav_type: 'item',
                   fav_detail: itemData
                 };
