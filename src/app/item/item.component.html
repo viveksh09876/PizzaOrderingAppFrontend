@@ -68,8 +68,8 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
         <h3>{{item.Product.title}} <a (click)="addToFav()" class="fav-icon" [ngClass]="{'active': is_fav == true}"><span class="icon-favorite"></span></a></h3>
         <div class="content-wrapper">
             <div class="item-qty-price">
-              <button class="add-to-cart" (click)="add_to_cart()">Add to Cart</button>
-              <div class="quantity">
+              <button *ngIf="showAddToCart" class="add-to-cart" (click)="add_to_cart()">Add to Cart</button>
+              <div class="quantity" *ngIf="showAddToCart">
                   <a (click)="updateQuantity(0)">-</a>
                   <span class="num">{{item.Product.qty}}</span>
                   <a (click)="updateQuantity(1)">+</a>

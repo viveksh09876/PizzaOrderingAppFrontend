@@ -2,8 +2,8 @@
 var country = 'UAE';
 var lat = '25.040657';
 var lng = '55.197286';
-var map, places = [], cordinates, pos, contentString;
-var zoom=3;
+var map, places = [], cordinates, pos, contentString, coordinates;
+var zoom=12;
 
 
 
@@ -78,29 +78,37 @@ $(document).ready(function(){
 
 
 function addMarkers() {
+   
     //adding markers
-    setMapOnAll(null);
+    setMapOnAll(null);    
     var marker;
-    
-    for (var i = 0; i < places.length; i++) {
+    var self = this;
+    console.log('this', self.markers);
+
+    for (var i = 0; i < places.length; i++) {   
+        
         marker = new google.maps.Marker({
-            position: new google.maps.LatLng(cordinates[i][0], cordinates[i][1]),
+            position: new google.maps.LatLng(coordinates[i][0], coordinates[i][1]),
             map: map,
             title: places[i],
-            id: i,
+            id: i+1,
             icon: 'assets/images/map-marker.png'
         });
-
-        markers.push(marker);
+        self.markers.push(marker);
     }
+    
+
     //adding click event for info
     for (var j = 0; j < markers.length; j++) {
-        var trgtMarker = markers[j];
+        var trgtMarker = self.markers[j];
+        console.log('target before', markers[j]);
         google.maps.event.addListener(trgtMarker, 'click', function () {
+            console.log('target', self.markers[j]);
             infowindow.setOptions({
-                content: contentString[this.id]
+                content: contentString[j]
             });
-            infowindow.open(map, markers[this.id]);
+            console.log(markers[j]);
+            infowindow.open(map, markers[j]);
         });
     }
 
@@ -108,10 +116,8 @@ function addMarkers() {
     for (i = 0; i < markers.length; i++) {
         bounds.extend(markers[i].getPosition());
     }
-
     
     map.fitBounds(bounds);
-    
 
     if(markers.length > 0) {
         //Info-Window Cutomisation
@@ -139,9 +145,9 @@ function addMarkers() {
 }
 
 function setMapOnAll(map) {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
-    }
+      for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+      }
 }
 
 function panTo(index) {
@@ -331,10 +337,14 @@ function initialize() {
       country = resp.geoplugin_countryName;
       var mapText = 'Coming Soon nearby your location';
 
+      if(country.toLowerCase() == 'united states') {
+        country = 'USA';
+      }
+
       $.get('https://mavin360.com/demo/nkd/dev/webservice/getCountryStores/'+country, function(res){
   
           var stData = JSON.parse(res);
-          console.log(stData);
+          
           if(stData.length > 0) {
             
             var coord = [];
@@ -344,6 +354,8 @@ function initialize() {
               var ltlng = [];
               ltlng.push(stData[p].Store.latitude);
               ltlng.push(stData[p].Store.longitude); 
+
+              places.push(stData[p].Store.store_name);
 
               coord.push(ltlng);
 
@@ -392,7 +404,7 @@ function initialize() {
           var mapCanvas = document.getElementById('mapCanvas');
             var mapOptions = {
                 center: new google.maps.LatLng(lat, lng),
-                zoom: 5,
+                zoom: 1,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 scrollwheel: false
             }
