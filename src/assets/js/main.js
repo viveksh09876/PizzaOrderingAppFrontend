@@ -3,7 +3,7 @@ var country = 'UAE';
 var lat = '25.040657';
 var lng = '55.197286';
 var map, places = [], cordinates, pos, contentString, coordinates;
-var zoom=12;
+var zoom=3;
 
 
 
@@ -404,7 +404,7 @@ function initialize() {
           var mapCanvas = document.getElementById('mapCanvas');
             var mapOptions = {
                 center: new google.maps.LatLng(lat, lng),
-                zoom: 1,
+                zoom: 5,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 scrollwheel: false
             }

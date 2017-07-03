@@ -211,7 +211,7 @@ export class OrderreviewComponent implements OnInit {
         for(var p=0; p<this.items.length; p++) {
            let products = this.items[p];
           
-           let product = { name: '', plu: '', quantity: 1, modifier: []};
+           let product = { name: '', plu: '', category_id: products.Product.category_id, quantity: 1, modifier: []};
             product.name = products.Product.title;
             product.plu = products.Product.plu_code;
             product.quantity = products.Product.qty;
@@ -245,7 +245,9 @@ export class OrderreviewComponent implements OnInit {
                           quantity: opt.quantity,
                           type: 0,
                           modifier_type: 'modifier',
-                          choice: circle_type
+                          choice: circle_type,
+                          send_code: opt.send_code,
+                          is_checked: opt.is_checked
                       }
 
                       if(opt.is_checked || opt.add_extra == true) {
@@ -291,6 +293,7 @@ export class OrderreviewComponent implements OnInit {
 
         this.order.order_details = finalOrder;
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
+        //console.log(this.order);
         this.router.navigate(['/checkout']);
 
       }

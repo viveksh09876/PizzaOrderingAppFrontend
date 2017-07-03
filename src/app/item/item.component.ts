@@ -371,22 +371,34 @@ export class ItemComponent implements OnInit {
                       //console.log('b', addPrice);               
                   }
                  
-
+                  
                   if(options[j].Option.is_checked && options[j].Option.default_checked == false) {      
                          
                     options[j].Option.send_code = 1;                                  
                   }else if(options[j].Option.is_checked == false && options[j].Option.default_checked == true) {
                    
-                    options[j].Option.send_code = 0;
+                    options[j].Option.send_code = 1;
                   }else if(options[j].Option.is_checked == true && options[j].Option.default_checked == true) {
                     
-                    options[j].Option.send_code = 1;                    
+                    options[j].Option.send_code = 0;                    
                   }
 
                   if(options[j].Option.is_checked == false && options[j].Option.is_included_mod == true) {                   
                     options[j].Option.send_code = 1;
                   }
 
+                  if(options[j].Option.is_checked == false && options[j].Option.is_included_mod == false) {                   
+                    options[j].Option.send_code = 0;
+                  }
+
+                  if((options[j].Option.plu_code == '91' || options[j].Option.plu_code == 'I100' || options[j].Option.plu_code == 'I101')) {
+                    if(options[j].Option.is_checked == true) {
+                      options[j].Option.send_code = 1;
+                    }else{
+                      options[j].Option.send_code = 0;
+                    }
+
+                  }
                   
                   //console.log('last', addPrice);
                   if(this.item.Product.plu_code == 999999) {
