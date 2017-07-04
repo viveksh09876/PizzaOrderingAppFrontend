@@ -229,7 +229,7 @@ export class OrderreviewComponent implements OnInit {
                     if((opt.send_code == 1) 
                         || (opt.plu_code == 999991 && opt.is_checked)
                           || (opt.plu_code == 999992 && opt.is_checked)  
-                            || (opt.plu_code == 999992 && opt.is_checked)) {
+                            || (opt.plu_code == 999993 && opt.is_checked)) {
                       
                       let circle_type = 'Full';
 
@@ -293,7 +293,7 @@ export class OrderreviewComponent implements OnInit {
 
         this.order.order_details = finalOrder;
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
-        //console.log(this.order);
+        //console.log('order', this.order);
         this.router.navigate(['/checkout']);
 
       }

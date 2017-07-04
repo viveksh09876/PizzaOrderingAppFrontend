@@ -153,11 +153,12 @@ export class ItemComponent implements OnInit {
                         if(p_options[y].Option.id == p_op_id) {
                           ////console.log(p_options[y].Option.name + ' checked');
                           p_options[y].Option.is_checked = true;
+                          
 
                         }else{
                           ////console.log(p_options[y].Option.name + ' unchecked');
                           p_options[y].Option.is_checked = false;
-                          
+                                                   
                         }
                       }
 
@@ -290,6 +291,7 @@ export class ItemComponent implements OnInit {
     if(this.item.Product.category_id == 1) {
 
       let itemBasePrice = false;
+      let itemSizePrice = '';
 
       if(this.item.ProductModifier.length > 0) {
         for(var i = 0; i < this.item.ProductModifier.length; i++) {
@@ -300,18 +302,26 @@ export class ItemComponent implements OnInit {
                 if(options[j].Option.price) {
                   
                   let addPrice = 0;
-                  if(!options[j].Option.is_included_mod) {
-                    addPrice = parseFloat(options[j].Option.price);
-                    //console.log(options[j].Option.name, options[j].Option.is_included_mod);
+                  if(!options[j].Option.is_included_mod && options[j].Option.is_checked) {
+                    
+                    if(typeof options[j].Option.price[defaultSize] == 'string') {
+                      addPrice = parseFloat(options[j].Option.price[defaultSize]);
+                      itemBasePrice = true;
+                      console.log('abc');
+                    }else{
+                      addPrice = parseFloat(options[j].Option.price);
+                    }
+                    
+                    console.log('f',options[j].Option.name, options[j].Option.is_included_mod, defaultSize, options[j].Option.price);
                   }
                   
                   //console.log('initial add price', addPrice);
                   if(options[j].Option.price.small) {
-                    ////console.log('obj', options[j].Option);
+                    //console.log('obj', options[j].Option);
                     for(var x = 0; x < this.item.ProductModifier.length; x++) {
                       let p_op = this.item.ProductModifier[x].Modifier.ModifierOption;
                       for(var y = 0; y < p_op.length; y++) {
-                        ////console.log('new', p_op[y].Option);
+                        //console.log('new', p_op[y].Option);
 
                         if(p_op[y].Option.default_checked && p_op[y].Option.plu_code == 999991) {
                           defaultSize = 'small';
@@ -322,35 +332,42 @@ export class ItemComponent implements OnInit {
                         }
 
                         if(options[j].Option.dependent_modifier_option_id == p_op[y].Option.id) {
-                          if(p_op[y].Option.is_checked) {
+                          if(p_op[y].Option.is_checked && options[j].Option.is_checked) {
                             
                             addPrice = parseFloat(options[j].Option.price[defaultSize]);
                             itemBasePrice = true;
-                            //console.log('def',options[j].Option.price, defaultSize);
+                            console.log('def',options[j].Option.price, options[j].Option.is_checked, defaultSize);
                           }
-                          
-                          
-                          ////console.log(defaultSize, options[j].Option.dependent_modifier_id, p_op[y].Option);
+                          //console.log(defaultSize, options[j].Option.dependent_modifier_id, p_op[y].Option);
                         }
 
-                        if(p_op[y].Option.is_checked && p_op[y].Option.is_included_mod == false) {
+                        if(p_op[y].Option.is_checked && options[j].Option.is_checked && (options[j].Option.plu_code == 'I100' || options[j].Option.plu_code == 'I101')) {
+                          itemSizePrice = 'true';
+                        }
+                        
+                        
+
+                        if(p_op[y].Option.is_checked && p_op[y].Option.is_included_mod == false && options[j].Option.is_checked) {
                           if(p_op[y].Option.plu_code == 999991) {  //small
 
                             if(typeof options[j].Option.price.small == 'string') {
-                              //console.log('small', options[j].Option.price.small);
+                              console.log('small', options[j].Option.price.small, options[j].Option.is_checked);
                               addPrice = parseFloat(options[j].Option.price.small);
+                              itemSizePrice = 'small';
                             }
                             
                           }else if(p_op[y].Option.plu_code == 999992) {
                             if(typeof options[j].Option.price.medium == 'string') {
-                              //console.log('med', options[j].Option.price.medium);
+                              console.log('med', options[j].Option.price.medium,  options[j].Option.name , options[j].Option.is_checked, options[j].Option.is_included_mod);
                               addPrice = parseFloat(options[j].Option.price.medium);
+                              itemSizePrice = 'medium';
                             }
                             
                           }else if(p_op[y].Option.plu_code == 999993) {
                             if(typeof options[j].Option.price.large == 'string') {
-                              //console.log('large', options[j].Option.price.large);
+                              console.log('large', options[j].Option.price.large);
                               addPrice = parseFloat(options[j].Option.price.large);
+                              itemSizePrice = 'large';
                             }
                             
                           }
@@ -359,16 +376,16 @@ export class ItemComponent implements OnInit {
                       }
                     }
 
-                    ////console.log('addPrice', addPrice);
+                    //console.log('addPrice', addPrice);
                   }else if(options[j].Option.price != null && options[j].Option.is_included_mod == false){
                     
                     addPrice = parseFloat(options[j].Option.price);   
-                    //console.log('a', addPrice);                 
+                    console.log('a', addPrice);                 
                   }
 
                   if(options[j].Option.is_checked && options[j].Option.add_extra) {   
                       addPrice += parseFloat(options[j].Option.price);        
-                      //console.log('b', addPrice);               
+                      console.log('b', addPrice);               
                   }
                  
                   
@@ -401,9 +418,15 @@ export class ItemComponent implements OnInit {
                   }
                   
                   //console.log('last', addPrice);
+                  console.log('total: ', total, addPrice, itemSizePrice, itemBasePrice);
                   if(this.item.Product.plu_code == 999999) {
-                    total += addPrice;
+                    if(!isNaN(addPrice)) {
+                      console.log('addedy');
+                      total += addPrice;
+                    }
+                    
                   }else{
+                    
                     if(!isNaN(addPrice)) {
                       total += addPrice;
                     }
@@ -419,13 +442,26 @@ export class ItemComponent implements OnInit {
       if(this.item.Product.price && this.item.Product.price[defaultSize] != undefined) {
         //console.log('total', total);
         total += parseFloat(this.item.Product.price[defaultSize]); 
-        //console.log(234, defaultSize, this.item.Product.price, total);
+        console.log(234, defaultSize, this.item.Product.price, total);
       }
 
       if(!itemBasePrice && this.item.Product.plu_code == 999999) {
+        console.log(123);
+        total = 0;
+      }
+
+      if(this.item.Product.plu_code != 999999 && total == 10) {
+        console.log(1234);
+        total = 0;
+      }
+
+      console.log(itemBasePrice, itemSizePrice);
+      if(this.item.Product.plu_code != 999999 && itemSizePrice == '') {
         //console.log(123);
         total = 0;
       }
+
+      console.log('final', total);  
 
        ////console.log(defaultSize, this.item.Product.price[defaultSize], total);          
 
