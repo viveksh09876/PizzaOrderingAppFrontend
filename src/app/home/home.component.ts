@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
               if(slides.length > 0) {
                 for(var i=0; i<slides.length; i++) {
                   slides[i].Slide.image = this.domain + '/img/admin/slides/' + slides[i].Slide.image;
+                  slides[i].Slide.textImage = this.domain + '/img/admin/slides/' + slides[i].Slide.text_image;
                 }
               }
 

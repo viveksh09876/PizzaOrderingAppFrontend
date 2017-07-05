@@ -50,7 +50,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn btn-danger btn-block continue-btn" (click)="goToMenu()">Continue</button>  
+                                <button class="btn btn-danger btn-block continue-btn" (click)="goTotimeModal()">Continue</button>  
                             </div>
                         </div>
                     </div>
@@ -121,10 +121,10 @@
                 <div class="row">
                   <div class="col-md-12">
                     <h4>choose time</h4>
-                    <h5>What time would you like to pick up your order?</h5>
+                    <h5>{{timeModalText}}</h5>
                   </div>
                 </div>
-                <form >
+                <form>
                   <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="checkbox-inline control--checkbox" [ngClass]="{'active': order.delivery_time_type == 'asap'}"><a (click)="updateDeliveryTimeType('asap');">asap <input type="radio" name="delivery_time_type" [checked]="order.delivery_time_type == 'asap'">
                   <div class="control__indicator"></div></a></li>

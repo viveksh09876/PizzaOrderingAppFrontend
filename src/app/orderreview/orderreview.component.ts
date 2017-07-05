@@ -281,8 +281,8 @@ export class OrderreviewComponent implements OnInit {
           orderData.defer.required_time = this.utilService.toISOString(orderData.defer.required_time);
 
         }else if(this.order.order_type == 'pickup') {
-          delete orderData.delivery_time;
-          delete orderData.delivery_time_type;
+          //orderData.delivery_time;
+          //delete orderData.delivery_time_type;
           delete orderData.address;
           delete orderData.defer;
         }

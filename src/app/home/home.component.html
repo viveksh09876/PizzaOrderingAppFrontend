@@ -5,7 +5,7 @@
     <div class="slide" [ngStyle]="{ 'background-image': 'url(' + slide.Slide.image + ')'}">
       <div class="container">
         <div class="fade-bg visible-xs"></div>
-        <div class="slide-content fadeIn animated"> <img src="assets/images/banner-home/text-1.png" class="img-responsive" alt="slide content"/></div>
+        <div class="slide-content fadeIn animated"> <img src="{{slide.Slide.textImage}}" class="img-responsive" alt="slide content"/></div>
         <!--<div class="hidden-md hidden-lg"><a href="#" class="custom-button" data-toggle="modal" data-target="#pickupdeliveryModal"><span>order now</span></a> </div>-->
       </div>
     </div>
@@ -163,60 +163,6 @@
 <!--Locations-->
 <div class="map-wrapper">
   <div id="mapCanvas" class="map-canvas">
-      <!--<sebm-google-map 
-                        [latitude]="lat"
-                        [longitude]="lng"
-                        [zoom]="zoom"
-                        [zoomControl]="true"
-                        [styles]="styles"
-                        [scrollwheel]="true"
-                        [disableDoubleClickZoom] = "false"
-                        >
-                        
-                        <sebm-google-map-marker 
-                            
-                            *ngFor="let m of places; let i = index"                            
-                            [latitude]="m.lat"
-                            [longitude]="m.lng"                            
-                            [iconUrl]="m.icon"
-                            (markerClick)="test(i)"
-                            >
-                            
-                            <sebm-google-map-info-window
-                                [isOpen]="m.infoWindowOpen"                               
-                                [disableAutoPan]="false"
-                              >
-
-                              <div class="infoWrapper inf_{{i}}">
-                                <a class="close-btn" id="closeBtn"></a>
-                                <a href="#" class="custom-button"><span>order now</span></a>
-                                <div class="image-container">
-                                  <img src="{{m.infoImgPath}}" class="img-responsive" alt="Map Image"/>
-                                </div>
-                                <div class="content-container">
-                                  <div class="media">
-                                    <div class="media-body">
-                                      <h4 class="media-heading">{{m.infoTitle}}</h4>
-                                      <p>{{m.infoAddress}}</p>
-                                    </div>
-                                    <div class="media-right">
-                                      <a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a>
-                                    </div>
-                                  </div>
-                                  <ul class="list-inline">
-                                    <li>
-                                      <a><img src="assets/images/time-icon.jpg"/><span>{{m.infoTime}}</span></a>
-                                    </li>
-                                    <li><a><img src="assets/images/phone-icon.jpg"/><span>{{m.infoPhone}}</span></a>
-                                    </li>
-                                  </ul>
-                                </div>
-                                <div class="tail-wrapper"></div>
-                              </div>
-                            </sebm-google-map-info-window>
-                            
-                        </sebm-google-map-marker>                  
-                     </sebm-google-map>-->
   </div>
   <div id="mapText" class="title-image img-responsive"></div>
  <!--  <img src="assets/images/map-title.png" class="title-image img-responsive" alt="Currently open at 3 Locations in UAE"/>  -->

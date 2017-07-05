@@ -140,7 +140,7 @@
                 Grand Total <span>AED {{totalCost}}</span>
              </div>
              <div class="choosetime_box">
-                 <ng-container *ngIf="order.order_type == 'delivery'">
+                 <ng-container>
                 <h4>choose time</h4>
                  <ul class="radio_tabs">
                     <li><label><input type="radio" name="time" [checked]="order.delivery_time_type == 'asap'" (click)="updateDeliveryTimeType('asap');"><small></small> asap </label></li>

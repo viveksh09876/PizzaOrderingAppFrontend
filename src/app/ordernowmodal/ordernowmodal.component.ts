@@ -32,6 +32,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   showTimeError = '';
   curDate = new Date();
   showStoreLoading = false;
+  timeModalText = '';
 
 
   order = {
@@ -60,6 +61,12 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
     this.order.orderType = type;
     this.selectedStore.info = null;
     this.selectedStore.val = ''
+
+    if(type == 'pickup') {
+      this.timeModalText = 'What time would you like to pick up your order?';
+    }else if(type == 'delivery') {
+      this.timeModalText = 'What time would you like your order to be delivered?';
+    }
   }
 
   getCities(searchKey) {

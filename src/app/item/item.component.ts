@@ -309,10 +309,28 @@ export class ItemComponent implements OnInit {
                       itemBasePrice = true;
                       console.log('abc');
                     }else{
-                      addPrice = parseFloat(options[j].Option.price);
+                      if(itemBasePrice && itemSizePrice != '' && !options[j].Option.is_included_mod && total == 0) {
+                        console.log('add nhi karna');
+                      }else{
+                        console.log('f',options[j].Option.name, options[j].Option.is_included_mod, defaultSize, options[j].Option.price, itemBasePrice, 'size price', itemSizePrice);  
+                        if(itemSizePrice != '') {
+                          addPrice = parseFloat(options[j].Option.price);
+                        }
+                       
+                      }
+                    
                     }
                     
-                    console.log('f',options[j].Option.name, options[j].Option.is_included_mod, defaultSize, options[j].Option.price);
+                  }else{
+
+                    if((options[j].Option.plu_code == 'I100' || options[j].Option.plu_code == 'I101' || options[j].Option.plu_code == '91') && options[j].Option.is_checked) {
+                      if(typeof options[j].Option.price[defaultSize] == 'string') {
+                        addPrice = parseFloat(options[j].Option.price[defaultSize]);
+                        itemBasePrice = true;
+                        console.log('abc ho gya', options[j].Option.is_checked);
+                      }
+                    }
+                    console.log('not included mod', options[j].Option.name, options[j].Option.is_checked);
                   }
                   
                   //console.log('initial add price', addPrice);
