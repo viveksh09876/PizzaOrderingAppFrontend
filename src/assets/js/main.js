@@ -73,11 +73,10 @@ $(document).ready(function(){
 
 });
 
-
-
 mapboxgl.accessToken = 'pk.eyJ1IjoicHVzaHBlbmRyYXJhaiIsImEiOiJjajRwYzFtOTYxeWd0MzJwbDdsaGNzOTZiIn0.a9BUA890Vtyeqy21AaLClQ';
 $(document).ready(function(){
-  $.get('https://mavin360.com/demo/nkd/dev/webservice/getip', function(resp){
+  if(window.location.host=='localhost:4200'){
+    $.get('https://mavin360.com/demo/nkd/dev/webservice/getip', function(resp){
         resp = JSON.parse(resp);
         country = resp.geoplugin_countryName;
         if(country=='United States'){
@@ -91,14 +90,18 @@ $(document).ready(function(){
         lng = resp.geoplugin_longitude;
         var mapCanvas = new mapboxgl.Map({
             container: 'mapCanvas',
-            style: 'mapbox://styles/mapbox/streets-v9',
+            style: 'mapbox://styles/mapbox/light-v9',
             center: [lng,lat],
             zoom: 1
         });
 
-        // country = 'UAE';
+        //  country = 'UAE';
         // if(country == 'UAE' || country == 'United Arab Emirates') {
         //     cordinates = [[25.040657,55.197286],[25.074192,55.139092],[25.184279,55.263638]];
+        //     alert(cordinates.length);
+        //     for(var u=0; u<cordinates.length; u++) { 
+        //       console.log(cordinates[u]);
+        //     }
         //     places = ['Location 1','Location 2','Location 3'];
         //     contentString = [
         //         '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">NKD Pizza Motor City</h4><p>Shop 1, Kojak Bldg, Motor City - Dubai</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  10:30AMâ€“2AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>04 421 3734<span/></a></li></ul></div><div class="tail-wrapper"></div></div>',
@@ -113,7 +116,6 @@ $(document).ready(function(){
 
         $.get('https://mavin360.com/demo/nkd/dev/webservice/getCountryStores/'+country, function(res){
                 var stData = JSON.parse(res);
-                console.log(stData);
                 if(stData.length > 0) {      
                     for(var p=0; p<stData.length; p++) { 
                         var latitude = stData[p].Store.latitude;
@@ -138,7 +140,7 @@ $(document).ready(function(){
 
                             // add marker to map
                             new mapboxgl.Marker(el, {offset: [-40 / 2, -40 / 2]})
-                                .setLngLat([20.18,64.41])
+                                .setLngLat([longitude,latitude])
                                 .setPopup(popup)
                                 .addTo(mapCanvas);
 
@@ -157,6 +159,9 @@ $(document).ready(function(){
                 }   
         });
   });
+
+  }
+  
 });
 
 
