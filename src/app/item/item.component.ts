@@ -317,7 +317,7 @@ export class ItemComponent implements OnInit {
                           addPrice = parseFloat(options[j].Option.price[defaultSize]);
                           itemBasePrice = true;
                         }else{
-                            if(itemSizePrice != '') {
+                            if(itemSizePrice != '' || options[j].Option.plu_code == 'I101') {
                               console.log('yx');
                               addPrice = parseFloat(options[j].Option.price[defaultSize]);
                               itemBasePrice = true;
