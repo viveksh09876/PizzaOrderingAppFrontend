@@ -3,12 +3,12 @@
   <div class="nav-container">
     <ul>
       <li class="active"> <a href="/">Home</a> </li>
-      <li> <a>franchising </a> </li>
+      <li> <a (click)="navigateMenu('franchising')">franchising </a> </li>
       <li> <a (click)="navigateMenu('catering')">catering</a> </li>
-      <li> <a (click)="navigateMenu('events')">events</a> </li>
+      <!-- <li> <a (click)="navigateMenu('events')">events</a> </li> -->
       <li> <a href="#" data-toggle="modal" data-target="#contactusModal">contact us</a> </li>
       <li> <a (click)="navigateMenu('careers')">join our team</a> </li>
-      <li> <a href="#">news</a> </li>
+      <!-- <li> <a href="#">news</a> </li> -->
     </ul>
     <hr class="clearfix visible-xs">
     <ul class="links visible-xs">
@@ -27,12 +27,12 @@
 
 <!--Header-->
 <header class="navigation"> <a href class="menu-button" id="menuButton"> <i class="menu-icon"> <span></span> <span></span> <span></span> </i> <i class="icon-close"> </i> </a> <a href="/demo/nkd/web" class="logo"> <img src="assets/images/logo.png" height="100%" alt="Logo" /> </a>
-  <ul class="list-inline links hidden-xs">
+  <ul class="list-inline links hidden-xs hidden-sm">
     <li> <a href="#"> <span class="icon icon-locations"></span> <span>locations</span> </a> </li>
     <li class="eclub-btn" *ngIf="showLogin"> <a (click)="openModal('login')"> <span class="icon icon-eclub"></span> <span class="loginText">Login</span> </a> </li>
     <li class="eclub-btn" *ngIf="!showLogin"> <a [routerLink]="['/account']"> <span class="icon icon-eclub"></span> <span class="myNKDText">My NKD</span> </a> </li>
   </ul>
-<ul class="list-inline links hidden-xs">
+<ul class="list-inline links hidden-xs hidden-sm">
      <li> <a [routerLink]="['/menu']"> <span class="icon icon-pizza"></span><span>Menu</span> </a> </li>
     <li> <a (click)="openModal('ordernow')"> <span class="icon icon-pizza-icon"></span><span>Order Now</span> </a> </li>
     <li> <a href="#" data-toggle="modal" data-target="#signinModal"><span class="icon icon-favorite"></span><span>Favorites</span></a></li>
@@ -58,16 +58,16 @@
           <div class="col-sm-6"> <img src="assets/images/logo-footer.jpg" class="img-responsive logo" alt="Logo"/> </div>
           <div class="col-sm-3">
             <ul class="nav-links">
-              <li> <a>franchising </a> </li>
+              <li> <a [routerLink]="['/franchising']">franchising </a> </li>
               <li> <a [routerLink]="['/catering']">catering</a> </li>
-              <li> <a [routerLink]="['/events']">events</a> </li>
+              <!-- <li> <a [routerLink]="['/events']">events</a> </li> -->
             </ul>
           </div>
           <div class="col-sm-3">
             <ul class="nav-links border-right">
               <li> <a href="#" data-toggle="modal" data-target="#contactusModal">contact us</a> </li>
               <li> <a [routerLink]="['/careers']">join our team</a> </li>
-              <li> <a href="#">news</a> </li>
+              <!-- <li> <a href="#">news</a> </li> -->
             </ul>
           </div>
         </div>

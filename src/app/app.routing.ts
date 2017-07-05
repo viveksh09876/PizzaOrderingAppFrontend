@@ -10,6 +10,7 @@ import { EventsComponent } from './events/events.component';
 import { CateringComponent } from './catering/catering.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { CareersComponent } from './careers/careers.component';
+import { FranchisingComponent } from './franchising/franchising.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 const appRoutes: Routes = [ 
@@ -22,6 +23,7 @@ const appRoutes: Routes = [
     { path: 'catering', component: CateringComponent },
     { path: 'checkout', component: CheckoutComponent },
     { path: 'careers', component: CareersComponent },
+	{ path: 'franchising', component: FranchisingComponent },
     { path: 'confirmation', component: ConfirmationComponent }
 ]; 
 
