@@ -642,7 +642,15 @@ header.navigation .logo {
 }
 
 .how-are-we-different-wrapper .section-wrapper .section-container .img-box{position: relative;}
-.how-are-we-different-wrapper .section-wrapper .section-container .img-box .overlap-text{position: absolute; top: 0px; left: 0px; width: 100%; background: #789c48; opacity: 0; transition: .3s all; height: 100%; text-align: center;}
+.how-are-we-different-wrapper .section-wrapper .section-container .img-box .overlap-text{position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; width: 100%; background: #789c48; opacity: 0; height: 100%; text-align: center; -moz-transition-duration: .5s;
+	-o-transition-duration: .5s;
+	-webkit-transition-duration: .5s;
+	transition-duration: .5s;
+	-moz-transition-timing-function: ease-out;
+	-o-transition-timing-function: ease-out;
+	-webkit-transition-timing-function: ease-out;
+	transition-timing-function: ease-out;
+	will-change: transform}
 .how-are-we-different-wrapper .section-wrapper .section-container:hover .img-box  .overlap-text{opacity: 1;}
 
 @media (min-width: 768px) {
@@ -916,6 +924,7 @@ header.navigation .logo {
 	margin: 15px auto
 }
 }
+.mapboxgl-popup{max-width: 350px;}
 .map-canvas {
 	width: 100%;
 	height: 520px
@@ -966,7 +975,8 @@ header.navigation .logo {
 .map-canvas .infoWrapper .tail-wrapper {
 	width: 100%;
 	height: 30px;
-	position: relative
+	position: relative;
+	display: none;
 }
 .map-canvas .infoWrapper .tail-wrapper:after {
 	content: "";
@@ -993,8 +1003,22 @@ header.navigation .logo {
 	position: absolute;
 	right: 5px;
 	top: 5px;
-	cursor: pointer
+	cursor: pointer;
+	display: none;
 }
+.mapboxgl-popup-close-button {
+    background-image: url(../images/map-close.png);
+    width: 30px;
+    background-color: transparent !important;
+    height: 32px;
+    position: absolute;
+    right: 15px !important;
+    top: 15px !important;
+    font-size: 0px;
+    cursor: pointer;
+    z-index: 9;
+}
+
 .map-wrapper {
 	width: 100%;
 	position: relative;
@@ -1009,7 +1033,7 @@ header.navigation .logo {
     color: #789c48;
     pointer-events: none;
 }
-.map-wrapper .title-image span{color:#fff;}
+.map-wrapper .title-image span{color:#789c48;}
 .map-wrapper .title-image strong{color:#911c27; text-transform: uppercase;font-size: 50px;
     line-height: 44px;}
 
@@ -1063,7 +1087,6 @@ header.navigation .logo {
 	position: relative;
 	text-align: right
 }
-.banner-wrapper .leftButtons.hidden-md.hidden-lg{display:none !important;}
 .banner-wrapper .leftButtons.buttons span.cost {
 	pointer-events: none;
 	background-color: #65646a;
@@ -1085,10 +1108,9 @@ header.navigation .logo {
 
 @media (max-width: 540px) {
 .banner-wrapper .leftButtons.buttons {
-	float: none;
-	width: 100%;
-	text-align: left;
-	margin: 5px auto 0
+	width: initial;
+    text-align: left;
+    margin: 10px 0 0;
 }
 .banner-wrapper .leftButtons.buttons a.greenBtn.btn-sm {
 	max-width: 95px;
@@ -1156,7 +1178,7 @@ header.navigation .logo {
 @media (max-width: 1199px) {
 .banner-wrapper {
 	padding: 0px 0px;
-	margin-bottom: 125px;
+	margin-bottom: 90px;
 }
 .banner-wrapper .container {
 	top: 52px;
@@ -1890,8 +1912,13 @@ button.close:hover,button.close:focus{opacity: 1;}
 
 @media (max-width: 1199px) {
 .two-column-wrapper .inside-column-container.aside-wrapper.orderProcessIns {
-	width: 100%
+	width: 100%;
+	display: none;
 }
+.two-column-wrapper .inside-column-container.aside-wrapper.orderProcessIns {
+	margin-top: 2em
+}
+.leftContent .nav-tabs.orderTabs{width: 100%; right:0px;}
 }
 .two-column-wrapper .inside-column-container.aside-wrapper.orderProcessIns .content-wrapper .cart_img {
 	text-align: center
@@ -1900,12 +1927,6 @@ button.close:hover,button.close:focus{opacity: 1;}
 	font: 1.625em "bureaueaglebookregular";
 	color: #828282;
 	margin: 1.5em auto
-}
-
-@media (max-width: 1199px) {
-.two-column-wrapper .inside-column-container.aside-wrapper.orderProcessIns {
-	margin-top: 2em
-}
 }
 
 @media (max-width: 991px) {
