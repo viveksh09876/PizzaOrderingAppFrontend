@@ -622,6 +622,9 @@ header.navigation .logo {
 .how-are-we-different-wrapper h3 span {
 	color: #911c28
 }
+.how-are-we-different-wrapper .col-sm-4{border-right: 2px dotted #fff;}
+.how-are-we-different-wrapper .col-sm-4:last-child{border: none;}
+
 .how-are-we-different-wrapper .section-wrapper {
 	padding-top: 15px;
 	width: 100%
@@ -633,12 +636,17 @@ header.navigation .logo {
 	color: #fff;
 	padding: 0 15px;
 	max-width: 320px;
+	min-height: 334px;
+	position: relative;
 	margin: 0 auto
 }
 
+.how-are-we-different-wrapper .section-wrapper .section-container .img-box{position: relative;}
+.how-are-we-different-wrapper .section-wrapper .section-container .img-box .overlap-text{position: absolute; top: 0px; left: 0px; width: 100%; background: #789c48; opacity: 0; transition: .3s all; height: 100%; text-align: center;}
+.how-are-we-different-wrapper .section-wrapper .section-container:hover .img-box  .overlap-text{opacity: 1;}
+
 @media (min-width: 768px) {
 .how-are-we-different-wrapper .section-wrapper .section-container {
-	border-right: 2px dotted #fff;
 	border-bottom: none;
 	max-width: 100%
 }
@@ -647,21 +655,24 @@ header.navigation .logo {
 	border: none
 }
 .how-are-we-different-wrapper .section-wrapper .section-container h4 {
-	margin-bottom: 1.563rem;
+	margin-bottom: 0.563rem;
 	font-size: 1.8em;
 }
 .how-are-we-different-wrapper .section-wrapper .section-container p {
-	margin: 2.188rem 0 1.563rem
+	margin: 0.188rem 0 1.563rem;
+	min-height: 42px;
 }
 .how-are-we-different-wrapper .section-wrapper .section-container a.arrow-button {
 	width: 31px;
 	height: 31px;
+	position: absolute;
+	bottom: 0px;
 	background-color: #911c28;
 	display: inline-block;
 	border-radius: 50%;
 	color: #789c48;
 	font-size: 30px;
-	margin: 1.563rem 0 0;
+	/*margin: 1.563rem 0 0;*/
 	border: 1px solid #911c28;
 	-moz-transition-duration: .5s;
 	-o-transition-duration: .5s;
@@ -673,7 +684,7 @@ header.navigation .logo {
 	transition-timing-function: ease-out;
 	will-change: transform
 }
-.how-are-we-different-wrapper .section-wrapper .section-container a.arrow-button:hover {
+.how-are-we-different-wrapper .section-wrapper .section-container a.arrow-button:hover,.how-are-we-different-wrapper .section-wrapper .section-container:hover a.arrow-button {
 	background-color: #789c48;
 	color: #911c28
 }
