@@ -82,8 +82,13 @@ $(document).ready(function(){
         if(country=='United States'){
           country = 'usa';
         }
-
+        // country = 'UAE';
+          
         var mapText = 'Coming Soon nearby your location';
+        var zoomLabel = 5;
+        if(country == 'UAE' || country == 'United Arab Emirates') {
+          var zoomLabel = 9;
+        }
 
         // inittialize map
         lat = resp.geoplugin_latitude;
@@ -92,16 +97,11 @@ $(document).ready(function(){
             container: 'mapCanvas',
             style: 'mapbox://styles/mapbox/light-v9',
             center: [lng,lat],
-            zoom: 1
+            zoom: zoomLabel
         });
-
-         country = 'UAE';
+      
         if(country == 'UAE' || country == 'United Arab Emirates') {
             cordinates = [[25.040657,55.197286],[25.074192,55.139092],[25.184279,55.263638]];
-            //alert(cordinates.length);
-            for(var u=0; u<cordinates.length; u++) { 
-              console.log(cordinates[u][0]);
-            }
             places = ['Location 1','Location 2','Location 3'];
             contentString = [
                 '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">NKD Pizza Motor City</h4><p>Shop 1, Kojak Bldg, Motor City - Dubai</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  10:30AMâ€“2AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>04 421 3734<span/></a></li></ul></div><div class="tail-wrapper"></div></div>',
@@ -110,58 +110,95 @@ $(document).ready(function(){
 
                 '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-3.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">Business Bay</h4><p>G02, Bayswater Bldg, <br>Business Bay-Dubai, UAE</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  10:30AMâ€“2AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>04 421 3734<span/></a></li></ul></div><div class="tail-wrapper"></div></div>'
             ];
-            
-            zoom = 12;      
-        }
+          
+            for(var u=0; u<cordinates.length; u++) { 
+              var infoWindowText = contentString[u];
+              var latitude = cordinates[u][0];
+              var longitude = cordinates[u][1];
+              // create a DOM element for the marker
+              var el = document.createElement('div');
+              el.className = 'marker';
+              el.style.backgroundImage = 'url(https://mavin360.com/demo/nkd/web/assets/images/map-marker.png)';
+              el.style.width = '40px';
+              el.style.height = '40px';
 
-        $.get('https://mavin360.com/demo/nkd/dev/webservice/getCountryStores/'+country, function(res){
-                var stData = JSON.parse(res);
-                if(stData.length > 0) {      
-                    for(var p=0; p<stData.length; p++) { 
-                        var latitude = stData[p].Store.latitude;
-                        var longitude = stData[p].Store.longitude;
+              // create the popup
+              var popup = new mapboxgl.Popup({offset: 25})
+                  .setHTML(infoWindowText)
 
-                        var infoWindowText = '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">'+stData[p].Store.store_name+'</h4><p>'+stData[p].Store.store_address+'</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  11AM - 3AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>'+stData[p].Store.store_phone+'<span/></a></li></ul></div><div class="tail-wrapper"></div></div>';
+              // create DOM element for the marker
+              var em = document.createElement('div');
+              em.className = 'popup';
 
-                            // create a DOM element for the marker
-                            var el = document.createElement('div');
-                            el.className = 'marker';
-                            el.style.backgroundImage = 'url(https://mavin360.com/demo/nkd/web/assets/images/map-marker.png)';
-                            el.style.width = '40px';
-                            el.style.height = '40px';
+              // add marker to map
+              new mapboxgl.Marker(el, {offset: [-40 / 2, -40 / 2]})
+                  .setLngLat([longitude,latitude])
+                  .setPopup(popup)
+                  .addTo(mapCanvas);
 
-                            // create the popup
-                            var popup = new mapboxgl.Popup({offset: 25})
-                                .setHTML(infoWindowText)
+            }
+            if(cordinates.length > 1) {
+              var locText = ' locations';
+            }else{
+              var locText = ' location';
+            }
 
-                            // create DOM element for the marker
-                            var em = document.createElement('div');
-                            em.className = 'popup';
+            mapCanvas.setCenter([longitude, latitude]);
+            // mapCanvas.setView([longitude, latitude],5);
 
-                            // add marker to map
-                            new mapboxgl.Marker(el, {offset: [-40 / 2, -40 / 2]})
-                                .setLngLat([longitude,latitude])
-                                .setPopup(popup)
-                                .addTo(mapCanvas);
+            mapText = 'Currently open at <span>'+cordinates.length + locText + '</span> <strong>' + country + '</strong>';
 
-                        p++;              
-                    }
+            $('#mapText').html(mapText);
+        }else{ 
 
-                    if(stData.length > 1) {
-                      var locText = ' locations';
-                    }else{
-                      var locText = ' location';
-                    }
+          $.get('https://mavin360.com/demo/nkd/dev/webservice/getCountryStores/'+country, function(res){
+                  var stData = JSON.parse(res);
+                  if(stData.length > 0) {      
+                      for(var p=0; p<stData.length; p++) { 
+                          var latitude = stData[p].Store.latitude;
+                          var longitude = stData[p].Store.longitude;
 
-                    mapText = 'Currently open at <span>'+stData.length + locText + '</span> <strong>' + country + '</strong>';
+                          var infoWindowText = '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">'+stData[p].Store.store_name+'</h4><p>'+stData[p].Store.store_address+'</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  11AM - 3AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>'+stData[p].Store.store_phone+'<span/></a></li></ul></div><div class="tail-wrapper"></div></div>';
 
-                    $('#mapText').html(mapText);
-                }   
-        });
+                              // create a DOM element for the marker
+                              var el = document.createElement('div');
+                              el.className = 'marker';
+                              el.style.backgroundImage = 'url(https://mavin360.com/demo/nkd/web/assets/images/map-marker.png)';
+                              el.style.width = '40px';
+                              el.style.height = '40px';
+
+                              // create the popup
+                              var popup = new mapboxgl.Popup({offset: 25})
+                                  .setHTML(infoWindowText)
+
+                              // create DOM element for the marker
+                              var em = document.createElement('div');
+                              em.className = 'popup';
+
+                              // add marker to map
+                              new mapboxgl.Marker(el, {offset: [-40 / 2, -40 / 2]})
+                                  .setLngLat([longitude,latitude])
+                                  .setPopup(popup)
+                                  .addTo(mapCanvas);
+
+                          p++;              
+                      }
+
+                      if(stData.length > 1) {
+                        var locText = ' locations';
+                      }else{
+                        var locText = ' location';
+                      }
+                      mapCanvas.setCenter([longitude, latitude]);
+                      mapText = 'Currently open at <span>'+stData.length + locText + '</span> <strong>' + country + '</strong>';
+
+                      $('#mapText').html(mapText);
+                  }   
+          });
+      }
   });
 
   }
   
 });
-
 
