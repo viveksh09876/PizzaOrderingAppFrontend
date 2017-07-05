@@ -33,24 +33,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr *ngFor="let item of items">
                             <td>
-                                <h4>Superbiotic</h4>
-                                <p><span>Size :</span> Medium</p>
-                                <p><span>Crust:</span> Gluten-free</p>
+                                <h4>{{item.Product.title}}</h4>
+                                <!--<p><span>Size :</span> Medium</p>
+                                <p><span>Crust:</span> Gluten-free</p>-->
                             </td>
-                            <td>01</td>
-                            <td>210</td>
+                            <td>{{item.Product.qty}}</td>
+                            <td>{{item.totalItemCost}}</td>
                         </tr>
-                        <tr>
-                            <td>
-                                <h4>Create your own pizza</h4>
-                                <p><span>Size :</span> Medium</p>
-                                <p><span>Crust:</span> Skinny</p>
-                            </td>
-                            <td>03</td>
-                            <td>230</td>
-                        </tr>
+
                         <tr>
                             <td>Coupon Discount</td>
                             <td></td>
@@ -59,23 +51,23 @@
                         <tr>
                             <td>Sub Total</td>
                             <td></td>
-                            <td>440.00</td>
+                            <td>{{netCost}}</td>
                         </tr>
                         <tr>
                             <td>Taxes</td>
                             <td></td>
-                            <td>26.40</td>
+                            <td>0.00</td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="orderData.order_type == 'delivery'">
                             <td>Delivery Charge</td>
                             <td></td>
-                            <td>4.00</td>
+                            <td>6.00</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="blackbox">
-                <div class="grand-total">Grand Total <span>AED 450.40</span></div>
+                <div class="grand-total">Grand Total <span>AED {{totalCost}}</span></div>
             </div>
         </div>    
 
@@ -85,25 +77,26 @@
                 <div class="col-md-8 col-md-offset-2 text-center">
                     <h4>Thank you for your order</h4>
                     <h5>ORDER # 61</h5>
-                    <address class="d-add">
+                    <address class="d-add" *ngIf="orderData.order_type == 'delivery'">
                         <strong>delivery address</strong>
-                        <p><span>Ankush Arya <br></span>
-                        Omaxe Royal, Sector 44<br>
-                        Noida-201301<br>
-                        Mobile: 9958199295</p>
+                        <p><span>{{orderData.user.first_name}} {{orderData.user.last_name}}<br></span>
+                {{orderData.address.apartment}}, {{orderData.address.street_no}}<br>
+                {{orderData.address.street}} {{orderData.address.city}}<br>
+                {{orderData.address.state}} - {{orderData.address.postal_code}}<br>
+                Phone: {{orderData.user.phone}}</p>
                     </address>
                     <address class="r-add">
                         <strong>restaurant address</strong>
-                        <p><span>Botanical Garden Metro Station <br></span>
-                        Ground Floor, Sector 37, Noida, <br>
-                        Uttar Pradesh 201301<br>
-                        Phone: 0120 640 4101</p>
+                        <p><span>{{storeData.Store.store_name}} <br></span>
+                        {{storeData.Store.store_address}} <br>
+                        {{storeData.Store.state}} {{storeData.Store.zip}}<br>
+                        Phone: {{storeData.Store.store_phone}}</p>
                     </address>
                     <ul>
                         <li><a [routerLink]="['/menu']" class="another-order">Place another order</a></li>
-                        <li><a href="#"><img src="assets/images/face.png" alt=""></a></li>
-                        <li><a href="#"><img src="assets/images/instagram.png" alt=""></a></li>
-                        <li><a href="#"><img src="assets/images/yellow.png" alt=""></a></li>
+                        <li><a><img src="assets/images/face.png" alt=""></a></li>
+                        <li><a><img src="assets/images/instagram.png" alt=""></a></li>
+                        <li><a><img src="assets/images/yellow.png" alt=""></a></li>
                     </ul>
                 </div>
             </div>

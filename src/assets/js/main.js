@@ -98,7 +98,7 @@ $(document).ready(function(){
          country = 'UAE';
         if(country == 'UAE' || country == 'United Arab Emirates') {
             cordinates = [[25.040657,55.197286],[25.074192,55.139092],[25.184279,55.263638]];
-            alert(cordinates.length);
+            //alert(cordinates.length);
             for(var u=0; u<cordinates.length; u++) { 
               console.log(cordinates[u][0]);
             }

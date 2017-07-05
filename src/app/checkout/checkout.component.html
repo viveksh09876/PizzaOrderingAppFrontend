@@ -26,20 +26,21 @@
          <h3 class="green-title">payment summary</h3>
          <div class="dottedlist_box">
             <ul class="dotted-list">
-                <li>Coupon Discount<span>0.0</span></li> 
-                <li>Sub Total<span>440.00</span></li> 
-                <li>Taxes<span>26.40</span></li> 
-                <li>Delivery Charge<span>4.00</span></li> 
+                <!--<li>Coupon Discount<span>0.0</span></li> -->
+                <li>Sub Total<span>{{totalCost}}</span></li> 
+                <li>Taxes<span>00.00</span></li> 
+                <li *ngIf="orderData.order_type=='delivery'">Delivery Charge<span>6.00</span></li> 
             </ul>
              <div class="grand-total">
-                Grand Total <span>AED 450.40</span>
+                Grand Total <span>AED {{totalCost}}</span>
              </div>
-             <address class="delivery_addrs">
+             <address class="delivery_addrs" *ngIf="orderData.order_type == 'delivery'">
                 <h4>delivery address</h4>
-                <p><strong>Ankush Arya <br></strong>
-                Omaxe Royal, Sector 44<br>
-                Noida-201301<br>
-                Mobile: 9958199295</p>
+                <p><strong>{{orderData.user.first_name}} {{orderData.user.last_name}}<br></strong>
+                {{orderData.address.apartment}}, {{orderData.address.street_no}}<br>
+                {{orderData.address.street}} {{orderData.address.city}}<br>
+                {{orderData.address.state}} - {{orderData.address.postal_code}}<br>
+                Phone: {{orderData.user.phone}}</p>
              </address>
          </div>
       </div>
@@ -59,7 +60,9 @@
                 <div role="tabpanel" class="tab-pane fade" id="cd-cards">
                     <h5>pay using Credit / Debit Card</h5>
                     <p>Generate an OTP to my registered mobile number for verification</p>
+                    <ng-container *ngIf="showPlaceOrder">
                     <a class="btn-red btn-block" (click)="placeOrder()">Click to Authenticate & place order</a>
+                    </ng-container>
                 </div>
             </div>
         </div>

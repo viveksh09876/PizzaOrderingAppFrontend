@@ -455,8 +455,12 @@ export class ItemComponent implements OnInit {
                   }
 
                   if(options[j].Option.is_checked && options[j].Option.add_extra) {   
-                      addPrice += parseFloat(options[j].Option.price);        
-                      console.log('b', addPrice);               
+                      if(options[j].Option.price[defaultSize]) {
+                        addPrice += parseFloat(options[j].Option.price[defaultSize]);   
+                      }else{
+                        addPrice += parseFloat(options[j].Option.price);   
+                      }                           
+                      console.log('b', addPrice, options[j].Option.price, defaultSize);               
                   }
                  
                   

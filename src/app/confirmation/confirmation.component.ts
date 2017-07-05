@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-confirmation',
@@ -8,10 +10,42 @@ import { UtilService } from '../util.service';
 })
 export class ConfirmationComponent implements OnInit {
 
-  constructor(private utilService: UtilService) { }
+  constructor(private dataService: DataService, 
+                  private route: ActivatedRoute, 
+                    private router: Router,
+                      private utilService: UtilService) { }
+
+  items = [];
+  orderData = null;
+  totalCost = 0;
+  netCost = 0;
+  storeData = null;
 
   ngOnInit() {
-       
+    this.getItems(); 
+    this.getStoreDetails();  
   }
+
+
+  getItems() {
+    this.items = JSON.parse(this.dataService.getLocalStorageData('confirmationItems'));
+    this.orderData = JSON.parse(this.dataService.getLocalStorageData('confirmationFinalOrder'));
+    let tCost = this.utilService.calculateOverAllCost(this.items);
+    this.totalCost = tCost
+    this.netCost = tCost;  
+    console.log(this.items);
+    if(this.orderData.order_type == 'delivery') {
+        this.totalCost += 6;
+    } 
+  }
+
+  getStoreDetails() {
+     this.dataService.getStoreDetails(this.orderData.storeId)
+          .subscribe(data => {                        
+              this.storeData = data;
+          }); 
+  }
+
+
 
 }

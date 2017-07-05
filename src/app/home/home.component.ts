@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   ngOnInit() {
 
     this.getSlideImages();
-    loadScript();
+    //loadScript();
 
     function loadScript() {
       var script = document.createElement('script');

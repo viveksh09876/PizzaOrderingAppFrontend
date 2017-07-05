@@ -59,9 +59,7 @@ export class DataService {
    
   
     return this.http.post( this.domain + '/webservice/placeOrder', data)
-                    .map( (res: Response) => {
-                      res.json() 
-                    })
+                    .map((res: Response) => res.json())
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
 
 
