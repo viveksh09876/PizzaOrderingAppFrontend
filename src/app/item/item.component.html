@@ -1,14 +1,21 @@
 <!--Banner
 style="background-image:url(assets/images/banner-inside/4.jpg)"-->
-<div class="banner-wrapper">
+<div class="banner-wrapper hidden-xs hidden-sm">
 <div class="container" style="background-image:url(assets/images/cater-banner.jpg)">
   <h1><span>customize your order</span></h1>
   <div class="leftButtons buttons">
     <a [routerLink]="['/menu']" class="whiteBtn cta-btn">Back To Menu</a>
-    <a class="whiteBtn cta-btn">Quick View</a><span class="cost">{{netCost}} AED</span><a (click)="checkout()" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>
+    <a class="whiteBtn cta-btn">Quick View</a><span class="cost">{{netCost}} AED</span><a (click)="checkout()" class="greenBtn cta-btn">Checkout</a> </div>
+    </div>
+    </div>
+    <div class="banner-wrapper customize-mob hidden-md hidden-lg">
+    <div class="container header-sec">
+      <a [routerLink]="['/menu']" class="cta-btn" style="float: left;"><i class="fa fa-arrow-left"></i></a>
+      <h3>{{item.Product.title}}</h3>
+      <a (click)="checkout()" class="cta-btn" style="float: right;"><i class="fa fa-shopping-cart"></i></a>
+    </div>
+</div>
 
-</div>
-</div>
  <div class="clearfix"></div>
 <!--<div class="chekout-header">
 </div>-->
