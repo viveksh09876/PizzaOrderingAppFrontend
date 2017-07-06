@@ -145,5 +145,26 @@ export class DataService {
                 
   }
 
+  getFbFeeds(name): Observable<any>{
+
+    return this.http.get( this.domain + '/webservice/getFbFeed/'+name)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+
+  getIgFeeds(name): Observable<any>{
+
+    return this.http.get( this.domain + '/webservice/getIgFeed/'+name)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+
+  getCountry(): Observable<any>{
+
+    return this.http.get( this.domain + '/webservice/getIgFeed/'+name)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+
 
 }

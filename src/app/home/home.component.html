@@ -68,8 +68,8 @@
 <!--<div class="our-journey-wrapper" style="background-image:url(assets/images/our-journey.jpg);">
   <div class="container"><span class="video-icon"><img src="assets/images/video-icon.png"/></span><a class="icon-play" data-fancybox href="https://www.youtube.com/watch?v=xCGSZhlCkeg&amp;autoplay=1&amp;rel=0&amp;controls=0&amp;showinfo=0"></a> <img class="title-img img-responsive" src="assets/images/our-journey-text.png" alt="Our Journey"/> </div>
 </div>-->
-
 <!--Blog-->
+
 <div class="blog-wrapper">
   <div class="container">
     <div class="row">
@@ -85,12 +85,12 @@
         </div>
       </div>
       <div class="col-md-4 col-sm-6">
-        <div class="blog-content" style="background-image:url(assets/images/blog/img-2.jpg);">
+        <div class="blog-content" [ngStyle]="{ 'background-image': 'url(' + latestFbFeeds.image + ')'}">
           <div class="media">
             <div class="media-left media-middle"> <i class="icon-facebook"></i> </div>
             <div class="media-body">
-              <h4 class="media-heading">Mohammed Khalid</h4>
-              <p>just love the authentic handmade pizza at nkd. can’t get enough</p>
+              <h4 class="media-heading" *ngIf="latestFbFeeds.title">{{latestFbFeeds.title}}</h4>
+              <p>{{latestFbFeeds.message}}</p>
             </div>
           </div>
         </div>
@@ -135,24 +135,14 @@
           <p>{{latestTweet}}</p>
         </div>
       </div>
-      <div class="col-md-4 col-sm-6">
-        <div class="blog-content" style="background-image:url(assets/images/blog/img-3.jpg);">
+
+      <div class="col-md-4 col-sm-6" *ngFor=" let feed of latestIgFeeds;  let i=index">
+        <div class="blog-content" [ngStyle]="{ 'background-image': 'url(' + feed.image + ')'}" *ngIf="i<2" >
           <div class="media">
             <div class="media-left media-middle"> <i class="icon-instagram"></i> </div>
             <div class="media-body">
-              <h4 class="media-heading">Elton Affonso</h4>
-              <p>just love the authentic handmade pizza at nkd. can’t get enough</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 col-sm-6">
-        <div class="blog-content" style="background-image:url(assets/images/blog/img-4.jpg);">
-          <div class="media">
-            <div class="media-left media-middle"> <i class="icon-instagram"></i> </div>
-            <div class="media-body">
-              <h4 class="media-heading">Martin Garnhoud</h4>
-              <p>just love the authentic handmade pizza at nkd. can’t get enough</p>
+              <h4 class="media-heading" *ngIf="feed.title">{{feed.title}}</h4>
+              <p>{{feed.message}}</p>
             </div>
           </div>
         </div>
