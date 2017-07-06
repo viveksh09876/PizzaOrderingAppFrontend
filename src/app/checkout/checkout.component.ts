@@ -54,10 +54,10 @@ export class CheckoutComponent implements OnInit {
                 this.router.navigate(['/order-review']);   
               }else{
                 this.dataService.setLocalStorageData('confirmationItems', JSON.stringify(this.items));
-                //this.dataService.setLocalStorageData('allItems', null);                              
+                this.dataService.setLocalStorageData('allItems', null);                              
                 //alert('Order Placed');
                 this.dataService.setLocalStorageData('confirmationFinalOrder', JSON.stringify(this.orderData));
-                //this.dataService.setLocalStorageData('finalOrder', null);
+                this.dataService.setLocalStorageData('finalOrder', null);
                 this.router.navigate(['/confirmation']);
               }
               
