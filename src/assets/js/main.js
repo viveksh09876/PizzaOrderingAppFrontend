@@ -75,7 +75,7 @@ $(document).ready(function(){
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicHVzaHBlbmRyYXJhaiIsImEiOiJjajRwYzFtOTYxeWd0MzJwbDdsaGNzOTZiIn0.a9BUA890Vtyeqy21AaLClQ';
 $(document).ready(function(){
-  if(window.location.host=='localhost:4200'){
+  //if(window.location.host=='localhost:4200'){
     $.get('https://mavin360.com/demo/nkd/dev/webservice/getip', function(resp){
         resp = JSON.parse(resp);
         country = resp.geoplugin_countryName;
@@ -198,7 +198,7 @@ $(document).ready(function(){
       }
   });
 
-  }
+  //}
   
 });
 
