@@ -18,14 +18,31 @@ export class HomeComponent implements OnInit, AfterContentInit {
   slideArr = [];
   domain = environment.cmsApiPath;
   latestTweet = '';
+  latestFbFeeds = '';
+  latestIgFeeds = '';
+  countryName = '';
 
   constructor(private dataService: DataService,
-                private utilService: UtilService) { }
+                private utilService: UtilService) {
+                
+  }
 
 
   ngOnInit() {
+    this.dataService.getIp()
+        .subscribe(data => {
+            let countryName = data.geoplugin_countryName;
+            if(countryName == 'USA'){
+              this.getFbFeeds('nkdpizza');
+              this.getIgFeeds('nkdpizza');
+            }else{
+              this.getFbFeeds('nkdpizzabh');
+              this.getIgFeeds('nkdpizzabh');
+            }
+        })
 
     this.getSlideImages();
+    
     //loadScript();
 
     function loadScript() {
@@ -51,6 +68,19 @@ export class HomeComponent implements OnInit, AfterContentInit {
         })
   }
 
+  getFbFeeds(name) {
+     this.dataService.getFbFeeds(name)
+        .subscribe(data => {
+            this.latestFbFeeds = data[0];
+        });
+  }
+
+  getIgFeeds(name) {
+     this.dataService.getIgFeeds(name)
+        .subscribe(data => {
+          this.latestIgFeeds = data;
+        });
+  }
 
   getSlideImages() {
        this.dataService.getSlides(1)
