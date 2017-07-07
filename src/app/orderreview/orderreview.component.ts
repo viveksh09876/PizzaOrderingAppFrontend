@@ -238,23 +238,35 @@ export class OrderreviewComponent implements OnInit {
                           circle_type = opt.OptionSuboption[a].SubOption.name;
                         }
                       }
-                      
-                      let val = {
-                          plu: opt.plu_code,                   
-                          add_extra: opt.add_extra,
-                          quantity: opt.quantity,
-                          type: 0,
-                          modifier_type: 'modifier',
-                          choice: circle_type,
-                          send_code: opt.send_code,
-                          is_checked: opt.is_checked
-                      }
 
-                      if(opt.is_checked || opt.add_extra == true) {
-                        val.type = 1
+                      let sendToOrder = true;
+                      if(opt.category_id != 1) {
+                        if(opt.is_checked && opt.default_checked) {
+                          if(!opt.add_extra) {
+                            sendToOrder = false;  
+                          }
+                        }
                       }
                       
-                      product.modifier.push(val);
+                      if(sendToOrder) {
+                          let val = {
+                              plu: opt.plu_code,   
+                              category_id: product.category_id,                
+                              add_extra: opt.add_extra,
+                              quantity: opt.quantity,
+                              type: 0,
+                              modifier_type: opt.is_included_mod,
+                              choice: circle_type,
+                              send_code: opt.send_code                              
+                          }
+
+                          if(opt.is_checked || opt.add_extra == true) {
+                            val.type = 1
+                          }
+                          
+                          product.modifier.push(val);
+                      }
+                      
                     }
 
                 }
@@ -294,7 +306,7 @@ export class OrderreviewComponent implements OnInit {
         this.order.order_details = finalOrder;
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
         //console.log('order', this.order);
-        this.router.navigate(['/checkout']);
+        //this.router.navigate(['/checkout']);
 
       }
       
