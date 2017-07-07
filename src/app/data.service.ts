@@ -159,11 +159,12 @@ export class DataService {
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
-  getCountry(): Observable<any>{
-
-    return this.http.get( this.domain + '/webservice/getIgFeed/'+name)
-                    .map( (res: Response) => res.json() )
+  sendCateringInfo(cateringInfo): Observable<any>{   
+    let data = cateringInfo;
+    return this.http.post( this.domain + '/webservice/sendCateringInfo', data)
+                    .map((res: Response) => res.json())
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+                
   }
 
 

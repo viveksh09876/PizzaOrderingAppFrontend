@@ -1,12 +1,12 @@
 <?php
 App::uses('AppController', 'Controller');
 class WebserviceController extends AppController {
-    public $uses = array('Category','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption');
-    public $components=array('Core');
+    public $uses = array('Category','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','EmailTemplate');
+    public $components=array('Core','Email');
 
     function beforeFilter(){
         parent::beforeFilter();
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','sendCateringInfo'));
     }
 
     public function get_categories($count=10){
@@ -1161,6 +1161,60 @@ class WebserviceController extends AppController {
 			
 		echo $result; die;
 		
+	}
+
+    /* Sebd catering info to email */
+
+	function sendCateringInfo(){
+		$data = $this->request->input ( 'json_decode', true) ;
+		if(!empty($data)) {
+			$username = $data['username'];
+			$email = $data['email'];
+			$tel = $data['tel'];
+			$location = $data['location'];
+			$date = $data['date'];
+			$noofuser = $data['noofuser'];
+			$social = $data['social'];
+
+			/*-template asssignment if any*/
+                $template = $this->EmailTemplate->find('first',array(
+                        'conditions' => array(
+                            'template_key'=> 'catering_notification',
+                            'template_status' =>'Active'
+                        )
+                    )
+                );
+                
+				$email = 'rajput.pushpendra61@gmail.com';
+
+                if($template){  
+                    $arrFind=array('{name}','{email}','{phone}','{location}','{event_date}','{no_of_person}','{special_instruction}');
+                    $arrReplace=array($username,$email,$tel,$location,$date,$noofuser,$social);
+                    
+                    $from=$template['EmailTemplate']['from_email'];
+                    $subject=$template['EmailTemplate']['email_subject'];
+                    $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
+                }
+
+                $this->set('Content',$content);   
+
+                try{
+                    $this->Email->from=$from;
+                    $this->Email->to=$email;
+                    $this->Email->subject=$subject;
+                    $this->Email->sendAs='html';
+                    $this->Email->template='general';
+                    $this->Email->delivery = 'smtp';
+                    if($this->Email->send()){
+						echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! email sent successfully will contact you soon.'));
+					}
+
+                }catch(Exception $e){
+                    echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
+                }
+                /*-[end]template asssignment*/ 
+		}
+		die;
 	}
 	
 	
