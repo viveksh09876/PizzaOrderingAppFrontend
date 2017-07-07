@@ -1,4 +1,3 @@
-<!--Carousel-->
 <div class="slider-wrapper">
   <div class="slides" id="home-slider" *ngIf="slideArr.length > 0">
     <ng-container *ngFor="let slide of slideArr">
@@ -6,14 +5,12 @@
       <div class="container">
         <div class="fade-bg visible-xs"></div>
         <div class="slide-content fadeIn animated"> <img src="{{slide.Slide.textImage}}" class="img-responsive" alt="slide content"/></div>
-        <!--<div class="hidden-md hidden-lg"><a href="#" class="custom-button" data-toggle="modal" data-target="#pickupdeliveryModal"><span>order now</span></a> </div>-->
       </div>
     </div>
     </ng-container>
   </div>
 </div>
 
-<!--How are we different-->
 <div class="how-are-we-different-wrapper">
   <div class="container">
     <h3 class="text-center">how we’re <span>different</span></h3>
@@ -29,7 +26,6 @@
             We freshly slice ingredients for our pizzas in-restaurant — from tomatos, to jalapeños and apples.</div>
             <img src="assets/images/how-are-we-different/1.jpg" class="img-responsive center-block" alt="image-fresh"/>
             </div>
-            <!--<p>Our crust is made from an Ancestral Blend® of 10 grains</p>-->
             <a href class="arrow-button icon-keyboard_arrow_up"></a> </div>
         </div>
       </div>
@@ -42,7 +38,6 @@
             <div class="overlap-text">Our crust is made from an Ancestral Blend® of 10 grains plus prebiotic agave fiber and probiotics (healthful bacteria like the ones found in yogurt for balance and digestive health) bound by water and made by hand. A diversity of grains, fiber and probiotics are the main reason for that satisfying feeling after eating NKD Pizza, contributing a slow, sustained release of energy without the crash from eating other single grain, highly processed pizzas.</div>
             <img src="assets/images/how-are-we-different/2.jpg" class="img-responsive center-block" alt="image-fresh"/>
             </div>
-            <!--<p>Our crust is made from an Ancestral Blend® of 10 grains</p>-->
             <a href class="arrow-button icon-keyboard_arrow_up"></a> </div>
         </div>
       </div>
@@ -56,19 +51,12 @@
             <img src="assets/images/how-are-we-different/3.jpg" class="img-responsive center-block" alt="image-fresh"/>
 
 </div>
-           <!-- <p>Our crust is made from an Ancestral Blend® of 10 grains</p>-->
             <a href class="arrow-button icon-keyboard_arrow_up"></a> </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!--Our Journey-->
-<!--<div class="our-journey-wrapper" style="background-image:url(assets/images/our-journey.jpg);">
-  <div class="container"><span class="video-icon"><img src="assets/images/video-icon.png"/></span><a class="icon-play" data-fancybox href="https://www.youtube.com/watch?v=xCGSZhlCkeg&amp;autoplay=1&amp;rel=0&amp;controls=0&amp;showinfo=0"></a> <img class="title-img img-responsive" src="assets/images/our-journey-text.png" alt="Our Journey"/> </div>
-</div>-->
-<!--Blog-->
 
 <div class="blog-wrapper">
   <div class="container">
@@ -104,27 +92,10 @@
          <a class="video-btn icon-play" data-fancybox href="https://player.vimeo.com/video/157487447?autoplay=1"></a>
          </span>
          <img class="title-img img-responsive" src="assets/images/our-journey-text.png" alt="Our Journey" style="margin-top:60px;"/>
-            <!--<div class="media-left media-middle"> <i class="icon-facebook"></i> </div>-->
-           <!-- <div class="media-body">
-              <h4 class="media-heading">Mohammed Khalid</h4>
-              <p>just love the authentic handmade pizza at nkd. can’t get enough</p>
-            </div>-->
-            <!--<span class="video-icon"><img src="assets/images/video-icon.png"/></span> -->
-            
-            <!--<a class="icon-play" data-fancybox href="https://www.youtube.com/watch?v=xCGSZhlCkeg&amp;autoplay=1&amp;rel=0&amp;controls=0&amp;showinfo=0"></a><img class="title-img img-responsive" src="assets/images/our-journey-text.png" alt="Our Journey"/>--></div>
+            </div>
           
        </div>
-        <!--<div class="blog-content white">
-          <h4>people</h4>
-          <h3>love us</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-            ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <ul class="list-inline">
-            <li><a href="#"><i class="icon-facebook"></i></a></li>
-            <li><a href="#"><i class="icon-twitter"></i></a></li>
-            <li><a href="#"><i class="icon-instagram"></i></a></li>
-          </ul>
-        </div>-->
+        
       </div>
       <div class="col-md-4 col-sm-6" *ngFor=" let feed of latestIgFeeds;  let i=index">
         <div class="blog-content" [ngStyle]="{ 'background-image': 'url(' + feed.image + ')'}" *ngIf="i<3" >
@@ -141,10 +112,8 @@
   </div>
 </div>
 
-<!--Locations-->
 <div class="map-wrapper">
   <div id="mapCanvas" class="map-canvas">
   </div>
   <div id="mapText" class="title-image img-responsive"></div>
- <!--  <img src="assets/images/map-title.png" class="title-image img-responsive" alt="Currently open at 3 Locations in UAE"/>  -->
 </div>

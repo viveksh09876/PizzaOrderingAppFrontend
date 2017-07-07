@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   slideArr = [];
   domain = environment.cmsApiPath;
   latestTweet = '';
-  latestFbFeeds = '';
+  latestFbFeeds = null;
   latestIgFeeds = '';
   countryName = '';
 
