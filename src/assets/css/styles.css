@@ -494,7 +494,7 @@ header.navigation ul.links li a span {
 	display: inline-block;
 	vertical-align: middle
 }
-header.navigation ul.links li.eclub-btn a{background: #911c28; color: #fff;}
+header.navigation ul.links li.eclub-btn a{background: #911c28; color: #fff; padding: 0 15px;}
 
 /*header.navigation ul.links li a:hover {
 	background-color: #789c48;
@@ -1206,6 +1206,7 @@ header.navigation .logo {
 	padding: 0px 0px;
 	margin-bottom: 44px;
 }
+.banner-wrapper.twolines .container{padding: 0px 15px 15px;}
 .banner-wrapper .container {
 	top: 52px;
 	padding: 0px;
@@ -2583,7 +2584,7 @@ color:#fff
 
 @media (max-width: 767px) {
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control__indicator {
-	top: 0px;
+	top: -2px;
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control h4 {
     font: .7em "proxima_nova_ltsemibold";
@@ -2975,11 +2976,25 @@ color:#fff
 
 .career_points .green_box{ background: #789c48; color: #fff; padding: 25px 5% 15px;}
 
-.bottom_slidebanners{ margin: 40px 0;}
-.bottom_slidebanners .container-fluid{ padding: 0;}
-.bottom_slidebanners ul{ list-style: none; float: left; width: calc(100% - 200px); background: #e0e0e0; padding: 0; white-space: nowrap; overflow: hidden;}
-.bottom_slidebanners ul li{ display: inline-block;}
-.bottom_slidebanners span{ color: #fff; float: left; background: #789c48; width: 200px; padding: 27px 35px 26px; font-size: 45px; line-height: 35px; font-family: "bureaueaglebookregular";}
+.bottom_slidebanners{ margin: 40px 0;  background: #e0e0e0; overflow: hidden;}
+.bottom_slidebanners .container-fluid{ padding: 0; display: table; text-align: center;}
+.bottom_slidebanners ul{ list-style: none;
+    width: auto;
+    padding: 0;
+    display: table-cell;
+    margin: 0px;
+    text-align: center;
+    vertical-align: top;}
+.bottom_slidebanners ul li{ display: table-cell;}
+.bottom_slidebanners span{     color: #fff;
+    background: #789c48;
+    width: 200px;
+    padding: 27px 0 0 0;
+    text-align: center;
+    font-size: 45px;
+    line-height: 35px;
+    font-family: "bureaueaglebookregular";
+    display: table-cell;}
 
 .bottom_slidebanners.caterslide ul{ width: 100%;}
 
@@ -3131,7 +3146,12 @@ color:#fff
     
     .left-caterbox p{ font-size: 20px; line-height: 25px;}
     .bottom_slidebanners{ margin: 30px 0;}
-    .bottom_slidebanners span{ font-size:30px; padding: 15px 10px; width: 100%;}
+    .bottom_slidebanners span{ font-size: 30px;
+    padding: 15px 10px;
+    line-height: 50px;
+    text-align: left;
+    text-indent: 10px;
+    display: table-header-group;}
     .bottom_slidebanners ul{ width: 100%;}
     
     .steprow { padding: 0;}
