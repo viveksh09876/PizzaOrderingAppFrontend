@@ -72,7 +72,7 @@
           <p>{{latestTweet}}</p>
         </div>
       </div>
-      <div class="col-md-4 col-sm-6">
+      <div class="col-md-4 col-sm-6" *ngIf="latestFbFeeds != null">
         <div class="blog-content" [ngStyle]="{ 'background-image': 'url(' + latestFbFeeds.image + ')'}">
           <div class="media">
             <div class="media-left media-middle"> <i class="icon-facebook"></i> </div>
@@ -98,6 +98,7 @@
         
       </div>
       <div class="col-md-4 col-sm-6" *ngFor=" let feed of latestIgFeeds;  let i=index">
+        <ng-container *ngIf="feed != null">
         <div class="blog-content" [ngStyle]="{ 'background-image': 'url(' + feed.image + ')'}" *ngIf="i<3" >
           <div class="media">
             <div class="media-left media-middle"> <i class="icon-instagram"></i> </div>
@@ -107,6 +108,7 @@
             </div>
           </div>
         </div>
+        </ng-container>
       </div>
     </div>
   </div>

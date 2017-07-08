@@ -11,7 +11,9 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
     <div class="banner-wrapper customize-mob hidden-md hidden-lg">
     <div class="container header-sec">
       <a [routerLink]="['/menu']" class="cta-btn" style="float: left;"><i class="fa fa-arrow-left"></i></a>
+     <ng-container *ngIf="item.Product.title"> 
       <h3>{{item.Product.title}}</h3>
+     </ng-container>
       <a (click)="checkout()" class="cta-btn" style="float: right;"><i class="fa fa-shopping-cart"></i></a>
     </div>
 </div>

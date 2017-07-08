@@ -75,7 +75,7 @@ $(document).ready(function(){
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicHVzaHBlbmRyYXJhaiIsImEiOiJjajRwYzFtOTYxeWd0MzJwbDdsaGNzOTZiIn0.a9BUA890Vtyeqy21AaLClQ';
 $(document).ready(function(){
-  if(window.location.host=='localhost:4200'){
+
     $.get('https://mavin360.com/demo/nkd/dev/webservice/getip', function(resp){
         resp = JSON.parse(resp);
         country = resp.geoplugin_countryName;
@@ -95,11 +95,12 @@ $(document).ready(function(){
         lng = resp.geoplugin_longitude;
         var mapCanvas = new mapboxgl.Map({
             container: 'mapCanvas',
-            style: 'mapbox://styles/mapbox/light-v9',
+            style: 'mapbox://styles/pushpendraraj/cj4ugee221cri2rpmymcpg3yw',
             center: [lng,lat],
             zoom: zoomLabel
         });
-      
+         mapCanvas.scrollZoom.disable();
+         mapCanvas.addControl(new mapboxgl.NavigationControl());
         if(country == 'UAE' || country == 'United Arab Emirates') {
             cordinates = [[25.040657,55.197286],[25.074192,55.139092],[25.184279,55.263638]];
             places = ['Location 1','Location 2','Location 3'];
@@ -158,7 +159,7 @@ $(document).ready(function(){
                           var latitude = stData[p].Store.latitude;
                           var longitude = stData[p].Store.longitude;
 
-                          var infoWindowText = '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">'+stData[p].Store.store_name+'</h4><p>'+stData[p].Store.store_address+'</p></div><div class="media-right"><a href="#"><img class="media-object" src="assets/images/direction-btn.jpg" alt="Directions"></a></div></div><ul class="list-inline"><li><a><img src="assets/images/time-icon.jpg"/><span>Open now:  11AM - 3AM<span/></a></li><li><a><img src="assets/images/phone-icon.jpg"/><span>'+stData[p].Store.store_phone+'<span/></a></li></ul></div><div class="tail-wrapper"></div></div>';
+                          var infoWindowText = '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">'+stData[p].Store.store_name+'</h4><p>'+stData[p].Store.store_address+'</p></div><div class="media-right"><a href="#"><i class="icon icon-directions"></i> Direction</a></div></div><ul class="list-inline"><li><a><i class="icon icon-time"></i><span>Open now:  11AM - 3AM<span/></a></li><li><a><i class="icon icon-phone"></i><span>'+stData[p].Store.store_phone+'<span/></a></li></ul></div><div class="tail-wrapper"></div></div>';
 
                               // create a DOM element for the marker
                               var el = document.createElement('div');
@@ -198,7 +199,7 @@ $(document).ready(function(){
       }
   });
 
-  }
+  
   
 });
 

@@ -278,9 +278,10 @@ export class OrderreviewComponent implements OnInit {
 
 
         let orderData = this.order;
-
-        orderData.address.street_no = orderData.address.streetNo;
-        delete orderData.address.streetNo; 
+        if(orderData.address) {
+         orderData.address.street_no = orderData.address.streetNo;
+          delete orderData.address.streetNo; 
+        }
 
         if(this.order.order_type == 'delivery' && this.order.delivery_time_type == 'defer') {
           
@@ -306,7 +307,7 @@ export class OrderreviewComponent implements OnInit {
         this.order.order_details = finalOrder;
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
         //console.log('order', this.order);
-        //this.router.navigate(['/checkout']);
+        this.router.navigate(['/checkout']);
 
       }
       

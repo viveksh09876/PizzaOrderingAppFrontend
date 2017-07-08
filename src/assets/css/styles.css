@@ -967,11 +967,13 @@ header.navigation .logo {
 }
 .map-canvas .infoWrapper .content-container ul li a img, .map-canvas .infoWrapper .content-container ul li a span {
 	display: inline-block;
-	vertical-align: middle
+	vertical-align: top;
 }
 .map-canvas .infoWrapper .content-container ul li a span {
 	padding-left: 5px
 }
+.map-canvas .infoWrapper .content-container .media-right{text-align: center;}
+.map-canvas .infoWrapper .content-container a{color: #fff;}
 .map-canvas .infoWrapper .tail-wrapper {
 	width: 100%;
 	height: 30px;
@@ -1051,8 +1053,10 @@ header.navigation .logo {
 
 @media (max-width: 767px) {
 .map-wrapper .title-image {
-	display: none
+	font-size: 30px; line-height: 24px;
 }
+.map-wrapper .title-image strong{font-size: 38px;
+    line-height: 36px;}
 }
 .banner-wrapper.customize-mob .header-sec{background: #789c48; text-align: center; display: inline-block; width: 100%;}
 .banner-wrapper.customize-mob h3{color: #fff; font-size: 1.5em; line-height: 2em; display: inline-block;}
@@ -1110,6 +1114,7 @@ header.navigation .logo {
 }
 
 @media (max-width: 540px) {
+	.mapboxgl-popup{max-width: 200px !important;}
 	.inside-column-container.thirdCol .control-group .control.checkbox{padding-right: 95px;}
 .banner-wrapper .leftButtons.buttons {
 	width: initial;
@@ -2963,7 +2968,7 @@ color:#fff
 .form_design .form-group{ margin-bottom: 28px;}
 .form_design .form-control{ border: 1px solid #65646a; height: 45px; padding: 10px 15px; font-size:18px; color:#5b5a56; line-height: 25px; font-family: 'proxima_nova_ltlight';}
 .form_design textarea.form-control{ height: 135px; resize: none;}
-.form_design input[type="submit"]{ background: #911C28; font-family: 'proxima_nova_ltlight'; color: #fff; font-size: 20px; line-height: 30px;}
+.form_design input[type="submit"],.form_design .submit{ background: #911C28; font-family: 'proxima_nova_ltlight'; color: #fff; font-size: 20px; line-height: 30px;}
 .form_design .form-group.attachment{ display: inline-block; width: 100%;}
 .form_design .file-attach{ position: relative; float: left; width: 45%;}
 .form_design .file-attach input[type="file"]{ position: absolute; left: 0; top: 0; width: 100%; height: 100%;cursor: pointer; opacity: 0;}
