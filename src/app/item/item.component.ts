@@ -627,7 +627,7 @@ export class ItemComponent implements OnInit {
 
 
   add_to_cart() {
-    ////console.log(this.item);
+    console.log(this.item);
     if(this.dataService.getLocalStorageData('allItems') != null
           && this.dataService.getLocalStorageData('allItems') != 'null') {
        let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));

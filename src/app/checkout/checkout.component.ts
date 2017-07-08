@@ -58,7 +58,7 @@ export class CheckoutComponent implements OnInit {
                 //alert('Order Placed');
                 this.dataService.setLocalStorageData('confirmationFinalOrder', JSON.stringify(this.orderData));
                 this.dataService.setLocalStorageData('finalOrder', null);
-                this.router.navigate(['/confirmation']);
+                //this.router.navigate(['/confirmation']);
               }
               
             });

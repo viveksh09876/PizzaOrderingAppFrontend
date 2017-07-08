@@ -1,12 +1,12 @@
 <?php
 App::uses('AppController', 'Controller');
 class WebserviceController extends AppController {
-    public $uses = array('Category','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption');
+    public $uses = array('Category','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog');
     public $components=array('Core');
 
     function beforeFilter(){
         parent::beforeFilter();
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed'));
     }
 
     public function get_categories($count=10){
@@ -468,7 +468,11 @@ class WebserviceController extends AppController {
 											if(isset($pl_m['Price'])) {
 												$price = $pl_m['Price'];
 											}else if(isset($pl_m['PriceSm'])){
-												$price = $pl_m['PriceSm'];
+												$price = array(
+													'small' => $pl_m['PriceSm'],
+													'medium' => $pl_m['PriceMed'],
+													'large' => $pl_m['PriceLg']
+												);
 											}	
 											$includedArr[$key]['option'][$i]['price'] = $price;
 											$includedArr[$key]['option'][$i]['send_code'] = '';
@@ -554,7 +558,6 @@ class WebserviceController extends AppController {
 									foreach($plu_mod as $pl_m) {
 										if($item['Product']['plu_code'] == 999999) {
 											foreach($pl_m as $cyo) {
-												
 												if(isset($cyo['PLU'])) {
 													if($cyo['PLU'] == $mo['Option']['plu_code']) {
 																							
@@ -601,25 +604,25 @@ class WebserviceController extends AppController {
 								foreach($plu_json['item'] as $plu_mod) {
 									foreach($plu_mod as $pl_m) {
 																								
-										foreach($pl_m as $cyo) {
-											
-										 if(isset($cyo['PLU'])) {
-											if($cyo['PLU'] == $mo['Option']['plu_code']) {
+										foreach($pl_m as $cyo) {											
+											if(isset($cyo['PLU'])) {
+												if($cyo['PLU'] == $mo['Option']['plu_code']) {
 												
-												if(isset($cyo['Price'])) {
-													$price = $cyo['Price'];
-													$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = $price;
-												}else if(isset($cyo['PriceSm'])){
-													$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = array(
-														'small' => $cyo['PriceSm'],
-														'medium' => $cyo['PriceMed'],
-														'large' => $cyo['PriceLg']
-													);
-												}												
-											} 
-										 }											
+													if(isset($cyo['Price'])) {
+														$price = $cyo['Price'];
+														$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = $price;
+													}else if(isset($cyo['PriceSm'])){
+														$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = array(
+															'small' => $cyo['PriceSm'],
+															'medium' => $cyo['PriceMed'],
+															'large' => $cyo['PriceLg']
+														);
+													}												
+												}	
+											}	
 											
-										}										
+										}
+										
 									}
 								}
 							}
@@ -633,9 +636,14 @@ class WebserviceController extends AppController {
 											if(isset($pl_m['Price'])) {
 												$price = $pl_m['Price'];
 											}else if(isset($pl_m['PriceSm'])){
-												$price = $pl_m['PriceSm'];
+												$price = array(
+													'small' => $pl_m['PriceSm'],
+													'medium' => $pl_m['PriceMed'],
+													'large' => $pl_m['PriceLg']
+												);
 											}	
 											$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = $price;
+											$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_topping'] = true;
 											//$mo['price'] = $pl_m['Price'];
 										}	
 								}
@@ -705,7 +713,8 @@ class WebserviceController extends AppController {
 							
 							$data['order_details'][$i]['modifier'] = $arr;
 						}						
-					}					
+					}	
+					unset($data['order_details'][$i]['category_id']);
 					$i++;					
 				}
 				
@@ -738,7 +747,7 @@ class WebserviceController extends AppController {
 		
 		die;
 	}
-	
+
 	
 	public function getStoreList($city) {
 		Configure::write('debug', 2);
@@ -959,13 +968,18 @@ class WebserviceController extends AppController {
 			//echo '<pre>'; print_r($response); die;
 			//$response = array( 'response' =>  $result);
 			
-			$resp = array(
-						'test' => '123',
+			if($response['Status'] == 'OK') {
+				$resp = array(
+			
 						'id' => $response['Id'],
 						'FirstName' => $response['FirstName'],
 						'LastName' => $response['LastName'],
-						'Status' => $response['Status'],
-					);
+						'Status' => $response['Status']
+					);	
+			}else{
+				$resp = array('Status' => $response['Status']);	
+			}
+			
 			echo json_encode($resp); die;
 			
 			
@@ -1163,5 +1177,98 @@ class WebserviceController extends AppController {
 		
 	}
 	
+	function getFBFeed ($page='nkdpizza'){
+	    $result = array();
+
+	    $graph_url = 'https://graph.facebook.com/'. $page .'/feed?access_token=1413958752014988|u7WaXrdFfFiFO9mX09mxdqC1NcU';
+	    $fb_feed = json_decode(file_get_contents($graph_url), true);
+
+
+	    foreach($fb_feed["data"] as $f)
+	    {
+		    $id_arr = explode("_", $f["id"]);
+
+		    $feed = array(
+			                "message" => $f["message"],
+			                "image" => 'https://graph.facebook.com/' . $id_arr[1] . '/picture'
+	                    );
+
+		    array_push($result, $feed);
+	    }
+
+	    echo json_encode($result);
+	    die;
+	}
 	
+	function getIGFeed($page='nkdpizza'){
+	    $result = array();
+
+	    $graph_url = 'https://www.instagram.com/' . $page . '/media/';
+	    $ig_feed = json_decode(file_get_contents($graph_url), true);
+
+	    foreach($ig_feed["items"] as $i)
+	    {
+		    $feed = array(
+			                "message" => $i["caption"]["text"],
+			                "image" => $i["images"]["standard_resolution"]["url"]
+			            );
+
+		    array_push($result, $feed);
+	    }
+
+	    echo json_encode($result);
+	    die;
+	}
+
+	/* Send catering info to email */
+
+ function sendCateringInfo(){
+  $data = $this->request->input ( 'json_decode', true) ;
+  if(!empty($data)) {
+   $username = $data['username'];
+   $email = $data['email'];
+   $tel = $data['tel'];
+   $location = $data['location'];
+   $date = $data['date'];
+   $noofuser = $data['noofuser'];
+   $social = $data['social'];
+
+   /*-template asssignment if any*/
+                $template = $this->EmailTemplate->find('first',array(
+                        'conditions' => array(
+                            'template_key'=> 'catering_notification',
+                            'template_status' =>'Active'
+                        )
+                    )
+                );
+
+                if($template){  
+                    $arrFind=array('{name}','{email}','{phone}','{location}','{event_date}','{no_of_person}','{special_instruction}');
+                    $arrReplace=array($username,$email,$tel,$location,$date,$noofuser,$social);
+                    
+                    $from=$template['EmailTemplate']['from_email'];
+                    $subject=$template['EmailTemplate']['email_subject'];
+                    $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
+                }
+
+                $this->set('Content',$content);   
+
+                try{
+                    $this->Email->from=$from;
+                    $this->Email->to=SUPPORT_EMAIL;
+                    $this->Email->subject=$subject;
+                    $this->Email->sendAs='html';
+                    $this->Email->template='general';
+                    $this->Email->delivery = 'smtp';
+                    if($this->Email->send()){
+      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! email sent successfully will contact you soon.'));
+     }
+
+                }catch(Exception $e){
+                    echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
+                }
+                /*-[end]template asssignment*/ 
+  }
+  die;
+ }
 }

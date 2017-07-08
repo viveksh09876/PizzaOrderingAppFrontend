@@ -20,16 +20,19 @@
 
         <div class="col-md-8 col-sm-6 form_design">
             <h3>ask about our nkd pizza mobile truck.</h3>
-            <form>
+            <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
+            <form #heroForm="ngForm">
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name">
+                        <input type="text" class="form-control" [(ngModel)]="username" required name="username" placeholder="name">
+                        <p class="text-danger" *ngIf="showUserNameError">Please enter name </p>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Email">
+                            <input type="email" class="form-control" [(ngModel)]="email" placeholder="Email" name="email">
+                            <p class="text-danger" *ngIf="showEmailError">Please enter email </p>
                         </div>
                     </div>
                     
@@ -37,40 +40,40 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                            <input type="tel" class="form-control" placeholder="Phone number">
+                            <input type="tel" class="form-control" [(ngModel)]="tel" placeholder="Phone number" name="tel">
+                            <p class="text-danger" *ngIf="showTelError">Please enter phone number </p>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Location">
+                            <input type="email" class="form-control" [(ngModel)]="location" placeholder="Location" name="location">
+                            <p class="text-danger" *ngIf="showLocationError">Please enter email </p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Event Date June, 28 - 2017">
+                            <input type="text" class="form-control" [(ngModel)]="date" placeholder="Event Date June, 28 - 2017" name="date">
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                            <select class="form-control">
-                                <option>Number of people</option>
-                                <option>Number of people</option>
-                                <option>Number of people</option>
-                            </select>
+                            <input type="text" class="form-control" [(ngModel)]="noofuser" placeholder="Number of people" name="noofuser">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <div class="form-group">
-                            <textarea class="form-control" placeholder="Special Mention / Allergies"></textarea>
+                            <textarea class="form-control" [(ngModel)]="social" placeholder="Special Mention / Allergies" name="social"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                     <div class="col-md-12 col-sm-12"><input type="submit" value="Submit" class="btn btn-danger btn-block"></div>
+                     <div class="col-md-12 col-sm-12">
+                     <button type="button" (click)="CateringApi()" class="btn btn-danger btn-block submit">Submit</button>
+                     </div>
                 </div>
             </form>
         </div>

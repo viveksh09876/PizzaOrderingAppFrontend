@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   slideArr = [];
   domain = environment.cmsApiPath;
   latestTweet = '';
-  latestFbFeeds = '';
+  latestFbFeeds = null;
   latestIgFeeds = '';
   countryName = '';
 
@@ -96,7 +96,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
               }
 
               this.slideArr = slides; 
-                            
+                                          
               setTimeout(function(){
                   jQuery("#home-slider").slick({
                     infinite: true,
@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
                     prevArrow: false,
                     nextArrow: false
                   });
-              }, 1000);
+              }, 2000);
                
           });
   }

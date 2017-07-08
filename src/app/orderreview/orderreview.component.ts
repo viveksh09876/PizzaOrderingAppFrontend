@@ -238,23 +238,41 @@ export class OrderreviewComponent implements OnInit {
                           circle_type = opt.OptionSuboption[a].SubOption.name;
                         }
                       }
-                      
-                      let val = {
-                          plu: opt.plu_code,                   
-                          add_extra: opt.add_extra,
-                          quantity: opt.quantity,
-                          type: 0,
-                          modifier_type: 'modifier',
-                          choice: circle_type,
-                          send_code: opt.send_code,
-                          is_checked: opt.is_checked
-                      }
 
-                      if(opt.is_checked || opt.add_extra == true) {
-                        val.type = 1
+                      let sendToOrder = true;
+                      if(opt.category_id != 1) {
+                        if(opt.is_checked && opt.default_checked) {
+                          if(!opt.add_extra) {
+                            sendToOrder = false;  
+                          }
+                        }
                       }
                       
-                      product.modifier.push(val);
+                      if(sendToOrder) {
+
+                          let modType = 'modifier';
+                          if(opt.is_included_mod) {
+                            modType = 'included_modifier';
+                          }
+
+                          let val = {
+                              plu: opt.plu_code,   
+                              category_id: product.category_id,                
+                              add_extra: opt.add_extra,
+                              quantity: opt.quantity,
+                              type: 0,
+                              modifier_type: modType,
+                              choice: circle_type,
+                              send_code: opt.send_code                              
+                          }
+
+                          if(opt.is_checked || opt.add_extra == true) {
+                            val.type = 1
+                          }
+                          
+                          product.modifier.push(val);
+                      }
+                      
                     }
 
                 }
@@ -266,9 +284,10 @@ export class OrderreviewComponent implements OnInit {
 
 
         let orderData = this.order;
-
-        orderData.address.street_no = orderData.address.streetNo;
-        delete orderData.address.streetNo; 
+        if(orderData.address) {
+         orderData.address.street_no = orderData.address.streetNo;
+          delete orderData.address.streetNo; 
+        }
 
         if(this.order.order_type == 'delivery' && this.order.delivery_time_type == 'defer') {
           
