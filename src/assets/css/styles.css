@@ -464,7 +464,8 @@ header.navigation ul.links {
 }
 header.navigation ul.links li {
 	padding: 0 0 0 1px;
-	float: left
+	float: left;
+	position: relative;
 }
 header.navigation ul.links li a {
 	font-family: "proxima_nova_rgbold";
@@ -494,12 +495,13 @@ header.navigation ul.links li a span {
 	display: inline-block;
 	vertical-align: middle
 }
-header.navigation ul.links li.eclub-btn a{background: #911c28; color: #fff; padding: 0 15px;}
-
-/*header.navigation ul.links li a:hover {
-	background-color: #789c48;
-	color: #fff
-}*/
+header.navigation ul.links li.eclub-btn a{background: #911c28; color: #fff; padding: 0 15px; line-height: 66px;}
+header.navigation ul.links li.eclub-btn:hover > a{box-shadow: none;}
+header.navigation ul.links li.eclub-btn:hover ul{display: block;}
+header.navigation ul.links li.eclub-btn ul{display: none; padding: 0; position: absolute; top: 100%; right: 0px; width: 142px;}
+header.navigation ul.links li.eclub-btn ul li{display: block; float: none;}
+header.navigation ul.links li.eclub-btn ul li a{padding: 10px; line-height: normal;}
+header.navigation ul.links li.eclub-btn ul li a i{min-width: 16px;}
 .slider-wrapper {
 	height: 50%;
 	width: 100%;
@@ -882,7 +884,8 @@ header.navigation .logo {
 .blog-wrapper .blog-content .media .media-body p {
 	font-size: 11px;
 	color: #fff;
-	margin: 0
+	margin: 0;
+	height: 62px;
 }
 .blog-wrapper .blog-media .media span {
 	position: absolute;
