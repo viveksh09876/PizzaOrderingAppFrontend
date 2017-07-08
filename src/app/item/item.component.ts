@@ -308,18 +308,18 @@ export class ItemComponent implements OnInit {
                     
                     if(typeof options[j].Option.price[defaultSize] == 'string') {
                       if(is_crust_size_price_added == true) {
-                        
+                        priceBinding = true;
                         addPrice = parseFloat(options[j].Option.price[defaultSize]);
                         itemBasePrice = true;
                       }else if(itemSizePrice == 'true' || itemSizePrice == '') {
 
                         if(this.item.Product.plu_code != 999999) {
-                          
+                          priceBinding = true;
                           addPrice = parseFloat(options[j].Option.price[defaultSize]);
                           itemBasePrice = true;
                         }else{
                             if(itemSizePrice != '' || options[j].Option.plu_code == 'I101') {
-                             
+                             priceBinding = true;
                               addPrice = parseFloat(options[j].Option.price[defaultSize]);
                               itemBasePrice = true;
                             }
@@ -328,7 +328,7 @@ export class ItemComponent implements OnInit {
                         }
                         
                       }else if((itemSizePrice == 'large' || itemSizePrice == 'medium' || itemSizePrice == 'small') && total != 0) {
-                       
+                       priceBinding = true;
                         addPrice = parseFloat(options[j].Option.price[defaultSize]);
                         itemBasePrice = true;
                       }
@@ -339,6 +339,7 @@ export class ItemComponent implements OnInit {
                       }else{
                         
                         if(itemSizePrice != '') {
+                          
                           addPrice = parseFloat(options[j].Option.price);
                         }
                        
@@ -352,6 +353,8 @@ export class ItemComponent implements OnInit {
                       if(typeof options[j].Option.price[defaultSize] == 'string') {
                         addPrice = parseFloat(options[j].Option.price[defaultSize]);
                         itemBasePrice = true;
+                        priceBinding = true;
+                        console.log(123);
                       }
                     }
                   }
@@ -486,8 +489,10 @@ export class ItemComponent implements OnInit {
                   }
                   
 
+                  //console.log('check',options[j].Option.name, options[j].Option.send_code, options[j].Option.is_checked, itemBasePrice, itemSizePrice, defaultSize, options[j].Option.is_topping, is_crust_size_price_added, 'priceBinding =', priceBinding, 'includedMod', options[j].Option.is_included_mod, options[j].Option.add_extra);
+
                   if(options[j].Option.is_checked && options[j].Option.add_extra && priceBinding == true) {   
-                      //console.log('check',options[j].Option.name, options[j].Option.send_code, options[j].Option.is_checked, itemBasePrice, itemSizePrice, defaultSize, options[j].Option.is_topping, is_crust_size_price_added, 'priceBinding =', priceBinding);
+                      
                       if(options[j].Option.price[defaultSize]) {
                         addPrice += parseFloat(options[j].Option.price[defaultSize]);   
                       }else{
