@@ -100,8 +100,9 @@ export class ItemComponent implements OnInit {
 
   updateModifier(option_id, type, modifier_id) {
     
+   
     if(this.item.ProductModifier.length > 0) {
-      
+     let isNoMod = false;  
       for(var i = 0; i < this.item.ProductModifier.length; i++) {
         
         let options = this.item.ProductModifier[i].Modifier.ModifierOption;
@@ -117,10 +118,17 @@ export class ItemComponent implements OnInit {
               }
             }
 
+           
+
             if(options[j].Option.id == option_id) {
               
               options[j].Option.is_checked = !options[j].Option.is_checked;
-              
+
+              if(options[j].Option.is_checked && options[j].Option.no_modifier == 1) {
+                isNoMod = true; 
+                
+              }
+
               if(options[j].Option.OptionSuboption != undefined && options[j].Option.OptionSuboption.length > 0) {
                 if(options[j].Option.is_checked == true) {                  
                   for(var n=0; n<options[j].Option.OptionSuboption.length; n++) {
@@ -174,8 +182,24 @@ export class ItemComponent implements OnInit {
               }
 
             }
+
+
+             
         }
+
+        if(isNoMod) {            
+            for(var t=0; t < options.length; t++) {   
+                  options[t].Option.is_checked = false;
+            }            
+        }
+          
+
       }
+
+      
+      
+      
+
     }
     
     let total = this.calculateTotalCost();
@@ -494,8 +518,10 @@ export class ItemComponent implements OnInit {
                   if(options[j].Option.is_checked && options[j].Option.add_extra && priceBinding == true) {   
                       
                       if(options[j].Option.price[defaultSize]) {
+                        //console.log(123);
                         addPrice += parseFloat(options[j].Option.price[defaultSize]);   
                       }else{
+                        
                         addPrice += parseFloat(options[j].Option.price);   
                       }                           
                       options[j].Option.send_code = 1;             
@@ -545,6 +571,7 @@ export class ItemComponent implements OnInit {
 
 
         if(this.item.ProductModifier.length > 0) {
+          let defaultSize = 'small';
           for(var i = 0; i < this.item.ProductModifier.length; i++) {
             let options = this.item.ProductModifier[i].Modifier.ModifierOption;
             for(var j = 0; j < options.length; j++) {
@@ -552,19 +579,42 @@ export class ItemComponent implements OnInit {
                 if(options[j].Option.is_checked && options[j].Option.default_checked == false) {              
                   options[j].Option.send_code = 1;
                   if(options[j].Option.is_included_mod == false) {
-                    total += parseFloat(options[j].Option.price); 
+                    if(typeof options[j].Option.price.small == 'string') {
+                      console.log('check: ', defaultSize, options[j].Option.price[defaultSize]);
+                      total += parseFloat(options[j].Option.price[defaultSize]);
+                    }else{
+                      total += parseFloat(options[j].Option.price); 
+                    } 
                   }                                
                 }else if(options[j].Option.is_checked == false && options[j].Option.default_checked == true) {
                   options[j].Option.send_code = 0;
                 }else if(options[j].Option.is_checked == true && options[j].Option.default_checked == true) {
                   options[j].Option.send_code = 1;
                   if(options[j].Option.is_included_mod == false) {
-                    total = total + parseFloat(options[j].Option.price); 
+                    if(typeof options[j].Option.price.small == 'string') {
+                      total += parseFloat(options[j].Option.price[defaultSize]);
+                    }else{
+                      total += parseFloat(options[j].Option.price); 
+                    } 
                   }                  
                 }
 
-                if(options[j].Option.add_extra) {                      
-                  total += parseFloat(options[j].Option.price);                       
+                if(options[j].Option.default_checked && options[j].Option.plu_code == 999991) {
+                  defaultSize = 'small';
+                } else if(options[j].Option.default_checked && options[j].Option.plu_code == 999992) {
+                  defaultSize = 'medium';
+                } else if(options[j].Option.default_checked && options[j].Option.plu_code == 999993) {
+                  defaultSize = 'large';
+                }
+
+                if(options[j].Option.add_extra) {  
+                  //console.log(defaultSize, options[j].Option.price);
+                  if(typeof options[j].Option.price.small == 'string') {
+                    total += parseFloat(options[j].Option.price[defaultSize]);
+                  }else{
+                    total += parseFloat(options[j].Option.price); 
+                  }
+                                      
                 }
 
             }

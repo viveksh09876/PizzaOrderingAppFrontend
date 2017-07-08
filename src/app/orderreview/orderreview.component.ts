@@ -264,6 +264,7 @@ export class OrderreviewComponent implements OnInit {
                       
                       if(sendToOrder) {
 
+                          
                           let modType = 'modifier';
                           if(opt.is_included_mod) {
                             modType = 'included_modifier';
@@ -326,8 +327,8 @@ export class OrderreviewComponent implements OnInit {
 
         this.order.order_details = finalOrder;
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
-        //console.log('order', this.order);
-        this.router.navigate(['/checkout']);
+        console.log('order', this.order);
+        //this.router.navigate(['/checkout']);
 
       }
       
