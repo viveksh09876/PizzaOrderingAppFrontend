@@ -100,8 +100,9 @@ export class ItemComponent implements OnInit {
 
   updateModifier(option_id, type, modifier_id) {
     
+   
     if(this.item.ProductModifier.length > 0) {
-      
+     let isNoMod = false;  
       for(var i = 0; i < this.item.ProductModifier.length; i++) {
         
         let options = this.item.ProductModifier[i].Modifier.ModifierOption;
@@ -117,10 +118,17 @@ export class ItemComponent implements OnInit {
               }
             }
 
+           
+
             if(options[j].Option.id == option_id) {
               
               options[j].Option.is_checked = !options[j].Option.is_checked;
-              
+
+              if(options[j].Option.is_checked && options[j].Option.no_modifier == 1) {
+                isNoMod = true; 
+                
+              }
+
               if(options[j].Option.OptionSuboption != undefined && options[j].Option.OptionSuboption.length > 0) {
                 if(options[j].Option.is_checked == true) {                  
                   for(var n=0; n<options[j].Option.OptionSuboption.length; n++) {
@@ -174,8 +182,24 @@ export class ItemComponent implements OnInit {
               }
 
             }
+
+
+             
         }
+
+        if(isNoMod) {            
+            for(var t=0; t < options.length; t++) {   
+                  options[t].Option.is_checked = false;
+            }            
+        }
+          
+
       }
+
+      
+      
+      
+
     }
     
     let total = this.calculateTotalCost();
@@ -293,6 +317,7 @@ export class ItemComponent implements OnInit {
       let itemBasePrice = false;
       let itemSizePrice = '';
       let is_crust_size_price_added = false;
+      let priceBinding = false;
 
       if(this.item.ProductModifier.length > 0) {
         for(var i = 0; i < this.item.ProductModifier.length; i++) {
@@ -307,18 +332,18 @@ export class ItemComponent implements OnInit {
                     
                     if(typeof options[j].Option.price[defaultSize] == 'string') {
                       if(is_crust_size_price_added == true) {
-                        console.log('x');
+                        priceBinding = true;
                         addPrice = parseFloat(options[j].Option.price[defaultSize]);
                         itemBasePrice = true;
                       }else if(itemSizePrice == 'true' || itemSizePrice == '') {
 
                         if(this.item.Product.plu_code != 999999) {
-                          console.log('y');
+                          priceBinding = true;
                           addPrice = parseFloat(options[j].Option.price[defaultSize]);
                           itemBasePrice = true;
                         }else{
                             if(itemSizePrice != '' || options[j].Option.plu_code == 'I101') {
-                              console.log('yx');
+                             priceBinding = true;
                               addPrice = parseFloat(options[j].Option.price[defaultSize]);
                               itemBasePrice = true;
                             }
@@ -327,23 +352,18 @@ export class ItemComponent implements OnInit {
                         }
                         
                       }else if((itemSizePrice == 'large' || itemSizePrice == 'medium' || itemSizePrice == 'small') && total != 0) {
-                        console.log('z');
+                       priceBinding = true;
                         addPrice = parseFloat(options[j].Option.price[defaultSize]);
                         itemBasePrice = true;
                       }
-                      // }else if(total != 0) {
-                      //   addPrice = parseFloat(options[j].Option.price[defaultSize]);
-                      //   itemBasePrice = true;
-                      // }
                       
-                      console.log('zero base', options[j].Option.price[defaultSize], typeof options[j].Option.price[defaultSize], itemBasePrice, itemSizePrice, is_crust_size_price_added, total);
-                       
                     }else{
                       if(itemBasePrice && itemSizePrice != '' && !options[j].Option.is_included_mod && total == 0) {
-                        console.log('add nhi karna');
+                        
                       }else{
-                        console.log('f',options[j].Option.name, options[j].Option.is_included_mod, defaultSize, options[j].Option.price, itemBasePrice, 'size price', itemSizePrice);  
+                        
                         if(itemSizePrice != '') {
+                          
                           addPrice = parseFloat(options[j].Option.price);
                         }
                        
@@ -357,10 +377,10 @@ export class ItemComponent implements OnInit {
                       if(typeof options[j].Option.price[defaultSize] == 'string') {
                         addPrice = parseFloat(options[j].Option.price[defaultSize]);
                         itemBasePrice = true;
-                        console.log('abc ho gya', options[j].Option.is_checked);
+                        priceBinding = true;
+                        console.log(123);
                       }
                     }
-                    console.log('not included mod', options[j].Option.name, options[j].Option.is_checked);
                   }
                   
                   //console.log('initial add price', addPrice);
@@ -389,7 +409,6 @@ export class ItemComponent implements OnInit {
                                 is_crust_size_price_added = true;
                               } 
                             
-                            console.log('def',options[j].Option.price, options[j].Option.is_checked, defaultSize);
                           }
                           //console.log(defaultSize, options[j].Option.dependent_modifier_id, p_op[y].Option);
                         }
@@ -404,12 +423,14 @@ export class ItemComponent implements OnInit {
                           if(p_op[y].Option.plu_code == 999991) {  //small
 
                             if(typeof options[j].Option.price.small == 'string') {
-                              console.log('small', options[j].Option.price.small, options[j].Option.is_checked);
                               addPrice = parseFloat(options[j].Option.price.small);
                               itemSizePrice = 'small';
                               defaultSize = 'small';
                               if(options[j].Option.price.small == 0) {
                                 is_crust_size_price_added = false;
+                                priceBinding = false;
+                              }else{
+                                priceBinding = true;
                               }
                             }
                             
@@ -421,18 +442,24 @@ export class ItemComponent implements OnInit {
                               defaultSize = 'medium';
                               if(options[j].Option.price.medium == 0) {
                                 is_crust_size_price_added = false;
+                                priceBinding = false;
+                              }else{
+                                priceBinding = true;
                               } 
                             }
                             
                           }else if(p_op[y].Option.plu_code == 999993) {
                             if(typeof options[j].Option.price.large == 'string') {
-                              console.log('large 123', options[j].Option.price.large);
+                              
+                              console.log('large: ', options[j].Option.price.large,  options[j].Option.name , options[j].Option.is_checked, options[j].Option.is_included_mod, p_op[y].Option.is_included_mod);
                               addPrice = parseFloat(options[j].Option.price.large);
                               itemSizePrice = 'large';
                               defaultSize = 'large';
                               if(options[j].Option.price.large == 0) {
-                                console.log('zero');
+                                priceBinding = false;
                                 is_crust_size_price_added = false;
+                              }else{
+                                priceBinding = true;
                               }                              
                             }
                             
@@ -447,21 +474,14 @@ export class ItemComponent implements OnInit {
                     
                     
                     addPrice = parseFloat(options[j].Option.price[defaultSize]);   
-                    console.log('a', addPrice, itemSizePrice, defaultSize, options[j].Option.name, options[j].Option.is_checked, itemBasePrice);                 
+                                
                   }else if(options[j].Option.price != null && options[j].Option.is_included_mod == false && options[j].Option.price.small == undefined){
                     
                     addPrice = parseFloat(options[j].Option.price);   
-                    console.log('a', addPrice);                 
+                                     
                   }
 
-                  if(options[j].Option.is_checked && options[j].Option.add_extra) {   
-                      if(options[j].Option.price[defaultSize]) {
-                        addPrice += parseFloat(options[j].Option.price[defaultSize]);   
-                      }else{
-                        addPrice += parseFloat(options[j].Option.price);   
-                      }                           
-                      console.log('b', addPrice, options[j].Option.price, defaultSize);               
-                  }
+                  
                  
                   
                   if(options[j].Option.is_checked && options[j].Option.default_checked == false) {      
@@ -483,20 +503,34 @@ export class ItemComponent implements OnInit {
                     options[j].Option.send_code = 0;
                   }
 
-                  if((options[j].Option.plu_code == '91' || options[j].Option.plu_code == 'I100' || options[j].Option.plu_code == 'I101')) {
+                  if(options[j].Option.plu_code == '91' || options[j].Option.plu_code == 'I100' || options[j].Option.plu_code == 'I101') {
                     if(options[j].Option.is_checked == true) {
                       options[j].Option.send_code = 1;
                     }else{
                       options[j].Option.send_code = 0;
                     }
-
+                    
                   }
                   
-                  //console.log('last', addPrice);
-                  console.log('total: ', total, addPrice, itemSizePrice, itemBasePrice);
+
+                  //console.log('check',options[j].Option.name, options[j].Option.send_code, options[j].Option.is_checked, itemBasePrice, itemSizePrice, defaultSize, options[j].Option.is_topping, is_crust_size_price_added, 'priceBinding =', priceBinding, 'includedMod', options[j].Option.is_included_mod, options[j].Option.add_extra);
+
+                  if(options[j].Option.is_checked && options[j].Option.add_extra && priceBinding == true) {   
+                      
+                      if(options[j].Option.price[defaultSize]) {
+                        //console.log(123);
+                        addPrice += parseFloat(options[j].Option.price[defaultSize]);   
+                      }else{
+                        
+                        addPrice += parseFloat(options[j].Option.price);   
+                      }                           
+                      options[j].Option.send_code = 1;             
+                  }
+
+
                   if(this.item.Product.plu_code == 999999) {
                     if(!isNaN(addPrice)) {
-                      console.log('addedy');
+                      
                       total += addPrice;
                     }
                     
@@ -505,8 +539,7 @@ export class ItemComponent implements OnInit {
                     if(!isNaN(addPrice)) {
                       total += addPrice;
                     }
-                  }
-                                   
+                  }                                   
                 }               
               }
           }
@@ -515,35 +548,30 @@ export class ItemComponent implements OnInit {
 
      
       if(this.item.Product.price && this.item.Product.price[defaultSize] != undefined) {
-        //console.log('total', total);
-        total += parseFloat(this.item.Product.price[defaultSize]); 
-        console.log(234, defaultSize, this.item.Product.price, total);
+        total += parseFloat(this.item.Product.price[defaultSize]);        
       }
 
       if(!itemBasePrice && this.item.Product.plu_code == 999999) {
-        console.log(123);
+       
         total = 0;
       }
 
       if(this.item.Product.plu_code != 999999 && total == 10) {
-        console.log(1234);
+       
         total = 0;
       }
 
-      console.log(itemBasePrice, itemSizePrice);
       if(this.item.Product.plu_code != 999999 && itemSizePrice == '') {
-        //console.log(123);
+
         total = 0;
       }
-
-      console.log('final', total);  
-
-       ////console.log(defaultSize, this.item.Product.price[defaultSize], total);          
+        
 
     }else{
 
 
         if(this.item.ProductModifier.length > 0) {
+          let defaultSize = 'small';
           for(var i = 0; i < this.item.ProductModifier.length; i++) {
             let options = this.item.ProductModifier[i].Modifier.ModifierOption;
             for(var j = 0; j < options.length; j++) {
@@ -551,19 +579,42 @@ export class ItemComponent implements OnInit {
                 if(options[j].Option.is_checked && options[j].Option.default_checked == false) {              
                   options[j].Option.send_code = 1;
                   if(options[j].Option.is_included_mod == false) {
-                    total += parseFloat(options[j].Option.price); 
+                    if(typeof options[j].Option.price.small == 'string') {
+                      console.log('check: ', defaultSize, options[j].Option.price[defaultSize]);
+                      total += parseFloat(options[j].Option.price[defaultSize]);
+                    }else{
+                      total += parseFloat(options[j].Option.price); 
+                    } 
                   }                                
                 }else if(options[j].Option.is_checked == false && options[j].Option.default_checked == true) {
                   options[j].Option.send_code = 0;
                 }else if(options[j].Option.is_checked == true && options[j].Option.default_checked == true) {
                   options[j].Option.send_code = 1;
                   if(options[j].Option.is_included_mod == false) {
-                    total = total + parseFloat(options[j].Option.price); 
+                    if(typeof options[j].Option.price.small == 'string') {
+                      total += parseFloat(options[j].Option.price[defaultSize]);
+                    }else{
+                      total += parseFloat(options[j].Option.price); 
+                    } 
                   }                  
                 }
 
-                if(options[j].Option.add_extra) {                      
-                  total += parseFloat(options[j].Option.price);                       
+                if(options[j].Option.default_checked && options[j].Option.plu_code == 999991) {
+                  defaultSize = 'small';
+                } else if(options[j].Option.default_checked && options[j].Option.plu_code == 999992) {
+                  defaultSize = 'medium';
+                } else if(options[j].Option.default_checked && options[j].Option.plu_code == 999993) {
+                  defaultSize = 'large';
+                }
+
+                if(options[j].Option.add_extra) {  
+                  //console.log(defaultSize, options[j].Option.price);
+                  if(typeof options[j].Option.price.small == 'string') {
+                    total += parseFloat(options[j].Option.price[defaultSize]);
+                  }else{
+                    total += parseFloat(options[j].Option.price); 
+                  }
+                                      
                 }
 
             }
@@ -627,7 +678,7 @@ export class ItemComponent implements OnInit {
 
 
   add_to_cart() {
-    ////console.log(this.item);
+    console.log(this.item);
     if(this.dataService.getLocalStorageData('allItems') != null
           && this.dataService.getLocalStorageData('allItems') != 'null') {
        let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));

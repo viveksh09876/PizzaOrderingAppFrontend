@@ -47,6 +47,9 @@ export class MenuComponent implements OnInit {
       this.showViewCart = true;
     }
 
+    this.dataService.setLocalStorageData('confirmationFinalOrder', null);
+    this.dataService.setLocalStorageData('confirmationItems', null);      
+
   }
 
   getAllCategories(){

@@ -226,11 +226,25 @@ export class OrderreviewComponent implements OnInit {
                     
                     let opt = products.ProductModifier[i].Modifier.ModifierOption[j].Option;
                     
+                     
+
                     if((opt.send_code == 1) 
                         || (opt.plu_code == 999991 && opt.is_checked)
                           || (opt.plu_code == 999992 && opt.is_checked)  
                             || (opt.plu_code == 999993 && opt.is_checked)) {
                       
+                      let isSizeCrust = false;
+                      if(opt.plu_code == 999991
+                          || opt.plu_code == 999992  
+                            || opt.plu_code == 999993 
+                              || opt.plu_code == 91
+                                || opt.plu_code == 'I100'  
+                                  || opt.plu_code == 'I101') {
+
+                              isSizeCrust = true;
+                      
+                      }       
+
                       let circle_type = 'Full';
 
                       for(var a=0; a < opt.OptionSuboption.length; a++) {
@@ -240,7 +254,7 @@ export class OrderreviewComponent implements OnInit {
                       }
 
                       let sendToOrder = true;
-                      if(opt.category_id != 1) {
+                      if(opt.category_id != 1 && isSizeCrust == false) {
                         if(opt.is_checked && opt.default_checked) {
                           if(!opt.add_extra) {
                             sendToOrder = false;  
@@ -249,13 +263,20 @@ export class OrderreviewComponent implements OnInit {
                       }
                       
                       if(sendToOrder) {
+
+                          
+                          let modType = 'modifier';
+                          if(opt.is_included_mod) {
+                            modType = 'included_modifier';
+                          }
+
                           let val = {
                               plu: opt.plu_code,   
                               category_id: product.category_id,                
                               add_extra: opt.add_extra,
                               quantity: opt.quantity,
                               type: 0,
-                              modifier_type: opt.is_included_mod,
+                              modifier_type: modType,
                               choice: circle_type,
                               send_code: opt.send_code                              
                           }
@@ -306,8 +327,8 @@ export class OrderreviewComponent implements OnInit {
 
         this.order.order_details = finalOrder;
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
-        //console.log('order', this.order);
-        this.router.navigate(['/checkout']);
+        console.log('order', this.order);
+        //this.router.navigate(['/checkout']);
 
       }
       
