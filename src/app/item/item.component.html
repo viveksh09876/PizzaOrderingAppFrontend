@@ -10,11 +10,11 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
     </div>
     <div class="banner-wrapper customize-mob hidden-md hidden-lg">
     <div class="container header-sec">
-      <a [routerLink]="['/menu']" class="cta-btn" style="float: left;"><i class="fa fa-arrow-left"></i></a>
+      <a [routerLink]="['/menu']" class="cta-btn" style="position: absolute; left: 0px; top: 0px;"><i class="fa fa-arrow-left"></i></a>
      <ng-container *ngIf="item.Product.title"> 
       <h3>{{item.Product.title}}</h3>
      </ng-container>
-      <a (click)="checkout()" class="cta-btn" style="float: right;"><i class="fa fa-shopping-cart"></i></a>
+      <a (click)="checkout()" class="cta-btn" style="position: absolute; right: 0px; top: 0px;"><i class="fa fa-shopping-cart"></i></a>
     </div>
 </div>
 
@@ -23,8 +23,8 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
 </div>-->
 
  <div class="spinner" *ngIf="item == null">
-      <div class="cube1"></div>
-      <div class="cube2"></div>
+      <div class="cube1 icon icon-pizza-icon"></div>
+      <div class="cube2 icon icon-pizza-icon"></div>
     </div>
 
 <!--Inside Sections-->
@@ -87,11 +87,11 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
             </div>
           <div class="img-wrapper" *ngIf="item.Product.image == null" style="background-image:url(assets/images/pizza-img-lg.jpg)"></div>
           <div class="img-wrapper" *ngIf="item.Product.image != null" [ngStyle]="{'background-image': 'url(' + cmsApiPath + '/' + item.Product.image + ')'}"></div>
-          <div class="nuitrition">
-            <!-- <h5 class="bottomHeading">NUTRITIONAL VALUE</h5> -->
+          <!-- <div class="nuitrition">
+            <h5 class="bottomHeading">NUTRITIONAL VALUE</h5> 
               <p class="bold">456 CAL</p>
               <a href="">Know More</a>
-          </div>
+          </div> -->
           <div class="content-container">
             <div class="ins">
               <h5>{{item.Product.title}} CONTAINS</h5>

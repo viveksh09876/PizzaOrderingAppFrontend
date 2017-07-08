@@ -13,17 +13,6 @@ var zoom=3;
 var infowindow;
 var markers = [];
 
-function initSlider() {
-   $("#home-slider").slick({
-    	infinite: true,
-    	dots: true,
-    	prevArrow: false,
-    	nextArrow: false
-    });
-
-}
-
-
 $(document).ready(function(){
 
   //initSlider();
@@ -100,6 +89,7 @@ $(document).ready(function(){
             zoom: zoomLabel
         });
          mapCanvas.scrollZoom.disable();
+         mapCanvas.dragRotate.disable();
          mapCanvas.addControl(new mapboxgl.NavigationControl());
         if(country == 'UAE' || country == 'United Arab Emirates') {
             cordinates = [[25.040657,55.197286],[25.074192,55.139092],[25.184279,55.263638]];
@@ -159,7 +149,7 @@ $(document).ready(function(){
                           var latitude = stData[p].Store.latitude;
                           var longitude = stData[p].Store.longitude;
 
-                          var infoWindowText = '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">'+stData[p].Store.store_name+'</h4><p>'+stData[p].Store.store_address+'</p></div><div class="media-right"><a href="#"><i class="icon icon-directions"></i> Direction</a></div></div><ul class="list-inline"><li><a><i class="icon icon-time"></i><span>Open now:  11AM - 3AM<span/></a></li><li><a><i class="icon icon-phone"></i><span>'+stData[p].Store.store_phone+'<span/></a></li></ul></div><div class="tail-wrapper"></div></div>';
+                          var infoWindowText = '<div class="infoWrapper"><a class="close-btn" id="closeBtn"></><a href="#" class="custom-button"><span>order now</span></a><div class="image-container"><img src="assets/images/pickup-delivery/img-1.jpg" class="img-responsive" alt="Map Image"/></div><div class="content-container"><div class="media"><div class="media-body"><h4 class="media-heading">'+stData[p].Store.store_name+'</h4><p>'+stData[p].Store.store_address+'</p></div><div class="media-right"><a href="#"><i class="icon icon-directions"></i> Direction</a></div></div><ul class="list-inline"><li><a><i class="icon icon-time"></i><span>Open now:  11AM - 3AM<span/></a></li><li><a href="mailto:+stData[p].Store.store_phone+"><i class="icon icon-phone"></i><span>'+stData[p].Store.store_phone+'<span/></a></li></ul></div><div class="tail-wrapper"></div></div>';
 
                               // create a DOM element for the marker
                               var el = document.createElement('div');

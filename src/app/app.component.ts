@@ -15,6 +15,7 @@ declare var jQuery: any;
 export class AppComponent implements OnInit {
 
   showFooter = true;
+  showLocationTab = true;
 
   constructor(private dialogService:DialogService,
                 private route: ActivatedRoute,
@@ -29,7 +30,13 @@ export class AppComponent implements OnInit {
             }else{
               this.showFooter = true;
             } 
-            //console.log(e.url);
+
+            if(urlArr[1] == ''){
+              this.showLocationTab = true;
+            }else{
+              this.showLocationTab = false;
+            }
+            console.log(urlArr);
           }
         });         
 
