@@ -226,6 +226,10 @@ export class OrderreviewComponent implements OnInit {
                     
                     let opt = products.ProductModifier[i].Modifier.ModifierOption[j].Option;
                     
+                    // if(opt.plu_code == 34) {
+                    //   console.log('opt', opt);
+                    // }
+
                     if((opt.send_code == 1) 
                         || (opt.plu_code == 999991 && opt.is_checked)
                           || (opt.plu_code == 999992 && opt.is_checked)  
