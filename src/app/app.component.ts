@@ -54,7 +54,19 @@ export class AppComponent implements OnInit {
       let user = this.dataService.getLocalStorageData('isLoggedIn');
       if(user != undefined && user == 'true') {
         this.showLogin = false;
-      }    
+      }  
+
+      jQuery("header.navigation ul.links li a").on('click', function(event) {
+       if (this.hash !== "") {
+          event.preventDefault();
+          var hash = this.hash;
+        jQuery('html, body').animate({
+          scrollTop: jQuery(hash).offset().top-80
+          }, 800, function(){
+        window.location.hash = hash;
+      });
+    }
+  });
   }
 
   navigateMenu(page) {
