@@ -46,7 +46,12 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-6">
                             <label>Dae of Birth</label>
-                            <input type="text" class="form-control" [(ngModel)]="user.dob" name="dob" placeholder="Date of Birth" ngui-datetime-picker date-format="MM/DD/YYYY" date-only="true" max-date="{{curDate}}">
+                            {{curDate}}
+                            {{startDate}}
+                            <input type="text" class="form-control" [(ngModel)]="user.dob" #dob="ngModel" name="dob" placeholder="Date of Birth" ngui-datetime-picker date-format="YYYY-MM-DD" date-only="true" max-date="{{maxDate}}-01-01" min-date="1940-01-01" required>
+                            <div *ngIf="dob.errors && (dob.dirty || dob.touched)" class="alert alert-danger">
+                                <div [hidden]="!dob.errors.required">Date of Birth is required.</div>
+                            </div>
                         </div>  
                         <div class="col-md-6 col-sm-6">
                             <label>zip code (us only)</label>
@@ -113,10 +118,11 @@
                 </form>
             </div>
             <div role="tabpanel" style="height:300px;overflow:auto;" class="tab-pane" [ngClass]="{'active': thirdStepForm}" id="prefer">
+                <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
                 <form #signUpStep3Form="ngForm" ngForm (ngSubmit)="submit()">
                     <div class="form-group" *ngFor="let pref of prefreces">
                         <label>{{pref.Question.question}}</label>
-                        <div class="checkbox" *ngFor="let opt of  pref.QuestionOption"><label><input type="radio" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> {{opt.answer}}</label></div>
+                        <div class="checkbox" *ngFor="let opt of  pref.QuestionOption"><label><input type="checkbox" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> {{opt.answer}}</label></div>
                     </div>  
                     <hr>
                     <div class="form-group">

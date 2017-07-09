@@ -1,8 +1,8 @@
 <?php
 App::uses('AppController', 'Controller');
 class WebserviceController extends AppController {
-    public $uses = array('Category','Question','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog');
-    public $components=array('Core');
+    public $uses = array('Category','Question','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate');
+    public $components=array('Core','Email');
 
     function beforeFilter(){
         parent::beforeFilter();
@@ -1311,10 +1311,92 @@ class WebserviceController extends AppController {
 	}
 
 	function signUp(){
-		$data = $this->request->input ( 'json_decode', true) ;
+		Configure::write('debug', 2);
+		$data = $this->request->input ( 'json_decode', true);
+		$qData = array();
+		foreach($data[2]['question'] as $val):
+			$valNew = array_filter($val);	
+			foreach($valNew as $key=>$v):
+				$qData[$v['questionId']][] = $v['answerId'];
+			endforeach;
+		endforeach;
+
+		$date = new DateTime($data[0]['dob']);
 		if(!empty($data)) {
-			pr(array_filter($data));
+			$userData = array(
+				'firstname'=>$data[0]['fname'],
+				'lastname'=>$data[0]['lname'],
+				'email'=>$data[0]['email'],
+				'dob'=>$date->format('Y-m-d'),
+				'postal'=>$data[0]['zip'],
+				'favloc'=>$data[0]['location'],
+				'phone'=>'',
+				'address1'=>'',
+				'address2'=>'',
+				'address3'=>'',
+				'username'=>$data[1]['username'],
+				'password'=>$data[1]['password'],
+				'subscribe'=>($data[2]['enrolling'])?1:0,
+				'pref'=>$qData,
+			);
+
+			$url = 'http://35.185.240.172/nkd/index.php/Signup';
+			$content = json_encode($userData);
+			$curl = curl_init($url);
+			curl_setopt($curl, CURLOPT_HEADER, false);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($curl, CURLOPT_HTTPHEADER,
+					array("Content-type: application/json"));
+			curl_setopt($curl, CURLOPT_POST, true);
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
+			 
+			$result     = curl_exec($curl);
+			$response   = json_decode($result);
+			
+			if($response->Status == 'OK') {
+				
+				// /*-template asssignment if any*/
+				// $template = $this->EmailTemplate->find('first',array(
+				// 		'conditions' => array(
+				// 			'template_key'=> 'registraion_notification',
+				// 			'template_status' =>'Active'
+				// 		)
+				// 	)
+				// );
+
+				// if($template){  
+				// 	$arrFind=array('{fname}','{lname}','{email}','{password}');
+				// 	$arrReplace=array($data[0]['fname'],$data[0]['lname'],$data[0]['email'],$data[1]['password']);
+					
+				// 	$from=$template['EmailTemplate']['from_email'];
+				// 	$subject=$template['EmailTemplate']['email_subject'];
+				// 	$content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
+				// }
+
+				// $this->set('Content',$content);   
+
+				// try{
+				// 	$this->Email->from=$from;
+				// 	$this->Email->to='rajput.pushpendra61@gmail.com';
+				// 	$this->Email->subject=$subject;
+				// 	$this->Email->sendAs='html';
+				// 	$this->Email->template='general';
+				// 	$this->Email->delivery = 'smtp';
+				// 	if($this->Email->send()){
+				// 		echo json_encode(array('isSuccess'=>true, 'show'=>true, 'message'=>'Thank You ! you have successfully registered with us, login details has been sent to registered email.'));
+				// 	}
+
+				// }catch(Exception $e){
+				// 	echo json_encode(array('isSuccess'=>true, 'show'=>true, 'message'=>'Thank You ! you have successfully registered with us.'));
+				// }
+				// /*-[end]template asssignment*/
+				echo json_encode(array('isSuccess'=>true, 'show'=>true, 'message'=>'Thank You ! you have successfully registered with us.'));
+			}else{
+				echo json_encode(array('isSuccess'=>false, 'show'=>true, 'message'=>$response->Message));
+			}
 		}
+		curl_close($curl);
 		die;
 	}
 

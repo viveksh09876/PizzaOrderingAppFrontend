@@ -2,10 +2,28 @@
   <div class="slides" id="home-slider" *ngIf="slideArr.length != 0">
     <ng-container *ngFor="let slide of slideArr">
     <div class="slide" [ngStyle]="{ 'background-image': 'url(' + slide.Slide.image + ')'}">
-      <div class="container">
-        <div class="fade-bg visible-xs"></div>
-        <div class="slide-content fadeIn animated"> <img src="{{slide.Slide.textImage}}" class="img-responsive" alt="slide content"/></div>
-      </div>
+        <ng-container *ngIf="slide.Slide.coupon_code!=''">
+            <a (click)="openModal('register')">
+              <div class="container">
+                <div class="fade-bg visible-xs"></div>
+                <div class="slide-content fadeIn animated"> 
+                  <ng-container *ngIf="slide.Slide.textImage!=''">
+                    <img src="{{slide.Slide.textImage}}" class="img-responsive" alt="slide content"/>
+                  </ng-container>
+                </div>
+              </div>
+            </a>
+        </ng-container>
+        <ng-container *ngIf="slide.Slide.coupon_code ==''">
+          <div class="container">
+            <div class="fade-bg visible-xs"></div>
+            <div class="slide-content fadeIn animated"> 
+              <ng-container *ngIf="slide.Slide.textImage!=''">
+                <img src="{{slide.Slide.textImage}}" class="img-responsive" alt="slide content"/>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
     </div>
     </ng-container>
   </div>
