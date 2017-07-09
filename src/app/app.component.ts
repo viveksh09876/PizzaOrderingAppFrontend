@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
             }else{
               this.showLocationTab = false;
             }
-            console.log(urlArr);
+            //console.log(urlArr);
           }
         });         
 

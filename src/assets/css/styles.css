@@ -42,8 +42,8 @@ a{cursor: pointer;}
 }
 
 button:disabled {
-    background: #ddd !important;
-	color: #999 !important;
+    /*background: #ddd !important;
+	color: #999 !important;*/
 }
 
 @-webkit-keyframes sk-cubemove {
@@ -484,9 +484,10 @@ header.navigation ul.links li a span.icon {
 }
 header.navigation ul.links li a span {
 	display: inline-block;
-	vertical-align: middle
+	vertical-align: middle;
+	line-height: inherit;
 }
-header.navigation ul.links li.eclub-btn a{background: #911c28; color: #fff; padding: 0 15px; line-height: 66px;}
+header.navigation ul.links li.eclub-btn a{background: #911c28; color: #fff; padding: 0 15px; line-height: 63px;}
 header.navigation ul.links li.eclub-btn:hover > a{box-shadow: none;}
 header.navigation ul.links li.eclub-btn:hover ul{display: block;}
 header.navigation ul.links li.eclub-btn ul{display: none; padding: 0; position: absolute; top: 100%; right: 0px; width: 142px;}
@@ -2840,7 +2841,7 @@ color:#fff
 .stepboxes .save_orderbox{ background: #789c48; display: inline-block; width: 100%; padding: 5px 15px 10px;}
 .stepboxes .save_orderbox h5{ font-size: 22px; color: #fff; line-height: 25px; margin: 0 0 10px; font-family: 'proxima_nova_rgbold';}
 .stepboxes .save_orderbox input[type="text"]{ color: #5b5a56; font-size: 16px; font-family: 'proxima_nova_ltlight'; border: 1px solid #acacac; border-radius: 5px; height: 34px; padding: 5px 10px; width: calc(100% - 130px); float: left;}
-.stepboxes .save_orderbox input[type="submit"]{ background: #911c27; height: 34px; color: #fff; border: 0; border-bottom: 2px solid #270304; font-size: 16px; line-height: 34px; border-radius: 3px; padding: 0 20px; width: 120px; float: right;}
+.stepboxes .save_orderbox input[type="submit"]{ background: #911c27; height: 34px; color: #fff; border: 0; border-bottom: 2px solid #270304; font-size: 14px; line-height: 34px; border-radius: 3px; padding: 0 20px; width: 120px; float: right;}
 
 .order_reviewform{ padding: 20px 15px 0; display: inline-block; width: 100%;}
 .order_reviewform .form-control{ color: #5b5a56;  font-family: 'proxima_nova_ltlight'; font-size: 16px; border: 1px solid #acacac; border-radius: 3px;}
@@ -2874,7 +2875,7 @@ color:#fff
 .choosetime_box h4{ color: #5b5a56; font-size: 22px; margin: 0 0 10px; font-family: 'proxima_nova_rgbold'; line-height: 25px;}
 .choosetime_box .radio_tabs{ margin: 0;}
 .choosetime_box .order_reviewform{ padding: 10px 0 0; margin: 0 -5px}
-.dottedlist_box .fullred-btn{ font-size: 18px; line-height: 29px; padding: 5px; display: block; background: #911c27; text-align: center; border-radius: 3px; border-bottom: 2px solid #4f050c; color: #fff; font-family: 'proxima_nova_ltsemibold';}
+.dottedlist_box .fullred-btn{ font-size: 18px; border: none; line-height: 29px; padding: 5px; display: block; background: #911c27; text-align: center; border-radius: 3px; border-bottom: 2px solid #4f050c; color: #fff; font-family: 'proxima_nova_ltsemibold';}
 
 .delivery_addrs{ padding: 20px 10px 0; margin: 0;}
 .delivery_addrs h4{ font-size: 22px; color: #5b5a56; font-family: 'bureaueaglebookregular'; line-height: 25px; margin:0 0 5px;}

@@ -29,6 +29,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { SortPipe } from './sort.pipe';
 import { FavmodalComponent } from './favmodal/favmodal.component';
 import { FranchisingComponent } from './franchising/franchising.component';
+import { BahrainComponent } from './bahrain/bahrain.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { FranchisingComponent } from './franchising/franchising.component';
     ConfirmationComponent,
     SortPipe,
     FavmodalComponent,
-    FranchisingComponent
+    FranchisingComponent,
+    BahrainComponent
   ],
   imports: [
     BrowserModule,

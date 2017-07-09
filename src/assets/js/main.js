@@ -64,7 +64,7 @@ $(document).ready(function(){
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicHVzaHBlbmRyYXJhaiIsImEiOiJjajRwYzFtOTYxeWd0MzJwbDdsaGNzOTZiIn0.a9BUA890Vtyeqy21AaLClQ';
 $(document).ready(function(){
-  //if(window.location.host=='localhost:4200'){
+
     $.get('https://mavin360.com/demo/nkd/dev/webservice/getip', function(resp){
         resp = JSON.parse(resp);
         country = resp.geoplugin_countryName;
@@ -90,6 +90,7 @@ $(document).ready(function(){
         });
          mapCanvas.scrollZoom.disable();
          mapCanvas.dragRotate.disable();
+         mapCanvas.dragPan.disable();
          mapCanvas.addControl(new mapboxgl.NavigationControl());
         if(country == 'UAE' || country == 'United Arab Emirates') {
             cordinates = [[25.040657,55.197286],[25.074192,55.139092],[25.184279,55.263638]];
@@ -189,7 +190,7 @@ $(document).ready(function(){
       }
   });
 
-  //}
+  
   
 });
 

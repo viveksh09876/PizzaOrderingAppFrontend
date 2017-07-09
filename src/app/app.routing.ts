@@ -12,6 +12,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { CareersComponent } from './careers/careers.component';
 import { FranchisingComponent } from './franchising/franchising.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { BahrainComponent } from './bahrain/bahrain.component';
 
 const appRoutes: Routes = [ 
     { path: '', component: HomeComponent },
@@ -24,7 +25,8 @@ const appRoutes: Routes = [
     { path: 'checkout', component: CheckoutComponent },
     { path: 'careers', component: CareersComponent },
 	{ path: 'franchising', component: FranchisingComponent },
-    { path: 'confirmation', component: ConfirmationComponent }
+    { path: 'confirmation', component: ConfirmationComponent },
+    { path: 'bahrain-order', component: BahrainComponent }
 ]; 
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes,{ useHash: true });
