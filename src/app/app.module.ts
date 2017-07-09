@@ -30,6 +30,7 @@ import { SortPipe } from './sort.pipe';
 import { FavmodalComponent } from './favmodal/favmodal.component';
 import { FranchisingComponent } from './franchising/franchising.component';
 import { BahrainComponent } from './bahrain/bahrain.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { BahrainComponent } from './bahrain/bahrain.component';
     SortPipe,
     FavmodalComponent,
     FranchisingComponent,
-    BahrainComponent
+    BahrainComponent,
+    ContactUsComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +67,7 @@ import { BahrainComponent } from './bahrain/bahrain.component';
     NguiDatetimePickerModule,
     CustomFormsModule
   ],
-  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent],
+  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent],
   schemas:  [CUSTOM_ELEMENTS_SCHEMA],
   providers: [DataService, UtilService],
   bootstrap: [AppComponent]
