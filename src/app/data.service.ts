@@ -132,11 +132,11 @@ export class DataService {
 
   }
 
-  saveFavItem(userId, favTitle, itemData): Observable<any>{   
+  saveFavItem(userId, favTitle, itemData, type): Observable<any>{   
     
     let data = {  user_id: userId,
                   fav_name: favTitle,
-                  fav_type: 'item',
+                  fav_type: type,
                   fav_detail: itemData
                 };
     return this.http.post( this.domain + '/webservice/saveFavItem', data)

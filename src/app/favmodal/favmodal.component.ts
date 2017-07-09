@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { DataService } from '../data.service';
+import { UtilService } from '../util.service';
 import { MessageComponent } from '../message/message.component';
 
 declare var jQuery: any;
@@ -12,23 +13,39 @@ declare var jQuery: any;
 })
 export class FavmodalComponent extends DialogComponent<FavModal, null> {
   
-  constructor(dialogService: DialogService, private dataService: DataService) {
+  constructor(dialogService: DialogService, private dataService: DataService, private utilService: UtilService) {
     super(dialogService);
    }
 
    item = this.item;
    favTitle = '';
    showSaving = false;
+   type = this.type;
   
   saveFav() {
       this.showSaving = true;
       let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
       let userId = userDetails.id;
-      this.dataService.saveFavItem(userId, this.favTitle, this.item)
+      let favData = null;
+
+      if(this.type == 'item') {
+        let favObj = this.utilService.formatFavData(this.item);
+        let favDataObj = {
+          userId: userDetails.id,
+          data: favObj
+        } 
+        favData = favDataObj;
+      }else if(this.type == 'order') {
+
+        
+
+      }      
+      
+      this.dataService.saveFavItem(userId, this.favTitle, favData, this.type)
         .subscribe(data => {
             this.showSaving = true;
             this.openMessageModal('Your favorite item has been saved successfully!');
-            console.log('fav resp', data);
+            //console.log('fav resp', data);
         });  
   }
 
@@ -38,9 +55,11 @@ export class FavmodalComponent extends DialogComponent<FavModal, null> {
      self.close();
      self.dialogService.addDialog(MessageComponent, { title: 'Success', message: messageText, buttonText: 'Continue', doReload: false }, { closeByClickingOutside:true });   
   }
+
  
 }
 
 export interface FavModal {
   item: object;
+  type: '';
 }
