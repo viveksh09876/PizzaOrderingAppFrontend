@@ -28,7 +28,7 @@
 </nav>
 
 <!--Header-->
-<header class="navigation"> <a href class="menu-button" id="menuButton"> <i class="menu-icon"> <span></span> <span></span> <span></span> </i> <i class="icon-close"> </i> </a> <a href="/demo/nkd/web" class="logo"> <img src="assets/images/logo.svg" alt="Logo" /> </a>
+<header class="navigation"> <a href class="menu-button" id="menuButton"> <i class="menu-icon"> <span></span> <span></span> <span></span> </i> <i class="icon-close"> </i> </a> <a [routerLink]="['/home']"class="logo"> <img src="assets/images/logo.svg" alt="Logo" /> </a>
   <ul class="list-inline links hidden-xs hidden-sm">
     <li *ngIf="showLocationTab"> <a href="#mapCanvas"> <span class="icon icon-locations"></span> <span>locations</span> </a> </li>
     <li class="eclub-btn" *ngIf="showLogin"> <a (click)="openModal('login')"> <span class="icon icon-eclub"></span> <span class="loginText">MyNKD</span> </a> </li>
