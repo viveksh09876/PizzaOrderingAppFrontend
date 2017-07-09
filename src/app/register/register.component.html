@@ -45,9 +45,7 @@
                   <div class="form-group">
                     <div class="row">
                         <div class="col-md-6 col-sm-6">
-                            <label>Dae of Birth</label>
-                            {{curDate}}
-                            {{startDate}}
+                            <label>Date of Birth</label>
                             <input type="text" class="form-control" [(ngModel)]="user.dob" #dob="ngModel" name="dob" placeholder="Date of Birth" ngui-datetime-picker date-format="YYYY-MM-DD" date-only="true" max-date="{{maxDate}}-01-01" min-date="1940-01-01" required>
                             <div *ngIf="dob.errors && (dob.dirty || dob.touched)" class="alert alert-danger">
                                 <div [hidden]="!dob.errors.required">Date of Birth is required.</div>
@@ -111,7 +109,7 @@
                         </div> 
                     </div>            
                     <div class="form-group">
-                      <button type="button" (click)="secondStep(0)" class="btn btn-default prev">Previos</button>
+                      <button type="button" (click)="secondStep(0)" class="btn btn-default prev">Previous</button>
                       <button type="submit" class="btn btn-default"
              [disabled]="!signUpStep2Form.form.valid">Next</button>
                     </div>
@@ -129,17 +127,17 @@
                         <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.enrolling" id="enrolling" #enrolling="ngModel" name="prefrence.enrolling">By enrolling in the nkd pizza eclub, you’ll receive updates on new menu items, special offers, and other happenings at your local nkd pizza. you can unsubscribe at any time, by following instructions in any eclub message. we respect your privacy and will never sell, rent, lease or give away your information (name, address, email, etc.) to any third party</label></div>
                     </div>
                     <div class="form-group">
-                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.privacy" id="privacy" #privacy="ngModel" name="prefrence.privacy" required> I have read and agree to the <a href="#">Program Terms</a>, <a href="#">Terms of Use</a>, and <a href="#">Privacy Policy</a>, applicable to the nkd pizza program </label>
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.privacy" id="privacy" #privacy="ngModel" name="prefrence.privacy" required> I have read and agree to the <a>Program Terms</a>, <a>Terms of Use</a>, and <a>Privacy Policy</a>, applicable to the nkd pizza program </label>
                         <div *ngIf="privacy.errors && (privacy.dirty || privacy.touched)" class="alert alert-danger">
                                 <div [hidden]="!over.errors.required">Confirm our privacy policy</div>
                         </div>
                         </div>
                     </div>
                     <div class="form-group">
-                    <button type="button" (click)="thirdStep(0)" class="btn btn-default prev">Previos</button>
+                    <button type="button" (click)="thirdStep(0)" class="btn btn-default prev">Previous</button>
                     <button type="submit" class="btn btn-default"
              [disabled]="!signUpStep3Form.form.valid">Register</button>
-                    <!--<button type="submit" class="btn btn-default" data-toggle="modal" data-target="#Congrath-Modal" onclick="$('#signupModal').modal('hide')">Register</button>-->
+                    
                     </div>
                 </form>
             </div>
