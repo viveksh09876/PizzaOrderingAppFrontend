@@ -100,6 +100,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
               setTimeout(function(){
                   jQuery("#home-slider").slick({
                     infinite: true,
+                    autoplay:true,
                     dots: true,
                     prevArrow: false,
                     nextArrow: false
