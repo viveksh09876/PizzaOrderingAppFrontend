@@ -75,5 +75,10 @@ export class AppComponent implements OnInit {
     this.router.navigate([pageLink]);
   }
 
+  logout(){
+    this.dataService.setLocalStorageData('user-details', null);
+    this.dataService.setLocalStorageData('isLoggedIn', false);
+    window.location.reload();
+  }
 
 }

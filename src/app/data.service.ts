@@ -167,5 +167,24 @@ export class DataService {
                 
   }
 
+  getCountryStore(countryName): Observable<any>{
+    return this.http.get( this.domain + '/webservice/getCountryStores/'+countryName)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+
+  getPrefreces(): Observable<any>{
+    return this.http.get( this.domain + '/webservice/getPrefrences/')
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+  
+  registerUser(userInfo): Observable<any>{   
+    let data = userInfo;
+    return this.http.post( this.domain + '/webservice/signUp', data)
+                    .map((res: Response) => res.json())
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+                
+  }
 
 }
