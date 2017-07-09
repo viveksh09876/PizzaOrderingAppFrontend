@@ -65,7 +65,7 @@ $(document).ready(function(){
 mapboxgl.accessToken = 'pk.eyJ1IjoicHVzaHBlbmRyYXJhaiIsImEiOiJjajRwYzFtOTYxeWd0MzJwbDdsaGNzOTZiIn0.a9BUA890Vtyeqy21AaLClQ';
 $(document).ready(function(){
 
-    $.get('https://mavin360.com/demo/nkd/dev/webservice/getip', function(resp){
+    $.get('https://nkdpizza.com/beta/dev/webservice/getip', function(resp){
         resp = JSON.parse(resp);
         country = resp.geoplugin_countryName;
         if(country=='United States'){
