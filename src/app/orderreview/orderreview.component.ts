@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { DialogService } from "ng2-bootstrap-modal";
+import { LoginComponent } from '../login/login.component';
+import { FavmodalComponent } from '../favmodal/favmodal.component';
+import { MessageComponent } from '../message/message.component';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 
@@ -15,6 +19,7 @@ export class OrderreviewComponent implements OnInit {
   totalCost = null;
   netCost = null;
   storeDetails = '';
+  favTitle = '';
   order = { 
             storeId: 1,
             user: {
@@ -49,8 +54,10 @@ export class OrderreviewComponent implements OnInit {
 
     showStep = 'step1';
     cmsApiPath = environment.cmsApiPath;
+    showSavingFav = false;
 
   constructor(private dataService: DataService,
+               private dialogService:DialogService,
                 private utilService: UtilService, 
                   private route: ActivatedRoute, 
                     private router: Router) { }
@@ -327,12 +334,55 @@ export class OrderreviewComponent implements OnInit {
 
         this.order.order_details = finalOrder;
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
-        console.log('order', this.order);
-        //this.router.navigate(['/checkout']);
+        //console.log('order', this.order);
+        this.router.navigate(['/checkout']);
 
       }
       
   }
+
+
+
+  addToFav() {
+    let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
+    if(isLoggedIn == undefined || isLoggedIn == 'false') {
+      //do login
+        this.dialogService.addDialog(LoginComponent, {  }, { closeByClickingOutside:true });
+    }else{
+      //add fav
+           
+      let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
+      let userId = userDetails.id;
+      let favData = null;
+
+      let favOrdArr = [];
+      for(var i=0; i < this.items.length; i++) {
+        let favObj = this.utilService.formatFavData(this.items);
+        let favDataObj = {
+          userId: userDetails.id,
+          data: favObj
+        }
+
+        favOrdArr.push(favDataObj);
+      }
+
+      favData = favOrdArr;
+      this.showSavingFav = true;
+      this.dataService.saveFavItem(userId, this.favTitle, favData, 'order')
+        .subscribe(data => {
+            this.showSavingFav = false;
+            this.openMessageModal('Your favorite item has been saved successfully!');
+            //console.log('fav resp', data);
+        });  
+
+    }
+  
+  }
+
+    openMessageModal(messageText) {
+        let self = this;
+        self.dialogService.addDialog(MessageComponent, { title: 'Success', message: messageText, buttonText: 'Continue', doReload: false }, { closeByClickingOutside:true });   
+    }
 
 
 }

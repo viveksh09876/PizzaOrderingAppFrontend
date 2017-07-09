@@ -378,7 +378,7 @@ export class ItemComponent implements OnInit {
                         addPrice = parseFloat(options[j].Option.price[defaultSize]);
                         itemBasePrice = true;
                         priceBinding = true;
-                        console.log(123);
+                        //console.log(123);
                       }
                     }
                   }
@@ -712,7 +712,7 @@ export class ItemComponent implements OnInit {
         //       //console.log(data);
         //   });
 
-        this.dialogService.addDialog(FavmodalComponent, { item: this.item  }, { closeByClickingOutside:true });
+        this.dialogService.addDialog(FavmodalComponent, { item: this.item, type: 'item'  }, { closeByClickingOutside:true });
       }
     }
   }

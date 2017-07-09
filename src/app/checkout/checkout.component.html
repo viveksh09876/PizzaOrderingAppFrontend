@@ -48,12 +48,12 @@
         <h3 class="green-title">choose a payment method</h3>
         <div class="payment_method">
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"> <a href="#cod" aria-controls="cod" role="tab" data-toggle="tab">Payment on Delivery</a> </li> 
+                <li role="presentation" class="active"> <a href="#cod" aria-controls="cod" role="tab" data-toggle="tab">Pay Later</a> </li> 
                 <li role="presentation"> <a href="#cd-cards" aria-controls="cd-cards" role="tab" data-toggle="tab">Credit / Debit Card</a> </li> 
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="cod">
-                    <h5>pay using payment on Delivery</h5>
+                    <h5>Pay Later</h5>
                     <p>Generate an OTP to my registered mobile number for verification</p>
                     <a *ngIf="showPlaceOrder" class="btn-red btn-block" (click)="placeOrder()">Click to Authenticate & place order</a>
                 </div>

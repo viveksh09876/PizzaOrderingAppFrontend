@@ -12,10 +12,19 @@ export class AccountComponent implements OnInit {
   constructor(private dataService: DataService,
                 private utilService: UtilService) { }
   name = '';
+  currentTab = 'personalInfo';
 
   ngOnInit() {
     let user = JSON.parse(this.dataService.getLocalStorageData('user-details'));
     this.name = user.firstName + ' ' + user.lastName; 
+  }
+
+  goToTab(tab) {
+    this.currentTab = tab;
+  }
+
+  getFavItems() {
+    
   }
 
 }

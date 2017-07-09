@@ -70,8 +70,11 @@
         </div>
          <div class="save_orderbox text-center">
             <h5>save as favorite order</h5>
-            <input type="text" placeholder="Order Name">
-            <input type="submit" value="Save Favorite">
+            <input type="text" [(ngModel)]="favTitle" placeholder="Order Name">
+            <ng-container *ngIf="!showSavingFav">
+            <input type="submit" (click)="addToFav()" value="Save Favorite">
+            </ng-container>
+            <p class="loading-msg" *ngIf="showSavingFav">Saving order as favorite...</p>
          </div>
      </div>  
      <div class="col-md-4 col-sm-4">
@@ -96,7 +99,7 @@
 
             <div class="col-md-12 col-sm-12">
                 <div class="form-group">
-                    <input class="form-control" placeholder="Mobile number*" name="phone" type="number" [(ngModel)]="order.user.phone" required>
+                    <input class="form-control" placeholder="Mobile number*" name="phone" type="text" [(ngModel)]="order.user.phone" required>
                 </div>
             </div>
         </div>
