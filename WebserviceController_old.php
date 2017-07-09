@@ -1,12 +1,12 @@
 <?php
 App::uses('AppController', 'Controller');
 class WebserviceController extends AppController {
-    public $uses = array('Category','Question','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog');
+    public $uses = array('Category','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog');
     public $components=array('Core');
 
     function beforeFilter(){
         parent::beforeFilter();
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed'));
     }
 
     public function get_categories($count=10){
@@ -1140,12 +1140,13 @@ class WebserviceController extends AppController {
 		if(!empty($country)) {
 			$country = strtolower($country);
 			$stores = $this->Store->find('all', array(
-				'conditions' => array(
-					'LOWER(Store.country)' => $country
-				)
-			));	
-			echo json_encode($stores);
-			die;				
+							'conditions' => array(
+								'LOWER(Store.country)' => $country
+							)
+					));	
+					
+			echo json_encode($stores); die;		
+					
 		}		
 	}
 	
@@ -1297,26 +1298,4 @@ class WebserviceController extends AppController {
   }
   die;
  }
-
-	function getPrefrences(){
-		$this->Question->bindModel(array('hasMany'=>array('QuestionOption')));
-		$questions = $this->Question->find('all',array(
-			'conditions'=>array(
-				'Question.status'=>1
-			),
-			'order'=>'Question.sort_order'
-		));
-		echo json_encode($questions); 
-		die;
-	}
-
-	function signUp(){
-		$data = $this->request->input ( 'json_decode', true) ;
-		if(!empty($data)) {
-			pr(array_filter($data));
-		}
-		die;
-	}
-
-
 }

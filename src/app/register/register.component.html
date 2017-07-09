@@ -7,166 +7,135 @@
       </div>
       <div class="modal-body">
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#personel" aria-controls="personel" role="tab" data-toggle="tab"><small>1</small>Personel Info</a></li>
-            <li role="presentation"><a href="#info" aria-controls="info" role="tab" data-toggle="tab"><small>2</small>Account Info</a></li>
-            <li role="presentation"><a href="#prefer" aria-controls="prefer" role="tab" data-toggle="tab"><small>3</small>Preferences</a></li>
+            <li role="presentation" [ngClass]="{'active': firstStepForm}"><a href="#personel" aria-controls="personel" role="tab" data-toggle="tab"><small>1</small>Personel Info</a></li>
+            <li role="presentation" [ngClass]="{'active': secondStepForm}"><a href="#info" aria-controls="info" role="tab" data-toggle="tab"><small>2</small>Account Info</a></li>
+            <li role="presentation" [ngClass]="{'active': thirdStepForm}"><a href="#prefer" aria-controls="prefer" role="tab" data-toggle="tab"><small>3</small>Preferences</a></li>
           </ul>
           <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="personel">
-                <form>
+            <div role="tabpanel" class="tab-pane" [ngClass]="{'active': firstStepForm}" id="personel">
+                <form #signUpStep1Form="ngForm" ngForm (ngSubmit)="secondStep(1)">
                   <div class="form-group">
                     <label>Email address</label>
-                    <input type="email" class="form-control" placeholder="Email">
+                    <input type="email" class="form-control" id="email" #email="ngModel" [(ngModel)]="user.email" name="email" placeholder="Email" required email>
+                    <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+                        <div [hidden]="!email.errors.required">Email is required.</div>
+                        <div [hidden]="!email.errors.email">Invalid email.</div>
+                    </div>
                   </div>
                   <div class="row">
                       <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                             <label>First name</label>
-                            <input type="text" class="form-control" placeholder="First name">
+                            <input type="text" class="form-control" id="fname" #fname="ngModel" [(ngModel)]="user.fname" name="fname" placeholder="First name" required>
+                            <div *ngIf="fname.errors && (fname.dirty || fname.touched)" class="alert alert-danger">
+                                <div [hidden]="!fname.errors.required">First Name is required.</div>
+                            </div>
                         </div>
                       </div>
                       <div class="col-md-6 col-sm-6">
                          <div class="form-group">
                             <label>Last name</label>
-                            <input type="text" class="form-control" placeholder="Last name">
+                            <input type="text" class="form-control" id="lname" #lname="ngModel" [(ngModel)]="user.lname" name="lname" placeholder="Last name" required>
+                            <div *ngIf="lname.errors && (lname.dirty || lname.touched)" class="alert alert-danger">
+                                <div [hidden]="!lname.errors.required">Last Name is required.</div>
+                            </div>
                           </div>
                       </div>
                   </div>
                   <div class="form-group">
-                    <label>Birth date</label>
                     <div class="row">
                         <div class="col-md-6 col-sm-6">
-                            <select class="form-control">
-                                <option>Month</option>
-                                <option>January</option>
-                                <option>February</option>
-                                <option>March</option>
-                            </select>
+                            <label>Dae of Birth</label>
+                            <input type="text" class="form-control" [(ngModel)]="user.dob" name="dob" placeholder="Date of Birth" ngui-datetime-picker date-format="MM/DD/YYYY" date-only="true" max-date="{{curDate}}">
                         </div>  
                         <div class="col-md-6 col-sm-6">
-                            <select class="form-control">
-                                <option>Date</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
-                        </div> 
+                            <label>zip code (us only)</label>
+                            <input type="text" class="form-control" [(ngModel)]="user.zip" name="zip" placeholder="Zip cide">
+                        </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label>zip code (us only)</label>
-                    <input type="text" class="form-control" placeholder="Last name">
-                  </div>
-                  <div class="form-group">
                     <label>Favorite Location</label>
-                    <select class="form-control">
-                        <option>Select a location</option>
-                        <option>USA, MI: Sterling Heights (2100 Metropolitan Pkwy)</option>
-                        <option>UAE, Dubai: Business Bay (G02, Bayswater Bldg)</option>
-                        <option>UAE, Dubai: Dubai Marina (G05, West Avenue Bldg)</option>
-                        <option>UAE, Dubai: Motor City (Shop 1, Kojak Bldg)</option>
-                        <option>BH, Bahrain: El Mercado (Shop 103, Building 108, Ave 79, Block 575, Janibiyah)</option>
+                    <select class="form-control" [(ngModel)]="user.location" name="location">
+                        <option value="" selected>Select Favorite Location</option>
+                        <option *ngFor="let store of storeList" value="{{store.Store.id}}">{{store.Store.store_name}} ({{store.Store.store_address}})</option>
                     </select>
                   </div>
                    <div class="form-group">
-                      <button type="submit" class="btn btn-default">Next</button>
+                       <button type="submit" class="btn btn-default"
+             [disabled]="!signUpStep1Form.form.valid">Next</button>
                     </div>
                 </form>
                 
             </div>
-            <div role="tabpanel" class="tab-pane" id="info">
-                <form>
+            <div role="tabpanel" class="tab-pane" [ngClass]="{'active': secondStepForm}" id="info">
+                <form #signUpStep2Form="ngForm" ngForm (ngSubmit)="thirdStep(1)">
                     <div class="form-group">
                         <label>*User Name</label>
-                        <input type="text" class="form-control" placeholder="Name">
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox"><label><input type="checkbox"> Use my email address</label></div> 
-                    </div>
-                    <div class="form-group">
-                        <label>*Password</label>
-                        <input type="text" class="form-control" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <label>*Confirm Password</label>
-                        <input type="text" class="form-control" placeholder="Confirm Name">
-                        <p>Passowrd May contain any character & symbols except spaces</p>
-                    </div>
-                    <div class="form-group">
-                        <label>Birthdate</label>
-                        <div class="row">
-                            <div class="col-md-4 col-sm-4">
-                                <select class="form-control">
-                                    <option>Month</option>
-                                    <option>January</option>
-                                    <option>February</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 col-sm-4">
-                                <select class="form-control">
-                                    <option>Date</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 col-sm-4">
-                                <select class="form-control">
-                                    <option>Year</option>
-                                    <option>2000</option>
-                                    <option>2001</option>
-                                </select>
-                            </div>
+                        <input type="text" class="form-control" [(ngModel)]="account.username" id="username" #username="ngModel" name="account.username" placeholder="Name" required>
+                        <div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger">
+                                <div [hidden]="!username.errors.required">User Name is required.</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="checkbox"><label><input type="checkbox"> *I am over 18</label></div> 
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="account.emailisusername" id="emailisusername" #emailisusername="ngModel" name="account.emailisusername"> Use my email address</label></div> 
                     </div>
                     <div class="form-group">
-                      <button type="submit" class="btn btn-default prev">Previos</button>
-                      <button type="submit" class="btn btn-default">Next</button>
+                        <label>*Password</label>
+                        <input type="password" class="form-control"  [(ngModel)]="account.password" id="password" #password="ngModel" name="account.password" placeholder="Password" required>
+                        <div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
+                                <div [hidden]="!password.errors.required">Password is required.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>*Confirm Password</label>
+                        <input type="password" class="form-control" [(ngModel)]="account.cpassword" id="cpassword" #cpassword="ngModel" name="account.cpassword" placeholder="Confirm Password" required data-password-verify="account.password">
+                        <p>Passowrd May contain any character & symbols except spaces</p>
+                        <div *ngIf="cpassword.errors && (cpassword.dirty || cpassword.touched)" class="alert alert-danger">
+                                <div [hidden]="!cpassword.errors.required">Confirm password is required.</div>
+                        </div>
+                        <div *ngIf="cpassword.errors && (cpassword.dirty || cpassword.touched)" class="alert alert-danger">
+                                <div [hidden]="!cpassword.errors.passwordVerify">Confirm password is not equal to password.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="account.over" id="over" #over="ngModel" name="account.over" required> *I am over 18</label>
+                        <div *ngIf="over.errors && (over.dirty || over.touched)" class="alert alert-danger">
+                                <div [hidden]="!over.errors.required">Confirm you are 18+</div>
+                        </div>
+                        </div> 
+                    </div>            
+                    <div class="form-group">
+                      <button type="button" (click)="secondStep(0)" class="btn btn-default prev">Previos</button>
+                      <button type="submit" class="btn btn-default"
+             [disabled]="!signUpStep2Form.form.valid">Next</button>
                     </div>
                 </form>
             </div>
-            <div role="tabpanel" class="tab-pane" id="prefer">
-                <div class="form-group">
-                    <label>Is NKD Pizza closer to your Home or Work? </label>
-                    <div class="checkbox"><label><input type="checkbox"> Home</label></div>
-                    <div class="checkbox"><label><input type="checkbox"> Work</label></div>
-                </div>
-                <div class="form-group">
-                    <label>When would you typically order?</label>
-                    <div class="checkbox"><label><input type="checkbox"> Lunch</label></div>
-                    <div class="checkbox"><label><input type="checkbox"> Dinner</label></div>
-                    <div class="checkbox"><label><input type="checkbox"> Late-night</label></div>
-                </div>
-                <div class="form-group">
-                    <label>When would you Order Pizza for a Group? </label>
-                    <div class="checkbox"><label><input type="checkbox"> Youth Sports Team</label></div>
-                    <div class="checkbox"><label><input type="checkbox"> School Organizations</label></div>
-                    <div class="checkbox"><label><input type="checkbox"> Not-for-Profit Organization</label></div>
-                    <div class="checkbox"><label><input type="checkbox"> Co-Workers</label></div>
-                </div>
-                <div class="form-group">
-                    <label>Are there Children in your household? </label>
-                    <div class="radio"><label><input type="radio" name="chil"> Yes</label></div>
-                    <div class="radio"><label><input type="radio" name="chil"> No</label></div>
-                </div>
-                <div class="form-group">
-                    <label>Which type of Toppings would you usually order? </label>
-                    <div class="radio"><label><input type="radio" name="order"> Meat</label></div>
-                    <div class="radio"><label><input type="radio" name="order"> Veggie</label></div>
-                </div>
-                <hr>
-                <div class="form-group">
-                    <div class="checkbox"><label><input type="checkbox">By enrolling in the nkd pizza eclub, you’ll receive updates on new menu items, special offers, and other happenings at your local nkd pizza. you can unsubscribe at any time, by following instructions in any eclub message. we respect your privacy and will never sell, rent, lease or give away your information (name, address, email, etc.) to any third party</label></div>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox"><label><input type="checkbox"> I have read and agree to the <a href="#">Program Terms</a>, <a href="#">Terms of Use</a>, and <a href="#">Privacy Policy</a>, applicable to the nkd pizza program </label></div>
-                </div>
-                <div class="form-group">
-                  <button type="submit" class="btn btn-default prev">Previos</button>
-                  <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#Congrath-Modal" onclick="$('#signupModal').modal('hide')">Register</button>
-                </div>
+            <div role="tabpanel" style="height:300px;overflow:auto;" class="tab-pane" [ngClass]="{'active': thirdStepForm}" id="prefer">
+                <form #signUpStep3Form="ngForm" ngForm (ngSubmit)="submit()">
+                    <div class="form-group" *ngFor="let pref of prefreces">
+                        <label>{{pref.Question.question}}</label>
+                        <div class="checkbox" *ngFor="let opt of  pref.QuestionOption"><label><input type="radio" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> {{opt.answer}}</label></div>
+                    </div>  
+                    <hr>
+                    <div class="form-group">
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.enrolling" id="enrolling" #enrolling="ngModel" name="prefrence.enrolling">By enrolling in the nkd pizza eclub, you’ll receive updates on new menu items, special offers, and other happenings at your local nkd pizza. you can unsubscribe at any time, by following instructions in any eclub message. we respect your privacy and will never sell, rent, lease or give away your information (name, address, email, etc.) to any third party</label></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.privacy" id="privacy" #privacy="ngModel" name="prefrence.privacy" required> I have read and agree to the <a href="#">Program Terms</a>, <a href="#">Terms of Use</a>, and <a href="#">Privacy Policy</a>, applicable to the nkd pizza program </label>
+                        <div *ngIf="privacy.errors && (privacy.dirty || privacy.touched)" class="alert alert-danger">
+                                <div [hidden]="!over.errors.required">Confirm our privacy policy</div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <button type="button" (click)="thirdStep(0)" class="btn btn-default prev">Previos</button>
+                    <button type="submit" class="btn btn-default"
+             [disabled]="!signUpStep3Form.form.valid">Register</button>
+                    <!--<button type="submit" class="btn btn-default" data-toggle="modal" data-target="#Congrath-Modal" onclick="$('#signupModal').modal('hide')">Register</button>-->
+                    </div>
+                </form>
             </div>
           </div>
       </div>
