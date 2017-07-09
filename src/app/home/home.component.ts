@@ -37,12 +37,12 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.dataService.getIp()
         .subscribe(data => {
             let countryName = data.geoplugin_countryName;
-            if(countryName == 'USA'){
-              this.getFbFeeds('nkdpizza');
-              this.getIgFeeds('nkdpizza');
-            }else{
+            if(countryName == 'Bahrain'){
               this.getFbFeeds('nkdpizzabh');
               this.getIgFeeds('nkdpizzabh');
+            }else{
+              this.getFbFeeds('nkdpizza');
+              this.getIgFeeds('nkdpizza');
             }
         })
 
