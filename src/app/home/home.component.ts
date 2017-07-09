@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit, AfterContentInit } from '@angular/core';
+import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
+import { RegisterComponent } from '../register/register.component';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 import { environment } from '../../environments/environment';
@@ -22,11 +24,14 @@ export class HomeComponent implements OnInit, AfterContentInit {
   latestIgFeeds = '';
   countryName = '';
 
-  constructor(private dataService: DataService,
-                private utilService: UtilService) {
-                
+  constructor(private dataService: DataService,private utilService: UtilService, private dialogService: DialogService) {
+       
   }
 
+  openModal(type) {
+    
+     this.dialogService.addDialog(RegisterComponent, {  }, { closeByClickingOutside:true });   
+  }
 
   ngOnInit() {
     this.dataService.getIp()
@@ -91,7 +96,11 @@ export class HomeComponent implements OnInit, AfterContentInit {
               if(slides.length > 0) {
                 for(var i=0; i<slides.length; i++) {
                   slides[i].Slide.image = this.domain + '/img/admin/slides/' + slides[i].Slide.image;
-                  slides[i].Slide.textImage = this.domain + '/img/admin/slides/' + slides[i].Slide.text_image;
+                  if(slides[i].Slide.text_image==''){
+                    slides[i].Slide.textImage = '';
+                  }else{
+                    slides[i].Slide.textImage = this.domain + '/img/admin/slides/' + slides[i].Slide.text_image;
+                  }
                 }
               }
 

@@ -52,9 +52,12 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 	userCountryName = '';
   userCountryCode = '';
 	PersonalInfo = '';
-	curDate = new Date();
+	
+	maxDate = new Date().getFullYear()-18;
 	showLoading = false;
 	
+	error = { show:false, isSuccess:false, message: ''};
+
 	ngOnInit() {
     this.getUserIp();
 		 this.dataService.getPrefreces()
@@ -107,26 +110,22 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 		QAarr[questionId] = {'questionId':questionId,'answerId':answerId};
 		this.prefrence.question.push(QAarr);
 	}
+
 	submit(){
 		this.userData.push(this.prefrence);
 		this.showLoading = true;
 		this.dataService.registerUser(this.userData)
 				.subscribe(data => {
-							console.log(data);
-							if(data.Status == 'Error') {
-								
-							}else if(data.Status == 'OK') {
-
-								// let user = {
-								// 	id: data.id,
-								// 	firstName : data.FirstName,
-								// 	lastName: data.LastName,
-								// 	email: this.username
-								// }
-
-								// this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
-								// this.dataService.setLocalStorageData('isLoggedIn', true);                
-								// this.openMessageModal('Welcome '+user.firstName + '!');
+							if(data.isSuccess == 'true') {
+									this.error = data;
+									setTimeout(function(){
+										window.location.reload();
+									},3000);
+							}else{
+								this.error = data;
+								setTimeout(function(){
+									window.location.reload();
+								},3000);
 							}        
 						
 					});
