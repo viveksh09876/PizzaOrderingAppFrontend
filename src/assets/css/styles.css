@@ -12,8 +12,11 @@ a{cursor: pointer;}
 	width: 100%;
 	height: 100%;
 	z-index: 9999;
-	background:#7c984e;
+	background:rgba(124,152,78,.8);
 }
+.spinner.root{background: #fff;}
+.root .spinner-inner .cube1,.root .spinner-inner .cube2{background-color: #789c48; }
+.root .cube1,.root .cube2{color: #789c48}
 .spinner-inner{
   position: absolute;
 	left: 0px;
@@ -23,7 +26,7 @@ a{cursor: pointer;}
 	z-index: 9999;
 	background:#ffffff;
 }
-.spinner-inner .cube1,.spinner-inner .cube2{background-color: rgba(124,152,78,.4); }
+.spinner-inner .cube1,.spinner-inner .cube2{background-color: #fff; }
 .cube1, .cube2 {
   color:#fff;
   font-size: 40px;
@@ -1085,7 +1088,7 @@ header.navigation .logo {
 }
 .banner-wrapper .leftButtons {
 	float: right;
-	width: 40%;
+	width: 52%;
 	margin: 10px 0;
 	position: relative;
 	text-align: right
@@ -1190,7 +1193,7 @@ header.navigation .logo {
 @media (max-width: 1199px) {
 .banner-wrapper {
 	padding: 0px 0px;
-	margin-bottom: 90px;
+	margin-bottom: 106px;
 }
 .banner-wrapper .container {
 	top: 52px;
@@ -2696,6 +2699,8 @@ color:#fff
 	font-size: 2em;
 	padding: 1rem 15px
 }
+.three-column-wrapper .inside-column-container h3 a.fav-icon{padding: .8em 0;}
+.three-column-wrapper .inside-column-container .item-qty-price .quantity span.cost{font-size: 1.4em;}
 }
 
 @media (max-width: 767px) {
@@ -2875,7 +2880,7 @@ color:#fff
 .choosetime_box h4{ color: #5b5a56; font-size: 22px; margin: 0 0 10px; font-family: 'proxima_nova_rgbold'; line-height: 25px;}
 .choosetime_box .radio_tabs{ margin: 0;}
 .choosetime_box .order_reviewform{ padding: 10px 0 0; margin: 0 -5px}
-.dottedlist_box .fullred-btn{ font-size: 18px; border: none; line-height: 29px; padding: 5px; display: block; background: #911c27; text-align: center; border-radius: 3px; border-bottom: 2px solid #4f050c; color: #fff; font-family: 'proxima_nova_ltsemibold';}
+.dottedlist_box .fullred-btn{ font-size: 18px; border: none; line-height: 29px; padding: 5px; display: inline-block; width: 100%; background: #911c27; text-align: center; border-radius: 3px; border-bottom: 2px solid #4f050c; color: #fff; font-family: 'proxima_nova_ltsemibold';}
 
 .delivery_addrs{ padding: 20px 10px 0; margin: 0;}
 .delivery_addrs h4{ font-size: 22px; color: #5b5a56; font-family: 'bureaueaglebookregular'; line-height: 25px; margin:0 0 5px;}

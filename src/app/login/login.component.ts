@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { RegisterComponent } from '../register/register.component';
 import { MessageComponent } from '../message/message.component';
@@ -13,7 +14,10 @@ declare var jQuery: any;
 })
 export class LoginComponent extends DialogComponent<LoginModal, null> {
   
-  constructor(dialogService: DialogService, private dataService: DataService) {
+  constructor(dialogService: DialogService, 
+                private dataService: DataService,
+                private route: ActivatedRoute, 
+                    private router: Router) {
     super(dialogService);
    }
 
@@ -53,8 +57,9 @@ export class LoginComponent extends DialogComponent<LoginModal, null> {
                 }
 
                 this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
-                this.dataService.setLocalStorageData('isLoggedIn', true);                
-                this.openMessageModal('Welcome '+user.firstName + '!');
+                this.dataService.setLocalStorageData('isLoggedIn', true);
+                this.router.navigate(['/account']);                
+                //this.openMessageModal('Welcome '+user.firstName + '!');
               }        
              
           });

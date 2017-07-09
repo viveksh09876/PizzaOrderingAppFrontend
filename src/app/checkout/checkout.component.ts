@@ -50,8 +50,12 @@ export class CheckoutComponent implements OnInit {
               console.log(JSON.parse(data.response));
               let resp = JSON.parse(data.response);
               if(resp.Status == 'Error') {
+                this.showPlaceOrder = true;
+                alert('There is some issue. Please try again later!');
+              /*
                 this.dialogService.addDialog(MessageComponent, { title: 'Oops!', message: resp.message, buttonText: 'Close', doReload: false }, { closeByClickingOutside:true });
-                this.router.navigate(['/order-review']);   
+                this.router.navigate(['/order-review']); 
+                */  
               }else{
                 this.dataService.setLocalStorageData('confirmationItems', JSON.stringify(this.items));
                 this.dataService.setLocalStorageData('allItems', null);                              

@@ -53,16 +53,10 @@
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="cod">
-                    <h5>Pay Later</h5>
-                    <p>Generate an OTP to my registered mobile number for verification</p>
-                    <a *ngIf="showPlaceOrder" class="btn-red btn-block" (click)="placeOrder()">Click to Authenticate & place order</a>
+                    <a *ngIf="showPlaceOrder" class="btn-red btn-block" (click)="placeOrder()">Place order</a>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="cd-cards">
-                    <h5>pay using Credit / Debit Card</h5>
-                    <p>Generate an OTP to my registered mobile number for verification</p>
-                    <ng-container *ngIf="showPlaceOrder">
-                    <a class="btn-red btn-block" (click)="placeOrder()">Click to Authenticate & place order</a>
-                    </ng-container>
+                <div role="tabpanel" class="tab-pane fade" id="cd-cards" style="text-align: center;">
+                    <img src="assets/images/cs.png" alt="Coming Soon" style="max-width: 50%;">
                 </div>
             </div>
         </div>
