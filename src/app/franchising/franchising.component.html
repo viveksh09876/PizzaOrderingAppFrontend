@@ -1,9 +1,9 @@
-<div class="banner-wrapper" style="background-image:url(assets/images/banner-inside/1.jpg)">
+<div class="banner-wrapper franchising" style="background-image:url(assets/images/banner-inside/1.jpg)">
   <h1> franchising info <span>become our partner.</span> </h1>
 </div>
 
 <div class="container">
-  <div class="two-column-wrapper">
+  <div class="two-column-wrapper franchising">
     <div class="inside-column-container aside-wrapper">
       <h3>why nkd pizza?</h3>
       <div class="content-wrapper">
@@ -19,38 +19,45 @@
       
       <!-- Nav tabs -->
       <ul class="nav nav-tabs hidden-xs hidden-sm" role="tablist" id="tabSwitch">
-        <li role="presentation" class="active"> <a href="#franchising" aria-controls="franchising" role="tab" data-toggle="tab">Franchising</a> </li>
-        <li role="presentation"> <a href="#faqs" aria-controls="faqs" role="tab" data-toggle="tab">FAQs</a> </li>
-        <li role="presentation"> <a href="#process" aria-controls="process" role="tab" data-toggle="tab">The Process</a> </li>
-        <li role="presentation"> <a href="#applyNow" aria-controls="applyNow" role="tab" data-toggle="tab">Apply Now</a> </li>
+        <li role="presentation" class="active"> <a href="#whynkd" aria-controls="whynkd" role="tab" data-toggle="tab">Why NKD</a> </li>
+        <li role="presentation"> <a href="#ourmodel" aria-controls="ourmodel" role="tab" data-toggle="tab">Our model</a> </li>
+        <li role="presentation"> <a href="#applynow" aria-controls="applynow" role="tab" data-toggle="tab">Apply now</a> </li>
       </ul>
-      <select class="custom-select visible-xs visible-sm" target="#tabSwitch">
-        <option value="franchising">Franchising</option>
-        <option value="faqs">FAQs</option>
-        <option value="process">The Process</option>
-        <option value="applyNow">Apply Now</option>
+      <select class="custom-select visible-xs visible-sm" target="#tabSwitch" (change)="changTab($event.target.value)">
+        <option value="whynkd">Why NKD</option>
+        <option value="ourmodel">Our model</option>
+        <option value="applynow">Apply now</option>
       </select>
       
       <!-- Tab panes -->
       <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade in active" id="franchising">
+        <div role="tabpanel" class="tab-pane fade in active" id="whynkd">
           <div class="content-wrapper">
             <div class="content-container">
-              <p><strong>business model</strong></p>
-              <p>For the NKD Pizza business model, we chose the most successful one available – carry out and delivery, no dining. We hacked this model and skinned it with a cool, engaging brand and offered up a product that makes people feel good about eating pizza again.
-                By choosing this model we also entered the hyper-disciplined world of an 8-10 minute delivery area and an operational promise that if you order from us, you can plan the next 30 minutes of your life. It’s about small spaces (800 to 1,200 sq ft) and limited build out. You don’t need to be in prime locations as 70-80% of our business is delivery. It’s about easy in and out for delivery drivers. We offer all the sophistication and efficiency of the major national chains, with a product that can promote healthier communities and is socially rewarding.</p>
-              <p><strong>what kind of partners are we looking for?</strong></p>
-              <p>We are looking to partner with entrepreneurs that have vision and drive. If you are interested in seizing opportunities others miss and creating sustainable solutions to change society for the better, then you just might bethe type of partner we are looking for. Oh yeah, you must also have a strong desire to make money.</p>
-              <br>
-              <p>We are awarding franchising rights all across the U.S. and internationally and are very interested in multi-unit developers (minimum of 10 units per agreement within a tight cluster). If you think you have what it takes, fill out our application. There are still opportunities throughout the major markets, so the sooner you start, the better.</p>
-              <p><strong>support</strong></p>
-              <p>We have a desire to support you as you set out to start your own NKD Pizza franchise. Whether it’s site selection, construction assistance or ongoing support long after the doors have opened, our experienced operations professionals will be with you every step of the way, offering the tools and guidance you will need to ensure your NKD Pizza store is a success.</p>
+              <p>NKD provides feel-good pizza using the healthiest and freshest ingredients, delivered right to your doorstep. We offer pizza our customers feel good about eating and we feel good about serving. </p>
+<p>Founded in late 2006 as one small store in New Orleans, NKD Pizza (originally named World’s Healthiest Pizza) was launched as an ambitious business model that sought to change the nutritional profile of fast food internationally.</p>
+<p>Today there is ever increasing consumer demand for healthier, convenient, great-tasting food. Pizza businesses who do not adapt and evolve with new consumer demands risk being left behind. We won’t be one of them, and we’re looking for like-minded people to join us as franchisees to be part of the NKD story.</p>
+<p>As an NKD Pizza franchisee, you’ll have the opportunity to bring pizza made only from ingredients that haven’t been processed, stuffed with additives or tinkered with in any way, to your community. </p>
             </div>
           </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="faqs">...</div>
-        <div role="tabpanel" class="tab-pane" id="process">...</div>
-        <div role="tabpanel" class="tab-pane" id="apllyNow">...</div>
+        <div role="tabpanel" class="tab-pane" id="ourmodel">
+          <div class="content-wrapper">
+          <div class="content-container">
+          <p>Our model is a simple but successful one – carry out and delivery, no dining. We offer this via a cool, engaging brand with a product that makes people feel good about eating pizza. NKD’s stores are small spaces (800 to 1,200 sq ft) which means limited build out costs. You don’t need to be in prime locations as 70-80% of our business is delivery, but you’ll need to have a good customer reach in the neighborhood. We offer all the sophistication and efficiency of the major national chains, with a product that can promote healthier communities. </p>
+<p>We are looking to partner with entrepreneurs that have vision and drive. If you are interested in seizing opportunities others miss and creating and scaling sustainable solutions to change society for the better, then you just might be the type of partner we are looking for. </p>
+<p>We support our franchisees with site selection, construction assistance and ongoing support long after the doors have opened. Our experienced operations professionals will be with you every step of the way, offering the tools and guidance you will need to ensure your NKD Pizza journey is a success.</p>
+          </div>
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="applynow">
+          <div class="content-wrapper">
+          <div class="content-container">
+          <p>If you want to join an international, growing franchise and think you have what it takes, click here to start the application process. Alternatively contact us, for more information.</p>
+          <a href="">Click Here</a>
+          </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
