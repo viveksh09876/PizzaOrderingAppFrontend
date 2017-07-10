@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
+import { MessageComponent } from '../message/message.component';
+import { RegisterConfirmationComponent } from '../register-confirmation/register-confirmation.component';
 import { DataService } from '../data.service';
 import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-register',
@@ -59,9 +62,23 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 	
 	maxDate = new Date().getFullYear()-18;
 	showLoading = false;
-	
+	html = '';
 	error = { show:false, isSuccess:false, message: ''};
 	callback = this.callback;
+
+	openModal(type) {
+		let self = this;
+    self.close();
+    if(type == 'confirm') {
+      	this.dialogService.addDialog(RegisterConfirmationComponent, {  }, { closeByClickingOutside:true });
+    }
+  }
+
+	openMessageModal(messageText) {
+     let self = this;
+     self.close();
+     self.dialogService.addDialog(MessageComponent, { title: 'Error', message: messageText, buttonText: 'GO TO HOME', doReload: true }, { closeByClickingOutside:true });   
+  }
 
 	ngOnInit() {
     this.getUserIp();
@@ -70,7 +87,7 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
               this.prefreces = data;
           });
   }
-  
+
 	getUserIp() {
     this.dataService.getIp()
           .subscribe(data => {
@@ -121,17 +138,12 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 		this.showLoading = true;
 		this.dataService.registerUser(this.userData)
 				.subscribe(data => {
-							if(data.isSuccess == 'true') {
+							if(data.isSuccess) {
 									this.error = data;
-
-									setTimeout(function(){
-										window.location.reload();
-									},3000);
+									this.openModal('confirm');
 							}else{
 								this.error = data;
-								setTimeout(function(){
-									window.location.reload();
-								},3000);
+								this.openMessageModal('Oops! Something went wrong, please try again.');
 							}        
 						
 					});

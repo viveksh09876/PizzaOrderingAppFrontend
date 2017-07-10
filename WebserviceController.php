@@ -1,12 +1,12 @@
 <?php
 App::uses('AppController', 'Controller');
-class TempController extends AppController {
-    public $uses = array('Category','Question','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate');
+class WebserviceController extends AppController {
+    public $uses = array('Category','Question','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog');
     public $components=array('Core','Email');
 
     function beforeFilter(){
         parent::beforeFilter();
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon'));
     }
 
     public function get_categories($count=10){
@@ -169,7 +169,7 @@ class TempController extends AppController {
     }
 	
 	
-	public function get_all_categories_data($lang_id = 1){
+	public function get_all_categories_data($storeId = 1, $menuCountry = 'UAE'){
 		
 		//Configure::write('debug', 2);
         $this->layout = FALSE;
@@ -206,15 +206,13 @@ class TempController extends AppController {
 									
 		$data = $this->Category->find('all', array('conditions' => array(
 														'Category.status' => 1,
-														'Category.lang_id' => $lang_id)
+														'Category.lang_id' => $storeId)
 												));
 		
 		//echo '<pre>'; print_r($data); die;
-		$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/UAE');
-		//echo '<pre>'; print_r($plu_json); die;
+		$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/'.$menuCountry);
 		$plu_json = json_decode($plu_json, true);
 		$plu_json = $plu_json['item'];
-		//echo '<pre>'; print_r($plu_json); die;
 		$resp = array();
 		$all_categories = $cats = $subCats = array();
 		
@@ -680,79 +678,9 @@ class TempController extends AppController {
 		if(!empty($data)) {
 			
 			$arr = array();
-			
 			if(!empty($data['order_details'])) {
-				$i = 0;
-				$pArr = array();
-				foreach($data['order_details'] as $ord) {
-					
-					if($ord['category_id'] == 1) {						
-						
-						$pizzaArr = array(
-							'modifier' => array()
-						);						
-						
-						if(isset($ord['modifier']) && !empty($ord['modifier'])) {
-							foreach($ord['modifier'] as $mod) {
-								if($mod['plu'] == 'I100' || $mod['plu'] == 'I101' || $mod['plu'] == '91') {
-									$pizzaArr['plu'] = $mod['plu'];	
-									$pizzaArr['quantity'] = $ord['quantity'];	
-								}else{
-									unset($mod['send_code']);
-									unset($mod['quantity']);
-									unset($mod['is_checked']);
-									$pizzaArr['modifier'][] = $mod;
-								}
-							}
-						}
-						
-						$prod = array(
-							'add_extra' => false,
-							'choice' => "Full",
-							'modifier_type' => 'modifier',
-							'plu' => $ord['plu'],
-							'type' => '1'
-						);
-						
-						$pizzaArr['modifier'][] = $prod;
-						
-						$data['order_details'][$i] = $pizzaArr;
-						//echo '<pre>'; print_r($data['order_details']); die;
-						
-					}else{
-						
-						$otherArr = $ord;
-						
-						if(isset($ord['modifier']) && !empty($ord['modifier'])) {
-							foreach($ord['modifier'] as $modOther) {							
-								unset($modOther['send_code']);
-								unset($modOther['quantity']);
-								unset($modOther['is_checked']);
-								$otherArr['modifier'][] = $modOther;
-							}
-						}	
-						$data['order_details'][$i] = $otherArr;
-						//echo '<pre>'; print_r($data['order_details']); die;
-					}	
-					unset($data['order_details'][$i]['category_id']);
-					$i++;					
-				}
-
-				$i = 0;
-				$arr = array();
-				foreach($data['order_details'] as $ord) {
-					
-					if(isset($ord['modifier']) && !empty($ord['modifier'])) {
-						foreach($ord['modifier'] as $mod) {
-							$arr[$i][$mod['choice']][] = $mod;
-						}
-									
-						$data['order_details'][$i]['modifier'] = $arr[$i];
-					}
-					$i++;
-				}
-				
-			}
+				$data['order_details'] = $this->formatPlaceOrderData($data);
+			}			
 			
 			$this->Orderlog->create();
 			$this->Orderlog->save(array('data' => json_encode($data)));
@@ -765,6 +693,87 @@ class TempController extends AppController {
 		}
 		
 		die;
+	}
+	
+	
+	public function formatPlaceOrderData($data) {
+		
+		if(!empty($data['order_details'])) {
+			
+			$i = 0;
+			$pArr = array();
+			foreach($data['order_details'] as $ord) {
+				
+				if($ord['category_id'] == 1) {						
+					
+					$pizzaArr = array(
+						'modifier' => array()
+					);						
+					
+					if(isset($ord['modifier']) && !empty($ord['modifier'])) {
+						foreach($ord['modifier'] as $mod) {
+							if($mod['plu'] == 'I100' || $mod['plu'] == 'I101' || $mod['plu'] == '91') {
+								$pizzaArr['plu'] = $mod['plu'];	
+								$pizzaArr['quantity'] = $ord['quantity'];	
+							}else{
+								unset($mod['send_code']);
+								unset($mod['quantity']);
+								unset($mod['is_checked']);
+								$pizzaArr['modifier'][] = $mod;
+							}
+						}
+					}
+					
+					$prod = array(
+						'add_extra' => false,
+						'choice' => "Full",
+						'modifier_type' => 'modifier',
+						'plu' => $ord['plu'],
+						'type' => '1'
+					);
+					
+					$pizzaArr['modifier'][] = $prod;
+					
+					$data['order_details'][$i] = $pizzaArr;
+					//echo '<pre>'; print_r($data['order_details']); die;
+					
+				}else{
+					
+					$otherArr = $ord;
+					
+					if(isset($ord['modifier']) && !empty($ord['modifier'])) {
+						foreach($ord['modifier'] as $modOther) {							
+							unset($modOther['send_code']);
+							unset($modOther['quantity']);
+							unset($modOther['is_checked']);
+							$otherArr['modifier'][] = $modOther;
+						}
+					}	
+					$data['order_details'][$i] = $otherArr;
+					//echo '<pre>'; print_r($data['order_details']); die;
+				}	
+				unset($data['order_details'][$i]['category_id']);
+				$i++;					
+			}
+
+			$i = 0;
+			$arr = array();
+			foreach($data['order_details'] as $ord) {
+				
+				if(isset($ord['modifier']) && !empty($ord['modifier'])) {
+					foreach($ord['modifier'] as $mod) {
+						$arr[$i][$mod['choice']][] = $mod;
+					}
+								
+					$data['order_details'][$i]['modifier'] = $arr[$i];
+				}
+				$i++;
+			}
+			
+		}
+		
+		return $data['order_details'];
+		
 	}
 
 	
@@ -1138,7 +1147,10 @@ class TempController extends AppController {
 	    $result = array();
 
 	    $graph_url = 'https://graph.facebook.com/'. $page .'/feed?access_token=1413958752014988|u7WaXrdFfFiFO9mX09mxdqC1NcU';
-	    $fb_feed = json_decode(file_get_contents($graph_url), true);
+		
+		$fb_feed = $this->curlGetRequest($graph_url);
+		$fb_feed = json_decode($fb_feed, true);
+	   // $fb_feed = json_decode(file_get_contents($graph_url), true);
 
 
 	    foreach($fb_feed["data"] as $f)
@@ -1161,7 +1173,9 @@ class TempController extends AppController {
 	    $result = array();
 
 	    $graph_url = 'https://www.instagram.com/' . $page . '/media/';
-	    $ig_feed = json_decode(file_get_contents($graph_url), true);
+		$ig_feed = $this->curlGetRequest($graph_url);
+		$ig_feed = json_decode($ig_feed, true);
+	    //$ig_feed = json_decode(file_get_contents($graph_url), true);
 
 	    foreach($ig_feed["items"] as $i)
 	    {
@@ -1242,7 +1256,6 @@ class TempController extends AppController {
 	}
 
 	function signUp(){
-		Configure::write('debug', 2);
 		$data = $this->request->input ( 'json_decode', true);
 		$qData = array();
 		foreach($data[2]['question'] as $val):
@@ -1300,7 +1313,7 @@ class TempController extends AppController {
 
 				try{
 					$this->Email->from=$from;
-					$this->Email->to='rajput.pushpendra61@gmail.com';
+					$this->Email->to=$data[0]['email'];
 					$this->Email->subject=$subject;
 					$this->Email->sendAs='html';
 					$this->Email->template='general';
@@ -1317,7 +1330,6 @@ class TempController extends AppController {
 				echo json_encode(array('isSuccess'=>false, 'show'=>true, 'message'=>$response->Message));
 			}
 		}
-		curl_close($curl);
 		die;
 	}
 
@@ -1368,7 +1380,7 @@ class TempController extends AppController {
 	}
 	
 	public function getFavItemData() {
-		Configure::write('debug', 2);
+		//Configure::write('debug', 2);
 		$favData = $this->request->input ( 'json_decode', true) ;
 		$favData = json_decode($favData, true);
 		if(!empty($favData)) {
@@ -1440,6 +1452,25 @@ class TempController extends AppController {
 			echo json_encode($item); die;
 			//echo '<pre>'; print_r($favData); die;	
 			
+		}
+		
+		die;
+	}
+	
+	
+	public function applyCoupon() {
+		$orderData = $this->request->input ( 'json_decode', true) ;
+		
+		if(!empty($orderData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/checkDiscount';
+			$orderData['order_details'] = $this->formatPlaceOrderData($url, $orderData);
+			
+			$this->Couponlog->create();
+			$this->Couponlog->save(array('data' => json_encode($orderData), 'created' => date('Y-m-d H:i:s')));	
+			
+			$resp = $this->curlPostRequest($orderData);
+			$res = json_decode($resp, true);
+			echo json_encode($res); die;
 		}
 		
 		die;
