@@ -53,12 +53,24 @@ export class MenuComponent implements OnInit {
   }
 
   getAllCategories(){
-      this.dataService.getMenuData(1)
-          .subscribe(data => {
-             console.log(data);               
-              this.menuData = data;
-              console.log(this.menuData);
-          });
+
+      let storeId = 1;
+      let menuCountry = 'UAE';
+      if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
+            this.dataService.getLocalStorageData('nearByStore') != '') { 
+
+          let nearByStoreId = this.dataService.getLocalStorageData('nearByStore'); 
+          menuCountry = this.dataService.getLocalStorageData('menuCountry');
+      }
+
+      this.dataService.getMenuData(storeId, menuCountry)
+            .subscribe(data => {
+              console.log(data);               
+                this.menuData = data;
+                console.log(this.menuData);
+            }); 
+
+      
   }
 
 

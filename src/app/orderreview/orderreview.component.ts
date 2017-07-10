@@ -21,7 +21,7 @@ export class OrderreviewComponent implements OnInit {
   storeDetails = '';
   favTitle = '';
   order = { 
-            storeId: 1,
+            storeId: '',
             user: {
                 first_name: '',
                 last_name: '',
@@ -65,6 +65,13 @@ export class OrderreviewComponent implements OnInit {
   ngOnInit() {
 
     this.getItems();
+    this.order.storeId = '1';
+    if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
+            this.dataService.getLocalStorageData('nearByStore') != '') { 
+
+          this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
+      }
+
     this.getStoreDetails(this.order.storeId);
 
     let orderDetailsData = this.dataService.getLocalStorageData('order-now');
@@ -88,6 +95,8 @@ export class OrderreviewComponent implements OnInit {
     this.dataService.getStoreDetails(storeId)
       .subscribe(data => {              
               this.storeDetails = data;
+              this.order.storeId = data.Store.store_id;
+              
           });
   }
 

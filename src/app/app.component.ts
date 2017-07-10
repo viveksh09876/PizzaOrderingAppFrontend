@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
       if(isLoggedIn == undefined || isLoggedIn == 'false') {
          this.dialogService.addDialog(RegisterComponent, { callback: 'account' }, { closeByClickingOutside:true });
       }else{
-
+        this.router.navigate(['/account']); 
       }
   }
 
