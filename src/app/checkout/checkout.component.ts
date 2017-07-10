@@ -24,7 +24,8 @@ export class CheckoutComponent implements OnInit {
   netCost = 0;    
   items = []; 
   orderData = null;
-  showPlaceOrder = true;               
+  showPlaceOrder = true; 
+  couponDiscount = 0;              
 
   ngOnInit() {
     this.getItems();
@@ -38,6 +39,7 @@ export class CheckoutComponent implements OnInit {
     this.totalCost = tCost
     this.netCost = tCost;  
     if(this.orderData.couponDiscount != 0 && !isNaN(this.orderData.couponDiscount)) {
+      this.couponDiscount = this.orderData.couponDiscount;
       this.totalCost = this.totalCost - this.orderData.couponDiscount;
     }
     if(this.orderData.order_type == 'delivery') {
