@@ -1,6 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
-class TempController extends AppController {
+class WebserviceController extends AppController {
     public $uses = array('Category','Question','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate');
     public $components=array('Core','Email');
 
@@ -169,7 +169,7 @@ class TempController extends AppController {
     }
 	
 	
-	public function get_all_categories_data($lang_id = 1){
+	public function get_all_categories_data($storeId = 1, $menuCountry = 'UAE'){
 		
 		//Configure::write('debug', 2);
         $this->layout = FALSE;
@@ -206,15 +206,13 @@ class TempController extends AppController {
 									
 		$data = $this->Category->find('all', array('conditions' => array(
 														'Category.status' => 1,
-														'Category.lang_id' => $lang_id)
+														'Category.lang_id' => $storeId)
 												));
 		
 		//echo '<pre>'; print_r($data); die;
-		$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/UAE');
-		//echo '<pre>'; print_r($plu_json); die;
+		$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/'.$menuCountry);
 		$plu_json = json_decode($plu_json, true);
 		$plu_json = $plu_json['item'];
-		//echo '<pre>'; print_r($plu_json); die;
 		$resp = array();
 		$all_categories = $cats = $subCats = array();
 		
