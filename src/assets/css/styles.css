@@ -1571,7 +1571,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 	border: none;
 	position: relative
 }
-#Congrath-Modal button.close {
+/*#Congrath-Modal button.close {
 	position: absolute;
 	right: 20px;
 	top: 15px;
@@ -1584,7 +1584,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 	line-height: 20px;
 	background: #789c48;
 	border-radius: 50%;
-}
+}*/
 #Congrath-Modal h3 {
 	font-size: 35px;
 	line-height: 45px;
@@ -1597,8 +1597,8 @@ button.close:hover,button.close:focus{opacity: 1;}
 	border: 1px solid #789c48;
 	color: #fff;
 	padding: 4px 20px;
-	border-radius: 0;
-	font-family: "bureaueaglebookregular";
+	border-radius: 5px;
+	font-family: "proxima_nova_rgregular";
 	font-size: 16px;
 	margin: 10px 0 0;
 }
