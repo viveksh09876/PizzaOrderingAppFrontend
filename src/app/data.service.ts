@@ -206,7 +206,7 @@ export class DataService {
 
 
   getformattedFavData(favData): Observable<any>{
-  return this.http.post( 'https://nkdpizza.com/beta/dev/temp/getFavItemData', favData)
+  return this.http.post( this.domain + '/webservice/getFavItemData', favData)
                   .map((res: Response) => res.json())
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
