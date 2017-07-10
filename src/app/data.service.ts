@@ -23,9 +23,9 @@ export class DataService {
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
   
-  getMenuData(lang_id): Observable<any>{
+  getMenuData(storeId, country): Observable<any>{
 
-    return this.http.get( this.domain + '/webservice/get_all_categories_data/'+lang_id)
+    return this.http.get( this.domain + '/webservice/get_all_categories_data/'+storeId+ '/'+country)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
@@ -207,6 +207,12 @@ export class DataService {
 
   getformattedFavData(favData): Observable<any>{
   return this.http.post( this.domain + '/webservice/getFavItemData', favData)
+                  .map((res: Response) => res.json())
+                  .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+
+  applyCoupon(orderData): Observable<any>{
+  return this.http.post( this.domain + '/webservice/applyCoupon', orderData)
                   .map((res: Response) => res.json())
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }

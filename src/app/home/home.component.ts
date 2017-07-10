@@ -23,6 +23,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
   latestFbFeeds = null;
   latestIgFeeds = '';
   countryName = '';
+  storeList = [];
+  store = null;
 
   constructor(private dataService: DataService,private utilService: UtilService, private dialogService: DialogService) {
        
@@ -37,6 +39,9 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.dataService.getIp()
         .subscribe(data => {
             let countryName = data.geoplugin_countryName;
+            this.countryName = this.utilService.formatCountryName(countryName);
+            this.dataService.setLocalStorageData('userCountry', this.countryName);
+            this.setStore();
             if(countryName == 'Bahrain'){
               this.getFbFeeds('nkdpizzabh');
               this.getIgFeeds('nkdpizzabh');
@@ -44,7 +49,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
               this.getFbFeeds('nkdpizza');
               this.getIgFeeds('nkdpizzauae');
             }
-        })
+        });
 
     this.getSlideImages();
     
@@ -65,6 +70,47 @@ export class HomeComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     
   }
+
+  setStore() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.dataService.getStoresFromLatLong(position.coords.latitude, position.coords.longitude)
+              .subscribe(data => {      
+                    this.storeList = data.stores;  
+                     
+                    if(this.storeList.length > 0) {
+                      this.dataService.setLocalStorageData('menuCountry', this.countryName);
+                      this.store = this.utilService.findNearbyStore(this.storeList, position.coords.latitude, position.coords.longitude);
+                      
+                      this.dataService.setLocalStorageData('nearByStore', this.store.Store.id);
+                    }else{
+                      this.dataService.setLocalStorageData('menuCountry', 'UAE');
+                    }                 
+                }); 
+        });
+
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+        this.dataService.getIp()
+            .subscribe(data => {
+                let countryName = data.geoplugin_countryName;                 
+               
+                this.dataService.getCountryStore(countryName)
+                    .subscribe(data => {
+                        this.storeList = data;
+                        if(this.storeList.length > 0) {
+                          this.dataService.setLocalStorageData('menuCountry', this.countryName);
+                          this.store = this.utilService.findNearbyStore(this.storeList, data.geoplugin_latitude, data.geoplugin_longitude);
+                          this.dataService.setLocalStorageData('nearByStore', this.store.Store.id); 
+                        } else{
+                          this.dataService.setLocalStorageData('menuCountry', 'UAE');
+                        }                        
+                    });
+                
+            });
+    }
+  }
+
 
   getTwitterFeeds(name) {
      this.dataService.getTwitterFeeds(name)

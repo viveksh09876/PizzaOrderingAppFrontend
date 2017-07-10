@@ -147,11 +147,17 @@
         <h3 class="green-title">order details</h3>
          <div class="dottedlist_box">
             <form class="coupan_box">
-                <input type="text" placeholder="Coupon Code">
-                <input type="submit" value="Apply">
+                <p class="danger" *ngIf="couponMsg != ''">{{couponMsg}}</p>
+                <input type="text" [(ngModel)]="couponCode" name="coupnCode" placeholder="Coupon Code">
+                <ng-container *ngIf="!showCouponWait">
+                <input type="submit" value="Apply" (click)="applyCoupon()">
+                </ng-container>
+                <ng-container *ngIf="showCouponWait">
+                    <p>Please wait...</p>
+                </ng-container>
             </form>
             <ul class="dotted-list">
-                <li>Coupon Discount<span>0.0</span></li> 
+                <li>Coupon Discount<span>{{couponDiscount}}</span></li> 
                 <li>Sub Total<span>{{netCost}}</span></li> 
                 <li>Taxes<span>0.00</span></li> 
                 <li *ngIf="order.order_type=='delivery'">Delivery Charges <span>6.0</span></li> 
