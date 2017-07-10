@@ -1,0 +1,79 @@
+   
+<!-- Contact Us Modal -->
+<div id="contactusModal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body green">
+      <button type="button" class="close" (click)="close()"><span class="icon icon-close"></span></button>
+        <div class="row">
+          <div class="col-md-8">
+            <h3>feedback</h3>
+            <h4>Comments, complaints, <br />
+              praises, or concerns?</h4>
+          </div>
+          <div class="col-md-4">
+            
+            <div class="clearfix"></div>
+            <h5 class="text-right" style="margin-top:45px">* denotes required fields</h5>
+          </div>
+        </div>
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="first name">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="last name">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="email" class="form-control" placeholder="email">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="tel" class="form-control" placeholder="phone number">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="select-wrapper">
+                  <select name="question" class="form-control">
+                    <option>My question relates to.</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="select-wrapper">
+                  <select name="location" class="form-control">
+                    <option>NKD Pizza Location (if applicable)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea name="feedback" class="form-control" placeholder="give us your feedback *"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer text-center">
+        <div class="row">
+          <div class="col-md-3 col-md-offset-4">
+            <button type="submit" class="btn btn-lg btn-danger">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
