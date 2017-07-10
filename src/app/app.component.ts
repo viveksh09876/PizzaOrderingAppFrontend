@@ -46,6 +46,7 @@ export class AppComponent implements OnInit {
 
   
   showLogin = true;
+  orderUrl = '';
 
   openModal(type) {
     if(type == 'login') {
@@ -64,6 +65,19 @@ export class AppComponent implements OnInit {
       if(user != undefined && user == 'true') {
         this.showLogin = false;
       }  
+
+
+      this.dataService.getIp()
+        .subscribe(data => {
+            let countryName = data.geoplugin_countryName;
+            if(countryName.toLowerCase() == 'bahrain'){
+              this.orderUrl = 'http://www.nkdpizza.com/order-bh.html';
+            }else if(countryName.toLowerCase() == 'united states' || countryName.toLowerCase() == 'usa'){
+              this.orderUrl = 'https://www.toasttab.com/nkd-pizza-sterling-heights/v2/online-order';
+            }else{
+              this.orderUrl = '';
+            }
+        })
 
       // jQuery("header.navigation ul.links li a").on('click', function(event) {
       //  if (this.hash !== "") {
