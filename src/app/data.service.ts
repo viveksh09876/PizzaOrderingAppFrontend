@@ -211,4 +211,10 @@ export class DataService {
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
+  applyCoupon(orderData): Observable<any>{
+  return this.http.post( this.domain + '/webservice/applyCoupon', orderData)
+                  .map((res: Response) => res.json())
+                  .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+
 }

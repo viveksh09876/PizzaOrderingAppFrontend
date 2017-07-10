@@ -33,7 +33,9 @@ export class ConfirmationComponent implements OnInit {
     let tCost = this.utilService.calculateOverAllCost(this.items);
     this.totalCost = tCost
     this.netCost = tCost;  
-    console.log(this.items);
+    if(this.orderData.couponDiscount != 0 && !isNaN(this.orderData.couponDiscount)) {
+      this.totalCost = this.totalCost - this.orderData.couponDiscount;
+    }
     if(this.orderData.order_type == 'delivery') {
         this.totalCost += 6;
     } 

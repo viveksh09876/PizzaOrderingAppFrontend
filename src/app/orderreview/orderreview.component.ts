@@ -20,8 +20,11 @@ export class OrderreviewComponent implements OnInit {
   netCost = null;
   storeDetails = '';
   favTitle = '';
+  couponMsg = '';
   order = { 
             storeId: '',
+            coupon: '',
+            couponDiscount: 0,
             user: {
                 first_name: '',
                 last_name: '',
@@ -55,6 +58,10 @@ export class OrderreviewComponent implements OnInit {
     showStep = 'step1';
     cmsApiPath = environment.cmsApiPath;
     showSavingFav = false;
+    couponCode = '';
+    showCouponWait = false;
+    couponDiscount = 0;  
+    isDiscountApply = false;
 
   constructor(private dataService: DataService,
                private dialogService:DialogService,
@@ -352,6 +359,107 @@ export class OrderreviewComponent implements OnInit {
 
 
 
+  prepareFinalOrderData(items) {
+
+    let finalOrder = [];
+    if(items.length > 0) {
+
+        for(var p=0; p<items.length; p++) {
+           let products = items[p];
+          
+           let product = { name: '', plu: '', category_id: products.Product.category_id, quantity: 1, modifier: []};
+            product.name = products.Product.title;
+            product.plu = products.Product.plu_code;
+            product.quantity = products.Product.qty;
+            
+            
+          // console.log(products);
+            if(products.ProductModifier.length > 0) {
+              
+              for(var i = 0; i<products.ProductModifier.length; i++) {
+                
+                for(var j = 0; j < products.ProductModifier[i].Modifier.ModifierOption.length; j++) {
+                    
+                    let opt = products.ProductModifier[i].Modifier.ModifierOption[j].Option;
+                    
+                     
+
+                    if((opt.send_code == 1) 
+                        || (opt.plu_code == 999991 && opt.is_checked)
+                          || (opt.plu_code == 999992 && opt.is_checked)  
+                            || (opt.plu_code == 999993 && opt.is_checked)) {
+                      
+                      let isSizeCrust = false;
+                      if(opt.plu_code == 999991
+                          || opt.plu_code == 999992  
+                            || opt.plu_code == 999993 
+                              || opt.plu_code == 91
+                                || opt.plu_code == 'I100'  
+                                  || opt.plu_code == 'I101') {
+
+                              isSizeCrust = true;
+                      
+                      }       
+
+                      let circle_type = 'Full';
+
+                      for(var a=0; a < opt.OptionSuboption.length; a++) {
+                        if(opt.OptionSuboption[a].SubOption.is_active == true) {
+                          circle_type = opt.OptionSuboption[a].SubOption.name;
+                        }
+                      }
+
+                      let sendToOrder = true;
+                      if(opt.category_id != 1 && isSizeCrust == false) {
+                        if(opt.is_checked && opt.default_checked) {
+                          if(!opt.add_extra) {
+                            sendToOrder = false;  
+                          }
+                        }
+                      }
+                      
+                      if(sendToOrder) {
+
+                          
+                          let modType = 'modifier';
+                          if(opt.is_included_mod) {
+                            modType = 'included_modifier';
+                          }
+
+                          let val = {
+                              plu: opt.plu_code,   
+                              category_id: product.category_id,                
+                              add_extra: opt.add_extra,
+                              quantity: opt.quantity,
+                              type: 0,
+                              modifier_type: modType,
+                              choice: circle_type,
+                              send_code: opt.send_code                              
+                          }
+
+                          if(opt.is_checked || opt.add_extra == true) {
+                            val.type = 1
+                          }
+                          
+                          product.modifier.push(val);
+                      }
+                      
+                    }
+
+                }
+              }
+            }
+            
+            finalOrder.push(product); 
+        }
+
+      }
+
+      return finalOrder;
+
+  }
+
+
   addToFav() {
     let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
     if(isLoggedIn == undefined || isLoggedIn == 'false') {
@@ -393,5 +501,43 @@ export class OrderreviewComponent implements OnInit {
         self.dialogService.addDialog(MessageComponent, { title: 'Success', message: messageText, buttonText: 'Continue', doReload: false }, { closeByClickingOutside:true });   
     }
 
+
+    applyCoupon() {
+      this.showCouponWait = true;
+      
+      if(this.couponCode.trim() != '') {
+
+        let orderObj = {
+          storeId: this.order.storeId,
+          coupon: this.couponCode,
+          order_type: this.order.order_type,
+          order_details: this.prepareFinalOrderData(this.items)
+        }
+        
+        this.dataService.applyCoupon(orderObj)
+              .subscribe(data => {
+                  let resp = JSON.parse(data);
+                  if(resp.Status == 'Error') {
+                    this.couponMsg = resp.Message;
+                    this.showCouponWait = false;
+                  }else if(resp.Status == 'Ok') {
+                    this.couponDiscount = parseFloat(resp.Discount);  
+                    this.isDiscountApply = true;
+                    this.couponMsg = 'Coupon appled successfully.';
+                    this.showCouponWait = false;
+                    this.order.coupon = this.couponCode;
+                    this.totalCost = this.totalCost - this.couponDiscount;
+                  }
+              }); 
+
+      }else{
+        this.showCouponWait = false;
+        this.couponMsg = 'Please enter valid coupon';
+      }
+
+      setTimeout(function() {
+        this.couponMsg = '';
+      }, 4000);
+    }
 
 }

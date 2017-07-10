@@ -26,7 +26,7 @@
          <h3 class="green-title">payment summary</h3>
          <div class="dottedlist_box">
             <ul class="dotted-list">
-                <!--<li>Coupon Discount<span>0.0</span></li> -->
+                <li>Coupon Discount<span>{{couponDiscount}}</span></li>
                 <li>Sub Total<span>{{totalCost}}</span></li> 
                 <li>Taxes<span>00.00</span></li> 
                 <li *ngIf="orderData.order_type=='delivery'">Delivery Charge<span>6.00</span></li> 
