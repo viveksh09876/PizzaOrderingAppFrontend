@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { RegisterComponent } from '../register/register.component';
 import { MessageComponent } from '../message/message.component';
+import { OrdernowmodalComponent } from '../ordernowmodal/ordernowmodal.component';
 import { DataService } from '../data.service';
 
 declare var jQuery: any;
@@ -29,7 +30,13 @@ export class LoginComponent extends DialogComponent<LoginModal, null> {
   openModal(type) {
      let self = this;
      self.close();
-     self.dialogService.addDialog(RegisterComponent, {  }, { closeByClickingOutside:true });   
+
+     if(type == 'register') {
+      self.dialogService.addDialog(RegisterComponent, { callback: ''  }, { closeByClickingOutside:true }); 
+     }else if(type == 'ordernow') {
+      self.dialogService.addDialog(OrdernowmodalComponent, { }, { closeByClickingOutside:true });   
+     }
+       
   }
 
   openMessageModal(messageText) {

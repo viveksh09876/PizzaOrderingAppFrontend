@@ -42,7 +42,7 @@
 <ul class="list-inline links hidden-xs hidden-sm">
      <li> <a [routerLink]="['/menu']"> <span class="icon icon-pizza"></span><span>Menu</span> </a> </li>
     <li> <a (click)="openModal('ordernow')"> <span class="icon icon-pizza-icon"></span><span>Order Now</span> </a> </li>
-    <li> <a href="#" data-toggle="modal" data-target="#signinModal"><span class="icon icon-favorite"></span><span>Favorites</span></a></li>
+    <li> <a (click)="goToFav()"><span class="icon icon-favorite"></span><span>Favorites</span></a></li>
   </ul>
   
   <ul class="list-inline mobile links hidden-md hidden-lg">

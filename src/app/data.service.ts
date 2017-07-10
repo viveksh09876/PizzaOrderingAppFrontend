@@ -13,6 +13,7 @@ export class DataService {
   constructor(private http: Http, private jsonp:Jsonp) { }
 
   domain = environment.cmsApiPath;
+  selectedFavItemData = null;
 
   
   getSlides(lang_id): Observable<any>{
@@ -185,6 +186,29 @@ export class DataService {
                     .map((res: Response) => res.json())
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
                 
+  }
+
+  getFav(type, userId): Observable<any>{
+
+    return this.http.get( this.domain + '/webservice/getFav/'+ type + '/' + userId)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+
+  
+  setSelectedFavItemData(data){
+    this.selectedFavItemData = data;
+  }
+
+  getSelectedFavItemData(): Observable<any>{
+    return this.selectedFavItemData;
+  }
+
+
+  getformattedFavData(favData): Observable<any>{
+  return this.http.post( 'https://nkdpizza.com/beta/dev/temp/getFavItemData', favData)
+                  .map((res: Response) => res.json())
+                  .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
 }

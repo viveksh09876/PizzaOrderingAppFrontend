@@ -5,6 +5,9 @@
 
 export const environment = {
   production: false,
-  cmsApiPath: 'http://nkdpizza.com/beta/dev',
-  posApiPath: 'http://nkdpizza.com/beta/pos/index.php'
+  cmsApiPath: 'https://nkdpizza.com/beta/dev',
+  posApiPath: 'https://nkdpizza.com/beta/pos/index.php'
+
+  //cmsApiPath: 'https://mavin360.com/demo/nkd/dev/',
+  //posApiPath: '35.185.240.172/nkd/index.php'
 };

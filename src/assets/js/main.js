@@ -4,7 +4,8 @@ var lat = '25.040657';
 var lng = '55.197286';
 var map, places = [], cordinates, pos, contentString, coordinates;
 var zoom=3;
-
+cmsurl = "https://nkdpizza.com/beta/dev";
+//cmsurl = "https://mavin360.com/demo/nkd/";
 
 
 
@@ -65,7 +66,7 @@ $(document).ready(function(){
 mapboxgl.accessToken = 'pk.eyJ1IjoicHVzaHBlbmRyYXJhaiIsImEiOiJjajRwYzFtOTYxeWd0MzJwbDdsaGNzOTZiIn0.a9BUA890Vtyeqy21AaLClQ';
 $(document).ready(function(){
 
-    $.get('https://nkdpizza.com/beta/dev/webservice/getip', function(resp){
+    $.get(cmsurl + '/webservice/getip', function(resp){
         resp = JSON.parse(resp);
         country = resp.geoplugin_countryName;
         if(country=='United States'){
@@ -110,7 +111,7 @@ $(document).ready(function(){
               // create a DOM element for the marker
               var el = document.createElement('div');
               el.className = 'marker';
-              el.style.backgroundImage = 'url(https://mavin360.com/demo/nkd/web/assets/images/map-marker.png)';
+              el.style.backgroundImage = 'url('+ cmsurl+'/img/map-marker.png)';
               el.style.width = '40px';
               el.style.height = '40px';
 
@@ -143,7 +144,7 @@ $(document).ready(function(){
             $('#mapText').html(mapText);
         }else{ 
 
-          $.get('https://mavin360.com/demo/nkd/dev/webservice/getCountryStores/'+country, function(res){
+          $.get(cmsurl + '/webservice/getCountryStores/'+country, function(res){
                   var stData = JSON.parse(res);
                   if(stData.length > 0) {      
                       for(var p=0; p<stData.length; p++) { 
@@ -155,7 +156,7 @@ $(document).ready(function(){
                               // create a DOM element for the marker
                               var el = document.createElement('div');
                               el.className = 'marker';
-                              el.style.backgroundImage = 'url(https://mavin360.com/demo/nkd/web/assets/images/map-marker.png)';
+                              el.style.backgroundImage = 'url('+ cmsurl +'/img/map-marker.png)';
                               el.style.width = '40px';
                               el.style.height = '40px';
 

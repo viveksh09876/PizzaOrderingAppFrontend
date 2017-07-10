@@ -47,10 +47,11 @@ export class UtilService {
 
 
   formatFavData(item) {
-    let favData = { itemId: null , itemName: null,  modifiers: [] }
+    let favData = { itemId: null , itemName: null, itemSlug: null,  modifiers: [] }
     
     favData.itemId = item.Product.id;
     favData.itemName = item.Product.title;
+    favData.itemSlug = item.Product.slug;
 
     if(item.ProductModifier.length > 0) {
       for(var i = 0; i < item.ProductModifier.length; i++) {
@@ -80,6 +81,7 @@ export class UtilService {
                   send_code: options[j].Option.send_code,
                   send_code_permanent: options[j].Option.send_code_permanent,
                   default_checked: options[j].Option.default_checked,
+                  add_extra: options[j].Option.add_extra,
                   subOption: null
                 }
 
@@ -88,9 +90,11 @@ export class UtilService {
                   let subOp = options[j].Option.OptionSuboption;
                   if(subOp.length > 0) {
                     for(var k=0; k < subOp.length; k++) {
-                      if(subOp.SubOption.is_active) {
-                        subArr.push(subOp.SubOption.id);
-                      }
+                      if(subOp.SubOption) {
+                        if(subOp.SubOption.is_active) {
+                          subArr.push(subOp.SubOption.id);
+                        }
+                      }                      
                     }
                   }
                 }

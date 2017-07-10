@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { DataService } from '../data.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,10 @@ import { DataService } from '../data.service';
 })
 export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 
-  constructor(dialogService: DialogService, private dataService: DataService) {
+  constructor(dialogService: DialogService, 
+								private dataService: DataService,
+									private route: ActivatedRoute, 
+                    private router: Router) {
     super(dialogService);
   }
 
@@ -57,6 +61,7 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 	showLoading = false;
 	
 	error = { show:false, isSuccess:false, message: ''};
+	callback = this.callback;
 
 	ngOnInit() {
     this.getUserIp();
@@ -118,6 +123,7 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 				.subscribe(data => {
 							if(data.isSuccess == 'true') {
 									this.error = data;
+
 									setTimeout(function(){
 										window.location.reload();
 									},3000);
@@ -136,6 +142,6 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 
 
 export interface RegisterModal {
-  //title: string;
+  callback: string;
   //message: string;
 }

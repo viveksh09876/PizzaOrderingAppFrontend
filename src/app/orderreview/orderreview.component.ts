@@ -357,7 +357,7 @@ export class OrderreviewComponent implements OnInit {
 
       let favOrdArr = [];
       for(var i=0; i < this.items.length; i++) {
-        let favObj = this.utilService.formatFavData(this.items);
+        let favObj = this.utilService.formatFavData(this.items[i]);
         let favDataObj = {
           userId: userDetails.id,
           data: favObj

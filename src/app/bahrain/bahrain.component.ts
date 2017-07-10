@@ -26,16 +26,16 @@ export class BahrainComponent implements OnInit {
     
 
      redirect() {
-     var key = "814f9c9990fcac0b164c090bd492960a";
-    	var device = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
-var client_height = window.top.document.documentElement.clientHeight;
-if(device == true){
-	window.open("http://online.sapaad.com/users/new_order?key="+key, "_top");
-}else{
+      var key = "814f9c9990fcac0b164c090bd492960a";
+        var device = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
+        var client_height = window.top.document.documentElement.clientHeight;
+      if(device == true){
+        window.open("http://online.sapaad.com/users/new_order?key="+key, "_top");
+      }else{
 
-	var html = '<iframe src="http://online.sapaad.com/users/new_order?key='+key+'&ref='+location.href+'" style="width: 100%; height: '+client_height+'px; border: 0px; margin-bottom: 0px;">Your browser does not support inline frames.</iframe>'
-		document.write(html);
-}
+        var html = '<iframe src="http://online.sapaad.com/users/new_order?key='+key+'&ref='+location.href+'" style="width: 100%; height: '+client_height+'px; border: 0px; margin-bottom: 0px;">Your browser does not support inline frames.</iframe>'
+          document.write(html);
+      }
     }
 
 

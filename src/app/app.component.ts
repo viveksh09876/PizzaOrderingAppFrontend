@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from "ng2-bootstrap-modal";
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { DataService } from './data.service';
@@ -63,17 +64,17 @@ export class AppComponent implements OnInit {
         this.showLogin = false;
       }  
 
-      jQuery("header.navigation ul.links li a").on('click', function(event) {
-       if (this.hash !== "") {
-          event.preventDefault();
-          var hash = this.hash;
-        jQuery('html, body').animate({
-          scrollTop: jQuery(hash).offset().top-80
-          }, 800, function(){
-        window.location.hash = hash;
-      });
-    }
-  });
+      // jQuery("header.navigation ul.links li a").on('click', function(event) {
+      //  if (this.hash !== "") {
+      //         event.preventDefault();
+      //         var hash = this.hash;
+      //       jQuery('html, body').animate({
+      //         scrollTop: jQuery(hash).offset().top-80
+      //         }, 800, function(){
+      //       window.location.hash = hash;
+      //     });
+      //   }
+      // });
   }
 
   navigateMenu(page) {
@@ -86,6 +87,16 @@ export class AppComponent implements OnInit {
     this.dataService.setLocalStorageData('user-details', null);
     this.dataService.setLocalStorageData('isLoggedIn', false);
     window.location.reload();
+  }
+
+
+  goToFav() {
+    let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
+      if(isLoggedIn == undefined || isLoggedIn == 'false') {
+         this.dialogService.addDialog(RegisterComponent, { callback: 'account' }, { closeByClickingOutside:true });
+      }else{
+
+      }
   }
 
 }

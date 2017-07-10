@@ -25,7 +25,7 @@
         <div class="box">
           <h4>Ordering</h4>
           <ul>
-            <li [ngClass]="{'active': currentTab == 'favOrder'}"><a (click)="goToTab('favOrder')">Favorite Orders</a></li>
+            <li [ngClass]="{'active': currentTab == 'favOrders'}"><a (click)="goToTab('favOrders')">Favorite Orders</a></li>
             <li [ngClass]="{'active': currentTab == 'favItems'}"><a (click)="goToTab('favItems')">Favorite Items</a></li>
             <li [ngClass]="{'active': currentTab == 'orderHistory'}"><a (click)="goToTab('orderHistory')">Order History</a></li>
             <li [ngClass]="{'active': currentTab == 'address'}"><a (click)="goToTab('address')">My Addresses</a></li>
@@ -39,351 +39,35 @@
           <h4 class="title">My Favorite Orders</h4>
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
-                </h4>
-              </div>
-              <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
-                  <div class="row">
-                    <div class="col-md-8 col-sm-12">
-                      <div class="table-responsive scroller">
-                          <table class="table">
-                              <thead>
-                                  <tr>
-                                      <th class="main">Item</th>
-                                      <th>Qty</th>
-                                      <th>price</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>
-                                          <h4>Superbiotic</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Gluten-free</p>
-                                          <p><span>First Half Sauces & Toppings :</span></p>
-                                          <p>ADD housemade tomato</p>
-                                      </td>
-                                      <td>01 AED</td>
-                                      <td>210 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                      <div class="blackbox">
-                          <div class="grand-total">Grand Total <span>AED 450.40</span></div>
-                      </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12 details">
-                      <h4>Order details</h4>
-                      <ul>
-                        <li><span>Order Mode :</span> Pickup</li>
-                        <li><span>Payment Mode :</span> Pay at store</li>
-                        <li><span>From Restaurant:</span>
-                          Botanical Garden Metro Station
-                          Ground Floor, Sector 37, Noida,
-                          Uttar Pradesh 201301
-                          Phone: 0120 640 4101</li>
-                      </ul>
-                    </div>
-                  </div>
+            <ng-container *ngIf="favOrders != null">
+               <div class="panel panel-default" *ngFor="let fi of favOrders; let i=index">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne">{{fi.FName}}: <ng-container *ngFor="let fd of fi.FDetail">{{fd.data.itemName}}, </ng-container><strong><a (click)="orderFavOrder(fi)">Order Now</a></strong></a>
+                    </h4>
+                </div>                
                 </div>
-              </div>
-            </div>
+            </ng-container>
 
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingtwo">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" class="active">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
-                </h4>
-              </div>
-              <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingtwo">
-                <div class="panel-body">
-                  <div class="row">
-                    <div class="col-md-8 col-sm-12">
-                      <div class="table-responsive scroller">
-                          <table class="table">
-                              <thead>
-                                  <tr>
-                                      <th class="main">Item</th>
-                                      <th>Qty</th>
-                                      <th>price</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>
-                                          <h4>Superbiotic</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Gluten-free</p>
-                                          <p><span>First Half Sauces & Toppings :</span></p>
-                                          <p>ADD housemade tomato</p>
-                                      </td>
-                                      <td>01 AED</td>
-                                      <td>210 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                      <div class="blackbox">
-                          <div class="grand-total">Grand Total <span>AED 450.40</span></div>
-                      </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12 details">
-                      <h4>Order details</h4>
-                      <ul>
-                        <li><span>Order Mode :</span> Pickup</li>
-                        <li><span>Payment Mode :</span> Pay at store</li>
-                        <li><span>From Restaurant:</span>
-                          Botanical Garden Metro Station
-                          Ground Floor, Sector 37, Noida,
-                          Uttar Pradesh 201301
-                          Phone: 0120 640 4101</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingthree">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
-                </h4>
-              </div>
-              <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingthree">
-                <div class="panel-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </div>
-              </div>
-            </div>
-
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingfour">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
-                </h4>
-              </div>
-              <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfour">
-                <div class="panel-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </div>
-              </div>
-            </div>
-
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingfive">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
-                </h4>
-              </div>
-              <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfive">
-                <div class="panel-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </div>
-              </div>
-            </div>
 
           </div>
         </div>
+
 
         <div class="account_container" *ngIf="currentTab == 'favItems'">
           <h4 class="title">My Favorite Items</h4>
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
-                </h4>
-              </div>
-              <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
-                  <div class="row">
-                    <div class="col-md-8 col-sm-12">
-                      <div class="table-responsive scroller">
-                          <table class="table">
-                              <thead>
-                                  <tr>
-                                      <th class="main">Item</th>
-                                      <th>Qty</th>
-                                      <th>price</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>
-                                          <h4>Superbiotic</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Gluten-free</p>
-                                          <p><span>First Half Sauces & Toppings :</span></p>
-                                          <p>ADD housemade tomato</p>
-                                      </td>
-                                      <td>01 AED</td>
-                                      <td>210 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <h4>Create your own pizza</h4>
-                                          <p><span>Size :</span> Medium</p>
-                                          <p><span>Crust:</span> Skinny</p>
-                                      </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                      <div class="blackbox">
-                          <div class="grand-total">Grand Total <span>AED 450.40</span></div>
-                      </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12 details">
-                      <h4>Order details</h4>
-                      <ul>
-                        <li><span>Order Mode :</span> Pickup</li>
-                        <li><span>Payment Mode :</span> Pay at store</li>
-                        <li><span>From Restaurant:</span>
-                          Botanical Garden Metro Station
-                          Ground Floor, Sector 37, Noida,
-                          Uttar Pradesh 201301
-                          Phone: 0120 640 4101</li>
-                      </ul>
-                    </div>
-                  </div>
+            <ng-container *ngIf="favItems != null">
+               <div class="panel panel-default" *ngFor="let fi of favItems">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne">{{fi.FName}}: {{fi.FDetail.data.itemName}}<strong><a (click)="orderFavItem(fi)">Order Now</a></strong></a>
+                    </h4>
+                </div>                
                 </div>
-              </div>
-            </div>
+            </ng-container>
+
 
           </div>
         </div>

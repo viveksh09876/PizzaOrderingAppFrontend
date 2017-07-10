@@ -30,19 +30,39 @@ export class ItemComponent implements OnInit {
                   private router: Router,
                     private utilService: UtilService) { }
 
+                    sub = null;
+
   ngOnInit() {
       
+
+      this.sub = this.route
+      .queryParams
+      .subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        console.log(params);
+      });
+
+
       this.route.params.subscribe(params => {
         
         if(params['slug'] && params['slug']!= '') {
-          this.getItemData(params['slug']);
 
-          if(this.dataService.getLocalStorageData('allItems') != null
-                && this.dataService.getLocalStorageData('allItems') != 'null') {
-            this.allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
-            this.netCost = this.utilService.calculateOverAllCost(this.allItems);
+          if(params['slug'] != 'favorite') {
+            this.getItemData(params['slug']);
+            if(this.dataService.getLocalStorageData('allItems') != null
+                  && this.dataService.getLocalStorageData('allItems') != 'null') {
+              this.allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+              this.netCost = this.utilService.calculateOverAllCost(this.allItems);
+            }
+
+          }else{
+              let favItemData = this.dataService.getLocalStorageData('favItemFetched');
+              if(favItemData != null && favItemData != undefined) {
+                favItemData = JSON.stringify(favItemData);
+                this.getFavItemData(favItemData);
+              }              
           }
-
+          
         }else{
           alert('Invalid Page Requested!');
         }
@@ -53,6 +73,40 @@ export class ItemComponent implements OnInit {
 
   getItemData(slug) {
      this.dataService.getItemData(slug)
+          .subscribe(data => {
+                
+             if(data.ProductModifier.length == 0) {
+                
+                data.originalItemCost = data.Product.price;
+                data.totalItemCost = data.Product.price;
+                let temp = this.dataService.getLocalStorageData('allItems');
+                
+                if(temp == null || temp == 'null') {
+
+                  let allItems = [];                  
+                  allItems.push(data);
+                  this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+                 
+                }else{
+
+                  let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));                  
+                  allItems.push(data);  
+                  this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+                }
+
+                this.router.navigate(['/menu']);
+             
+            }else{
+                this.item = data;
+                this.getTotalCost();
+             }
+            
+          });
+  }
+
+
+  getFavItemData(favData) {
+     this.dataService.getformattedFavData(favData)
           .subscribe(data => {
                 
              if(data.ProductModifier.length == 0) {

@@ -161,13 +161,13 @@
                                     <li><strong>Size:</strong> {{option.Option.name}}</li>
                                   </ng-container>  
 
-                                  <ng-container *ngIf="option.Option.is_checked && option.Option.is_included_mod && option.Option.add_extra && option.Option.plu_code != 91 && option.Option.plu_code != 'I100' && option.Option.plu_code != 'I101'">
+                                  <ng-container *ngIf="option.Option.is_checked && option.Option.is_included_mod && option.Option.add_extra && option.Option.plu_code != 91 && option.Option.plu_code != 'I100' && option.Option.plu_code != 'I101' && option.Option.plu_code != 999991 && option.Option.plu_code != 999992 && option.Option.plu_code != 999993">
                                     <li>+ {{option.Option.name}}</li>
                                   </ng-container>
-                                  <ng-container *ngIf="!option.Option.is_checked && option.Option.is_included_mod && option.Option.plu_code != 91 && option.Option.plu_code != 'I100' && option.Option.plu_code != 'I101'">
+                                  <ng-container *ngIf="!option.Option.is_checked && option.Option.is_included_mod && option.Option.plu_code != 91 && option.Option.plu_code != 'I100' && option.Option.plu_code != 'I101' && option.Option.plu_code != 999991 && option.Option.plu_code != 999992 && option.Option.plu_code != 999993">
                                     <li>- {{option.Option.name}}</li>
                                   </ng-container> 
-                                  <ng-container *ngIf="option.Option.is_checked && !option.Option.is_included_mod && option.Option.plu_code != 91 && option.Option.plu_code != 'I100' && option.Option.plu_code != 'I101'">
+                                  <ng-container *ngIf="option.Option.is_checked && !option.Option.is_included_mod && option.Option.plu_code != 91 && option.Option.plu_code != 'I100' && option.Option.plu_code != 'I101' && option.Option.plu_code != 999991 && option.Option.plu_code != 999992 && option.Option.plu_code != 999993">
                                     <li>- {{option.Option.name}}</li>
                                   </ng-container> 
                                   <!--<li *ngIf="option.Option.is_checked">Add {{option.Option.name}}</li>-->

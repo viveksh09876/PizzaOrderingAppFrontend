@@ -55,8 +55,9 @@ export class MenuComponent implements OnInit {
   getAllCategories(){
       this.dataService.getMenuData(1)
           .subscribe(data => {
-             //console.log(data);               
+             console.log(data);               
               this.menuData = data;
+              console.log(this.menuData);
           });
   }
 

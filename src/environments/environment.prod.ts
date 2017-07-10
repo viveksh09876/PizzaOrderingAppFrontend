@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  cmsApiPath: 'http://nkdpizza.com/beta/dev',
-  posApiPath: 'http://nkdpizza.com/beta/pos/index.php'
+  cmsApiPath: 'https://nkdpizza.com/beta/dev',
+  posApiPath: 'https://nkdpizza.com/beta/pos/index.php'
 };

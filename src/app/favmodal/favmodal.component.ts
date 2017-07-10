@@ -35,11 +35,7 @@ export class FavmodalComponent extends DialogComponent<FavModal, null> {
           data: favObj
         } 
         favData = favDataObj;
-      }else if(this.type == 'order') {
-
-        
-
-      }      
+      }    
       
       this.dataService.saveFavItem(userId, this.favTitle, favData, this.type)
         .subscribe(data => {
