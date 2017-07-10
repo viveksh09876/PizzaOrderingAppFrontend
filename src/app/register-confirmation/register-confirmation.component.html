@@ -1,0 +1,17 @@
+<div id="Congrath-Modal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" (click)="close()" data-dismiss="modal" aria-label="Close"><span class="icon icon-close"></span></button>
+      </div>
+      <div class="modal-body">
+        <h3>Congratulations! Welcome to <img src="assets/images/logo.png" alt="Logo" height="100%"></h3>
+        <p>Your Account has been Created, please login for oder.</p>
+        <div class="form-group">
+          <a (click)="openModal('login')" class="btn btn-default prev">Login Now</a>
+          <!--<a [routerLink]="['/menu']" class="btn btn-default">Start Ordering</a>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

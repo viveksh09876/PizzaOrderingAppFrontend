@@ -31,6 +31,7 @@ import { FavmodalComponent } from './favmodal/favmodal.component';
 import { FranchisingComponent } from './franchising/franchising.component';
 import { BahrainComponent } from './bahrain/bahrain.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { RegisterConfirmationComponent } from './register-confirmation/register-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
     FavmodalComponent,
     FranchisingComponent,
     BahrainComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    RegisterConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +69,7 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
     NguiDatetimePickerModule,
     CustomFormsModule
   ],
-  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent],
+  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent, RegisterConfirmationComponent],
   schemas:  [CUSTOM_ELEMENTS_SCHEMA],
   providers: [DataService, UtilService],
   bootstrap: [AppComponent]

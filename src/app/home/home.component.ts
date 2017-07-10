@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
               this.getIgFeeds('nkdpizzabh');
             }else{
               this.getFbFeeds('nkdpizza');
-              this.getIgFeeds('nkdpizza');
+              this.getIgFeeds('nkdpizzauae');
             }
         })
 
