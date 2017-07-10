@@ -1,12 +1,12 @@
 <?php
 App::uses('AppController', 'Controller');
-class WebserviceController extends AppController {
+class TempController extends AppController {
     public $uses = array('Category','Question','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate');
     public $components=array('Core','Email');
 
     function beforeFilter(){
         parent::beforeFilter();
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData'));
     }
 
     public function get_categories($count=10){
@@ -43,8 +43,11 @@ class WebserviceController extends AppController {
             $ipaddress = 'UNKNOWN';
 		
 		//$ipaddress = '72.229.28.185';
-        $ip_data = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ipaddress));  
-        echo json_encode((array) $ip_data);
+		
+		$url = "http://www.geoplugin.net/json.gp?ip=".$ipaddress;
+		$response = $this->curlGetRequest($url);
+		$response = json_decode($response);
+        echo json_encode((array) $response);
     }
 
      public function get_languages($count=10){
@@ -167,6 +170,7 @@ class WebserviceController extends AppController {
 	
 	
 	public function get_all_categories_data($lang_id = 1){
+		
 		//Configure::write('debug', 2);
         $this->layout = FALSE;
         $this->autoRender = FALSE;
@@ -206,7 +210,8 @@ class WebserviceController extends AppController {
 												));
 		
 		//echo '<pre>'; print_r($data); die;
-		$plu_json = file_get_contents('http://35.185.240.172/nkd/index.php/menu/UAE');
+		$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/UAE');
+		//echo '<pre>'; print_r($plu_json); die;
 		$plu_json = json_decode($plu_json, true);
 		$plu_json = $plu_json['item'];
 		//echo '<pre>'; print_r($plu_json); die;
@@ -312,7 +317,7 @@ class WebserviceController extends AppController {
 		
 		//die;
 		//echo '<pre>'; print_r($cats); die;
-        echo json_encode($cats);
+        echo json_encode($cats); die;
     }
 	
 	
@@ -320,7 +325,15 @@ class WebserviceController extends AppController {
 		//Configure::write('debug', 2);
 		if($slug != '') {
 			
-			$this->Product->recursive = 6;
+			$item = $this->getFormattedItemData($slug);
+			//echo '<pre>'; print_r($item); die;
+			echo json_encode($item); die;
+		}
+	}
+    
+	
+	public function getFormattedItemData($slug) {
+		$this->Product->recursive = 6;
 			
 			$this->OptionSuboption->bindModel(array(
 								'belongsTo' => array(
@@ -406,7 +419,7 @@ class WebserviceController extends AppController {
 											)
 										));
 			
-			$plu_json = file_get_contents('http://35.185.240.172/nkd/index.php/menu/UAE');
+			$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/UAE');
 			$plu_json = json_decode($plu_json, true);
 			
 			
@@ -657,12 +670,9 @@ class WebserviceController extends AppController {
 			
 			$item['ProductIncludedModifier'] = array();
 			//unset($item['ProductIncludedModifier']);
-			
-			//echo '<pre>'; print_r($item); die;
-			echo json_encode($item); die;
-		}
+			return $item;
 	}
-    
+	
 	
 	public function placeOrder() {
 		
@@ -744,31 +754,13 @@ class WebserviceController extends AppController {
 				
 			}
 			
-			
-			//echo '<pre>'; print_r($data); die;
 			$this->Orderlog->create();
 			$this->Orderlog->save(array('data' => json_encode($data)));
 			
-			//echo '<pre>'; print_r($arr); die;
-			//echo '<pre>'; print_r($data); die;
-			
-			$url = 'http://35.185.240.172/nkd/index.php/placeOrder';
-			$content = json_encode($data); 
-			$curl = curl_init($url);
-			curl_setopt($curl, CURLOPT_HEADER, false);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_HTTPHEADER,
-					array("Content-type: application/json"));
-			curl_setopt($curl, CURLOPT_POST, true);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
-			 
-			$result     = curl_exec($curl);
-			//$response   = json_decode($result);
+			$url = 'https://nkdpizza.com/beta/pos/index.php/placeOrder';
+			$result     = $this->curlPostRequest($url, $data);
 			$response = array( 'response' =>  $result, 'message' => 'success');
-			curl_close($curl);
 			echo json_encode($response); die;
-			
 			
 		}
 		
@@ -777,7 +769,7 @@ class WebserviceController extends AppController {
 
 	
 	public function getStoreList($city) {
-		Configure::write('debug', 2);
+		//Configure::write('debug', 2);
 		if(!empty($city)) {
 			
 			$city = explode(',', $city);
@@ -821,20 +813,9 @@ class WebserviceController extends AppController {
 		
 		if($code != '') {
 			
-			$url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.$code;
-			
-			$curl = curl_init($url);
-			curl_setopt($curl, CURLOPT_HEADER, false);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_HTTPHEADER,
-					array("Content-type: application/json"));
-			
-			
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
-			 
-			$result     = curl_exec($curl);
+			$url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.$code;			
+			$result     = $this->curlGetRequest($url);
 			$response   = json_decode($result, true);
-			//echo '<pre>'; print_r($result); die;
 			$stores = array();
 			$allStores = array();
 			
@@ -883,19 +864,8 @@ class WebserviceController extends AppController {
 			
 			$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.$lat.','.$long.'&sensor=true';
 			
-			$curl = curl_init($url);
-			curl_setopt($curl, CURLOPT_HEADER, false);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_HTTPHEADER,
-					array("Content-type: application/json"));
-			
-			
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
-			 
-			$result     = curl_exec($curl);
+			$result     = $this->curlGetRequest($url);
 			$response   = json_decode($result, true);
-			//echo '<pre>'; print_r($response); die;
-			
 			$postalCode = '';
 			$city = '';
 			
@@ -920,8 +890,6 @@ class WebserviceController extends AppController {
 						}
 					}					
 				}
-				
-				//$city = strtolower($response['results'][0]['address_components'][1]['long_name']);
 				
 				$stores = $this->Store->find('all', array(							
 								'conditions' => array(
@@ -958,7 +926,6 @@ class WebserviceController extends AppController {
 				
 			}
 			echo json_encode($return); die;
-			//echo '<pre>'; print_r($response); die;
 			
 			
 		}
@@ -978,22 +945,10 @@ class WebserviceController extends AppController {
 		
 		if(!empty($data)) {
 			
-			$url = 'http://35.185.240.172/nkd/index.php/Login';
-			$content = json_encode($data); 
-			$curl = curl_init($url);
-			curl_setopt($curl, CURLOPT_HEADER, false);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_HTTPHEADER,
-					array("Content-type: application/json"));
-			curl_setopt($curl, CURLOPT_POST, true);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
-			 
-			$result     = curl_exec($curl);
-			curl_close($curl);
+			$url = 'https://nkdpizza.com/beta/pos/index.php/Login';
+			
+			$result     = $this->curlPostRequest($url, $data);
 			$response   = json_decode($result, true);
-			//echo '<pre>'; print_r($response); die;
-			//$response = array( 'response' =>  $result);
 			
 			if($response['Status'] == 'OK') {
 				$resp = array(
@@ -1154,23 +1109,10 @@ class WebserviceController extends AppController {
 		$data = $this->request->input ( 'json_decode', true) ;
 		if(!empty($data)) {
 			//echo '<pre>'; print_r(json_encode($data)); die;
-			$url = 'http://35.185.240.172/nkd/index.php/addFav';
-			$content = json_encode($data); 
-			$curl = curl_init($url);
-			curl_setopt($curl, CURLOPT_HEADER, false);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_HTTPHEADER,
-					array("Content-type: application/json"));
-			curl_setopt($curl, CURLOPT_POST, true);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
+			$url = 'https://nkdpizza.com/beta/pos/index.php/addFav';
 			 
-			$result     = curl_exec($curl);
-			//echo '<pre>'; print_r($result); die;
+			$result     = $this->curlPostRequest($url, $data);
 			$response   = json_decode($result);
-			//$response = array( 'response' =>  $response, 'message' => 'success');
-			
-			curl_close($curl);
 			echo json_encode($response); die;
 			
 		}
@@ -1185,18 +1127,7 @@ class WebserviceController extends AppController {
 		
 		if(!empty($searchKey)) {
 			$url = "http://gd.geobytes.com/AutoCompleteCity?filter=".$countryCode."&q=".$searchKey;
-			
-			$curl = curl_init($url);
-			curl_setopt($curl, CURLOPT_HEADER, false);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_HTTPHEADER,
-					array("Content-type: application/json"));
-			
-			
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
-			 
-			$result     = curl_exec($curl);
-			
+			$result     = $this->curlGetRequest($url);
 		}
 			
 		echo $result; die;
@@ -1340,58 +1271,48 @@ class WebserviceController extends AppController {
 				'pref'=>$qData,
 			);
 
-			$url = 'http://35.185.240.172/nkd/index.php/Signup';
-			$content = json_encode($userData);
-			$curl = curl_init($url);
-			curl_setopt($curl, CURLOPT_HEADER, false);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_HTTPHEADER,
-					array("Content-type: application/json"));
-			curl_setopt($curl, CURLOPT_POST, true);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
+			$url = 'https://nkdpizza.com/beta/pos/index.php/Signup';
 			 
-			$result     = curl_exec($curl);
+			$result     = $this->curlPostRequest($url, $userData);
 			$response   = json_decode($result);
 			
 			if($response->Status == 'OK') {
 				
-				// /*-template asssignment if any*/
-				// $template = $this->EmailTemplate->find('first',array(
-				// 		'conditions' => array(
-				// 			'template_key'=> 'registraion_notification',
-				// 			'template_status' =>'Active'
-				// 		)
-				// 	)
-				// );
+				/*-template asssignment if any*/
+				$template = $this->EmailTemplate->find('first',array(
+						'conditions' => array(
+							'template_key'=> 'registraion_notification',
+							'template_status' =>'Active'
+						)
+					)
+				);
 
-				// if($template){  
-				// 	$arrFind=array('{fname}','{lname}','{email}','{password}');
-				// 	$arrReplace=array($data[0]['fname'],$data[0]['lname'],$data[0]['email'],$data[1]['password']);
+				if($template){  
+					$arrFind=array('{fname}','{lname}','{email}','{password}');
+					$arrReplace=array($data[0]['fname'],$data[0]['lname'],$data[0]['email'],$data[1]['password']);
 					
-				// 	$from=$template['EmailTemplate']['from_email'];
-				// 	$subject=$template['EmailTemplate']['email_subject'];
-				// 	$content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
-				// }
+					$from=$template['EmailTemplate']['from_email'];
+					$subject=$template['EmailTemplate']['email_subject'];
+					$content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
+				}
 
-				// $this->set('Content',$content);   
+				$this->set('Content',$content);   
 
-				// try{
-				// 	$this->Email->from=$from;
-				// 	$this->Email->to='rajput.pushpendra61@gmail.com';
-				// 	$this->Email->subject=$subject;
-				// 	$this->Email->sendAs='html';
-				// 	$this->Email->template='general';
-				// 	$this->Email->delivery = 'smtp';
-				// 	if($this->Email->send()){
-				// 		echo json_encode(array('isSuccess'=>true, 'show'=>true, 'message'=>'Thank You ! you have successfully registered with us, login details has been sent to registered email.'));
-				// 	}
+				try{
+					$this->Email->from=$from;
+					$this->Email->to='rajput.pushpendra61@gmail.com';
+					$this->Email->subject=$subject;
+					$this->Email->sendAs='html';
+					$this->Email->template='general';
+					$this->Email->delivery = 'smtp';
+					if($this->Email->send()){
+						echo json_encode(array('isSuccess'=>true, 'show'=>true, 'message'=>'Thank You ! you have successfully registered with us, login details has been sent to registered email.'));
+					}
 
-				// }catch(Exception $e){
-				// 	echo json_encode(array('isSuccess'=>true, 'show'=>true, 'message'=>'Thank You ! you have successfully registered with us.'));
-				// }
-				// /*-[end]template asssignment*/
-				echo json_encode(array('isSuccess'=>true, 'show'=>true, 'message'=>'Thank You ! you have successfully registered with us.'));
+				}catch(Exception $e){
+					echo json_encode(array('isSuccess'=>true, 'show'=>true, 'message'=>'Thank You ! you have successfully registered with us.'));
+				}
+				/*-[end]template asssignment*/
 			}else{
 				echo json_encode(array('isSuccess'=>false, 'show'=>true, 'message'=>$response->Message));
 			}
@@ -1400,5 +1321,128 @@ class WebserviceController extends AppController {
 		die;
 	}
 
+	
+	public function curlGetRequest($url) {
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HTTPHEADER,
+				array("Content-type: application/json"));
+		
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
+		$result     = curl_exec($curl);
+		return $result;
+	}
+	
+	public function curlPostRequest($url, $data) {
+		$content = json_encode($data);
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HTTPHEADER,
+				array("Content-type: application/json"));
+		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
+		 
+		$result     = curl_exec($curl);
+		return $result;
+	}
+	
+	
+	public function getFav($type = '', $userId = '') {
+		
+		if($type != '' && $userId != '') {
+			$method = 'getFavItem';
+			if($type == 'order') {
+				$method = 'getFavOrder';
+			}
+			$url = "https://nkdpizza.com/beta/pos/index.php/".$method."/".$userId;
+			
+			$result     = $this->curlGetRequest($url);
+			$favItems   = json_decode($result, true);
+			echo json_encode($favItems); die;
+		}
+			
+		die;
+	}
+	
+	public function getFavItemData() {
+		Configure::write('debug', 2);
+		$favData = $this->request->input ( 'json_decode', true) ;
+		$favData = json_decode($favData, true);
+		if(!empty($favData)) {
+			//echo '<pre>'; print_r($favData); die;
+			$item = $this->getFormattedItemData($favData['FDetail']['data']['itemSlug']);
+			
+			if(!empty($item) && !empty($item['ProductModifier']) && !empty($favData['FDetail']['data']['modifiers'])) {
+				
+				$i = 0;
+				foreach($item['ProductModifier'] as $pm) {
+					$j = 0;
+					foreach($pm['Modifier']['ModifierOption'] as $mo) {
+						
+						foreach($favData['FDetail']['data']['modifiers'] as $fpm) {
+							//echo '<pre>'; print_r($item['ProductModifier'][$i]['Modifier']); die;
+							if($fpm['modifier_id'] == $item['ProductModifier'][$i]['Modifier']['id']) {
+								
+								foreach($fpm['option'] as $fop) {
+									//echo '<pre>'; print_r($fop); die;
+									if($fop['plu_code'] == $mo['Option']['plu_code']) {
+										
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_checked'] = $fop['is_checked'];
+										
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['default_checked'] = $fop['default_checked'];
+										
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['send_code'] = $fop['send_code'];
+										
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['add_extra'] = $fop['add_extra'];
+										
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['quantity'] = $fop['quantity'];
+										
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_included_mod'] = $fop['is_included_mod'];
+										
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['send_code_permanent'] = $fop['send_code_permanent'];
+										
+										
+										if(!empty($fop['subOption'])) {
+											
+											if(!empty($mo['Option']['OptionSuboption'])) {
+												$n = 0;
+												foreach($mo['Option']['OptionSuboption'] as $sop) {
+													
+													if(in_array($item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['OptionSuboption'][$n]['SubOption']['id'], $fop['subOption'])) {
+													
+														$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['OptionSuboption'][$n]['SubOption']['is_active'] = true;	
+													}	
+													$n++;
+												}
+											}
+											
+										}
+									
+									}
+									
+								}	
+									
+							}
+							
+						}
+						
+						$j++;
+					}
+					
+					$i++;
+				}
+				
+			}
+			
+			echo json_encode($item); die;
+			//echo '<pre>'; print_r($favData); die;	
+			
+		}
+		
+		die;
+	}
 
 }
