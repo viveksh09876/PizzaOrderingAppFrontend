@@ -2161,11 +2161,11 @@ button.close:hover,button.close:focus{opacity: 1;}
 
 	opacity: 1
 }
-.modal-dialog .modal-content .modal-body.green .close:hover {
+/*.modal-dialog .modal-content .modal-body.green .close:hover {
 	color: #fff;
 	border-color: #911c27;
 	background: #911c27
-}
+}*/
 .modal-dialog .modal-content .modal-body.green h3 {
 	font-size: 70px;
 	color: #911c27;
