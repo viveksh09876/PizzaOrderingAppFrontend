@@ -109,7 +109,17 @@
                 <form #signUpStep3Form="ngForm" ngForm (ngSubmit)="submit()">
                     <div class="form-group" *ngFor="let pref of prefreces">
                         <label>{{pref.Question.question}}</label>
-                        <div class="checkbox" *ngFor="let opt of  pref.QuestionOption"><label><input type="radio" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> {{opt.answer}}</label></div>
+                        <div class="checkbox" *ngFor="let opt of  pref.QuestionOption">
+                            <label>
+                                <ng-container *ngIf="opt.question_id!=4">
+                                    <input type="checkbox" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                </ng-container>
+                                <ng-container *ngIf="opt.question_id==4">
+                                    <input type="radio" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                </ng-container>
+                                {{opt.answer}}
+                            </label>
+                        </div>
                     </div>  
                     <hr>
                     <div class="form-group">

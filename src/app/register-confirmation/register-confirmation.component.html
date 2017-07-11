@@ -9,8 +9,8 @@
         <p>Your Account has been Created</p>
         <p>You are logged in and may begin ordering.</p>
         <div class="form-group">
-          <a [routerLink]="['/account']" class="btn btn-default prev">Manage Account</a>
-          <a [routerLink]="['/menu']" class="btn btn-default">Start Ordering</a>
+          <a [routerLink]="['/account']" (click)="goto('account')" class="btn btn-default prev">Manage Account</a>
+          <a [routerLink]="['/menu']" (click)="goto('menu')" class="btn btn-default">Start Ordering</a>
         </div>
       </div>
     </div>
