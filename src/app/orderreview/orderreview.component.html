@@ -163,7 +163,7 @@
                 <li *ngIf="order.order_type=='delivery'">Delivery Charges <span>6.0</span></li> 
             </ul>
              <div class="grand-total">
-                Grand Total <span>AED {{totalCost}}</span>
+                Grand Total <span>{{currencyCode}} {{totalCost}}</span>
              </div>
              <div class="choosetime_box">
                  <ng-container>
@@ -201,7 +201,7 @@
                 <li *ngIf="order.order_type=='delivery'">Delivery Charges <span>6.0</span></li> 
             </ul>
              <div class="grand-total">
-                Grand Total <span>AED {{totalCost}}</span>
+                Grand Total <span>{{currencyCode}} {{totalCost}}</span>
              </div>
              <address class="delivery_addrs" *ngIf="order.order_type == 'delivery'">
                 <h4>delivery address</h4>

@@ -2,7 +2,7 @@
 <div class="banner-wrapper">
 <div class="container" style="background-image:url(assets/images/cater-banner.jpg)">
   <h1><span>choose your order</span></h1>
-  <div class="leftButtons buttons hidden-md hidden-lg"><a class="whiteBtn cta-btn">Quick View</a></div>
+  <div class="leftButtons buttons hidden-md hidden-lg" *ngIf="items.length > 0"><a (click)="checkout()" class="whiteBtn cta-btn">Checkout</a></div>
   </div>
 </div>
  <div class="clearfix"></div>
@@ -191,7 +191,7 @@
           <div class="sumarry-box">
           <div class="total">
           <label>Sub total</label>
-          <span>AED {{netCost}}</span>
+          <span>{{currencyCode}} {{netCost}}</span>
           </div>
           <a (click)="checkout()">Checkout</a>
           </div>

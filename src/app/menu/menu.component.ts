@@ -29,11 +29,12 @@ export class MenuComponent implements OnInit {
   showViewCart = false;
   showFooter = false;
   cmsApiPath = environment.cmsApiPath;
+  currencyCode = null;
 
 
   ngOnInit() {
 
- 
+    this.currencyCode = this.utilService.currencyCode;
     this.getAllCategories();
     let items = this.dataService.getLocalStorageData('allItems'); 
     let orderNowDetails = this.dataService.getLocalStorageData('order-now'); 
