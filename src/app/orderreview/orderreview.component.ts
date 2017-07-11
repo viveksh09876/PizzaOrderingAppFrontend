@@ -62,6 +62,7 @@ export class OrderreviewComponent implements OnInit {
     showCouponWait = false;
     couponDiscount = 0;  
     isDiscountApply = false;
+    currencyCode = null;
 
   constructor(private dataService: DataService,
                private dialogService:DialogService,
@@ -71,12 +72,14 @@ export class OrderreviewComponent implements OnInit {
   
   ngOnInit() {
 
+    this.currencyCode = this.utilService.currencyCode;
     this.getItems();
     this.order.storeId = '1';
     if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
             this.dataService.getLocalStorageData('nearByStore') != '') { 
 
           this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
+          this.order.storeId = 'Marina';
       }
 
     this.getStoreDetails(this.order.storeId);
@@ -516,11 +519,12 @@ export class OrderreviewComponent implements OnInit {
         
         this.dataService.applyCoupon(orderObj)
               .subscribe(data => {
-                  let resp = JSON.parse(data);
+                  let resp = data;
+                 
                   if(resp.Status == 'Error') {
                     this.couponMsg = resp.Message;
                     this.showCouponWait = false;
-                  }else if(resp.Status == 'Ok') {
+                  }else if(resp.Status == 'OK') {
                     this.couponDiscount = parseFloat(resp.Discount);  
                     this.isDiscountApply = true;
                     this.couponMsg = 'Coupon appled successfully.';

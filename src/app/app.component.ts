@@ -101,6 +101,7 @@ export class AppComponent implements OnInit {
   logout(){
     this.dataService.setLocalStorageData('user-details', null);
     this.dataService.setLocalStorageData('isLoggedIn', false);
+    window.location.href = '/';
     window.location.reload();
   }
 
@@ -108,7 +109,7 @@ export class AppComponent implements OnInit {
   goToFav() {
     let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
       if(isLoggedIn == undefined || isLoggedIn == 'false') {
-         this.dialogService.addDialog(RegisterComponent, { callback: 'account' }, { closeByClickingOutside:true });
+         this.dialogService.addDialog(LoginComponent, {  }, { closeByClickingOutside:true });
       }else{
         this.router.navigate(['/account']); 
       }

@@ -23,6 +23,8 @@ export class ItemComponent implements OnInit {
   is_fav = false;
   cmsApiPath = environment.cmsApiPath;
   showAddToCart = true;
+  menuCountry = null;
+  currencyCode = null;
 
   constructor(private dialogService:DialogService,
               private dataService: DataService, 
@@ -34,13 +36,12 @@ export class ItemComponent implements OnInit {
 
   ngOnInit() {
       
+      this.currencyCode = this.utilService.currencyCode;
+      if(this.dataService.getLocalStorageData('menuCountry') != null && 
+                this.dataService.getLocalStorageData('menuCountry') != undefined) {
 
-      this.sub = this.route
-      .queryParams
-      .subscribe(params => {
-        // Defaults to 0 if no query param provided.
-        console.log(params);
-      });
+           this.menuCountry = this.dataService.getLocalStorageData('menuCountry');       
+      }
 
 
       this.route.params.subscribe(params => {
@@ -72,7 +73,7 @@ export class ItemComponent implements OnInit {
   }
 
   getItemData(slug) {
-     this.dataService.getItemData(slug)
+     this.dataService.getItemData(slug, this.menuCountry)
           .subscribe(data => {
                 
              if(data.ProductModifier.length == 0) {
@@ -106,7 +107,7 @@ export class ItemComponent implements OnInit {
 
 
   getFavItemData(favData) {
-     this.dataService.getformattedFavData(favData)
+     this.dataService.getformattedFavData(favData, this.menuCountry)
           .subscribe(data => {
                 
              if(data.ProductModifier.length == 0) {
