@@ -6,7 +6,8 @@ class WebserviceController extends AppController {
 
     function beforeFilter(){
         parent::beforeFilter();
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon'));
+		//Configure::write('debug', 2);
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo'));
     }
 
     public function get_categories($count=10){
@@ -319,18 +320,18 @@ class WebserviceController extends AppController {
     }
 	
 	
-	public function getItemData($slug = '') {
+	public function getItemData($slug = '', $menuCountry = 'UAE') {
 		//Configure::write('debug', 2);
 		if($slug != '') {
 			
-			$item = $this->getFormattedItemData($slug);
+			$item = $this->getFormattedItemData($slug, $menuCountry);
 			//echo '<pre>'; print_r($item); die;
 			echo json_encode($item); die;
 		}
 	}
     
 	
-	public function getFormattedItemData($slug) {
+	public function getFormattedItemData($slug, $menuCountry = 'UAE') {
 		$this->Product->recursive = 6;
 			
 			$this->OptionSuboption->bindModel(array(
@@ -417,7 +418,7 @@ class WebserviceController extends AppController {
 											)
 										));
 			
-			$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/UAE');
+			$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/'.$menuCountry);
 			$plu_json = json_decode($plu_json, true);
 			
 			
@@ -1194,7 +1195,7 @@ class WebserviceController extends AppController {
 	/* Send catering info to email */
 
  function sendCateringInfo(){
-  $data = $this->request->input ( 'json_decode', true) ;
+  $data = $this->request->input ( 'json_decode', true);
   if(!empty($data)) {
    $username = $data['username'];
    $email = $data['email'];
@@ -1226,13 +1227,13 @@ class WebserviceController extends AppController {
 
                 try{
                     $this->Email->from=$from;
-                    $this->Email->to=SUPPORT_EMAIL;
+                    $this->Email->to=CATERING_EMAIL;
                     $this->Email->subject=$subject;
                     $this->Email->sendAs='html';
                     $this->Email->template='general';
                     $this->Email->delivery = 'smtp';
                     if($this->Email->send()){
-      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! email sent successfully will contact you soon.'));
+      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! information has been sent successfully will contact you soon.'));
      }
 
                 }catch(Exception $e){
@@ -1380,14 +1381,44 @@ class WebserviceController extends AppController {
 	}
 	
 	public function getFavItemData() {
-		//Configure::write('debug', 2);
-		$favData = $this->request->input ( 'json_decode', true) ;
+		
+		$data = $this->request->input ( 'json_decode', true) ;
+		
+		$menuCountry = $data['menuCountry'];
+		$favData = json_decode($data['favData']);
 		$favData = json_decode($favData, true);
 		if(!empty($favData)) {
-			//echo '<pre>'; print_r($favData); die;
-			$item = $this->getFormattedItemData($favData['FDetail']['data']['itemSlug']);
+			$item = $this->prepareFavResponse($favData['FDetail']['data']['modifiers'], $favData['FDetail']['data']['itemSlug'], $menuCountry);
+			echo json_encode($item); die;
+		}		
+		die;
+	}
+	
+	
+	public function applyCoupon() {
+		$orderData = $this->request->input ( 'json_decode', true) ;
+		
+		if(!empty($orderData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/checkDiscount';
+			$orderData['order_details'] = $this->formatPlaceOrderData($orderData);
+			$this->Couponlog->create();
+			$this->Couponlog->save(array('data' => json_encode($orderData), 'created' => date('Y-m-d H:i:s')));	
+
+			$resp = $this->curlPostRequest($url, $orderData);
+			$res = json_decode($resp, true);
+			echo json_encode($res); die;
+		}
+		
+		die;
+	}
+	
+	
+	public function prepareFavResponse($favData, $itemSlug, $menuCountry = 'UAE') {
+		//if(!empty($favData)) {
 			
-			if(!empty($item) && !empty($item['ProductModifier']) && !empty($favData['FDetail']['data']['modifiers'])) {
+			$item = $this->getFormattedItemData($itemSlug, $menuCountry);
+			//echo '<pre>'; print_r($item); die;
+			if(!empty($item) && !empty($item['ProductModifier']) && !empty($favData)) {
 				
 				$i = 0;
 				foreach($item['ProductModifier'] as $pm) {
@@ -1395,11 +1426,11 @@ class WebserviceController extends AppController {
 					foreach($pm['Modifier']['ModifierOption'] as $mo) {
 						
 						foreach($favData['FDetail']['data']['modifiers'] as $fpm) {
-							//echo '<pre>'; print_r($item['ProductModifier'][$i]['Modifier']); die;
+							
 							if($fpm['modifier_id'] == $item['ProductModifier'][$i]['Modifier']['id']) {
 								
 								foreach($fpm['option'] as $fop) {
-									//echo '<pre>'; print_r($fop); die;
+									
 									if($fop['plu_code'] == $mo['Option']['plu_code']) {
 										
 										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_checked'] = $fop['is_checked'];
@@ -1449,31 +1480,42 @@ class WebserviceController extends AppController {
 				
 			}
 			
-			echo json_encode($item); die;
-			//echo '<pre>'; print_r($favData); die;	
+			return $item;
 			
-		}
+		//}
 		
+	}
+	
+	
+	public function getFavOrderData() {
+		
+		$data = $this->request->input( 'json_decode', true) ;
+		$menuCountry = $data['menuCountry'];
+		$favOrderData = $data['orderData'];
+		
+		if(!empty($favOrderData)) {
+			$allItems = array();
+			if(!empty($favOrderData['FDetail'])) {				
+				foreach($favOrderData['FDetail'] as $fd) {					
+					$item = $this->prepareFavResponse($fd['data']['modifiers'], $fd['data']['itemSlug'], $menuCountry);
+					$allItems[] = $item;					
+				}				
+			}			
+			echo json_encode($allItems); die;
+		}		
 		die;
 	}
 	
 	
-	public function applyCoupon() {
-		$orderData = $this->request->input ( 'json_decode', true) ;
-		
-		if(!empty($orderData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/checkDiscount';
-			$orderData['order_details'] = $this->formatPlaceOrderData($url, $orderData);
-			
-			$this->Couponlog->create();
-			$this->Couponlog->save(array('data' => json_encode($orderData), 'created' => date('Y-m-d H:i:s')));	
-			
-			$resp = $this->curlPostRequest($orderData);
-			$res = json_decode($resp, true);
-			echo json_encode($res); die;
-		}
-		
-		die;
+	public function getProfile($userId){
+		$this->layout = 'false';
+		$this->autoRender = false;
+
+		$result = array();
+		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userId);
+		$result = json_decode($resp, true);
+		echo json_encode($result);
+	    die;
 	}
 
 }

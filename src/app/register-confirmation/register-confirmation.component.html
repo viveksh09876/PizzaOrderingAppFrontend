@@ -2,14 +2,15 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
-        <button type="button" class="close" (click)="close()" data-dismiss="modal" aria-label="Close"><span class="icon icon-close"></span></button>
+        <button type="button" class="close" (click)="closePopup()"><span class="icon icon-close"></span></button>
       </div>
       <div class="modal-body">
         <h3>Congratulations! Welcome to <img src="assets/images/logo.svg" alt="Logo" height="45"></h3>
-        <p>Your Account has been Created, please login for oder.</p>
+        <p>Your Account has been Created</p>
+        <p>You are logged in and may begin ordering.</p>
         <div class="form-group">
-          <button (click)="openModal('login')" class="btn btn-default prev">Login Now</button>
-          <!--<a [routerLink]="['/menu']" class="btn btn-default">Start Ordering</a>-->
+          <a [routerLink]="['/account']" (click)="goto('account')" class="btn btn-default prev">Manage Account</a>
+          <a [routerLink]="['/menu']" (click)="goto('menu')" class="btn btn-default">Start Ordering</a>
         </div>
       </div>
     </div>

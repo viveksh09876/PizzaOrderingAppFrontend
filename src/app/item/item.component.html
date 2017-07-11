@@ -36,7 +36,10 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
       <!--Second Col-->
       <div class="inside-column-container thirdCol">
         <div class="col-md-6" *ngFor="let mod of item.ProductModifier; let q = index;">
-        <h3 class="bgGrey">{{mod.Modifier.title}}</h3>
+        <h3 class="bgGrey">{{mod.Modifier.title}}
+        <span>{{mod.Modifier.short_description}}</span>
+        </h3>
+
         <div class="content-wrapper">
           <div class="content-container">
             <div class="control-group">
@@ -54,6 +57,7 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                   <div class="control checkbox" [ngClass]="{'extra': option.Option.add_extra, 'checked': option.Option.is_checked == true}">
                     
                     <h4 (click)="updateModifier(option.Option.id,'checkbox', mod.modifier_id)">{{option.Option.name}}</h4> 
+
                     <a class="grayBtn cta-btn" (click)="updateExtra(option.Option.id, 'modifier','checkbox')">add Extra</a>                                
                     <div class="control__indicator" (click)="updateModifier(option.Option.id, 'checkbox', mod.modifier_id)"><img *ngIf="option.Option.image == null" src="assets/images/blog/img-4.jpg" alt=""><img *ngIf="option.Option.image != null" src="{{cmsApiPath + '/' + option.Option.image}}" alt=""></div>
                     <ng-container *ngIf="option.Option.OptionSuboption != '' && option.Option.OptionSuboption.length > 0">

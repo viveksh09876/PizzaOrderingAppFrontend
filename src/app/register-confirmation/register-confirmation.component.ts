@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { LoginComponent } from '../login/login.component';
 
@@ -9,7 +10,8 @@ import { LoginComponent } from '../login/login.component';
 })
 export class RegisterConfirmationComponent extends DialogComponent<RegisterConfirmationModel, null> implements OnInit {
 
-  constructor(dialogService: DialogService) { super(dialogService); }
+  constructor(dialogService: DialogService, private route: ActivatedRoute, 
+                    private router: Router) { super(dialogService); }
 
   openModal(type) {
     let self = this;
@@ -19,6 +21,20 @@ export class RegisterConfirmationComponent extends DialogComponent<RegisterConfi
     }
   }
   ngOnInit() {
+
+  }
+
+  goto(gotoPage){
+    let self = this;
+    self.close();
+    window.location.reload();  
+    setTimeout(function(){
+      this.router.navigate(['/'+gotoPage]); 
+    },3000);
+  }
+
+  closePopup(){
+    window.location.reload();
   }
 
 }

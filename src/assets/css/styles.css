@@ -2,6 +2,15 @@ body, html {
 	height: 100%;
 	font-size: 16px
 }
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
 a{cursor: pointer;}
 
 /*===========Preloader css start here=============*/
@@ -1316,6 +1325,7 @@ header.navigation .logo {
 	width: 100%;
 	float: left;
 	border-radius: 50%;
+	cursor: pointer;
 }
 .inside-column-container.thirdCol .control-group .control.checkbox.checked .control__indicator:before {
 	content: '' !Important;
@@ -1507,6 +1517,19 @@ button.close:hover,button.close:focus{opacity: 1;}
 	margin: 0 0 5px;
 	font-family: "proxima_nova_rgregular";
 }
+#signupModal .checkbox label span{position: absolute; content: '';
+    top: 2px;
+    left: 0;
+    height: 21px;
+    width: 21px;
+    background: #fff;
+    border: 2px solid #6e6e6e;}
+#signupModal .checkbox label input:checked  ~ span{content: "\2713";
+    position: absolute;
+    font-weight: bold;
+    font-size: 15px;
+    top: -2px;
+    left: 2px;}    
 #signupModal .form-control {
 	border-radius: 0;
 	height: 40px;
@@ -2161,11 +2184,11 @@ button.close:hover,button.close:focus{opacity: 1;}
 
 	opacity: 1
 }
-.modal-dialog .modal-content .modal-body.green .close:hover {
+/*.modal-dialog .modal-content .modal-body.green .close:hover {
 	color: #fff;
 	border-color: #911c27;
 	background: #911c27
-}
+}*/
 .modal-dialog .modal-content .modal-body.green h3 {
 	font-size: 70px;
 	color: #911c27;
@@ -2527,10 +2550,6 @@ color:#fff
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group {
 	display: inline-block;
     width: 100%;
-    max-height: 370px;
-    overflow-y: auto;
-    text-align: left;
-    overflow-x: hidden;
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control {
 	position: relative;
@@ -2544,6 +2563,7 @@ color:#fff
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control h4{
 
 	font: 1em "proxima_nova_ltsemibold";
+	cursor: pointer;
 }
 
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control p {
@@ -2684,7 +2704,7 @@ color:#fff
 
 @media (max-width: 2560px) {
 .three-column-wrapper .inside-column-container h3 {
-	font-size: 2.40em;
+	font-size: 2.0em;
     padding: 1.50rem 66px 1.50rem 15px;
     float: left;
     width: 100%;
@@ -2714,6 +2734,14 @@ color:#fff
 .three-column-wrapper .inside-column-container h3.bgGrey {
 	background-color: #5b5a56
 }
+.three-column-wrapper .inside-column-container h3.bgGrey span{
+	font-size: .5em;
+    color: #fff;
+    display: block;
+    font-family: "proxima_nova_rgregular";
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;}
 .three-column-wrapper .inside-column-container.secondCol, .three-column-wrapper .inside-column-container.thirdCol {
 	width: 30%;
 	background-color: #f4f4f4
@@ -2730,6 +2758,11 @@ color:#fff
 }
 .three-column-wrapper .inside-column-container.thirdCol .content-wrapper{
 	background: #f4f4f4;
+	max-height: 370px;
+    overflow-y: auto;
+    text-align: left;
+    overflow-x: hidden;
+    float: left; width: 100%;
 }
 
 @media (max-width: 1199px) {

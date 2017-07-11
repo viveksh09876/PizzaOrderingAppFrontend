@@ -8,22 +8,21 @@ import { DataService } from '../data.service';
   styleUrls: ['./catering.component.css']
 })
 export class CateringComponent implements OnInit {
-
-  	constructor(private utilService: UtilService, private dataService: DataService) { }
-
-	username = '';
-	email = '';
-	tel = '';
-	location = '';
-	date = '';
-	noofuser = '';
-	social = '';
+	constructor(private utilService: UtilService, private dataService: DataService) { }
+	  
+	catering = {
+		username:'',
+		email:'',
+		tel:'',
+		location:'',
+		date:'',
+		noofuser:'',
+		social:'',
+	};
+	
 	cateringRes = '';
 	showLoading = false;
-	showUserNameError = false;
-	showEmailError = false;
-	showTelError = false;
-	showLocationError = false;
+	startDate = new Date();
 
 	error = { show: false, isSuccess:false, message: 'Sorry ! mail not send, please try again.'};
 
@@ -32,37 +31,23 @@ export class CateringComponent implements OnInit {
   	}
 
 	CateringApi() {
-	  	this.showLoading = true;
-		this.showUserNameError = false;
-		this.showEmailError = false;
-		this.showTelError = false;
-		this.showLocationError = false;
-		
-		if(this.username == '') {
-      		this.showUserNameError = true;
-   		}else if(this.email == ''){
-			this.showEmailError = true;
-		}else if(this.tel == ''){
-			this.showTelError = true;
-		}else if(this.location == ''){
-			this.showLocationError = true;
-		}else{
-			let CateringInfo = {
-				username: this.username,
-				email:this.email,
-				tel:this.tel,
-				location:this.location,
-				date:this.date,
-				noofuser:this.noofuser,
-				social:this.social
-			};
-
-			this.dataService.sendCateringInfo(CateringInfo).subscribe(data => {
-				this.error = data;
-			});
-
-		}
-		this.showLoading = false;
+		this.showLoading = true;
+		let CateringInfo = {
+			username: this.catering.username,
+			email:this.catering.email,
+			tel:this.catering.tel,
+			location:this.catering.location,
+			date:this.catering.date,
+			noofuser:this.catering.noofuser,
+			social:this.catering.social
+		};
+	
+		this.dataService.sendCateringInfo(CateringInfo).subscribe(data => {
+			this.error = data;
+			setTimeout(function(){
+				window.location.reload();
+			}, 5000);
+		});
 	  }
 
 }

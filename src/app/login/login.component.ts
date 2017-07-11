@@ -65,7 +65,8 @@ export class LoginComponent extends DialogComponent<LoginModal, null> {
 
                 this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
                 this.dataService.setLocalStorageData('isLoggedIn', true);
-                this.router.navigate(['/account']);                
+                window.location.reload(); 
+                //this.router.navigate(['/account']);           
                 //this.openMessageModal('Welcome '+user.firstName + '!');
               }        
              
