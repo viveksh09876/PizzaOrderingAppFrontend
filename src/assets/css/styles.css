@@ -1580,7 +1580,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 	background: #fff;
 	color: #789c48;
 }
-#signupModal .modal-body button {
+#signupModal .modal-body button,.modal-body .btn-green {
 	background: #789c48;
 	border: 1px solid #789c48;
 	color: #fff;
@@ -2972,7 +2972,7 @@ color:#fff
 .complete-summary td p span{ font-family: 'proxima_nova_ltsemibold';}
 .complete-summary td:last-child, .complete-summary th:last-child{ text-align: right;}
 
-.complete-summary .blackbox{ background: #f4f4f4; padding:0 15px 20px;}
+.complete-summary .blackbox{ background: #f4f4f4; /*padding:0 15px 20px;*/}
 .complete-summary .blackbox .grand-total{ background: #5b5a56; color: #fff; font-size: 18px; font-family: 'proxima_nova_ltsemibold'; line-height: 22px; padding: 10px;}
 .complete-summary .blackbox .grand-total span{ float: right}
 
@@ -3083,7 +3083,7 @@ color:#fff
 
 .account_container .panel-heading{ padding: 0;}
 .account_container .panel-title{ color: #5b5a56; font-size: 14px; font-family: 'proxima_nova_ltsemibold'; line-height:25px;}
-.account_container .panel-title a{font-family: 'proxima_nova_ltsemibold'; display: block; padding: 10px 35px 10px 10px; position: relative; background: #fafafa; text-decoration: none!important;}
+.account_container .panel-title a{font-family: 'proxima_nova_ltsemibold'; display: inline-block; width: 100%; padding: 10px 35px 10px 10px; position: relative; background: #fafafa; text-decoration: none!important;}
 
 .account_container .panel-title a span{ color: #789c48; display: inline-block; margin: 0 10px; font-family: 'proxima_nova_ltlight';}
 .account_container .panel-title a .fa-check{ background: #789c48; width: 25px; height: 25px; text-align: center; line-height: 22px; border-radius: 5px; color: #fff; border: 1px solid #e1e1e1; margin-right: 8px;}
@@ -3091,6 +3091,18 @@ color:#fff
 .account_container .panel-title a .fa-angle-down{ position: absolute; right: 10px; top: 12px; color: #911c27; font-size: 20px;}
 .account_container .panel-title a.active .fa-angle-down{transform: rotate(180deg);}
 .account_container .panel-title a.active.collapsed .fa-angle-down{transform: rotate(0deg);}
+
+.account_container .panel-title a.ordernow{font-size: 16px;
+    border: none;
+    line-height: 29px;
+    padding: 5px 10px;
+    display: inline-block;
+    background: #789c48;
+    text-align: center;
+    border-radius: 3px;
+    border-bottom: 2px solid #617d3c;
+    color: #fff;
+    font-family: 'proxima_nova_ltsemibold';}
 
 .account_container .panel-title a.active{ background: #fff;}
 .account_container .panel-body{ border: 0 !Important;}
@@ -3113,7 +3125,7 @@ color:#fff
 .account_container .blackbox .grand-total{ background: #5b5a56; color: #fff; font-size: 18px; font-family: 'proxima_nova_ltsemibold'; line-height: 22px; padding: 10px;}
 .account_container .blackbox .grand-total span{ float: right;}
 
-.account_box{ border: 1px solid #e1e1e1; margin: 20px 0 0;}
+.account_box{ border: 1px solid #e1e1e1; /*margin: 20px 0 0;*/}
 .account_box h4.title{font-size: 22px; color: #65646a; background: #f4f4f4; padding: 10px; line-height: 25px; font-family: 'proxima_nova_ltsemibold'; border-bottom: 1px solid #e1e1e1;}
 .accountmain_sec{ padding: 20px; position: relative;}
 .accountmain_sec.space{ padding-bottom: 150px;}
