@@ -1517,6 +1517,19 @@ button.close:hover,button.close:focus{opacity: 1;}
 	margin: 0 0 5px;
 	font-family: "proxima_nova_rgregular";
 }
+#signupModal .checkbox label span{position: absolute; content: '';
+    top: 2px;
+    left: 0;
+    height: 21px;
+    width: 21px;
+    background: #fff;
+    border: 2px solid #6e6e6e;}
+#signupModal .checkbox label input:checked  ~ span{content: "\2713";
+    position: absolute;
+    font-weight: bold;
+    font-size: 15px;
+    top: -2px;
+    left: 2px;}    
 #signupModal .form-control {
 	border-radius: 0;
 	height: 40px;
