@@ -19,6 +19,11 @@ export class RegisterConfirmationComponent extends DialogComponent<RegisterConfi
     }
   }
   ngOnInit() {
+
+  }
+
+  closePopup(){
+    window.location.reload();
   }
 
 }

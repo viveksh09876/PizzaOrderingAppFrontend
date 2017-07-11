@@ -204,7 +204,7 @@ export class DataService {
     return this.selectedFavItemData;
   }
 
-
+ 
   getformattedFavData(favData): Observable<any>{
   return this.http.post( this.domain + '/webservice/getFavItemData', favData)
                   .map((res: Response) => res.json())
@@ -215,6 +215,12 @@ export class DataService {
   return this.http.post( this.domain + '/webservice/applyCoupon', orderData)
                   .map((res: Response) => res.json())
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+
+   getProfile(userId){
+    return this.http.get( this.domain + '/webservice/getProfile/'+ userId)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
 }

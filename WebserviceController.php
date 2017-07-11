@@ -6,7 +6,7 @@ class WebserviceController extends AppController {
 
     function beforeFilter(){
         parent::beforeFilter();
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile'));
     }
 
     public function get_categories($count=10){
@@ -1380,12 +1380,38 @@ class WebserviceController extends AppController {
 	}
 	
 	public function getFavItemData() {
-		//Configure::write('debug', 2);
 		$favData = $this->request->input ( 'json_decode', true) ;
 		$favData = json_decode($favData, true);
 		if(!empty($favData)) {
+			$item = $this->prepareFavResponse($favData, $favData['FDetail']['data']['itemSlug']);
+			echo json_encode($item); die;
+		}		
+		die;
+	}
+	
+	
+	public function applyCoupon() {
+		$orderData = $this->request->input ( 'json_decode', true) ;
+		
+		if(!empty($orderData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/checkDiscount';
+			$orderData['order_details'] = $this->formatPlaceOrderData($orderData);
+			$this->Couponlog->create();
+			$this->Couponlog->save(array('data' => json_encode($orderData), 'created' => date('Y-m-d H:i:s')));	
+
+			$resp = $this->curlPostRequest($url, $orderData);
+			$res = json_decode($resp, true);
+			echo json_encode($res); die;
+		}
+		
+		die;
+	}
+	
+	
+	public function prepareFavResponse($favData, $itemSlug) {
+		if(!empty($favData)) {
 			//echo '<pre>'; print_r($favData); die;
-			$item = $this->getFormattedItemData($favData['FDetail']['data']['itemSlug']);
+			$item = $this->getFormattedItemData($itemSlug);
 			
 			if(!empty($item) && !empty($item['ProductModifier']) && !empty($favData['FDetail']['data']['modifiers'])) {
 				
@@ -1449,31 +1475,38 @@ class WebserviceController extends AppController {
 				
 			}
 			
-			echo json_encode($item); die;
-			//echo '<pre>'; print_r($favData); die;	
+			return $item;
 			
 		}
 		
+	}
+	
+	
+	public function getFavOrderData() {
+		$favOrderData = $this->request->input( 'json_decode', true) ;
+		if(!empty($favOrderData)) {
+			$allItems = array();
+			if(!empty($favOrderData['FDetail'])) {				
+				foreach($favOrderData['FDetail'] as $fd) {					
+					$item = $this->prepareFavResponse($fd, $fd['data']['itemSlug']);
+					$allItems[] = $item;					
+				}				
+			}			
+			echo json_encode($allItems); die;
+		}		
 		die;
 	}
 	
 	
-	public function applyCoupon() {
-		$orderData = $this->request->input ( 'json_decode', true) ;
-		
-		if(!empty($orderData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/checkDiscount';
-			$orderData['order_details'] = $this->formatPlaceOrderData($url, $orderData);
-			
-			$this->Couponlog->create();
-			$this->Couponlog->save(array('data' => json_encode($orderData), 'created' => date('Y-m-d H:i:s')));	
-			
-			$resp = $this->curlPostRequest($orderData);
-			$res = json_decode($resp, true);
-			echo json_encode($res); die;
-		}
-		
-		die;
+	public function getProfile($userId){
+		$this->layout = 'false';
+		$this->autoRender = false;
+
+		$result = array();
+		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userId);
+		$result = json_decode($resp, true);
+		echo json_encode($result);
+	    die;
 	}
 
 }

@@ -46,7 +46,7 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-6">
                             <label>Date of Birth</label>
-                            <input type="text" class="form-control" [(ngModel)]="user.dob" #dob="ngModel" name="dob" placeholder="Date of Birth" ngui-datetime-picker date-format="YYYY-MM-DD" date-only="true" max-date="{{maxDate}}-01-01" min-date="1940-01-01" required>
+                            <input type="text" class="form-control" [(ngModel)]="user.dob" #dob="ngModel" name="dob" placeholder="yyyy-mm-dd" ngui-datetime-picker date-format="YYYY-MM-DD" date-only="true" max-date="{{maxDate}}-01-01" min-date="1940-01-01" required>
                             <div *ngIf="dob.errors && (dob.dirty || dob.touched)" class="alert alert-danger">
                                 <div [hidden]="!dob.errors.required">Date of Birth is required.</div>
                             </div>
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="account.emailisusername" id="emailisusername" #emailisusername="ngModel" name="account.emailisusername"> Use my email address</label></div> 
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="account.emailisusername" id="emailisusername" #emailisusername="ngModel" (click)="add(email.value)" name="account.emailisusername"> Use my email address</label></div> 
                     </div>
                     <div class="form-group">
                         <label>*Password</label>
@@ -109,7 +109,7 @@
                 <form #signUpStep3Form="ngForm" ngForm (ngSubmit)="submit()">
                     <div class="form-group" *ngFor="let pref of prefreces">
                         <label>{{pref.Question.question}}</label>
-                        <div class="checkbox" *ngFor="let opt of  pref.QuestionOption"><label><input type="checkbox" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> {{opt.answer}}</label></div>
+                        <div class="checkbox" *ngFor="let opt of  pref.QuestionOption"><label><input type="radio" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> {{opt.answer}}</label></div>
                     </div>  
                     <hr>
                     <div class="form-group">
@@ -123,10 +123,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                    <button type="button" (click)="thirdStep(0)" class="btn btn-default prev">Previous</button>
+                    <button type="button" (click)="thirdStep(0)" [disabled]="showLoading" class="btn btn-default prev">Previous</button>
                     <button type="submit" [disabled]="showLoading" class="btn btn-default"
              [disabled]="!signUpStep3Form.form.valid">Register</button>
-                    
+                    <ng-container *ngIf="showLoading"><div class="loader">Please wait...</div></ng-container>
                     </div>
                 </form>
             </div>

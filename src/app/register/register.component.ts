@@ -70,7 +70,7 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 		let self = this;
     self.close();
     if(type == 'confirm') {
-      	this.dialogService.addDialog(RegisterConfirmationComponent, {  }, { closeByClickingOutside:true });
+      	this.dialogService.addDialog(RegisterConfirmationComponent, { }, { closeByClickingOutside:false });
     }
   }
 
@@ -87,6 +87,10 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
               this.prefreces = data;
           });
   }
+
+	add(email){
+		this.account.username = email;
+	}
 
 	getUserIp() {
     this.dataService.getIp()
@@ -139,8 +143,20 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 		this.dataService.registerUser(this.userData)
 				.subscribe(data => {
 							if(data.isSuccess) {
+								let userId = data.Id;
+								this.dataService.getProfile(userId).subscribe(pdata => {
+									let user = {
+										id: pdata.Id,
+										firstName : pdata.FirstName,
+										lastName: pdata.LastName,
+										email: pdata.Email
+									}
+									this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
+									this.dataService.setLocalStorageData('isLoggedIn', true);
 									this.error = data;
 									this.openModal('confirm');
+								});
+
 							}else{
 								this.error = data;
 								this.openMessageModal('Oops! Something went wrong, please try again.');
