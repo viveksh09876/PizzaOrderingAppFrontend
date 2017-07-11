@@ -2,6 +2,15 @@ body, html {
 	height: 100%;
 	font-size: 16px
 }
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
 a{cursor: pointer;}
 
 /*===========Preloader css start here=============*/
@@ -1316,6 +1325,7 @@ header.navigation .logo {
 	width: 100%;
 	float: left;
 	border-radius: 50%;
+	cursor: pointer;
 }
 .inside-column-container.thirdCol .control-group .control.checkbox.checked .control__indicator:before {
 	content: '' !Important;
@@ -2527,10 +2537,6 @@ color:#fff
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group {
 	display: inline-block;
     width: 100%;
-    max-height: 370px;
-    overflow-y: auto;
-    text-align: left;
-    overflow-x: hidden;
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control {
 	position: relative;
@@ -2544,6 +2550,7 @@ color:#fff
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control h4{
 
 	font: 1em "proxima_nova_ltsemibold";
+	cursor: pointer;
 }
 
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control p {
@@ -2684,7 +2691,7 @@ color:#fff
 
 @media (max-width: 2560px) {
 .three-column-wrapper .inside-column-container h3 {
-	font-size: 2.40em;
+	font-size: 2.0em;
     padding: 1.50rem 66px 1.50rem 15px;
     float: left;
     width: 100%;
@@ -2714,6 +2721,14 @@ color:#fff
 .three-column-wrapper .inside-column-container h3.bgGrey {
 	background-color: #5b5a56
 }
+.three-column-wrapper .inside-column-container h3.bgGrey span{
+	font-size: .5em;
+    color: #fff;
+    display: block;
+    font-family: "proxima_nova_rgregular";
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;}
 .three-column-wrapper .inside-column-container.secondCol, .three-column-wrapper .inside-column-container.thirdCol {
 	width: 30%;
 	background-color: #f4f4f4
@@ -2730,6 +2745,11 @@ color:#fff
 }
 .three-column-wrapper .inside-column-container.thirdCol .content-wrapper{
 	background: #f4f4f4;
+	max-height: 370px;
+    overflow-y: auto;
+    text-align: left;
+    overflow-x: hidden;
+    float: left; width: 100%;
 }
 
 @media (max-width: 1199px) {
