@@ -137,7 +137,7 @@
                     <button type="button" (click)="thirdStep(0)" [disabled]="showLoading" class="btn btn-default prev">Previous</button>
                     <button type="submit" [disabled]="showLoading" class="btn btn-default"
              [disabled]="!signUpStep3Form.form.valid">Register</button>
-                    <ng-container *ngIf="showLoading"><div class="loader">Please wait...</div></ng-container>
+                    <ng-container *ngIf="showLoading"><div class="loader"><p>Please wait...</p></div></ng-container>
                     </div>
                 </form>
             </div>

@@ -114,4 +114,14 @@ export class AppComponent implements OnInit {
       }
   }
 
+  goToOrderNow() {
+    let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
+      if(isLoggedIn == undefined || isLoggedIn == 'false') {
+         this.dialogService.addDialog(LoginComponent, { }, { closeByClickingOutside:true });
+      }else{
+        this.dialogService.addDialog(OrdernowmodalComponent, { }, { closeByClickingOutside:true }); 
+      }
+
+  }
+
 }
