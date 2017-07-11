@@ -3,6 +3,7 @@
 <div id="contactusModal">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
+      <form #contactUsForm="ngForm" ngForm (ngSubmit)="submit()">
       <div class="modal-body green">
       <button type="button" class="close" (click)="close()"><span class="icon icon-close"></span></button>
         <div class="row">
@@ -17,28 +18,41 @@
             <h5 class="text-right" style="margin-top:45px">* denotes required fields</h5>
           </div>
         </div>
-        <form>
+          <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="first name">
+                <input type="text" class="form-control" id="fname" #fname="ngModel" [(ngModel)]="contact.fname" name="fname" placeholder="First name" required>
+                <div *ngIf="fname.errors && (fname.dirty || fname.touched)" class="alert alert-danger">
+                    <div [hidden]="!fname.errors.required">First Name is required.</div>
+                </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="last name">
+                <input type="text" class="form-control" id="lname" #lname="ngModel" [(ngModel)]="contact.lname" name="lname" placeholder="Last name" required>
+                <div *ngIf="lname.errors && (lname.dirty || lname.touched)" class="alert alert-danger">
+                    <div [hidden]="!lname.errors.required">Last Name is required.</div>
+                </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <input type="email" class="form-control" placeholder="email">
+                <input type="email" class="form-control" id="email" #email="ngModel" [(ngModel)]="contact.email" name="email" placeholder="Email" required email> 
+                <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+                    <div [hidden]="!email.errors.required">Email is required.</div>
+                    <div [hidden]="!email.errors.email">Invalid email.</div>
+                </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <input type="tel" class="form-control" placeholder="phone number">
+                <input type="tel" class="form-control" id="tel" #tel="ngModel" [(ngModel)]="contact.tel" name="tel" placeholder="Phone" required>
+                <div *ngIf="tel.errors && (tel.dirty || tel.touched)" class="alert alert-danger">
+                    <div [hidden]="!tel.errors.required">Phone is required.</div>
+                </div>
               </div>
             </div>
           </div>
@@ -46,8 +60,12 @@
             <div class="col-md-6">
               <div class="form-group">
                 <div class="select-wrapper">
-                  <select name="question" class="form-control">
-                    <option>My question relates to.</option>
+                  <select name="question" class="form-control"  id="question" #question="ngModel" [(ngModel)]="contact.question">
+                    <option value="">My question relates to.</option>
+                    <option value="Comments">Comments</option>
+                    <option value="Complaints">Complaints</option>
+                    <option value="Praises">Praises</option>
+                    <option value="Concerns">Concerns</option>
                   </select>
                 </div>
               </div>
@@ -55,25 +73,31 @@
             <div class="col-md-6">
               <div class="form-group">
                 <div class="select-wrapper">
-                  <select name="location" class="form-control">
-                    <option>NKD Pizza Location (if applicable)</option>
+                  <select name="location" class="form-control" id="location" #location="ngModel" [(ngModel)]="contact.location">
+                    <option value="" selected>NKD Pizza Location (if applicable)</option>
+                    <option *ngFor="let store of storeList" value="{{store.Store.store_name}} ({{store.Store.store_address}})">{{store.Store.store_name}} ({{store.Store.store_address}})</option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <textarea name="feedback" class="form-control" placeholder="give us your feedback *"></textarea>
+            <textarea class="form-control" id="feedback" #feedback="ngModel" [(ngModel)]="contact.feedback" name="feedback" required placeholder="give us your feedback *"></textarea>
+            <div *ngIf="feedback.errors && (feedback.dirty || feedback.touched)" class="alert alert-danger">
+                <div [hidden]="!feedback.errors.required">Give us your feedback.</div>
+            </div>
           </div>
-        </form>
       </div>
       <div class="modal-footer text-center">
         <div class="row">
           <div class="col-md-3 col-md-offset-4">
-            <button type="submit" class="btn btn-lg btn-danger">Submit</button>
+            <button type="submit" [disabled]="showLoading" class="btn btn-lg btn-danger"
+             [disabled]="!contactUsForm.form.valid">Submit</button>
+            <ng-container *ngIf="showLoading"><div class="loader">Please wait...</div></ng-container>
           </div>
         </div>
       </div>
+      </form>
     </div>
   </div>
 </div>

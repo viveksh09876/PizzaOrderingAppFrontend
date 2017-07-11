@@ -168,6 +168,14 @@ export class DataService {
                 
   }
 
+   sendContactInfo(ContactInfo): Observable<any>{   
+    let data = ContactInfo;
+    return this.http.post( this.domain + '/webservice/sendContactInfo', data)
+                    .map((res: Response) => res.json())
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+                
+  }
+
   getCountryStore(countryName): Observable<any>{
     return this.http.get( this.domain + '/webservice/getCountryStores/'+countryName)
                     .map( (res: Response) => res.json() )
