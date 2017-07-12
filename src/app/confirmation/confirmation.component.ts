@@ -21,8 +21,10 @@ export class ConfirmationComponent implements OnInit {
   netCost = 0;
   storeData = null;
   couponDiscount = 0;
+  currencyCode = null;
 
   ngOnInit() {
+    this.currencyCode = this.utilService.currencyCode;
     this.getItems(); 
     this.getStoreDetails();  
   }

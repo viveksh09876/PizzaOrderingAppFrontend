@@ -81,7 +81,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="account.emailisusername" id="emailisusername" #emailisusername="ngModel" (click)="add(email.value)" name="account.emailisusername"> Use my email address</label></div> 
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="account.emailisusername" id="emailisusername" #emailisusername="ngModel" (click)="add(email.value)" name="account.emailisusername"> Use my email address<span></span></label></div> 
                     </div>
                     <div class="form-group">
                         <label>*Password</label>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="account.over" id="over" #over="ngModel" name="account.over" required> *I am over 18</label>
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="account.over" id="over" #over="ngModel" name="account.over" required> *I am over 18<span></span></label>
                         <div *ngIf="over.errors && (over.dirty || over.touched)" class="alert alert-danger">
                                 <div [hidden]="!over.errors.required">Confirm you are 18+</div>
                         </div>
@@ -118,15 +118,16 @@
                                     <input type="radio" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
                                 </ng-container>
                                 {{opt.answer}}
+                                <span></span>
                             </label>
                         </div>
                     </div>  
                     <hr>
                     <div class="form-group">
-                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.enrolling" id="enrolling" #enrolling="ngModel" name="prefrence.enrolling">By enrolling in the nkd pizza eclub, you’ll receive updates on new menu items, special offers, and other happenings at your local nkd pizza. you can unsubscribe at any time, by following instructions in any eclub message. we respect your privacy and will never sell, rent, lease or give away your information (name, address, email, etc.) to any third party</label></div>
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.enrolling" id="enrolling" #enrolling="ngModel" name="prefrence.enrolling">By enrolling in the nkd pizza eclub, you’ll receive updates on new menu items, special offers, and other happenings at your local nkd pizza. you can unsubscribe at any time, by following instructions in any eclub message. we respect your privacy and will never sell, rent, lease or give away your information (name, address, email, etc.) to any third party<span></span></label></div>
                     </div>
                     <div class="form-group">
-                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.privacy" id="privacy" #privacy="ngModel" name="prefrence.privacy" required> I have read and agree to the <a>Program Terms</a>, <a>Terms of Use</a>, and <a>Privacy Policy</a>, applicable to the nkd pizza program </label>
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.privacy" id="privacy" #privacy="ngModel" name="prefrence.privacy" required> I have read and agree to the <a>Program Terms</a>, <a>Terms of Use</a>, and <a>Privacy Policy</a>, applicable to the nkd pizza program <span></span></label>
                         <div *ngIf="privacy.errors && (privacy.dirty || privacy.touched)" class="alert alert-danger">
                                 <div [hidden]="!over.errors.required">Confirm our privacy policy</div>
                         </div>
@@ -136,7 +137,7 @@
                     <button type="button" (click)="thirdStep(0)" [disabled]="showLoading" class="btn btn-default prev">Previous</button>
                     <button type="submit" [disabled]="showLoading" class="btn btn-default"
              [disabled]="!signUpStep3Form.form.valid">Register</button>
-                    <ng-container *ngIf="showLoading"><div class="loader">Please wait...</div></ng-container>
+                    <ng-container *ngIf="showLoading"><div class="loader"><p>Please wait...</p></div></ng-container>
                     </div>
                 </form>
             </div>

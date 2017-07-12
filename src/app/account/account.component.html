@@ -1,8 +1,8 @@
 <!--Banner-->
 <div class="banner-wrapper myaccount">
 <div class="container" style="background-image:url(assets/images/cater-banner.jpg)">
-  <h1>{{name}}<span> member since Feb 2017</span></h1>
-  <div class="leftButtons buttons hidden-md hidden-lg"><a href="#" class="whiteBtn cta-btn">Quick View</a><span class="cost">84 AED</span><a href="#" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>
+  <h1>{{name}}</h1>
+  <div class="leftButtons buttons"><a (click)="openModal('ordernow')" class="whiteBtn cta-btn">Start a new Order</a></div>
   <!--<div class="leftButtons searchBox">
     <input type="text" class="form-control" placeholder="">
     <button class="icon-search"></button>
@@ -10,8 +10,17 @@
   </div>
 </div>
  <div class="clearfix"></div>
+
+<ng-container *ngIf="showLoading">
+  <div class="spinner">
+      <div class="cube1 icon icon-pizza-icon"></div>
+      <div class="cube2 icon icon-pizza-icon"></div>
+  </div>
+</ng-container>
+
 <!--Inside Sections-->
 <div class="container myaccount-page">
+  
   <div class="row">
       <div class="col-md-3 col-sm-3 account-sidebar">
         <div class="box">
@@ -43,12 +52,15 @@
                <div class="panel panel-default" *ngFor="let fi of favOrders; let i=index">
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne">{{fi.FName}}: <ng-container *ngFor="let fd of fi.FDetail">{{fd.data.itemName}}, </ng-container><strong><a (click)="orderFavOrder(fi)">Order Now</a></strong></a>
+                    <a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne">{{fi.FName}}: <ng-container *ngFor="let fd of fi.FDetail">{{fd.data.itemName}}, </ng-container><strong><a (click)="orderFavOrder(fi)" class="ordernow">Order Now</a></strong></a>
                     </h4>
                 </div>                
                 </div>
             </ng-container>
-
+            <ng-container *ngIf="favOrders == null">
+              <p *ngIf="showLoading">Please wait...</p>
+              <p *ngIf="!showLoading">No data found</p>
+            </ng-container>  
 
           </div>
         </div>
@@ -62,12 +74,15 @@
                <div class="panel panel-default" *ngFor="let fi of favItems">
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne">{{fi.FName}}: {{fi.FDetail.data.itemName}}<strong><a (click)="orderFavItem(fi)">Order Now</a></strong></a>
+                    <a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne">{{fi.FName}}: {{fi.FDetail.data.itemName}}<strong><a class="ordernow" (click)="orderFavItem(fi)">Order Now</a></strong></a>
                     </h4>
                 </div>                
                 </div>
             </ng-container>
-
+            <ng-container *ngIf="favItems == null">
+              <p *ngIf="showLoading">Please wait...</p>
+              <p *ngIf="!showLoading">No data found</p>
+            </ng-container>  
 
           </div>
         </div>
@@ -80,7 +95,7 @@
             <div class="panel panel-default">
               <div class="panel-heading" role="tab" id="headingOne">
                 <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : {{currencyCode}} 320</strong><i class="fa fa-angle-down"></i></a>
                 </h4>
               </div>
               <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
@@ -105,8 +120,8 @@
                                           <p><span>First Half Sauces & Toppings :</span></p>
                                           <p>ADD housemade tomato</p>
                                       </td>
-                                      <td>01 AED</td>
-                                      <td>210 AED</td>
+                                      <td>01 {{currencyCode}}</td>
+                                      <td>210 {{currencyCode}}</td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -114,8 +129,8 @@
                                           <p><span>Size :</span> Medium</p>
                                           <p><span>Crust:</span> Skinny</p>
                                       </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
+                                      <td>03 {{currencyCode}}</td>
+                                      <td>230 {{currencyCode}}</td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -123,8 +138,8 @@
                                           <p><span>Size :</span> Medium</p>
                                           <p><span>Crust:</span> Skinny</p>
                                       </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
+                                      <td>03 {{currencyCode}}</td>
+                                      <td>230 {{currencyCode}}</td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -132,8 +147,8 @@
                                           <p><span>Size :</span> Medium</p>
                                           <p><span>Crust:</span> Skinny</p>
                                       </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
+                                      <td>03 {{currencyCode}}</td>
+                                      <td>230 {{currencyCode}}</td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -141,8 +156,8 @@
                                           <p><span>Size :</span> Medium</p>
                                           <p><span>Crust:</span> Skinny</p>
                                       </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
+                                      <td>03 {{currencyCode}}</td>
+                                      <td>230 {{currencyCode}}</td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -150,14 +165,14 @@
                                           <p><span>Size :</span> Medium</p>
                                           <p><span>Crust:</span> Skinny</p>
                                       </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
+                                      <td>03 {{currencyCode}}</td>
+                                      <td>230 {{currencyCode}}</td>
                                   </tr>
                               </tbody>
                           </table>
                       </div>
                       <div class="blackbox">
-                          <div class="grand-total">Grand Total <span>AED 450.40</span></div>
+                          <div class="grand-total">Grand Total <span>{{currencyCode}} 450.40</span></div>
                       </div>
                     </div>
                     <div class="col-md-4 col-sm-12 details">
@@ -180,7 +195,7 @@
             <div class="panel panel-default">
               <div class="panel-heading" role="tab" id="headingtwo">
                 <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" class="active">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" class="active">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : {{currencyCode}} 320</strong><i class="fa fa-angle-down"></i></a>
                 </h4>
               </div>
               <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingtwo">
@@ -205,8 +220,8 @@
                                           <p><span>First Half Sauces & Toppings :</span></p>
                                           <p>ADD housemade tomato</p>
                                       </td>
-                                      <td>01 AED</td>
-                                      <td>210 AED</td>
+                                      <td>01 {{currencyCode}}</td>
+                                      <td>210 {{currencyCode}}</td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -214,8 +229,8 @@
                                           <p><span>Size :</span> Medium</p>
                                           <p><span>Crust:</span> Skinny</p>
                                       </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
+                                      <td>03 {{currencyCode}}</td>
+                                      <td>230 {{currencyCode}}</td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -223,8 +238,8 @@
                                           <p><span>Size :</span> Medium</p>
                                           <p><span>Crust:</span> Skinny</p>
                                       </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
+                                      <td>03 {{currencyCode}}</td>
+                                      <td>230 {{currencyCode}}</td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -232,8 +247,8 @@
                                           <p><span>Size :</span> Medium</p>
                                           <p><span>Crust:</span> Skinny</p>
                                       </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
+                                      <td>03 {{currencyCode}}</td>
+                                      <td>230 {{currencyCode}}</td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -241,8 +256,8 @@
                                           <p><span>Size :</span> Medium</p>
                                           <p><span>Crust:</span> Skinny</p>
                                       </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
+                                      <td>03 {{currencyCode}}</td>
+                                      <td>230 {{currencyCode}}</td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -250,14 +265,14 @@
                                           <p><span>Size :</span> Medium</p>
                                           <p><span>Crust:</span> Skinny</p>
                                       </td>
-                                      <td>03 AED</td>
-                                      <td>230 AED</td>
+                                      <td>03 {{currencyCode}}</td>
+                                      <td>230 {{currencyCode}}</td>
                                   </tr>
                               </tbody>
                           </table>
                       </div>
                       <div class="blackbox">
-                          <div class="grand-total">Grand Total <span>AED 450.40</span></div>
+                          <div class="grand-total">Grand Total <span>{{currencyCode}} 450.40</span></div>
                       </div>
                     </div>
                     <div class="col-md-4 col-sm-12 details">
@@ -280,7 +295,7 @@
             <div class="panel panel-default">
               <div class="panel-heading" role="tab" id="headingthree">
                 <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : {{currencyCode}} 320</strong><i class="fa fa-angle-down"></i></a>
                 </h4>
               </div>
               <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingthree">
@@ -293,7 +308,7 @@
             <div class="panel panel-default">
               <div class="panel-heading" role="tab" id="headingfour">
                 <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : {{currencyCode}} 320</strong><i class="fa fa-angle-down"></i></a>
                 </h4>
               </div>
               <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfour">
@@ -306,7 +321,7 @@
             <div class="panel panel-default">
               <div class="panel-heading" role="tab" id="headingfive">
                 <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : AED 320</strong><i class="fa fa-angle-down"></i></a>
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : {{currencyCode}} 320</strong><i class="fa fa-angle-down"></i></a>
                 </h4>
               </div>
               <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfive">
@@ -355,7 +370,7 @@
             </div>
         </div>
           
-        <div class="account_box" *ngIf="currentTab == 'address'">
+        <!--<div class="account_box" *ngIf="currentTab == 'address'">
             <h4 class="title">My Addresses</h4>
             <div class="accountmain_sec">
                 <div class="row">
@@ -407,9 +422,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
           
       </div>
 
   </div>
 </div>
+

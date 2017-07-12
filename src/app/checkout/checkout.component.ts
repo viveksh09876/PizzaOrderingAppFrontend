@@ -25,9 +25,11 @@ export class CheckoutComponent implements OnInit {
   items = []; 
   orderData = null;
   showPlaceOrder = true; 
-  couponDiscount = 0;              
+  couponDiscount = 0; 
+  currencyCode = null;             
 
   ngOnInit() {
+    this.currencyCode = this.utilService.currencyCode;
     this.getItems();
   }
 

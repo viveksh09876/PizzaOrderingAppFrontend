@@ -6,13 +6,14 @@ export class UtilService {
   constructor() { }
 
   showFooter = true;
+  currencyCode = 'DHS';
 
   calculateOverAllCost(items) {
     let overAllPrice = 0;
 
     if(items != null) {
       for(var i=0; i < items.length; i++) {
-      
+        console.log(items[i].totalItemCost);
         overAllPrice += parseInt(items[i].totalItemCost);
       }
     }
@@ -47,11 +48,16 @@ export class UtilService {
 
 
   formatFavData(item) {
-    let favData = { itemId: null , itemName: null, itemSlug: null,  modifiers: [] }
+    let favData = { itemId: null , itemName: null, itemSlug: null, totalItemCost: 0,  modifiers: [] }
     
     favData.itemId = item.Product.id;
     favData.itemName = item.Product.title;
     favData.itemSlug = item.Product.slug;
+    
+    if(item.totalItemCost) {
+      favData.totalItemCost = item.totalItemCost;
+    }
+
 
     if(item.ProductModifier.length > 0) {
       for(var i = 0; i < item.ProductModifier.length; i++) {

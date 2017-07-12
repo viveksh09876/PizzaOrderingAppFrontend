@@ -2,6 +2,15 @@ body, html {
 	height: 100%;
 	font-size: 16px
 }
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
 a{cursor: pointer;}
 
 /*===========Preloader css start here=============*/
@@ -1316,6 +1325,7 @@ header.navigation .logo {
 	width: 100%;
 	float: left;
 	border-radius: 50%;
+	cursor: pointer;
 }
 .inside-column-container.thirdCol .control-group .control.checkbox.checked .control__indicator:before {
 	content: '' !Important;
@@ -1500,13 +1510,35 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 #signupModal .modal-body {
 	padding: 30px;
+	position: relative;
 }
+.loader{background: rgba(255,255,255,.9); text-align: center; vertical-align: middle; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;}
+.loader p{margin-top: 30%; font-size: 1.5em; font-family: "bureaueaglebookregular";}
 #signupModal label {
 	color: #333;
 	font-size: 15px;
 	margin: 0 0 5px;
 	font-family: "proxima_nova_rgregular";
 }
+#signupModal .checkbox label span{position: absolute; content: '';
+    top: 2px;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background: #fff;
+    border: 2px solid #8e8c8c;}
+#signupModal .checkbox label input[type="radio"] ~ span{border-radius: 100%;}
+#signupModal .checkbox input[type=radio],#signupModal .checkbox input[type=checkbox]{
+    position: absolute;
+    margin-top: 4px\9;
+    margin-left: -20px; opacity: 0;
+}
+#signupModal .checkbox label input:checked  ~ span:after{content: "\2713";
+    position: absolute;
+    font-weight: bold;
+    font-size: 12px;
+    top: -2px;
+    left: 2px;}    
 #signupModal .form-control {
 	border-radius: 0;
 	height: 40px;
@@ -1548,7 +1580,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 	background: #fff;
 	color: #789c48;
 }
-#signupModal .modal-body button {
+#signupModal .modal-body button,.modal-body .btn-green {
 	background: #789c48;
 	border: 1px solid #789c48;
 	color: #fff;
@@ -1592,7 +1624,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 #Congrath-Modal p {
 	margin-bottom: 10px;
 }
-#Congrath-Modal .modal-body button {
+#Congrath-Modal .modal-body button,#Congrath-Modal .modal-body a.btn {
 	background: #789c48;
 	border: 1px solid #789c48;
 	color: #fff;
@@ -2527,10 +2559,6 @@ color:#fff
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group {
 	display: inline-block;
     width: 100%;
-    max-height: 370px;
-    overflow-y: auto;
-    text-align: left;
-    overflow-x: hidden;
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control {
 	position: relative;
@@ -2544,6 +2572,7 @@ color:#fff
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control h4{
 
 	font: 1em "proxima_nova_ltsemibold";
+	cursor: pointer;
 }
 
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control p {
@@ -2684,7 +2713,7 @@ color:#fff
 
 @media (max-width: 2560px) {
 .three-column-wrapper .inside-column-container h3 {
-	font-size: 2.40em;
+	font-size: 2.0em;
     padding: 1.50rem 66px 1.50rem 15px;
     float: left;
     width: 100%;
@@ -2714,6 +2743,14 @@ color:#fff
 .three-column-wrapper .inside-column-container h3.bgGrey {
 	background-color: #5b5a56
 }
+.three-column-wrapper .inside-column-container h3.bgGrey span{
+	font-size: .5em;
+    color: #fff;
+    display: block;
+    font-family: "proxima_nova_rgregular";
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;}
 .three-column-wrapper .inside-column-container.secondCol, .three-column-wrapper .inside-column-container.thirdCol {
 	width: 30%;
 	background-color: #f4f4f4
@@ -2730,6 +2767,11 @@ color:#fff
 }
 .three-column-wrapper .inside-column-container.thirdCol .content-wrapper{
 	background: #f4f4f4;
+	max-height: 370px;
+    overflow-y: auto;
+    text-align: left;
+    overflow-x: hidden;
+    float: left; width: 100%;
 }
 
 @media (max-width: 1199px) {
@@ -2930,7 +2972,7 @@ color:#fff
 .complete-summary td p span{ font-family: 'proxima_nova_ltsemibold';}
 .complete-summary td:last-child, .complete-summary th:last-child{ text-align: right;}
 
-.complete-summary .blackbox{ background: #f4f4f4; padding:0 15px 20px;}
+.complete-summary .blackbox{ background: #f4f4f4; /*padding:0 15px 20px;*/}
 .complete-summary .blackbox .grand-total{ background: #5b5a56; color: #fff; font-size: 18px; font-family: 'proxima_nova_ltsemibold'; line-height: 22px; padding: 10px;}
 .complete-summary .blackbox .grand-total span{ float: right}
 
@@ -3041,7 +3083,7 @@ color:#fff
 
 .account_container .panel-heading{ padding: 0;}
 .account_container .panel-title{ color: #5b5a56; font-size: 14px; font-family: 'proxima_nova_ltsemibold'; line-height:25px;}
-.account_container .panel-title a{font-family: 'proxima_nova_ltsemibold'; display: block; padding: 10px 35px 10px 10px; position: relative; background: #fafafa; text-decoration: none!important;}
+.account_container .panel-title a{font-family: 'proxima_nova_ltsemibold'; display: inline-block; width: 100%; padding: 10px 35px 10px 10px; position: relative; background: #fafafa; text-decoration: none!important;}
 
 .account_container .panel-title a span{ color: #789c48; display: inline-block; margin: 0 10px; font-family: 'proxima_nova_ltlight';}
 .account_container .panel-title a .fa-check{ background: #789c48; width: 25px; height: 25px; text-align: center; line-height: 22px; border-radius: 5px; color: #fff; border: 1px solid #e1e1e1; margin-right: 8px;}
@@ -3049,6 +3091,18 @@ color:#fff
 .account_container .panel-title a .fa-angle-down{ position: absolute; right: 10px; top: 12px; color: #911c27; font-size: 20px;}
 .account_container .panel-title a.active .fa-angle-down{transform: rotate(180deg);}
 .account_container .panel-title a.active.collapsed .fa-angle-down{transform: rotate(0deg);}
+
+.account_container .panel-title a.ordernow{font-size: 16px;
+    border: none;
+    line-height: 29px;
+    padding: 5px 10px;
+    display: inline-block;
+    background: #789c48;
+    text-align: center;
+    border-radius: 3px;
+    border-bottom: 2px solid #617d3c;
+    color: #fff;
+    font-family: 'proxima_nova_ltsemibold';}
 
 .account_container .panel-title a.active{ background: #fff;}
 .account_container .panel-body{ border: 0 !Important;}
@@ -3071,7 +3125,7 @@ color:#fff
 .account_container .blackbox .grand-total{ background: #5b5a56; color: #fff; font-size: 18px; font-family: 'proxima_nova_ltsemibold'; line-height: 22px; padding: 10px;}
 .account_container .blackbox .grand-total span{ float: right;}
 
-.account_box{ border: 1px solid #e1e1e1; margin: 20px 0 0;}
+.account_box{ border: 1px solid #e1e1e1; /*margin: 20px 0 0;*/}
 .account_box h4.title{font-size: 22px; color: #65646a; background: #f4f4f4; padding: 10px; line-height: 25px; font-family: 'proxima_nova_ltsemibold'; border-bottom: 1px solid #e1e1e1;}
 .accountmain_sec{ padding: 20px; position: relative;}
 .accountmain_sec.space{ padding-bottom: 150px;}

@@ -2,7 +2,7 @@
 <div class="banner-wrapper">
 <div class="container" style="background-image:url(assets/images/banner-inside/3.jpg)">
   <h1><span>Order Confirmation</span></h1>
-  <!--<div class="leftButtons buttons hidden-md hidden-lg"><a href="#" class="whiteBtn cta-btn">Quick View</a><span class="cost">84 AED</span><a href="#" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>-->
+  <!--<div class="leftButtons buttons hidden-md hidden-lg"><a href="#" class="whiteBtn cta-btn">Quick View</a><span class="cost">84 {{currencyCode}}</span><a href="#" class="greenBtn cta-btn hidden-xs">Checkout</a><a href="#" class="greenBtn cta-btn visible-xs btn-sm">Checkout</a> </div>-->
   <!--<div class="leftButtons searchBox">
     <input type="text" class="form-control" placeholder="">
     <button class="icon-search"></button>
@@ -67,7 +67,7 @@
                 </table>
             </div>
             <div class="blackbox">
-                <div class="grand-total">Grand Total <span>AED {{totalCost}}</span></div>
+                <div class="grand-total">Grand Total <span>{{currencyCode}} {{totalCost}}</span></div>
             </div>
         </div>    
 
@@ -92,12 +92,12 @@
                         {{storeData.Store.state}} {{storeData.Store.zip}}<br>
                         Phone: {{storeData.Store.store_phone}}</p>
                     </address>
-                    <!--<ul>
-                        <li><a [routerLink]="['/menu']" class="another-order">Place another order</a></li>
-                        <li><a><img src="assets/images/face.png" alt=""></a></li>
+                    <ul>
+                        <li><a [routerLink]="['/menu']" class="another-order">Start a new Order</a></li>
+                        <!--<li><a><img src="assets/images/face.png" alt=""></a></li>
                         <li><a><img src="assets/images/instagram.png" alt=""></a></li>
-                        <li><a><img src="assets/images/yellow.png" alt=""></a></li>
-                    </ul>-->
+                        <li><a><img src="assets/images/yellow.png" alt=""></a></li>-->
+                    </ul>
                 </div>
             </div>
         </div>    

@@ -42,8 +42,8 @@ export class DataService {
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
-  getItemData(slug): Observable<any>{
-    return this.http.get( this.domain + '/webservice/getItemData/'+slug)
+  getItemData(slug, menuCountry): Observable<any>{
+    return this.http.get( this.domain + '/webservice/getItemData/'+slug+'/'+menuCountry)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
@@ -212,20 +212,29 @@ export class DataService {
     return this.selectedFavItemData;
   }
 
- 
-  getformattedFavData(favData): Observable<any>{
-  return this.http.post( this.domain + '/webservice/getFavItemData', favData)
+
+  getformattedFavData(favData, menuCountry): Observable<any>{
+      var data = { menuCountry: menuCountry, favData: favData };
+      return this.http.post( this.domain + '/webservice/getFavItemData', data)
                   .map((res: Response) => res.json())
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
   applyCoupon(orderData): Observable<any>{
-  return this.http.post( this.domain + '/webservice/applyCoupon', orderData)
+        return this.http.post( this.domain + '/webservice/applyCoupon', orderData)
                   .map((res: Response) => res.json())
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
-   getProfile(userId){
+  getFavOrderData(orderData, menuCountry): Observable<any>{
+        var data = { menuCountry: menuCountry, orderData: orderData };
+        return this.http.post( this.domain + '/webservice/getFavOrderData', data)
+                  .map((res: Response) => res.json())
+                  .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  } 
+
+  getProfile(userId): Observable<any>{
+
     return this.http.get( this.domain + '/webservice/getProfile/'+ userId)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
