@@ -43,6 +43,9 @@ export class DataService {
   }
 
   getItemData(slug, menuCountry): Observable<any>{
+    if(menuCountry == null) {
+      menuCountry = 'UAE';
+    }
     return this.http.get( this.domain + '/webservice/getItemData/'+slug+'/'+menuCountry)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
