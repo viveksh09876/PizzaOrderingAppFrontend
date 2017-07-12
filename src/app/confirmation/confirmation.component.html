@@ -10,6 +10,14 @@
   </div>
 </div>
  <div class="clearfix"></div>
+
+<ng-container *ngIf="showLoading">
+  <div class="spinner">
+      <div class="cube1 icon icon-pizza-icon"></div>
+      <div class="cube2 icon icon-pizza-icon"></div>
+  </div>
+</ng-container>
+
 <!--Inside Sections-->
 <div class="container-fluid">
   <div class="col-md-12 steprow text-center">

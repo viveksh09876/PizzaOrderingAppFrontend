@@ -50,7 +50,9 @@ export class HomeComponent implements OnInit, AfterContentInit {
               this.getIgFeeds('nkdpizzauae');
             }
         });
-
+    
+    this.dataService.setLocalStorageData('confirmationItems', null);
+    this.dataService.setLocalStorageData('confirmationFinalOrder', null);    
     this.getSlideImages();
     
     //loadScript();
