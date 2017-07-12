@@ -168,6 +168,22 @@ export class DataService {
                 
   }
 
+   sendContactInfo(ContactInfo): Observable<any>{   
+    let data = ContactInfo;
+    return this.http.post( this.domain + '/webservice/sendContactInfo', data)
+                    .map((res: Response) => res.json())
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+                
+  }
+
+  sendCareerInfo(CareerInfo): Observable<any>{   
+    let data = CareerInfo;
+    return this.http.post( this.domain + '/webservice/sendCareerInfo', data)
+                    .map((res: Response) => res.json())
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+                
+  }
+
   getCountryStore(countryName): Observable<any>{
     return this.http.get( this.domain + '/webservice/getCountryStores/'+countryName)
                     .map( (res: Response) => res.json() )
@@ -228,6 +244,13 @@ export class DataService {
   getProfile(userId): Observable<any>{
 
     return this.http.get( this.domain + '/webservice/getProfile/'+ userId)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+
+  getOrderHistory(userId): Observable<any>{
+
+    return this.http.get( this.domain + '/webservice/getOrderHistory/'+ userId)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }

@@ -11,6 +11,12 @@
 </div>
  <div class="clearfix"></div>
 
+<ng-container *ngIf="showLoading">
+  <div class="spinner">
+      <div class="cube1 icon icon-pizza-icon"></div>
+      <div class="cube2 icon icon-pizza-icon"></div>
+  </div>
+</ng-container>
 
 <!--Inside Sections-->
 <div class="container-fluid">
@@ -70,7 +76,7 @@
         </div>
          <div class="save_orderbox text-center">
             <h5>save as favorite order</h5>
-            <input type="text" [(ngModel)]="favTitle" placeholder="Order Name">
+            <input type="text" [(ngModel)]="favTitle" placeholder="Order Name" autocomplete="off">
             <ng-container *ngIf="!showSavingFav">
             <input type="submit" (click)="addToFav()" value="Save Favorite">
             </ng-container>
@@ -82,24 +88,38 @@
          <div name="addressForm" class="order_reviewform" ngForm #newRuleForm="ngForm">
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <input class="form-control" placeholder="First Name*" name="firstName" type="text" [(ngModel)]="order.user.first_name" required>
+                    <input class="form-control" placeholder="First Name*" name="firstName" type="text" [(ngModel)]="order.user.first_name" id="firstName" #firstName="ngModel" required autocomplete="off">
+                    <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)" class="alert alert-danger">
+                        <div [hidden]="!firstName.errors.required">First Name is required.</div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <input class="form-control" placeholder="Last Name*" type="text" name="lastName" [(ngModel)]="order.user.last_name" required>
+                    <input class="form-control" placeholder="Last Name*" type="text" name="lastName" [(ngModel)]="order.user.last_name" id="lastName" #lastName="ngModel" required autocomplete="off">
+                    <div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)" class="alert alert-danger">
+                        <div [hidden]="!lastName.errors.required">Last Name is required.</div>
+                    </div>
                 </div>
             </div>
 
             <div class="col-md-12 col-sm-12">
                 <div class="form-group">
-                    <input class="form-control" placeholder="Email address*" name="email" type="email" [(ngModel)]="order.user.email" required>
+                    <input class="form-control" placeholder="Email address*" name="email" type="email" [(ngModel)]="order.user.email" id="email" #email="ngModel" required email autocomplete="off">
+                    <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+                        <div [hidden]="!email.errors.required">Email is required.</div>
+                        <div [hidden]="!email.errors.email">Invalid email.</div>
+                    </div>
                 </div>
             </div>
 
             <div class="col-md-12 col-sm-12">
                 <div class="form-group">
-                    <input class="form-control" placeholder="Mobile number*" name="phone" type="text" [(ngModel)]="order.user.phone" required>
+                    <input class="form-control" placeholder="Mobile number*" name="phone" type="text" [(ngModel)]="order.user.phone" id="phone" #phone="ngModel" maxlength="10" required number autocomplete="off">
+                    <div *ngIf="phone.errors && (phone.dirty || phone.touched)" class="alert alert-danger">
+                        <div [hidden]="!phone.errors.required">Valid mobile number is required.</div>
+                        <div [hidden]="!phone.errors.number">Invalid phone number.</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -148,16 +168,22 @@
          <div class="dottedlist_box">
             <form class="coupan_box">
                 <p class="danger" *ngIf="couponMsg != ''">{{couponMsg}}</p>
-                <input type="text" [(ngModel)]="couponCode" name="coupnCode" placeholder="Coupon Code">
-                <ng-container *ngIf="!showCouponWait">
-                <input type="submit" value="Apply" (click)="applyCoupon()">
-                </ng-container>
-                <ng-container *ngIf="showCouponWait">
-                    <p>Please wait...</p>
+                <ng-container *ngIf="order.coupon == ''">                    
+                    <input type="text" [(ngModel)]="couponCode" name="coupnCode" placeholder="Coupon Code" autocomplete="off">
+                    <ng-container *ngIf="!showCouponWait">
+                    <input type="submit" value="Apply" (click)="applyCoupon()">
+                    </ng-container>
+                    <ng-container *ngIf="showCouponWait">
+                        <p>Please wait...</p>
+                    </ng-container>
                 </ng-container>
             </form>
             <ul class="dotted-list">
-                <li>Coupon Discount<span>{{couponDiscount}}</span></li> 
+                <li>Coupon Discount 
+                    <ng-container *ngIf="order.coupon != ''">
+                        <strong>({{order.coupon}})</strong>
+                        <a (click)="removeCoupon()">Remove</a>
+                    </ng-container><span>{{couponDiscount}}</span></li> 
                 <li>Sub Total<span>{{netCost}}</span></li> 
                 <li>Taxes<span>0.00</span></li> 
                 <li *ngIf="order.order_type=='delivery'">Delivery Charges <span>6.0</span></li> 

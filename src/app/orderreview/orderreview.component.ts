@@ -15,6 +15,7 @@ import { UtilService } from '../util.service';
 })
 export class OrderreviewComponent implements OnInit {
 
+  showLoading = true;
   items = null;
   totalCost = null;
   netCost = null;
@@ -74,6 +75,7 @@ export class OrderreviewComponent implements OnInit {
 
     this.currencyCode = this.utilService.currencyCode;
     this.getItems();
+    this.updateUserDetails();
     this.order.storeId = '1';
     if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
             this.dataService.getLocalStorageData('nearByStore') != '') { 
@@ -101,6 +103,22 @@ export class OrderreviewComponent implements OnInit {
     //console.log(this.order);
   }
 
+
+  updateUserDetails() {
+      let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
+      if(isLoggedIn != undefined && isLoggedIn == 'true') {
+        let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
+        this.order['userid'] = userDetails.id;
+        this.order.user = {
+          first_name: userDetails.firstName,
+          last_name: userDetails.lastName,
+          email: userDetails.email,
+          phone: ''
+        }
+      }
+  }
+
+
   getStoreDetails(storeId) {
     this.dataService.getStoreDetails(storeId)
       .subscribe(data => {              
@@ -112,11 +130,18 @@ export class OrderreviewComponent implements OnInit {
 
   getItems() {
     
-    this.items = JSON.parse(this.dataService.getLocalStorageData('allItems'));
-    let tCost = this.utilService.calculateOverAllCost(this.items);
-    this.totalCost = tCost
-    this.netCost = tCost;
-   
+    if(this.dataService.getLocalStorageData('allItems') != null 
+            && this.dataService.getLocalStorageData('allItems') != undefined) {
+
+        this.items = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+        let tCost = this.utilService.calculateOverAllCost(this.items);
+        this.totalCost = tCost
+        this.netCost = tCost;
+              
+    }else{
+      window.location.href = '/';
+    }
+    this.showLoading = false; 
   }
 
   updateQuantity(type, plu) {
@@ -230,6 +255,7 @@ export class OrderreviewComponent implements OnInit {
 
 
   placeFinalOrder() {
+      this.showLoading = true;
       let finalOrder = [];
       
       if(this.items.length > 0) {
@@ -354,6 +380,7 @@ export class OrderreviewComponent implements OnInit {
         this.order.order_details = finalOrder;
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
         //console.log('order', this.order);
+        this.showLoading = false;;
         this.router.navigate(['/checkout']);
 
       }
@@ -532,6 +559,10 @@ export class OrderreviewComponent implements OnInit {
                     this.order.coupon = this.couponCode;
                     this.totalCost = this.totalCost - this.couponDiscount;
                   }
+
+                  setTimeout(function(){
+                    this.couponMsg = '';
+                  }, 4000);
               }); 
 
       }else{
@@ -543,5 +574,17 @@ export class OrderreviewComponent implements OnInit {
         this.couponMsg = '';
       }, 4000);
     }
+
+
+    removeCoupon() {
+      this.order.coupon = '';
+      this.isDiscountApply = false;
+      this.totalCost = this.totalCost + this.couponDiscount;
+      this.couponMsg = 'Coupon removed successfully.';
+      setTimeout(function(){
+        this.couponMsg = '';
+      }, 4000);
+    }
+
 
 }

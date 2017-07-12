@@ -22,6 +22,7 @@ export class ConfirmationComponent implements OnInit {
   storeData = null;
   couponDiscount = 0;
   currencyCode = null;
+  showLoading = true;
 
   ngOnInit() {
     this.currencyCode = this.utilService.currencyCode;
@@ -31,18 +32,29 @@ export class ConfirmationComponent implements OnInit {
 
 
   getItems() {
-    this.items = JSON.parse(this.dataService.getLocalStorageData('confirmationItems'));
-    this.orderData = JSON.parse(this.dataService.getLocalStorageData('confirmationFinalOrder'));
-    let tCost = this.utilService.calculateOverAllCost(this.items);
-    this.totalCost = tCost
-    this.netCost = tCost;  
-    if(this.orderData.couponDiscount != 0 && !isNaN(this.orderData.couponDiscount)) {
-      this.couponDiscount = this.orderData.couponDiscount;
-      this.totalCost = this.totalCost - this.orderData.couponDiscount;
+
+    if(this.dataService.getLocalStorageData('confirmationItems') != null 
+            && this.dataService.getLocalStorageData('confirmationItems') != undefined) {
+        
+        this.items = JSON.parse(this.dataService.getLocalStorageData('confirmationItems'));
+        this.orderData = JSON.parse(this.dataService.getLocalStorageData('confirmationFinalOrder'));
+        let tCost = this.utilService.calculateOverAllCost(this.items);
+        this.totalCost = tCost
+        this.netCost = tCost;  
+        if(this.orderData.couponDiscount != 0 && !isNaN(this.orderData.couponDiscount)) {
+          this.couponDiscount = this.orderData.couponDiscount;
+          this.totalCost = this.totalCost - this.orderData.couponDiscount;
+        }
+        if(this.orderData.order_type == 'delivery') {
+            this.totalCost += 6;
+        } 
+
+    } else {
+      window.location.href = '/';
     }
-    if(this.orderData.order_type == 'delivery') {
-        this.totalCost += 6;
-    } 
+    
+
+    this.showLoading = false;
   }
 
   getStoreDetails() {

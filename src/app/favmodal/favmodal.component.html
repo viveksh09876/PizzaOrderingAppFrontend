@@ -12,6 +12,7 @@
                     <h4>Save as Favorite</h4>
                     <br>
                     <br>
+                    <p class="text-danger" *ngIf="alertMsg!= ''">{{alertMsg}}</p>
                     <input type="text" [(ngModel)]="favTitle" placeholder="Enter title" class="form-control" required/>
                     <span *ngIf="!showSaving">
                                 <button class="btn btn-green continue-btn" (click)="saveFav()">Save</button>  
