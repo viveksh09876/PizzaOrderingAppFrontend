@@ -95,6 +95,12 @@ body {
 }
 
 @media (max-width: 767px) {
+	#signinModal .modal-dialog{margin:12% 20px;}
+	#signinModal .guest button{margin:0px !important;}
+	#signinModal .signin{border:none;}
+	#signinModal h3 {
+    font-size: 24px;
+    line-height: 28px;}
 header.navigation .logo img {
 	max-width: 145px;
 	height: auto;
@@ -531,7 +537,7 @@ header.navigation ul.links li.eclub-btn ul li a i{min-width: 16px;}
 	height: 100%;
 	position: absolute;
 	z-index: 5;
-	background-color: rgba(0,0,0,0.75);
+	background-color: rgba(0,0,0,0.3);
 	left: 0;
 	top: 0
 }
@@ -924,7 +930,8 @@ header.navigation .logo {
 .blog-wrapper .blog-content {
 	min-height: 280px;
 	max-width: 320px;
-	margin: 15px auto
+	margin: 15px auto;
+	background-color: #ccc;
 }
 .blog-wrapper .blog-media {
 	min-height: 280px;
@@ -1208,7 +1215,7 @@ header.navigation .logo {
 	top: 52px;
 }
 .banner-wrapper h1 {
-	font-size: 3.5em;
+	font-size: 2.5em;
 	margin: 10px 10px;
 }
 .banner-wrapper h1 span {
@@ -1378,7 +1385,7 @@ header.navigation .logo {
 
 
 /*==============16 may css start here=========*/
-.modal.fade.in{background: rgba(0,0,0,.5);}
+.modal.fade.in{background: rgba(0,0,0,.5); height: 100vh; overflow: auto;}
 .modal-header {
 	padding: 0;
 	border: none;
@@ -2820,6 +2827,7 @@ color:#fff
 /*# sourceMappingURL=styles.css.map */
 .leftContent .tab-content{margin-top:70px;}
 .tab-content{margin-bottom:20px; min-height: 65px;}
+.tab-content #prefer{height: auto !important;}
 #quickview .modal-body{padding: 0px;}
 #quickview .modal-body .inside-column-container{width:auto;}
 
