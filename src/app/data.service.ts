@@ -176,6 +176,14 @@ export class DataService {
                 
   }
 
+  sendCareerInfo(CareerInfo): Observable<any>{   
+    let data = CareerInfo;
+    return this.http.post( this.domain + '/webservice/sendCareerInfo', data)
+                    .map((res: Response) => res.json())
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+                
+  }
+
   getCountryStore(countryName): Observable<any>{
     return this.http.get( this.domain + '/webservice/getCountryStores/'+countryName)
                     .map( (res: Response) => res.json() )

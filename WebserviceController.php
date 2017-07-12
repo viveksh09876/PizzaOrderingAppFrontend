@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo'));
     }
 
     public function get_categories($count=10){
@@ -1295,6 +1295,59 @@ class WebserviceController extends AppController {
   }
   die;
  }
+
+function sendCareerInfo(){
+  $data = $this->request->input ( 'json_decode', true);
+  if(!empty($data)) {
+
+   	$fname = $data['fname'];
+	$lname = $data['lname'];
+   	$email = $data['email'];
+   	$tel = $data['tel'];
+   	$position = $data['position'];
+  	$lkdin = $data['lkdin'];
+   	$resume = $data['resume'];
+
+	$name = $fname.' '.$lname;
+   /*-template asssignment if any*/
+                $template = $this->EmailTemplate->find('first',array(
+                        'conditions' => array(
+                            'template_key'=> 'career_notification',
+                            'template_status' =>'Active'
+                        )
+                    )
+                );
+
+                if($template){  
+                    $arrFind=array('{name}','{email}','{phone}','{position}','{lkdin}','{resume}');
+                    $arrReplace=array($name,$email,$tel,$position,$lkdin,$resume);
+                    
+                    $from=$template['EmailTemplate']['from_email'];
+                    $subject=$template['EmailTemplate']['email_subject'];
+                    $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
+                }
+
+                $this->set('Content',$content);   
+
+                try{
+                    $this->Email->from=$from;
+                    $this->Email->to=CAREER_EMAIL;
+                    $this->Email->subject=$subject;
+                    $this->Email->sendAs='html';
+                    $this->Email->template='general';
+                    $this->Email->delivery = 'smtp';
+                    if($this->Email->send()){
+      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! information has been sent successfully, will contact you soon.'));
+     }
+
+                }catch(Exception $e){
+                    echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
+                }
+                /*-[end]template asssignment*/ 
+  }
+  die;
+ }
+
 
 	function getPrefrences(){
 		$this->Question->bindModel(array('hasMany'=>array('QuestionOption')));
