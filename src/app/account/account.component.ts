@@ -59,13 +59,7 @@ export class AccountComponent implements OnInit {
     this.dataService.getOrderHistory(userId)
         .subscribe(data => {
           if(data != 'null' && data != null) {
-            this.favItems = data;
-
-            if(this.favItems.length > 0) {
-              for(var i=0; i<this.favItems.length; i++) {
-                this.favItems[i].FDetail = JSON.parse(this.favItems[i].FDetail);
-              }
-            }
+            
             this.showLoading = false;
           }
 
