@@ -24,6 +24,7 @@ export class AccountComponent implements OnInit {
   favOrders = [];
   showLoading = false;
   currencyCode = null;
+  error = { show:false, isSuccess:false, message: ''};
 
   ngOnInit() {
     
@@ -49,6 +50,44 @@ export class AccountComponent implements OnInit {
     if(this.currentTab == 'favOrders') {
       this.getFavOrders(this.user.id);
     }
+
+    if(this.currentTab == 'personalInfo') {
+      this.showLoading = true;
+      let userId = this.user.id;
+      this.dataService.getProfile(userId).subscribe(pdata => {
+        this.user = {
+          id: pdata.Id,
+          firstName : pdata.FirstName,
+          lastName: pdata.LastName,
+          email: pdata.Email,
+          Phone: pdata.Phone
+        }
+        this.error = { show:false, isSuccess:false, message: ''};
+        this.showLoading = false;
+      });
+    }
+  }
+
+  updateProfile(){
+    this.showLoading = true;
+    this.dataService.updateProfile(this.user).subscribe(data => {
+      if(data != 'null' && data != null) {
+        let errorMessage = {
+          show:true, 
+          isSuccess:true, 
+          message: 'Thank You ! Your profile has been updated.'
+        }
+        this.error = errorMessage;
+      }else{
+        let errorMessage = {
+          show:true, 
+          isSuccess:false, 
+          message: 'Sorry ! Profile not updated, please try again.'
+        }
+        this.error = errorMessage;
+      }
+      this.showLoading = false;
+    });
   }
 
   getFavItems(userId) {

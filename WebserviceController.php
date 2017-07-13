@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile'));
     }
 
     public function get_categories($count=10){
@@ -1622,6 +1622,57 @@ function sendCareerInfo(){
 		$result = json_decode($resp, true);
 		echo json_encode($result);
 	    die;
+	}
+	
+	
+	public function getOrderHistory($userId) {
+		
+		if(!empty($userId)) {
+			
+			$url = 'https://nkdpizza.com/beta/pos/index.php/orderHistory/'.$userId;
+			$orders = $this->curlGetRequest($url);	
+			$orders = json_decode($orders, true);
+			if(!empty($orders)) {
+				$i = 0;
+				foreach($orders as $ord) {
+					$orders[$i]['OrderDetail'] = json_decode($orders[$i]['OrderDetail'], true);
+					$i++;
+				}
+			}
+			echo '<pre>'; print_r($orders); die;
+		}		
+		die;
+	}
+
+
+	public function updateProfile(){
+		$this->layout = 'false';
+		$this->autoRender = false;
+
+		$userData = $this->request->input ( 'json_decode', true) ;
+		$formatData = array(
+			'id'=>$userData['id'],
+			'firstname'=>$userData['firstName'],
+			'lastname'=>$userData['lastName'],
+			'email'=>$userData['email'],
+			'phone'=>$userData['Phone']
+		);
+		$data = json_encode($formatData);
+		
+		if(!empty($formatData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$result     = $this->curlPostRequest($url, $formatData);
+			$response   = json_decode($result);
+			
+			if($response->Status=='OK'){
+				$updatedData = $this->getProfile($userData['id']);
+			}else{
+				$updatedData = json_encode(array());
+			}	
+
+			echo $updatedData; 			
+		}
+		die;
 	}
 
 }
