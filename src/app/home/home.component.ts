@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   slideArr = [];
   domain = environment.cmsApiPath;
   latestTweet = '';
-  latestFbFeeds = null;
+  latestFbFeeds = '';
   latestIgFeeds = '';
   countryName = '';
   storeList = [];
@@ -124,7 +124,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   getFbFeeds(name) {
      this.dataService.getFbFeeds(name)
         .subscribe(data => {
-            this.latestFbFeeds = data[0];
+            this.latestFbFeeds = data;
         });
   }
 

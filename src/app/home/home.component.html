@@ -40,7 +40,7 @@
             <h4>fresh</h4>
             <p>we freshly prepare our ingredients</p>
             <div class="img-box">
-            <div class="overlap-text">We do our best to ensure that our cheese and vegetables are best sourced, no additives. Our meats are pork, chicken and beef—free of growth hormones and antibiotics (that we know of). Full of love.
+            <div class="overlap-text">We do our best to ensure that our cheese and vegetables are carefully sourced. Our meats are pork, chicken and beef have no bad stuff hiding in them (that we know of)— but are full of love.
 We freshly slice ingredients for our pizzas in-restaurant — from tomatos, to jalapeños and apples.</div>
             <img src="assets/images/how-are-we-different/1.jpg" class="img-responsive center-block" alt="image-fresh"/>
             </div>
@@ -65,7 +65,7 @@ We freshly slice ingredients for our pizzas in-restaurant — from tomatos, to j
             <h4>All-natural tomato sauce</h4>
             <p>our very own house-made tomato sauce</p>
             <div class="img-box">
-            <div class="overlap-text">Our tomato sauce is nicely spiced and herbed, with no added sugar or citric acid. Nothing processed or modified or tinkered with (not that we know of). No additives or preservatives. No artificial colors or flavors. No, none of that. Just real fresh ingredients we combine to make really tasty pizza.</div>
+            <div class="overlap-text">Our tomato sauce is deliciously spiced and herbed, with no added sugar or citric acid. Nothing processed or modified or tinkered with (not that we know of). No additives or preservatives. No artificial colors or flavors. No, none of that. Just real fresh ingredients we combine to make really tasty pizza.</div>
             <img src="assets/images/how-are-we-different/3.jpg" class="img-responsive center-block" alt="image-fresh"/>
 
 </div>
@@ -90,20 +90,26 @@ We freshly slice ingredients for our pizzas in-restaurant — from tomatos, to j
           <p>{{latestTweet}}</p>
         </div>
       </div>
-      <div class="col-md-4 col-sm-6" *ngIf="latestFbFeeds != null">
-        <div class="blog-content" [ngStyle]="{ 'background-image': 'url(' + latestFbFeeds.image + ')'}">
+      <ng-container *ngFor=" let Fbfeed of latestFbFeeds;  let j=index">
+       <ng-container *ngIf="Fbfeed != null && j<2">
+      <div class="col-md-4 col-sm-6" >
+        
+        <div class="blog-content" [ngStyle]="{ 'background-image': 'url(' + Fbfeed.image + ')'}">
           <div class="media">
             <div class="media-left media-middle"> <i class="icon-facebook"></i> </div>
             <div class="media-body">
-              <ng-container *ngIf="latestFbFeeds.title">
-              <h4 class="media-heading">{{latestFbFeeds.title}}</h4>
+              <ng-container *ngIf="Fbfeed.title">
+              <h4 class="media-heading">{{Fbfeed.title}}</h4>
               </ng-container>
-              <p>{{latestFbFeeds.message}}</p>
+              <p>{{Fbfeed.message}}</p>
             </div>
           </div>
         </div>
+        
       </div>
-      <div class="col-md-4 col-sm-6">
+       </ng-container>
+        </ng-container>
+      <!-- <div class="col-md-4 col-sm-6">
       <div class="blog-media" style="background-image:url(assets/images/our-journey.jpg);">
          <div class="media">
          <span class="video-icon">
@@ -114,10 +120,11 @@ We freshly slice ingredients for our pizzas in-restaurant — from tomatos, to j
           
        </div>
         
-      </div>
-      <div class="col-md-4 col-sm-6" *ngFor=" let feed of latestIgFeeds;  let i=index">
-        <ng-container *ngIf="feed != null">
-        <div class="blog-content" [ngStyle]="{ 'background-image': 'url(' + feed.image + ')'}" *ngIf="i<3" >
+      </div> -->
+      <ng-container *ngFor=" let feed of latestIgFeeds;  let i=index">
+      <ng-container *ngIf="feed != null && i<3">
+      <div class="col-md-4 col-sm-6">
+        <div class="blog-content" [ngStyle]="{ 'background-image': 'url(' + feed.image + ')'}">
           <div class="media">
             <div class="media-left media-middle"> <i class="icon-instagram"></i> </div>
             <div class="media-body">
@@ -126,8 +133,9 @@ We freshly slice ingredients for our pizzas in-restaurant — from tomatos, to j
             </div>
           </div>
         </div>
-        </ng-container>
       </div>
+      </ng-container>
+      </ng-container>
     </div>
   </div>
 </div>

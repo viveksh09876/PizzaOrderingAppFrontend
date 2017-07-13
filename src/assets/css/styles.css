@@ -795,10 +795,11 @@ header.navigation .logo {
 	margin: 15px 0;
 	background-repeat: no-repeat;
 	background-position: center center;
-	background-size: cover;
-	-moz-background-size: cover;
-	-webkit-background-size: cover;
-	position: relative
+	background-size:  100% 100%;
+	-moz-background-size:  100% 100%;
+	-webkit-background-size: 100% 100%;
+	position: relative; 
+	background-color: #ccc;
 }
 .blog-wrapper .blog-media {
 	width: 100%;
@@ -3078,6 +3079,7 @@ color:#fff
 .left-caterbox p{ font-size: 29px; color: #fff; font-family: "bureaueaglebookregular"; line-height: 29px;}
 .left-caterbox img.food{ margin: 22px -15px 14px; display: inline-block; width: calc(100% + 30px);}
 .left-caterbox img.truck{ margin: -60px 0 15px}
+.left-caterbox small{color: #fff; margin-bottom: 10px; font-family: 'proxima_nova_ltlight'; display: inline-block;}
 
 .left-caterbox .check{ display: block; font-size: 20px; color: #911c27; font-family: 'proxima_nova_ltsemibold'; background: #fff; line-height: 37px; padding: 5px; border-radius: 5px; border-bottom: 2px solid #546d32;}
 
