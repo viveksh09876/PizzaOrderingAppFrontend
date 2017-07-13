@@ -21,28 +21,37 @@ export class FavmodalComponent extends DialogComponent<FavModal, null> {
    favTitle = '';
    showSaving = false;
    type = this.type;
+   alertMsg = '';
   
   saveFav() {
-      this.showSaving = true;
-      let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
-      let userId = userDetails.id;
-      let favData = null;
 
-      if(this.type == 'item') {
-        let favObj = this.utilService.formatFavData(this.item);
-        let favDataObj = {
-          userId: userDetails.id,
-          data: favObj
-        } 
-        favData = favDataObj;
-      }    
-      
-      this.dataService.saveFavItem(userId, this.favTitle, favData, this.type)
-        .subscribe(data => {
-            this.showSaving = true;
-            this.openMessageModal('Your favorite item has been saved successfully!');
-            //console.log('fav resp', data);
-        });  
+      if(this.favTitle.trim() != '') {
+        this.alertMsg = '';
+        this.showSaving = true;
+        let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
+        let userId = userDetails.id;
+        let favData = null;
+
+        if(this.type == 'item') {
+          let favObj = this.utilService.formatFavData(this.item);
+          let favDataObj = {
+            userId: userDetails.id,
+            data: favObj
+          } 
+          favData = favDataObj;
+        }    
+        
+        this.dataService.saveFavItem(userId, this.favTitle, favData, this.type)
+          .subscribe(data => {
+              this.showSaving = true;
+              this.openMessageModal('Your favorite item has been saved successfully!');
+              //console.log('fav resp', data);
+          });
+
+      } else {
+          
+          this.alertMsg = 'Enter valid title';  
+      }
   }
 
 

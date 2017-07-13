@@ -49,6 +49,8 @@ export class AccountComponent implements OnInit {
 
     if(this.currentTab == 'favOrders') {
       this.getFavOrders(this.user.id);
+    }else if(this.currentTab == 'orderHistory') {
+      this.getOrderHistory(this.user.id);
     }
 
     if(this.currentTab == 'personalInfo') {
@@ -90,6 +92,19 @@ export class AccountComponent implements OnInit {
     });
   }
 
+
+  getOrderHistory(userId) {
+    this.showLoading = true;
+    this.dataService.getOrderHistory(userId)
+        .subscribe(data => {
+          if(data != 'null' && data != null) {
+            
+            this.showLoading = false;
+          }
+
+        }); 
+  }
+ 
   getFavItems(userId) {
     this.showLoading = true;
     this.dataService.getFav('item', userId)

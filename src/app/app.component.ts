@@ -101,7 +101,7 @@ export class AppComponent implements OnInit {
   logout(){
     this.dataService.setLocalStorageData('user-details', null);
     this.dataService.setLocalStorageData('isLoggedIn', false);
-    window.location.href = '/';
+    window.location.href = '/beta/';
     window.location.reload();
   }
 

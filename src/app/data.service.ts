@@ -43,6 +43,9 @@ export class DataService {
   }
 
   getItemData(slug, menuCountry): Observable<any>{
+    if(menuCountry == null) {
+      menuCountry = 'UAE';
+    }
     return this.http.get( this.domain + '/webservice/getItemData/'+slug+'/'+menuCountry)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
@@ -250,10 +253,16 @@ export class DataService {
 
   updateProfile(userData): Observable<any>{
         var data = userData;
-        console.log(data);
         return this.http.post( this.domain + '/webservice/updateProfile', data)
                   .map((res: Response) => res.json())
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   } 
+
+  getOrderHistory(userId): Observable<any>{
+
+    return this.http.get( this.domain + '/webservice/getOrderHistory/'+ userId)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
 
 }
