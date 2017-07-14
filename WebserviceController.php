@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName'));
     }
 
     public function get_categories($count=10){
@@ -211,7 +211,8 @@ class WebserviceController extends AppController {
 												));
 		
 		//echo '<pre>'; print_r($data); die;
-		$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/'.$menuCountry);
+		//$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/'.$menuCountry);
+		$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/UAE');
 		$plu_json = json_decode($plu_json, true);
 		$plu_json = $plu_json['item'];
 		$resp = array();
@@ -418,7 +419,8 @@ class WebserviceController extends AppController {
 											)
 										));
 			
-			$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/'.$menuCountry);
+			//$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/'.$menuCountry);
+			$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/UAE');
 			$plu_json = json_decode($plu_json, true);
 			
 			
@@ -1626,22 +1628,42 @@ function sendCareerInfo(){
 	
 	
 	public function getOrderHistory($userId) {
-		
 		if(!empty($userId)) {
-			
 			$url = 'https://nkdpizza.com/beta/pos/index.php/orderHistory/'.$userId;
 			$orders = $this->curlGetRequest($url);	
-			$orders = json_decode($orders, true);
+			$orders = json_decode($orders, true);	
 			if(!empty($orders)) {
-				$i = 0;
+				$i = $j = $k = 0;
 				foreach($orders as $ord) {
 					$orders[$i]['OrderDetail'] = json_decode($orders[$i]['OrderDetail'], true);
+					foreach($orders[$i]['OrderDetail']['order_details'] as $ordv):
+						$pluCode = 99;
+						$orders[$i]['OrderDetail']['order_details'][$j]['product_name'] = $this->getProductNameByPlu($pluCode);
+						foreach($orders[$i]['OrderDetail']['order_details'][$j]['modifier']['Full'] as $mod):
+							$orders[$i]['OrderDetail']['order_details'][$j]['modifier']['Full'][$k]['modifier_name'] = $this->getModifierName($mod['plu']);
+							$k++;
+						endforeach;
+						$j++;
+					endforeach;
 					$i++;
 				}
 			}
-			echo '<pre>'; print_r($orders); die;
+			echo json_encode($orders);
+			die;
 		}		
 		die;
+	}
+
+	public function getProductNameByPlu($pluCode){
+		$this->layout = 'false';
+		$this->autoRender = false;
+		return $this->Product->field('title', array('plu_code' => $pluCode));
+	}
+
+	public function getModifierName($modifierCode){
+		$this->layout = 'false';
+		$this->autoRender = false;
+		return $this->Option->field('name', array('plu_code' => $modifierCode));
 	}
 
 
@@ -1650,20 +1672,25 @@ function sendCareerInfo(){
 		$this->autoRender = false;
 
 		$userData = $this->request->input ( 'json_decode', true) ;
+		print_r($userData);
 		$formatData = array(
 			'id'=>$userData['id'],
-			'firstname'=>$userData['firstName'],
-			'lastname'=>$userData['lastName'],
+			'firstname'=>$userData['firstname'],
+			'lastname'=>$userData['lastname'],
 			'email'=>$userData['email'],
-			'phone'=>$userData['Phone']
+			'phone'=>$userData['phone'],
+			'dob'=>$userData['dob'],
+			'postal'=>$userData['postal'],
+			'favloc'=>$userData['favloc']
 		);
 		$data = json_encode($formatData);
 		
 		if(!empty($formatData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'].'/'.$formatData;
 			$result     = $this->curlPostRequest($url, $formatData);
+			print_r($result);
 			$response   = json_decode($result);
-			
+			print_r($response);	 die;
 			if($response->Status=='OK'){
 				$updatedData = $this->getProfile($userData['id']);
 			}else{

@@ -91,11 +91,11 @@
         <div class="account_container" *ngIf="currentTab == 'orderHistory'">
           <h4 class="title">My Orders</h4>
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-
-            <div class="panel panel-default">
+        <!-- {{orderData[0].OrderId}} -->
+            <div *ngFor = "let ord of orderData" class="panel panel-default">
               <div class="panel-heading" role="tab" id="headingOne">
                 <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Order # 22097896 <span><i class="fa fa-check"></i>Delivered on 2017-06-20 20:02:37</span> <strong>Order Value : {{currencyCode}} 320</strong><i class="fa fa-angle-down"></i></a>
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Order # {{ord.OrderId}} <span><i class="fa fa-check"></i>Delivered on {{ord.OrderDetail.delivery_time}}</span> <strong>Order Value : {{currencyCode}} 320</strong><i class="fa fa-angle-down"></i></a>
                 </h4>
               </div>
               <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
@@ -178,7 +178,7 @@
                     <div class="col-md-4 col-sm-12 details">
                       <h4>Order details</h4>
                       <ul>
-                        <li><span>Order Mode :</span> Pickup</li>
+                        <li><span>Order Mode :</span> {{ord.OrderDetail.order_type}}</li>
                         <li><span>Payment Mode :</span> Pay at store</li>
                         <li><span>From Restaurant:</span>
                           Botanical Garden Metro Station
@@ -341,18 +341,18 @@
                   <div class="form-group">
                     <label class="col-sm-4 col-md-3 control-label">First Name</label>
                     <div class="col-sm-7 col-md-7">
-                      <input type="text" class="form-control" [(ngModel)]="user.firstName" id="firstName" #firstName="ngModel" name="user.firstName" placeholder="Enter First Name" required>
-                      <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)" class="alert alert-danger">
-                          <div [hidden]="!firstName.errors.required">First Name is required.</div>
+                      <input type="text" class="form-control" [(ngModel)]="user.firstname" id="firstname" #firstname="ngModel" name="user.firstname" placeholder="Enter First Name" required>
+                      <div *ngIf="firstname.errors && (firstname.dirty || firstname.touched)" class="alert alert-danger">
+                          <div [hidden]="!firstname.errors.required">First Name is required.</div>
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-4 col-md-3 control-label">Last Name</label>
                     <div class="col-sm-7 col-md-7">
-                      <input type="text" class="form-control"  [(ngModel)]="user.lastName" id="lastName" #lastName="ngModel" name="user.lastName" placeholder="Last Name" required>
-                      <div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)" class="alert alert-danger">
-                          <div [hidden]="!lastName.errors.required">Last Name is required.</div>
+                      <input type="text" class="form-control"  [(ngModel)]="user.lastname" id="lastname" #lastname="ngModel" name="user.lastname" placeholder="Last Name" required>
+                      <div *ngIf="lastname.errors && (lastname.dirty || lastname.touched)" class="alert alert-danger">
+                          <div [hidden]="!lastname.errors.required">Last Name is required.</div>
                       </div>
                     </div>
                   </div>
@@ -363,14 +363,99 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-4 col-md-3 control-label">Phone Number</label>
+                    <label class="col-sm-4 col-md-3 control-label">Date of Birth</label>
                     <div class="col-sm-7 col-md-7">
-                      <input type="text" class="form-control" [(ngModel)]="user.Phone" id="Phone" #Phone="ngModel" name="user.Phone" placeholder="Enter Mobile">
+                      <input type="text" class="form-control" [(ngModel)]="user.dob" #dob="ngModel" name="dob" placeholder="yyyy-mm-dd" ngui-datetime-picker date-format="YYYY-MM-DD" date-only="true" max-date="{{maxDate}}-01-01" min-date="1940-01-01" required>
+                      <div *ngIf="dob.errors && (dob.dirty || dob.touched)" class="alert alert-danger">
+                          <div [hidden]="!dob.errors.required">Date of Birth is required.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 col-md-3 control-label">zip code (us only)</label>
+                    <div class="col-sm-7 col-md-7">
+                      <input type="text" class="form-control" [(ngModel)]="user.postal" name="postal" placeholder="Zip code">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 col-md-3 control-label">Favorite Location</label>
+                    <div class="col-sm-7 col-md-7">
+                      <select class="form-control" [(ngModel)]="user.favloc" name="favloc">
+                        <option value="">Select Favorite Location</option>
+                        <option *ngFor="let store of storeList" value="{{store.Store.id}}">{{store.Store.store_name}} ({{store.Store.store_address}})</option>
+                    </select>
                     </div>
                   </div>
                   <div class="form-group buttons">
                     <div class="col-sm-12">
                       <button type="submit" class="btn btn-default" [disabled]="!udpateProfile.form.valid">Update</button>
+                    </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+        <div class="account_box" *ngIf="currentTab == 'accountInfo'">
+            <h4 class="title">Account Info</h4>
+            <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
+            <div class="accountmain_sec space">
+                <form class="form-horizontal" #udpateAccount="ngForm" ngForm (ngSubmit)="updateAccount()">
+                  <div class="form-group">
+                    <label class="col-sm-4 col-md-3 control-label">Phone Number</label>
+                    <div class="col-sm-7 col-md-7">
+                      <input type="text" class="form-control" [(ngModel)]="account.phone" id="phone" #phone="ngModel" name="account.phone" placeholder="Enter Mobile">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 col-md-3 control-label">Address 1</label>
+                    <div class="col-sm-7 col-md-7">
+                      <input type="text" class="form-control" [(ngModel)]="account.address1" id="address1" #address1="ngModel" name="account.address1" placeholder="Enter Address 1">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 col-md-3 control-label">Address 2</label>
+                    <div class="col-sm-7 col-md-7">
+                      <input type="text" class="form-control" [(ngModel)]="account.address2" id="address2" #address2="ngModel" name="account.address2" placeholder="Enter Address 2">
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    <label class="col-sm-4 col-md-3 control-label">Address 3</label>
+                    <div class="col-sm-7 col-md-7">
+                      <input type="text" class="form-control" [(ngModel)]="account.address3" id="address3" #address3="ngModel" name="account.address3" placeholder="Enter Address 3">
+                    </div>
+                  </div>
+                  <div class="form-group buttons">
+                    <div class="col-sm-12">
+                      <button type="submit" class="btn btn-default" [disabled]="!udpateAccount.form.valid">Update Account Info</button>
+                    </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+        <div class="account_box" *ngIf="currentTab == 'preference'">
+            <h4 class="title">Prefrences Info</h4>
+            <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
+            <div class="accountmain_sec space">
+                <form class="form-horizontal" #udpatePrefrences="ngForm" ngForm (ngSubmit)="updatePrefrence()">
+                  <div class="form-group" *ngFor="let pref of prefreces">
+                    <div class="col-sm-12">
+                        <label>{{pref.Question.question}}</label>
+                        <div class="checkbox" *ngFor="let opt of  pref.QuestionOption">
+                            <label>
+                                <ng-container *ngIf="opt.question_id!=4">
+                                    <input type="checkbox" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                </ng-container>
+                                <ng-container *ngIf="opt.question_id==4">
+                                    <input type="radio" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                </ng-container>
+                                {{opt.answer}}
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="form-group buttons">
+                    <div class="col-sm-12">
+                      <button type="submit" class="btn btn-default" [disabled]="!udpatePrefrences.form.valid">Update Prefrences</button>
                     </div>
                   </div>
                 </form>
