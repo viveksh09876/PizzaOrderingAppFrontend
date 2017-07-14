@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence'));
     }
 
     public function get_categories($count=10){
@@ -1671,33 +1671,61 @@ function sendCareerInfo(){
 		$this->layout = 'false';
 		$this->autoRender = false;
 
-		$userData = $this->request->input ( 'json_decode', true) ;
-		print_r($userData);
-		$formatData = array(
-			'id'=>$userData['id'],
-			'firstname'=>$userData['firstname'],
-			'lastname'=>$userData['lastname'],
-			'email'=>$userData['email'],
-			'phone'=>$userData['phone'],
-			'dob'=>$userData['dob'],
-			'postal'=>$userData['postal'],
-			'favloc'=>$userData['favloc']
-		);
-		$data = json_encode($formatData);
-		
-		if(!empty($formatData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'].'/'.$formatData;
-			$result     = $this->curlPostRequest($url, $formatData);
-			print_r($result);
-			$response   = json_decode($result);
-			print_r($response);	 die;
+		$userData = $this->request->input ( 'json_decode', true) ;	
+		if(!empty($userData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$result     = $this->curlPostRequest($url, $userData);
+			$response   = json_decode($result); 
 			if($response->Status=='OK'){
-				$updatedData = $this->getProfile($userData['id']);
+				echo json_encode(array('show'=>true,'isSuccess'=>true, 'message'=>$response->Message));
 			}else{
-				$updatedData = json_encode(array());
-			}	
+				$responseArr = array(
+					'show'=>true, 
+                    'isSuccess'=>false, 
+          			'message'=>$response->Message
+				);
+				echo json_encode($responseArr);
+			}			
+		}
+		die;
+	}
 
-			echo $updatedData; 			
+	public function updatePrefrence(){
+		$this->layout = 'false';
+		$this->autoRender = false;
+
+		$data = $this->request->input ( 'json_decode', true) ;
+		$qData = array();
+		// $arraykey = array();
+		foreach($data['question'] as $val):
+			$valNew = array_filter($val);	
+			foreach($valNew as $key=>$v):
+				$qData[$v['questionId']][] = $v['answerId'];
+			endforeach;
+		endforeach;
+		
+		if(!empty($data)) {
+			$userData = array(
+				'form'=>$data['form'],
+				'subscribe'=>($data['subscribe'])?1:0,
+				'pref'=>$qData,
+			);
+		}
+
+		if(!empty($userData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$data['id'];
+			$result     = $this->curlPostRequest($url, $userData);
+			$response   = json_decode($result); 
+			if($response->Status=='OK'){
+				echo json_encode(array('show'=>true,'isSuccess'=>true, 'message'=>$response->Message));
+			}else{
+				$responseArr = array(
+					'show'=>true, 
+                    'isSuccess'=>false, 
+          			'message'=>$response->Message
+				);
+				echo json_encode($responseArr);
+			}			
 		}
 		die;
 	}

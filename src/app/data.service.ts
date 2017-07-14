@@ -263,6 +263,13 @@ export class DataService {
                   .map((res: Response) => res.json())
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   } 
+  
+   updatePrefrence(userData): Observable<any>{
+        var data = userData;
+        return this.http.post( this.domain + '/webservice/updatePrefrence', data)
+                  .map((res: Response) => res.json())
+                  .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  } 
 
   getOrderHistory(userId): Observable<any>{
 
