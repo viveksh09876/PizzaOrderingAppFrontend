@@ -28,6 +28,7 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 		lname:'',
 		dob:'',
 		zip: '',
+		phone:'',
 		location: ''
 	};
 
@@ -76,8 +77,9 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 
 	openMessageModal(messageText) {
      let self = this;
-     self.close();
-     self.dialogService.addDialog(MessageComponent, { title: 'Error', message: messageText, buttonText: 'GO TO HOME', doReload: true }, { closeByClickingOutside:true });   
+     //self.close();
+		 self.dialogService.addDialog(MessageComponent, { title: 'Error', message: messageText, buttonText: 'GO TO HOME', doReload: false }, { closeByClickingOutside:false });  
+		 this.showLoading = false; 
   }
 
 	ngOnInit() {
@@ -111,6 +113,7 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 
 	secondStep(isSubmit){
 		if(isSubmit){
+			this.user.dob = String (this.user.dob);
 			this.userData.push(this.user);
 			this.firstStepForm = false;
 			this.secondStepForm = true;
@@ -143,7 +146,7 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 		this.dataService.registerUser(this.userData)
 				.subscribe(data => {
 							if(data.isSuccess) {
-								let userId = data.Id;
+								let userId = data.id;
 								this.dataService.getProfile(userId).subscribe(pdata => {
 									let user = {
 										id: pdata.Id,
@@ -159,7 +162,8 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 
 							}else{
 								this.error = data;
-								this.openMessageModal('Oops! Something went wrong, please try again.');
+								this.showLoading = false; 
+							//	this.openMessageModal(this.error.message);
 							}        
 						
 					});

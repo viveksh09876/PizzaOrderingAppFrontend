@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, AfterContentInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { RegisterComponent } from '../register/register.component';
+import { LoginComponent } from '../login/login.component';
+import { OrdernowmodalComponent } from '../ordernowmodal/ordernowmodal.component';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 import { environment } from '../../environments/environment';
@@ -25,6 +27,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   countryName = '';
   storeList = [];
   store = null;
+  showLogin = true;
 
   constructor(private dataService: DataService,private utilService: UtilService, private dialogService: DialogService) {
        
@@ -36,6 +39,12 @@ export class HomeComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit() {
+    //check if user logged In
+    let user = this.dataService.getLocalStorageData('isLoggedIn');
+    if(user != undefined && user == 'true') {
+      this.showLogin = false;
+    } 
+
     this.dataService.getIp()
         .subscribe(data => {
             let countryName = data.geoplugin_countryName;
@@ -71,6 +80,16 @@ export class HomeComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit() {
     
+  }
+
+  goToOrderNow() {
+    let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
+      if(isLoggedIn == undefined || isLoggedIn == 'false') {
+         this.dialogService.addDialog(LoginComponent, { }, { closeByClickingOutside:true });
+      }else{
+        this.dialogService.addDialog(OrdernowmodalComponent, { }, { closeByClickingOutside:true }); 
+      }
+
   }
 
   setStore() {

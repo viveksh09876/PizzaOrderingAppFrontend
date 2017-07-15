@@ -1373,16 +1373,16 @@ function sendCareerInfo(){
 			endforeach;
 		endforeach;
 
-		$date = new DateTime($data[0]['dob']);
+		// $date = new DateTime($data[0]['dob']);
 		if(!empty($data)) {
 			$userData = array(
 				'firstname'=>$data[0]['fname'],
 				'lastname'=>$data[0]['lname'],
 				'email'=>$data[0]['email'],
-				'dob'=>$date->format('Y-m-d'),
+				'dob'=>$data[0]['dob'],
 				'postal'=>$data[0]['zip'],
 				'favloc'=>$data[0]['location'],
-				'phone'=>'',
+				'phone'=>$data[0]['phone'],
 				'address1'=>'',
 				'address2'=>'',
 				'address3'=>'',
@@ -1393,10 +1393,8 @@ function sendCareerInfo(){
 			);
 
 			$url = 'https://nkdpizza.com/beta/pos/index.php/Signup';
-			 
 			$result     = $this->curlPostRequest($url, $userData);
 			$response   = json_decode($result);
-			
 			if($response->Status == 'OK') {
 				
 				/*-template asssignment if any*/
@@ -1427,11 +1425,11 @@ function sendCareerInfo(){
 					$this->Email->template='general';
 					$this->Email->delivery = 'smtp';
 					if($this->Email->send()){
-						echo json_encode(array('isSuccess'=>true, 'show'=>true, 'message'=>'Thank You ! you have successfully registered with us, login details has been sent to registered email.'));
+						echo json_encode(array('isSuccess'=>true, 'show'=>true, 'id'=>$response->Id, 'message'=>'Thank You ! you have successfully registered with us, login details has been sent to registered email.'));
 					}
 
 				}catch(Exception $e){
-					echo json_encode(array('isSuccess'=>true, 'show'=>true, 'message'=>'Thank You ! you have successfully registered with us.'));
+					echo json_encode(array('isSuccess'=>true, 'show'=>true, 'id'=>$response->Id,  'message'=>'Thank You ! you have successfully registered with us.'));
 				}
 				/*-[end]template asssignment*/
 			}else{
@@ -1633,18 +1631,43 @@ function sendCareerInfo(){
 			$orders = $this->curlGetRequest($url);	
 			$orders = json_decode($orders, true);	
 			if(!empty($orders)) {
-				$i = $j = $k = 0;
+				$i = 0;
 				foreach($orders as $ord) {
+					
+					$j = 0;
 					$orders[$i]['OrderDetail'] = json_decode($orders[$i]['OrderDetail'], true);
-					foreach($orders[$i]['OrderDetail']['order_details'] as $ordv):
-						$pluCode = 99;
+					
+					$store = $this->Store->find('first', array(
+											'conditions' => array(
+												'Store.id' => $orders[$i]['OrderDetail']['storeId']
+											),
+											'fields' => array(
+												'Store.store_name',
+												'Store.store_address',
+												'Store.store_phone'
+											)	
+									));
+					$orders[$i]['OrderDetail']['store'] = $store['Store'];
+					foreach($orders[$i]['OrderDetail']['order_details'] as $ordv){
+						
+						$pluCode = $ordv['plu'];
 						$orders[$i]['OrderDetail']['order_details'][$j]['product_name'] = $this->getProductNameByPlu($pluCode);
-						foreach($orders[$i]['OrderDetail']['order_details'][$j]['modifier']['Full'] as $mod):
-							$orders[$i]['OrderDetail']['order_details'][$j]['modifier']['Full'][$k]['modifier_name'] = $this->getModifierName($mod['plu']);
-							$k++;
-						endforeach;
+												
+						if(!empty($ordv['modifier'])) {
+							foreach($orders[$i]['OrderDetail']['order_details'][$j]['modifier'] as $key => $modType){
+								$k = 0;
+								$orders[$i]['OrderDetail']['order_details'][$j]['modifier'] = array();
+								foreach($modType as $mod) {
+									
+									$orders[$i]['OrderDetail']['order_details'][$j]['modifier'][$k]	= $mod;
+									$orders[$i]['OrderDetail']['order_details'][$j]['modifier'][$k]['modType'] = $key;
+									$orders[$i]['OrderDetail']['order_details'][$j]['modifier'][$k]['modifier_name'] = $this->getModifierName($mod['plu']);
+									$k++;	
+								}
+							}	
+						}
 						$j++;
-					endforeach;
+					}
 					$i++;
 				}
 			}

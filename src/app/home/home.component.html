@@ -3,7 +3,7 @@
     <ng-container *ngFor="let slide of slideArr">
     <div class="slide" [ngStyle]="{ 'background-image': 'url(' + slide.Slide.image + ')'}">
         <ng-container *ngIf="slide.Slide.coupon_code!=''">
-            <a (click)="openModal('register')">
+            <a (click)="goToOrderNow()">
               <div class="container">
                 <div class="fade-bg visible-xs"></div>
                 <div class="slide-content fadeIn animated"> 
