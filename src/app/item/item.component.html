@@ -43,7 +43,7 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
         <div class="content-wrapper">
           <div class="content-container">
             <div class="control-group">
-              <ng-container *ngFor="let option of mod.Modifier.ModifierOption | sort:'Option.is_included_mod'; let m = index;">
+              <ng-container *ngFor="let option of mod.Modifier.ModifierOption | modsort: 'soption.Option.is_checked' | sort:'option.Option.name'; let m = index;">
                 <ng-container *ngIf="mod.is_required == 1">
                   <label class="control radio" [ngClass]="{'checked': option.Option.is_checked == true}" (click)="updateModifier(option.Option.id, 'radio', mod.modifier_id)">
                     <h4>{{option.Option.name}}</h4>

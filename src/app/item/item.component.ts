@@ -373,10 +373,13 @@ export class ItemComponent implements OnInit {
       let itemSizePrice = '';
       let is_crust_size_price_added = false;
       let priceBinding = false;
+      
 
       if(this.item.ProductModifier.length > 0) {
+        
         for(var i = 0; i < this.item.ProductModifier.length; i++) {
           let options = this.item.ProductModifier[i].Modifier.ModifierOption;
+          
           for(var j = 0; j < options.length; j++) {
               
               if(options[j].Option.is_checked || options[j].Option.is_included_mod) {                
@@ -627,20 +630,33 @@ export class ItemComponent implements OnInit {
 
         if(this.item.ProductModifier.length > 0) {
           let defaultSize = 'small';
+          let totalModCount = this.item.ProductModifier.length;
+
           for(var i = 0; i < this.item.ProductModifier.length; i++) {
+
             let options = this.item.ProductModifier[i].Modifier.ModifierOption;
+            let freeOptionCount = this.item.ProductModifier[i].free;
+
             for(var j = 0; j < options.length; j++) {
 
-                if(options[j].Option.is_checked && options[j].Option.default_checked == false) {              
+                if(options[j].Option.is_checked && options[j].Option.default_checked == false) { 
                   options[j].Option.send_code = 1;
+                  
                   if(options[j].Option.is_included_mod == false) {
-                    if(typeof options[j].Option.price.small == 'string') {
-                      console.log('check: ', defaultSize, options[j].Option.price[defaultSize]);
-                      total += parseFloat(options[j].Option.price[defaultSize]);
-                    }else{
-                      total += parseFloat(options[j].Option.price); 
-                    } 
-                  }                                
+                    
+                    if(freeOptionCount == 0) {
+                      if(typeof options[j].Option.price.small == 'string') {
+                        total += parseFloat(options[j].Option.price[defaultSize]);
+                      }else{
+                        total += parseFloat(options[j].Option.price); 
+                      }
+                    } else {
+                      freeOptionCount = parseInt(freeOptionCount) - 1;
+                    }  
+
+                  }
+
+
                 }else if(options[j].Option.is_checked == false && options[j].Option.default_checked == true) {
                   options[j].Option.send_code = 0;
                 }else if(options[j].Option.is_checked == true && options[j].Option.default_checked == true) {

@@ -7,24 +7,24 @@ export class SortPipe implements PipeTransform {
 
   transform(array: any[], field: string): any[] {
     array.sort((a: any, b: any) => {
+      
+      if(a.Option.is_checked || b.Option.is_checked) {
 
-      let opt_a = 0; 
-      let opt_b = 0;
+        if(a.Option.is_checked && b.Option.is_checked) {
+          return 0;
+        }else if(a.Option.is_checked && !b.Option.is_checked) {
+          return -1;
+        }else if(!a.Option.is_checked && b.Option.is_checked) {
+          return 1;
+        }
 
-      if(a.Option.is_included_mod) {
-        opt_a = 1;
       }else{
-        opt_a = 0;
-      }
 
-      if(b.Option.is_included_mod) {
-        opt_b = 1;
-      }else{
-        opt_b = 0;
-      }
+        var textA = a.Option.name.toUpperCase();
+        var textB = b.Option.name.toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 
-      return (opt_a === opt_b)? 0 : opt_a? -1 : 1;
-
+       }
     });
     return array;
   }

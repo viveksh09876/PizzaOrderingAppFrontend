@@ -32,6 +32,7 @@ import { FranchisingComponent } from './franchising/franchising.component';
 import { BahrainComponent } from './bahrain/bahrain.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { RegisterConfirmationComponent } from './register-confirmation/register-confirmation.component';
+import { ModsortPipe } from './modsort.pipe';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { RegisterConfirmationComponent } from './register-confirmation/register-
     FranchisingComponent,
     BahrainComponent,
     ContactUsComponent,
-    RegisterConfirmationComponent
+    RegisterConfirmationComponent,
+    ModsortPipe
   ],
   imports: [
     BrowserModule,

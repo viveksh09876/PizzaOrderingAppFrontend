@@ -272,7 +272,6 @@ export class DataService {
   } 
 
   getOrderHistory(userId): Observable<any>{
-
     return this.http.get( this.domain + '/webservice/getOrderHistory/'+ userId)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
