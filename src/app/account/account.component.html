@@ -472,13 +472,13 @@
             </div>
         </div>
           
-        <!--<div class="account_box" *ngIf="currentTab == 'address'">
+        <div class="account_box" *ngIf="currentTab == 'address'">
             <h4 class="title">My Addresses</h4>
             <div class="accountmain_sec">
                 <div class="row">
                     <div class="col-md-4 col-sm-6">
                         <div class="address_box addaddress">
-                            <a href="#"><i class="fa fa-plus"></i> Add Address</a>
+                            <a (click)="showAddAddressForm()"><i class="fa fa-plus"></i> Add Address</a>
                         </div>
                     </div>
                     
@@ -524,7 +524,7 @@
                     </div>
                 </div>
             </div>
-        </div>-->
+        </div>
           
       </div>
 

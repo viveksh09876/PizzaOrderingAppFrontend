@@ -120,8 +120,8 @@ export class AccountComponent implements OnInit {
       this.dataService.getProfile(userId).subscribe(pdata => {
         this.prefrence = {
           id: pdata.Id,
-          subscribe:pdata.subscribe,
-          question:[]
+          subscribe:parseInt(pdata.Subscribe),
+          option:[]
         }
         this.error = { show:false, isSuccess:false, message: ''};
         this.showLoading = false;
