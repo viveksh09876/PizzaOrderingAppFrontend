@@ -26,11 +26,6 @@ export class AccountComponent implements OnInit {
   favOrders = [];
   storeList = [];
   prefreces = [];
-  // prefrence = {
-	// 	question:[],
-	// 	enrolling:'',
-	// 	privacy: ''
-	// };
   userCountryName = null;
   showLoading = false;
   currencyCode = null;
@@ -122,7 +117,6 @@ export class AccountComponent implements OnInit {
     if(this.currentTab == 'preference'){
        this.showLoading = true;
       let userId = this.user.id;
-      // let userId = 118;
       this.dataService.getProfile(userId).subscribe(pdata => {
         this.prefrence = {
           id: pdata.Id,
