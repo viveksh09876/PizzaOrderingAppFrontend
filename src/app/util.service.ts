@@ -13,7 +13,7 @@ export class UtilService {
 
     if(items != null) {
       for(var i=0; i < items.length; i++) {
-        console.log(items[i].totalItemCost);
+       // console.log(items[i].totalItemCost);
         overAllPrice += parseInt(items[i].totalItemCost);
       }
     }

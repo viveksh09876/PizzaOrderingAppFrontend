@@ -66,9 +66,9 @@ export class MenuComponent implements OnInit {
 
       this.dataService.getMenuData(storeId, menuCountry)
             .subscribe(data => {
-              console.log(data);               
+                        
                 this.menuData = data;
-                console.log(this.menuData);
+              
             }); 
 
       
