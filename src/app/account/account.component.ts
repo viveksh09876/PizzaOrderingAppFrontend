@@ -53,8 +53,6 @@ export class AccountComponent implements OnInit {
           .subscribe(data => {
               this.prefreces = data;
           });
-    
-    
   }
 
   getUserIp() {
@@ -195,7 +193,6 @@ export class AccountComponent implements OnInit {
 
   getOrderHistory(userId) {
     this.showLoading = true;
-    userId = 21;
     this.dataService.getOrderHistory(userId)
         .subscribe(data => {
           if(data != 'null' && data != null && data.length > 0) {

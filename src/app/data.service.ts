@@ -209,7 +209,7 @@ export class DataService {
 
   getFav(type, userId): Observable<any>{
 
-    return this.http.get( this.domain + '/webservice/getFav/'+ type + '/' + userId)
+    return this.http.get( this.domain + '/temp/getFav/'+ type + '/' + userId)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
@@ -265,8 +265,8 @@ export class DataService {
   } 
 
   getOrderHistory(userId): Observable<any>{
-
-    return this.http.get( this.domain + '/webservice/getOrderHistory/'+ userId)
+    userId = 22;
+    return this.http.get( this.domain + '/temp/getOrderHistory/'+ userId)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
