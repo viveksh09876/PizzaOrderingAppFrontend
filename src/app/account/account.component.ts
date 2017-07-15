@@ -26,6 +26,11 @@ export class AccountComponent implements OnInit {
   favOrders = [];
   storeList = [];
   prefreces = [];
+  // prefrence = {
+	// 	question:[],
+	// 	enrolling:'',
+	// 	privacy: ''
+	// };
   userCountryName = null;
   showLoading = false;
   currencyCode = null;
@@ -83,8 +88,7 @@ export class AccountComponent implements OnInit {
 
     if(this.currentTab == 'personalInfo') {
       this.showLoading = true;
-      // let userId = this.user.id;
-      let userId = 133;
+      let userId = this.user.id;
       this.dataService.getProfile(userId).subscribe(pdata => {
         this.user = {
           id: pdata.Id,
@@ -93,6 +97,7 @@ export class AccountComponent implements OnInit {
           email: pdata.Email,
           dob: pdata.DOB,
           postal: pdata.PostalCode,
+          phone : pdata.Phone,
           favloc: pdata.FavLocation
         }
         this.error = { show:false, isSuccess:false, message: ''};
@@ -101,16 +106,11 @@ export class AccountComponent implements OnInit {
     }
 
     if(this.currentTab == 'accountInfo'){
-       this.showLoading = true;
-      //  let userId = this.user.id;
-      let userId = 133;
+      this.showLoading = true;
+      let userId = this.user.id;
       this.dataService.getProfile(userId).subscribe(pdata => {
         this.account = {
-          id: pdata.Id,
-          phone : pdata.Phone,
-          address1: pdata.Address1,
-          address2: pdata.Address2,
-          address3: pdata.Address3,
+          id: pdata.Id
         }
         this.error = { show:false, isSuccess:false, message: ''};
         this.showLoading = false;
@@ -119,13 +119,13 @@ export class AccountComponent implements OnInit {
 
     if(this.currentTab == 'preference'){
        this.showLoading = true;
-      //  let userId = this.user.id;
-      let userId = 118;
+      let userId = this.user.id;
+      // let userId = 118;
       this.dataService.getProfile(userId).subscribe(pdata => {
-        // let dataPref = pdata.Pref;
         this.prefrence = {
           id: pdata.Id,
-          prefData: pdata.Pref
+          subscribe:pdata.subscribe,
+          question:[]
         }
         this.error = { show:false, isSuccess:false, message: ''};
         this.showLoading = false;
@@ -134,61 +134,59 @@ export class AccountComponent implements OnInit {
   }
 
   updateProfile(){
-    // this.showLoading = true;
+    this.showLoading = true;
+    // let userId = this.user.id;
     this.user.form = 1;
+    this.user.dob = String (this.user.dob);
     this.dataService.updateProfile(this.user).subscribe(data => {
-      if(data != 'null' && data != null && data.length>0) {
-        let errorMessage = {
-          show:true, 
-          isSuccess:true, 
-          message: 'Thank You ! Your profile has been updated.'
-        }
-        let user = {
-            id: data.Id,
-            firstname : data.FirstName,
-            lastname: data.LastName,
-            email: data.Email
-        }
-       // this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
-        this.error = errorMessage;
+      if(data.isSuccess) {
+        this.error = data;
+        // this.dataService.getProfile(userId).subscribe(pdata => {
+        //   let user = {
+        //       id: pdata.Id,
+        //       FirstName : pdata.FirstName,
+        //       LastName: pdata.LastName,
+        //       email: pdata.Email
+        //   }
+        //   this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
+        // });
       }else{
-        let errorMessage = {
-          show:true, 
-          isSuccess:false, 
-          message: 'Sorry ! Profile not updated, please try again.'
-        }
-        this.error = errorMessage;
+        this.error = data;
       }
       this.showLoading = false;
     });
   }
 
   updateAccount(){
-    // this.showLoading = true;
+    this.showLoading = true;
     this.account.form = 2;
     this.dataService.updateProfile(this.account).subscribe(data => {
-      if(data != 'null' && data != null && data.length>0) {
-        let errorMessage = {
-          show:true, 
-          isSuccess:true, 
-          message: 'Thank You ! Your account info has been updated.'
-        }
-        this.error = errorMessage;
+     if(data.isSuccess) {
+        this.error = data;
       }else{
-        let errorMessage = {
-          show:true, 
-          isSuccess:false, 
-          message: 'Sorry ! Account info not updated, please try again.'
-        }
-        this.error = errorMessage;
+        this.error = data;
       }
       this.showLoading = false;
     });
   }
 
+  setAnswer(questionId,answerId){
+		let QAarr = [];
+		QAarr[questionId] = {'questionId':questionId,'answerId':answerId};
+		this.prefrence.question.push(QAarr);
+  }
+  
   updatePrefrence(){
-    alert('hi');
-    console.log(this);
+    this.showLoading = true;
+    this.prefrence.form = 3;
+    this.dataService.updatePrefrence(this.prefrence).subscribe(data => {
+     if(data.isSuccess) {
+        this.error = data;
+      }else{
+        this.error = data;
+      }
+      this.showLoading = false;
+    });
   }
 
   getOrderHistory(userId) {
