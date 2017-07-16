@@ -32,6 +32,10 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
     this.currencyCode = this.utilService.currencyCode;
     this.getItems();
+    this.dataService.setLocalStorageData('favItemFetched', null);
+    this.dataService.setLocalStorageData('favOrdersFetched', null); 
+    this.dataService.setLocalStorageData('confirmationItems', null); 
+    this.dataService.setLocalStorageData('confirmationFinalOrder', null);
   }
 
 
@@ -74,12 +78,12 @@ export class CheckoutComponent implements OnInit {
                 this.router.navigate(['/order-review']); 
                 */  
               }else{
+                this.dataService.setLocalStorageData('allItems', null); 
                 this.dataService.setLocalStorageData('confirmationItems', JSON.stringify(this.items));
-                this.dataService.setLocalStorageData('allItems', null);                              
+                this.dataService.setLocalStorageData('finalOrder', null);                             
                 //alert('Order Placed');
-                this.dataService.setLocalStorageData('confirmationFinalOrder', JSON.stringify(this.orderData));
-                this.dataService.setLocalStorageData('finalOrder', null);
-
+                this.dataService.setLocalStorageData('confirmationFinalOrder', JSON.stringify(this.orderData));                
+                this.showLoading = false;
                 this.router.navigate(['/confirmation']);
               }
               this.showLoading = false;

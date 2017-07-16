@@ -83,6 +83,12 @@ export class OrderreviewComponent implements OnInit {
           this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
           //this.order.storeId = 'Marina';
       }
+      
+      
+    this.dataService.setLocalStorageData('favItemFetched', null);
+    this.dataService.setLocalStorageData('favOrdersFetched', null); 
+    this.dataService.setLocalStorageData('confirmationItems', null); 
+    this.dataService.setLocalStorageData('confirmationFinalOrder', null);
 
     this.getStoreDetails(this.order.storeId);
 
@@ -255,100 +261,10 @@ export class OrderreviewComponent implements OnInit {
 
 
   placeFinalOrder() {
-      this.showLoading = true;
+      //this.showLoading = true;
       let finalOrder = [];
       
       if(this.items.length > 0) {
-
-        for(var p=0; p<this.items.length; p++) {
-           let products = this.items[p];
-          
-           let product = { name: '', plu: '', category_id: products.Product.category_id, quantity: 1, modifier: []};
-            product.name = products.Product.title;
-            product.plu = products.Product.plu_code;
-            product.quantity = products.Product.qty;
-            
-            
-          // console.log(products);
-            if(products.ProductModifier.length > 0) {
-              
-              for(var i = 0; i<products.ProductModifier.length; i++) {
-                
-                for(var j = 0; j < products.ProductModifier[i].Modifier.ModifierOption.length; j++) {
-                    
-                    let opt = products.ProductModifier[i].Modifier.ModifierOption[j].Option;
-                    
-                     
-
-                    if((opt.send_code == 1) 
-                        || (opt.plu_code == 999991 && opt.is_checked)
-                          || (opt.plu_code == 999992 && opt.is_checked)  
-                            || (opt.plu_code == 999993 && opt.is_checked)) {
-                      
-                      let isSizeCrust = false;
-                      if(opt.plu_code == 999991
-                          || opt.plu_code == 999992  
-                            || opt.plu_code == 999993 
-                              || opt.plu_code == 91
-                                || opt.plu_code == 'I100'  
-                                  || opt.plu_code == 'I101') {
-
-                              isSizeCrust = true;
-                      
-                      }       
-
-                      let circle_type = 'Full';
-
-                      for(var a=0; a < opt.OptionSuboption.length; a++) {
-                        if(opt.OptionSuboption[a].SubOption.is_active == true) {
-                          circle_type = opt.OptionSuboption[a].SubOption.name;
-                        }
-                      }
-
-                      let sendToOrder = true;
-                      if(opt.category_id != 1 && isSizeCrust == false) {
-                        if(opt.is_checked && opt.default_checked) {
-                          if(!opt.add_extra) {
-                            sendToOrder = false;  
-                          }
-                        }
-                      }
-                      
-                      if(sendToOrder) {
-
-                          
-                          let modType = 'modifier';
-                          if(opt.is_included_mod) {
-                            modType = 'included_modifier';
-                          }
-
-                          let val = {
-                              plu: opt.plu_code,   
-                              category_id: product.category_id,                
-                              add_extra: opt.add_extra,
-                              quantity: opt.quantity,
-                              type: 0,
-                              modifier_type: modType,
-                              choice: circle_type,
-                              send_code: opt.send_code                              
-                          }
-
-                          if(opt.is_checked || opt.add_extra == true) {
-                            val.type = 1
-                          }
-                          
-                          product.modifier.push(val);
-                      }
-                      
-                    }
-
-                }
-              }
-            }
-            
-            finalOrder.push(product); 
-        }
-
 
         let orderData = this.order;
         if(orderData.address) {
@@ -377,9 +293,9 @@ export class OrderreviewComponent implements OnInit {
           delete orderData.defer;
         }
 
-        this.order.order_details = finalOrder;
+        this.order.order_details = this.prepareFinalOrderData(this.items);
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
-        //console.log('order', this.order);
+        //console.log('order', this.order.order_details);
         this.showLoading = false;;
         this.router.navigate(['/checkout']);
 
@@ -412,7 +328,11 @@ export class OrderreviewComponent implements OnInit {
                     
                     let opt = products.ProductModifier[i].Modifier.ModifierOption[j].Option;
                     
-                     
+                   
+                      if((opt.plu_code == '91' || opt.plu_code == 'I100' || opt.plu_code == 'I101') && opt.is_checked) {
+                          opt.send_code = 1;
+                          //console.log('fix', opt.name);
+                      }
 
                     if((opt.send_code == 1) 
                         || (opt.plu_code == 999991 && opt.is_checked)
@@ -431,6 +351,7 @@ export class OrderreviewComponent implements OnInit {
                       
                       }       
 
+
                       let circle_type = 'Full';
 
                       for(var a=0; a < opt.OptionSuboption.length; a++) {
@@ -446,7 +367,8 @@ export class OrderreviewComponent implements OnInit {
                             sendToOrder = false;  
                           }
                         }
-                      }
+                      } 
+                     
                       
                       if(sendToOrder) {
 

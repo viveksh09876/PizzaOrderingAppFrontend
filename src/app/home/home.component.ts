@@ -45,6 +45,12 @@ export class HomeComponent implements OnInit, AfterContentInit {
       this.showLogin = false;
     } 
 
+    
+    this.dataService.setLocalStorageData('favItemFetched', null);
+    this.dataService.setLocalStorageData('favOrdersFetched', null); 
+    this.dataService.setLocalStorageData('confirmationItems', null); 
+    this.dataService.setLocalStorageData('confirmationFinalOrder', null);
+
     this.dataService.getIp()
         .subscribe(data => {
             let countryName = data.geoplugin_countryName;

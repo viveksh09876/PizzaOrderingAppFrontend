@@ -34,6 +34,12 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
 
+    
+    this.dataService.setLocalStorageData('favItemFetched', null);
+    this.dataService.setLocalStorageData('favOrdersFetched', null); 
+    this.dataService.setLocalStorageData('confirmationItems', null); 
+    this.dataService.setLocalStorageData('confirmationFinalOrder', null);
+
     this.currencyCode = this.utilService.currencyCode;
     this.getAllCategories();
     let items = this.dataService.getLocalStorageData('allItems'); 
@@ -46,10 +52,7 @@ export class MenuComponent implements OnInit {
         this.netCost = this.totalCost;
       }      
       this.showViewCart = true;
-    }
-
-    this.dataService.setLocalStorageData('confirmationFinalOrder', null);
-    this.dataService.setLocalStorageData('confirmationItems', null);      
+    }    
 
   }
 
