@@ -140,6 +140,7 @@ export class OrderreviewComponent implements OnInit {
             && this.dataService.getLocalStorageData('allItems') != undefined) {
 
         this.items = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+        //console.log(this.items);
         let tCost = this.utilService.calculateOverAllCost(this.items);
         this.totalCost = tCost
         this.netCost = tCost;

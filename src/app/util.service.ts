@@ -13,8 +13,8 @@ export class UtilService {
 
     if(items != null) {
       for(var i=0; i < items.length; i++) {
-       // console.log(items[i].totalItemCost);
-        overAllPrice += parseInt(items[i].totalItemCost);
+        //console.log(items[i].totalItemCost, items[i]);
+        overAllPrice += parseFloat(items[i].totalItemCost);
       }
     }
     
@@ -48,11 +48,12 @@ export class UtilService {
 
 
   formatFavData(item) {
-    let favData = { itemId: null , itemName: null, itemSlug: null, totalItemCost: 0,  modifiers: [] }
-    
+    let favData = { itemId: null , itemName: null, itemSlug: null, qty: 1, totalItemCost: 0,  modifiers: [] }
+    //console.log(item);
     favData.itemId = item.Product.id;
     favData.itemName = item.Product.title;
     favData.itemSlug = item.Product.slug;
+    favData.qty = item.Product.qty;
     
     if(item.totalItemCost) {
       favData.totalItemCost = item.totalItemCost;
