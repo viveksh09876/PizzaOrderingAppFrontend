@@ -728,6 +728,7 @@ class WebserviceController extends AppController {
 						}
 					}
 					
+					
 					$prod = array(
 						'add_extra' => false,
 						'choice' => "Full",
@@ -1528,17 +1529,17 @@ function sendCareerInfo(){
 				
 				$i = 0;
 				foreach($item['ProductModifier'] as $pm) {
-					$j = 0;
+					$j = 0; 
 					foreach($pm['Modifier']['ModifierOption'] as $mo) {
 						
-						foreach($favData['FDetail']['data']['modifiers'] as $fpm) {
+						foreach($favData as $fpm) {
 							
 							if($fpm['modifier_id'] == $item['ProductModifier'][$i]['Modifier']['id']) {
 								
 								foreach($fpm['option'] as $fop) {
 									
 									if($fop['plu_code'] == $mo['Option']['plu_code']) {
-										
+										//echo '<pre>'; print_r($fop); 
 										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_checked'] = $fop['is_checked'];
 										
 										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['default_checked'] = $fop['default_checked'];
@@ -1570,6 +1571,8 @@ function sendCareerInfo(){
 											
 										}
 									
+									} else {
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_checked'] = false;
 									}
 									
 								}	
@@ -1585,7 +1588,7 @@ function sendCareerInfo(){
 				}
 				
 			}
-			
+	//die;
 			return $item;
 			
 		//}
@@ -1604,10 +1607,11 @@ function sendCareerInfo(){
 			if(!empty($favOrderData['FDetail'])) {				
 				foreach($favOrderData['FDetail'] as $fd) {					
 					$item = $this->prepareFavResponse($fd['data']['modifiers'], $fd['data']['itemSlug'], $menuCountry);
+					//echo '<pre>'; print_r($item); die;
 					$item['totalItemCost'] = $fd['data']['totalItemCost'];
 					$allItems[] = $item;					
 				}				
-			}			
+			}	 //die;		
 			echo json_encode($allItems); die;
 		}		
 		die;
@@ -1764,19 +1768,19 @@ function sendCareerInfo(){
 		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userData['id']);
 		$profileData = json_decode($resp, true);
 
-		if(empty($profileData['Address1'])){
+		if($profileData['Address1']=='""'){
 			$addressNo = 'address1';
-		}else if(empty($profileData['Address2'])){
+		}else if($profileData['Address2']=='""'){
 			$addressNo = 'address2';
-		}else{
+		}else if($profileData['Address3']=='""'){
 			$addressNo = 'address3';
 		}
 
 		$upatedData = array(
 			'form'=>4,
-			$addressNo=>json_encode($userData)
-		);
-		
+			$addressNo=>$userData
+		);	
+
 		if(!empty($upatedData)) {
 			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
 			$result     = $this->curlPostRequest($url, $upatedData);
@@ -1811,7 +1815,7 @@ function sendCareerInfo(){
 
 		$upatedData = array(
 			'form'=>4,
-			$addressNo=>json_encode($userData)
+			$addressNo=>$userData
 		);
 		
 		if(!empty($upatedData)) {
@@ -1848,7 +1852,7 @@ function sendCareerInfo(){
 
 		$upatedData = array(
 			'form'=>4,
-			$addressNo=>json_encode(array())
+			$addressNo=>""
 		);
 		
 		if(!empty($upatedData)) {

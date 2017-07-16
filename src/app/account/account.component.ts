@@ -321,7 +321,7 @@ export class AccountComponent implements OnInit {
             addressNo:'Address1',
             id:userId
         }
-      }else if(addressNo=='Address1'){
+      }else if(addressNo=='Address2'){
           this.address = {
             addressNo:'Address2',
             id:userId

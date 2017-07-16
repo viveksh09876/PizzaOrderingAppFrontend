@@ -413,13 +413,13 @@
                                 {{addressArr.address1.street}} {{addressArr.address1.city}}<br>
                                 {{addressArr.address1.state}} {{addressArr.address1.postal_code}}</p>
                                 <p>Phone Number:{{addressArr.address1.phone}}</p>
-                                <p><a (click)="editAddress('Address1')">Edit</a> | <a (click)="deleteAddress('address1')">Delete</a></p>
+                                <p><a (click)="editAddress('Address1')">Edit</a> | <a (click)="deleteAddress('Address1')">Delete</a></p>
                             </div>
                         </div>
                     </div>    
                     <div *ngIf="addressArr.address2!=''" class="col-md-4 col-sm-6">
                         <div class="address_box">
-                            <h5>{{addressArr.address2.address_type}}<span>Default</span></h5>
+                            <h5>{{addressArr.address2.address_type}}<span *ngIf="addressArr.address2.is_default">Default</span></h5>
                             <div class="content">
                                 <p><strong>{{addressArr.address2.firstname}} {{addressArr.address2.lastname}} </strong><br>
                                 {{addressArr.address2.apartment}} <br>
@@ -427,13 +427,13 @@
                                 {{addressArr.address2.street}} {{addressArr.address2.city}}<br>
                                 {{addressArr.address2.state}} {{addressArr.address2.postal_code}}</p>
                                 <p>Phone Number:{{addressArr.address2.phone}}</p>
-                                <p><a (click)="editAddress('Address2')">Edit</a> | <a (click)="deleteAddress('address2')">Delete</a></p>
+                                <p><a (click)="editAddress('Address2')">Edit</a> | <a (click)="deleteAddress('Address2')">Delete</a></p>
                             </div>
                         </div>
                     </div> 
                     <div *ngIf="addressArr.address3!=''" class="col-md-4 col-sm-6">
                         <div class="address_box">
-                            <h5>{{addressArr.address3.address_type}}<span>Default</span></h5>
+                            <h5>{{addressArr.address3.address_type}}<span *ngIf="addressArr.address3.is_default">Default</span></h5>
                             <div class="content">
                                 <p><strong>{{addressArr.address3.firstname}} {{addressArr.address3.lastname}} </strong><br>
                                 {{addressArr.address3.apartment}} <br>
@@ -441,7 +441,7 @@
                                 {{addressArr.address3.street}} {{addressArr.address3.city}}<br>
                                 {{addressArr.address3.state}} {{addressArr.address3.postal_code}}</p>
                                 <p>Phone Number:{{addressArr.address3.phone}}</p>
-                                <p><a (click)="editAddress('Address3')">Edit</a> | <a (click)="deleteAddress('address3')">Delete</a></p>
+                                <p><a (click)="editAddress('Address3')">Edit</a> | <a (click)="deleteAddress('Address3')">Delete</a></p>
                             </div>
                         </div>
                     </div> 
