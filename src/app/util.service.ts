@@ -67,13 +67,26 @@ export class UtilService {
           option: []
         };
 
+        let plus = ['91', 'I100', 'I101', '999991', '999992', '999993']; 
+
         for(var j=0; j<options.length; j++) {
           modObj.modifier_id = options[j].Modifier.id;
+          let goFlag = false;
 
-          if((options[j].Option.is_checked && !options[j].Option.is_included_mod)
-              || (options[j].Option.add_extra)
-                || (!options[j].Option.is_checked && options[j].Option.is_included_mod)) {
+          if((options[j].Option.is_checked && !options[j].Option.is_included_mod)) {
+            goFlag = true;
+          } else if(options[j].Option.add_extra) {
+            goFlag = true;
+          } else if(!options[j].Option.is_checked && options[j].Option.is_included_mod && plus.indexOf(options[j].Option.plu_code) < 0) {
+            //console.log(options[j].Option.name, options[j].Option.is_checked, options[j].Option.is_included_mod);
+            goFlag = true;
+          }else if(options[j].Option.is_checked && plus.indexOf(options[j].Option.plu_code) > -1) {
+            goFlag = true;
+          }
 
+          if(goFlag) {
+                //console.log('option', options[j].Option.name, options[j].Option.is_checked, options[j].Option.is_included_mod);
+          
                 let opt = {
                   id: options[j].Option.id,
                   name: options[j].Option.name,

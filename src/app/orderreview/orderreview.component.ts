@@ -81,7 +81,7 @@ export class OrderreviewComponent implements OnInit {
             this.dataService.getLocalStorageData('nearByStore') != '') { 
 
           this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
-          this.order.storeId = 'Marina';
+          //this.order.storeId = 'Marina';
       }
 
     this.getStoreDetails(this.order.storeId);
@@ -514,6 +514,7 @@ export class OrderreviewComponent implements OnInit {
       }
 
       favData = favOrdArr;
+      //console.log('fav', favData);
       this.showSavingFav = true;
       this.dataService.saveFavItem(userId, this.favTitle, favData, 'order')
         .subscribe(data => {
