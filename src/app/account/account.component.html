@@ -315,53 +315,137 @@
         <div class="account_box" *ngIf="currentTab == 'address'">
             <h4 class="title">My Addresses</h4>
             <div class="accountmain_sec">
+              <div class="row">
+                <ng-container *ngIf="showAddressForm">
+                  <p class="alert" [ngClass]="{'alert-success': errorAddress.isSuccess, 'alert-danger': !errorAddress.isSuccess}" *ngIf="errorAddress.show == true">{{errorAddress.message}}<p>
+                  <form #profileAddress="ngForm" ngForm (ngSubmit)="addAddress()">
+                      <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                           <input type="radio" value="Home" [(ngModel)]="address.address_type" id="address_type" #address_type="ngModel" name="address.address_type"> Home
+                           <input type="radio" value="Office" [(ngModel)]="address.address_type" id="address_type" #address_type="ngModel" name="address.address_type"> Office
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                           <input type="checkbox" value="1" [(ngModel)]="address.is_default" id="is_default" #is_default="ngModel" name="address.is_default"> Is Default?
+                        </div>
+                      </div>
+                       <div class="col-md-6 col-sm-12">
+                          <div class="form-group">
+                              <input type="text" class="form-control" placeholder="First Name" id="firstname" #firstname="ngModel" name="address.firstname" [(ngModel)]="address.firstname" required>
+                              <div *ngIf="firstname.errors && (firstname.dirty || firstname.touched)" class="alert alert-danger">
+                                  <div [hidden]="!firstname.errors.required">First Name is required.</div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                          <div class="form-group">
+                              <input type="text" class="form-control" placeholder="Last Name" id="lastname" #lastname="ngModel" name="address.lastname" [(ngModel)]="address.lastname" required>
+                              <div *ngIf="lastname.errors && (lastname.dirty || lastname.touched)" class="alert alert-danger">
+                                  <div [hidden]="!lastname.errors.required">Last Name is required.</div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                          <div class="form-group">
+                              <input class="form-control" placeholder="Appt#" type="text" id="apartment" #apartment="ngModel" name="address.apartment" [(ngModel)]="address.apartment" required>
+                              <div *ngIf="apartment.errors && (apartment.dirty || apartment.touched)" class="alert alert-danger">
+                                  <div [hidden]="!apartment.errors.required">Apartment Number Name is required.</div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                          <div class="form-group">
+                              <input class="form-control" placeholder="Street#" type="text" id="streetNo" #streetNo="ngModel" name="address.streetNo" [(ngModel)]="address.streetNo" required>
+                              <div *ngIf="streetNo.errors && (streetNo.dirty || streetNo.touched)" class="alert alert-danger">
+                                  <div [hidden]="!streetNo.errors.required">Street Number is required.</div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                          <div class="form-group">
+                              <input class="form-control" placeholder="Street / Building name" id="street" #street="ngModel" name="address.street" type="text" [(ngModel)]="address.street">
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                          <div class="form-group">
+                              <input class="form-control" placeholder="City" type="text" id="city" #city="ngModel" name="address.city" [(ngModel)]="address.city">
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                          <div class="form-group">
+                              <input class="form-control" placeholder="State" type="text" id="state" #state="ngModel" name="address.state" [(ngModel)]="address.state">
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                          <div class="form-group">
+                              <input class="form-control" placeholder="Postal Code" type="text" id="postal_code" #postal_code="ngModel" name="address.postal_code" [(ngModel)]="address.postal_code">
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                          <div class="form-group">
+                              <input class="form-control" placeholder="Phone" type="text" id="phone" #phone="ngModel" name="address.phone" [(ngModel)]="address.phone">
+                          </div>
+                      </div>
+                      <div class="form-group buttons">
+                        <div class="col-sm-12">
+                          <button type="submit" class="btn btn-default" [disabled]="!profileAddress.form.valid">Add Address</button>
+                        </div>
+                      </div>
+                  </form>
+              </ng-container>
+              </div>
+              <hr>
                 <div class="row">
                     <div class="col-md-4 col-sm-6">
                         <div class="address_box addaddress">
                             <a (click)="showAddAddressForm()"><i class="fa fa-plus"></i> Add Address</a>
                         </div>
                     </div>
+                
+                    <div *ngIf="addressArr.address1!=''" class="col-md-4 col-sm-6">
+                        <div class="address_box">
+                            <h5>{{addressArr.address1.address_type}}<span *ngIf="addressArr.address1.is_default">Default</span></h5>
+                            <div class="content">
+                                <p><strong>{{addressArr.address1.firstname}} {{addressArr.address1.lastname}} </strong><br>
+                                {{addressArr.address1.apartment}} <br>
+                                {{addressArr.address1.streetNo}} <br>
+                                {{addressArr.address1.street}} {{addressArr.address1.city}}<br>
+                                {{addressArr.address1.state}} {{addressArr.address1.postal_code}}</p>
+                                <p>Phone Number:{{addressArr.address1.phone}}</p>
+                                <p><a (click)="editAddress('Address1')">Edit</a> | <a (click)="deleteAddress('address1')">Delete</a></p>
+                            </div>
+                        </div>
+                    </div>    
+                    <div *ngIf="addressArr.address2!=''" class="col-md-4 col-sm-6">
+                        <div class="address_box">
+                            <h5>{{addressArr.address2.address_type}}<span>Default</span></h5>
+                            <div class="content">
+                                <p><strong>{{addressArr.address2.firstname}} {{addressArr.address2.lastname}} </strong><br>
+                                {{addressArr.address2.apartment}} <br>
+                                {{addressArr.address2.streetNo}} <br>
+                                {{addressArr.address2.street}} {{addressArr.address2.city}}<br>
+                                {{addressArr.address2.state}} {{addressArr.address2.postal_code}}</p>
+                                <p>Phone Number:{{addressArr.address2.phone}}</p>
+                                <p><a (click)="editAddress('Address2')">Edit</a> | <a (click)="deleteAddress('address2')">Delete</a></p>
+                            </div>
+                        </div>
+                    </div> 
+                    <div *ngIf="addressArr.address3!=''" class="col-md-4 col-sm-6">
+                        <div class="address_box">
+                            <h5>{{addressArr.address3.address_type}}<span>Default</span></h5>
+                            <div class="content">
+                                <p><strong>{{addressArr.address3.firstname}} {{addressArr.address3.lastname}} </strong><br>
+                                {{addressArr.address3.apartment}} <br>
+                                {{addressArr.address3.streetNo}} <br>
+                                {{addressArr.address3.street}} {{addressArr.address3.city}}<br>
+                                {{addressArr.address3.state}} {{addressArr.address3.postal_code}}</p>
+                                <p>Phone Number:{{addressArr.address3.phone}}</p>
+                                <p><a (click)="editAddress('Address3')">Edit</a> | <a (click)="deleteAddress('address3')">Delete</a></p>
+                            </div>
+                        </div>
+                    </div> 
                     
-                    <div class="col-md-4 col-sm-6">
-                        <div class="address_box">
-                            <h5>Home <span>Default</span></h5>
-                            <div class="content">
-                                <p><strong>Ankush Arya </strong><br>
-                                House No 51, Al Bastakiya <br>
-                                Near Al Fahidi Round About <br>
-                                Opp Al Mussallah Post Office <br>
-                                Burdubai, Dubai-UAE </p>
-                                <p>Phone Number:9958199295</p>
-                                <p><a href="#">Edit</a> | <a href="#">Delete</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="address_box">
-                            <h5>Office</h5>
-                            <div class="content">
-                                <p><strong>Ankush Arya </strong><br>
-                                Building No 8,Sheikh Zayed <br>
-                                Road,Dubai Internet City - <br>
-                                Dubai - United Arab Emirates</p>
-                                <p>Phone Number:9958199295</p>
-                                <p><a href="#">Edit</a> | <a href="#">Delete</a> | <a href="#">Set as Default</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="address_box">
-                            <h5>Home</h5>
-                            <div class="content">
-                                <p><strong>Ankush Arya </strong><br>
-                                Building No 8,Sheikh Zayed <br>
-                                Road,Dubai Internet City - <br>
-                                Dubai - United Arab Emirates</p>
-                                <p>Phone Number:9958199295</p>
-                                <p><a href="#">Edit</a> | <a href="#">Delete</a> | <a href="#">Set as Default</a></p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

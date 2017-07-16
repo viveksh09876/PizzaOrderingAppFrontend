@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress'));
     }
 
     public function get_categories($count=10){
@@ -400,7 +400,8 @@ class WebserviceController extends AppController {
 												'className' => 'ProductModifier',
 												'foreignKey' => 'product_id',
 												'fields' => array(
-														'ProductModifier.id','ProductModifier.product_id','ProductModifier.modifier_id','ProductModifier.default_option_id','ProductModifier.store_id','ProductModifier.lang_id','ProductModifier.is_required','ProductModifier.choice','ProductModifier.min_choice','ProductModifier.max_choice','ProductModifier.max_choice'
+														'ProductModifier.id','ProductModifier.product_id','ProductModifier.modifier_id','ProductModifier.default_option_id','ProductModifier.store_id','ProductModifier.lang_id','ProductModifier.is_required','ProductModifier.choice','ProductModifier.min_choice','ProductModifier.max_choice','ProductModifier.max_choice',
+														'ProductModifier.free'
 													),
 												'order' => 'ProductModifier.sort_order ASC'	
 											),
@@ -1746,6 +1747,121 @@ function sendCareerInfo(){
 					'show'=>true, 
                     'isSuccess'=>false, 
           			'message'=>$response->Message
+				);
+				echo json_encode($responseArr);
+			}			
+		}
+		die;
+	}
+
+	public function addAddress(){
+		$this->layout = 'false';
+		$this->autoRender = false;
+		$addressNo = '';
+		$userData = $this->request->input ( 'json_decode', true) ;	
+
+		$getAddrs = array();
+		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userData['id']);
+		$profileData = json_decode($resp, true);
+
+		if(empty($profileData['Address1'])){
+			$addressNo = 'address1';
+		}else if(empty($profileData['Address2'])){
+			$addressNo = 'address2';
+		}else{
+			$addressNo = 'address3';
+		}
+
+		$upatedData = array(
+			'form'=>4,
+			$addressNo=>json_encode($userData)
+		);
+		
+		if(!empty($upatedData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$result     = $this->curlPostRequest($url, $upatedData);
+			$response   = json_decode($result); 
+			if($response->Status=='OK'){
+				echo json_encode(array('show'=>true,'isSuccess'=>true, 'message'=>$response->Message));
+			}else{
+				$responseArr = array(
+					'show'=>true, 
+                    'isSuccess'=>false, 
+          			'message'=>$response->Message
+				);
+				echo json_encode($responseArr);
+			}			
+		}
+		die;
+	}
+
+	public function editAddress(){
+		$this->layout = 'false';
+		$this->autoRender = false;
+		$addressNo = '';
+		$userData = $this->request->input ( 'json_decode', true) ;	
+
+		if($userData['addressNo'] == 'Address1'){
+			$addressNo = 'address1';
+		}else if($userData['addressNo'] == 'Address2'){
+			$addressNo = 'address2';
+		}else{
+			$addressNo = 'address3';
+		}
+
+		$upatedData = array(
+			'form'=>4,
+			$addressNo=>json_encode($userData)
+		);
+		
+		if(!empty($upatedData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$result     = $this->curlPostRequest($url, $upatedData);
+			$response   = json_decode($result); 
+			if($response->Status=='OK'){
+				echo json_encode(array('show'=>true,'isSuccess'=>true, 'message'=>$response->Message));
+			}else{
+				$responseArr = array(
+					'show'=>true, 
+                    'isSuccess'=>false, 
+          			'message'=>$response->Message
+				);
+				echo json_encode($responseArr);
+			}			
+		}
+		die;
+	}
+
+	public function deleteAddress(){
+		$this->layout = 'false';
+		$this->autoRender = false;
+		$addressNo = '';
+		$userData = $this->request->input ( 'json_decode', true) ;	
+
+		if($userData['addressNo'] == 'Address1'){
+			$addressNo = 'address1';
+		}else if($userData['addressNo'] == 'Address2'){
+			$addressNo = 'address2';
+		}else{
+			$addressNo = 'address3';
+		}
+
+		$upatedData = array(
+			'form'=>4,
+			$addressNo=>json_encode(array())
+		);
+		
+		if(!empty($upatedData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$result     = $this->curlPostRequest($url, $upatedData);
+			$response   = json_decode($result); 
+			if($response->Status=='OK'){
+				echo json_encode(array('show'=>true,'isSuccess'=>true, 'message'=>'Address deleted successfully'));
+			}else{
+				$responseArr = array(
+					'show'=>true, 
+                    'isSuccess'=>false, 
+          			'message'=>'Not deleted'
 				);
 				echo json_encode($responseArr);
 			}			

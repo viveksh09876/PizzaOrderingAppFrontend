@@ -277,4 +277,29 @@ export class DataService {
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
+  addAddress(userData): Observable<any>{
+        var data = userData;
+        return this.http.post( this.domain + '/webservice/addAddress', data)
+                  .map((res: Response) => res.json())
+                  .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  } 
+
+  editAddress(userData): Observable<any>{
+        var data = userData;
+        return this.http.post( this.domain + '/webservice/editAddress', data)
+                  .map((res: Response) => res.json())
+                  .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  } 
+                
+
+  deleteAddress(userData): Observable<any>{
+        var data = userData;
+        return this.http.post( this.domain + '/webservice/deleteAddress', data)
+                  .map((res: Response) => res.json())
+                  .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  } 
+                
+  
+  
+
 }

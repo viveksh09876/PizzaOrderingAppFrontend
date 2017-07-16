@@ -21,6 +21,7 @@ export class AccountComponent implements OnInit {
   currentTab = 'favItems';
   user = null;
   account = null;
+  address = null;
   prefrence = null;
   favItems = [];
   favOrders = [];
@@ -30,7 +31,10 @@ export class AccountComponent implements OnInit {
   showLoading = false;
   currencyCode = null;
   error = { show:false, isSuccess:false, message: ''};
+  errorAddress = { show:false, isSuccess:false, message: ''};
   orderData = null;
+  showAddressForm = false;
+  addressArr = {};
 
   ngOnInit() {
     
@@ -125,6 +129,22 @@ export class AccountComponent implements OnInit {
         this.showLoading = false;
       });
     }
+
+    if(this.currentTab == 'address'){
+      this.showLoading = true;
+      this.showAddressForm = false;
+      let userId = this.user.id;
+      this.dataService.getProfile(userId).subscribe(pdata => {
+        this.addressArr = {
+          address1 :(pdata.Address1!='')?JSON.parse(pdata.Address1):'',
+          address2 :(pdata.Address2!='')?JSON.parse(pdata.Address2):'',
+          address3 :(pdata.Address3!='')?JSON.parse(pdata.Address3):'',
+        };
+        
+        this.error = { show:false, isSuccess:false, message: ''};
+        this.showLoading = false;
+      });
+    }
   }
 
   updateProfile(){
@@ -181,6 +201,151 @@ export class AccountComponent implements OnInit {
       }
       this.showLoading = false;
     });
+  }
+
+  showAddAddressForm(){
+    this.showLoading = true;
+    this.errorAddress = { show:false, isSuccess:false, message: ''};
+    this.address = {
+        address_type: 'Home',
+        is_default:0,
+        firstname : '',
+        lastname: '',
+        apartment:'',
+        streetNo:'',
+        street:'',
+        city:'',
+        state:'',
+        postal_code:'',
+    }
+    this.showAddressForm = !this.showAddressForm;
+    this.showLoading = false;
+  }
+
+  addAddress(){
+    this.showLoading = true;
+    this.address.id = this.user.id;
+    this.address.is_default = (this.address.is_default)?1:0;
+    if(this.address.addressNo!=null){
+      this.dataService.editAddress(this.address)
+        .subscribe(data => {
+          if(data.isSuccess) {
+            this.errorAddress = data;
+              setTimeout(()=>{ 
+                  this.goToTab('address');
+              },3000);
+              
+          }else{
+            this.errorAddress = data;
+          }
+        }); 
+    }else{
+      this.dataService.addAddress(this.address)
+        .subscribe(data => {
+          if(data.isSuccess) {
+            this.errorAddress = data;
+              setTimeout(()=>{ 
+                  this.goToTab('address');
+              },3000);
+              
+          }else{
+            this.errorAddress = data;
+          }
+        }); 
+    }
+    this.showLoading = false;
+  }
+
+  editAddress(addressNo){
+    this.showAddressForm = true;
+    this.errorAddress = { show:false, isSuccess:false, message: ''};
+    this.showLoading = true;
+    let userId = this.user.id;
+    this.dataService.getProfile(userId).subscribe(pdata => {
+      if(addressNo=='Address1'){
+         this.address = {
+            address_type: JSON.parse(pdata.Address1).address_type,
+            is_default:JSON.parse(pdata.Address1).is_default,
+            firstname : JSON.parse(pdata.Address1).firstname,
+            lastname: JSON.parse(pdata.Address1).lastname,
+            apartment:JSON.parse(pdata.Address1).apartment,
+            streetNo:JSON.parse(pdata.Address1).streetNo,
+            street:JSON.parse(pdata.Address1).street,
+            city:JSON.parse(pdata.Address1).city,
+            state:JSON.parse(pdata.Address1).state,
+            postal_code:JSON.parse(pdata.Address1).postal_code,
+            phone:JSON.parse(pdata.Address1).phone,
+            addressNo:'Address1',
+        }
+      }else if(addressNo=='Address2'){
+         this.address = {
+            address_type: JSON.parse(pdata.Address2).address_type,
+            is_default:JSON.parse(pdata.Address2).is_default,
+            firstname : JSON.parse(pdata.Address2).firstname,
+            lastname: JSON.parse(pdata.Address2).lastname,
+            apartment:JSON.parse(pdata.Address2).apartment,
+            streetNo:JSON.parse(pdata.Address2).streetNo,
+            street:JSON.parse(pdata.Address2).street,
+            city:JSON.parse(pdata.Address2).city,
+            state:JSON.parse(pdata.Address2).state,
+            postal_code:JSON.parse(pdata.Address2).postal_code,
+            phone:JSON.parse(pdata.Address2).phone,
+            addressNo:'Address2',
+        }
+      }else{
+        this.address = {
+            address_type: JSON.parse(pdata.Address3).address_type,
+            is_default:JSON.parse(pdata.Address3).is_default,
+            firstname : JSON.parse(pdata.Address3).firstname,
+            lastname: JSON.parse(pdata.Address3).lastname,
+            apartment:JSON.parse(pdata.Address3).apartment,
+            streetNo:JSON.parse(pdata.Address3).streetNo,
+            street:JSON.parse(pdata.Address3).street,
+            city:JSON.parse(pdata.Address3).city,
+            state:JSON.parse(pdata.Address3).state,
+            postal_code:JSON.parse(pdata.Address3).postal_code,
+            phone:JSON.parse(pdata.Address3).phone,
+            addressNo:'Address3',
+        }
+      }
+      this.showLoading = false;
+    });
+  }
+
+  deleteAddress(addressNo){
+    if(confirm('Are you sure want to remove address?')){
+      this.showLoading = true;
+      let userId = this.user.id;
+      if(addressNo=='Address1'){
+          this.address = {
+            addressNo:'Address1',
+            id:userId
+        }
+      }else if(addressNo=='Address1'){
+          this.address = {
+            addressNo:'Address2',
+            id:userId
+        }
+      }else{
+        this.address = {
+            addressNo:'Address3',
+            id:userId
+        }
+      }
+      this.dataService.deleteAddress(this.address)
+          .subscribe(data => {
+            if(data.isSuccess) {
+              this.errorAddress = data;
+                setTimeout(()=>{ 
+                    this.goToTab('address');
+                },3000);
+                
+            }else{
+              this.errorAddress = data;
+            }
+          }); 
+      this.showLoading = false;
+    }
   }
 
   getOrderHistory(userId) {
