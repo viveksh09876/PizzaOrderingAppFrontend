@@ -36,6 +36,7 @@ export class AccountComponent implements OnInit {
   showAddressForm = false;
   addressArr = {};
 
+
   ngOnInit() {
     
     let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
@@ -346,6 +347,40 @@ export class AccountComponent implements OnInit {
           }); 
       this.showLoading = false;
     }
+  }
+
+  setAsDefault(addressNo){
+    this.showLoading = true;
+    let userId = this.user.id;
+    if(addressNo=='Address1'){
+        this.address = {
+          addressNo:'Address1',
+          id:userId
+      }
+    }else if(addressNo=='Address2'){
+        this.address = {
+          addressNo:'Address2',
+          id:userId
+      }
+    }else{
+      this.address = {
+          addressNo:'Address3',
+          id:userId
+      }
+    }
+    this.dataService.setAsDefault(this.address)
+        .subscribe(data => {
+          if(data.isSuccess) {
+            this.errorAddress = data;
+              setTimeout(()=>{ 
+                  this.goToTab('address');
+              },3000);
+              
+          }else{
+            this.errorAddress = data;
+          }
+        }); 
+    this.showLoading = false;
   }
 
   getOrderHistory(userId) {

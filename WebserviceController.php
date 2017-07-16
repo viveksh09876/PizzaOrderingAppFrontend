@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault'));
     }
 
     public function get_categories($count=10){
@@ -1873,4 +1873,81 @@ function sendCareerInfo(){
 		die;
 	}
 
+	public function setAsDefault(){
+		$this->layout = 'false';
+		$this->autoRender = false;
+		$userData = $this->request->input ( 'json_decode', true) ;	
+
+		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userData['id']);
+		$profileData = json_decode($resp, true);
+
+		if($userData['addressNo'] == 'Address1'){
+			$address1 = json_decode($profileData['Address1'], true);
+			$address1['is_default'] = 1;
+
+			$address2 = json_decode($profileData['Address2'], true);
+			$address2['is_default'] = 0;
+
+			$address3 = json_decode($profileData['Address3'], true);
+			$address3['is_default'] = 0;
+
+			$upatedData = array(
+				'form'=>4,
+				'address1'=>$address1,
+				'address2'=>$address2,
+				'address3'=>$address3
+			);
+
+		}else if($userData['addressNo'] == 'Address2'){
+			$address1 = json_decode($profileData['Address1'], true);
+			$address1['is_default'] = 0;
+
+			$address2 = json_decode($profileData['Address2'], true);
+			$address2['is_default'] = 1;
+
+			$address3 = json_decode($profileData['Address3'], true);
+			$address3['is_default'] = 0;
+
+			$upatedData = array(
+				'form'=>4,
+				'address1'=>$address1,
+				'address2'=>$address2,
+				'address3'=>$address3
+			);
+
+		}else {
+			$address1 = json_decode($profileData['Address1'], true);
+			$address1['is_default'] = 0;
+
+			$address2 = json_decode($profileData['Address2'], true);
+			$address2['is_default'] = 0;
+
+			$address3 = json_decode($profileData['Address3'], true);
+			$address3['is_default'] = 1;
+
+			$upatedData = array(
+				'form'=>4,
+				'address1'=>$address1,
+				'address2'=>$address2,
+				'address3'=>$address3
+			);
+		}
+		
+		if(!empty($upatedData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$result     = $this->curlPostRequest($url, $upatedData);
+			$response   = json_decode($result); 
+			if($response->Status=='OK'){
+				echo json_encode(array('show'=>true,'isSuccess'=>true, 'message'=>$response->Message));
+			}else{
+				$responseArr = array(
+					'show'=>true, 
+                    'isSuccess'=>false, 
+          			'message'=>'Not deleted'
+				);
+				echo json_encode($responseArr);
+			}			
+		}
+		die;
+	}
 }
