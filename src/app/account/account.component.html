@@ -397,7 +397,7 @@
               </div>
               <hr>
                 <div class="row">
-                    <div class="col-md-4 col-sm-6">
+                    <div *ngIf="totalNoOfAddress!=3" class="col-md-4 col-sm-6">
                         <div class="address_box addaddress">
                             <a (click)="showAddAddressForm()"><i class="fa fa-plus"></i> Add Address</a>
                         </div>

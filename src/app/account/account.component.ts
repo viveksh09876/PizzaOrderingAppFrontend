@@ -35,6 +35,7 @@ export class AccountComponent implements OnInit {
   orderData = null;
   showAddressForm = false;
   addressArr = {};
+  totalNoOfAddress = null;
 
 
   ngOnInit() {
@@ -132,6 +133,7 @@ export class AccountComponent implements OnInit {
     }
 
     if(this.currentTab == 'address'){
+      this.totalNoOfAddress = 0;
       this.showLoading = true;
       this.showAddressForm = false;
       let userId = this.user.id;
@@ -141,7 +143,11 @@ export class AccountComponent implements OnInit {
           address2 :(pdata.Address2!='')?JSON.parse(pdata.Address2):'',
           address3 :(pdata.Address3!='')?JSON.parse(pdata.Address3):'',
         };
-        
+        for (var key in this.addressArr) {
+          if(this.addressArr.hasOwnProperty(key) && this.addressArr[key]!=''){
+            this.totalNoOfAddress++;
+          }
+        }
         this.error = { show:false, isSuccess:false, message: ''};
         this.showLoading = false;
       });

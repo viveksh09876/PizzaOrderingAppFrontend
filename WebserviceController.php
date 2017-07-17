@@ -1767,20 +1767,20 @@ function sendCareerInfo(){
 		$getAddrs = array();
 		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userData['id']);
 		$profileData = json_decode($resp, true);
-
-		if($profileData['Address1']=='""'){
+		
+		if($profileData['Address1']=='""' || empty($profileData['Address1'])){
 			$addressNo = 'address1';
-		}else if($profileData['Address2']=='""'){
+		}else if($profileData['Address2']=='""' || empty($profileData['Address2'])){
 			$addressNo = 'address2';
-		}else if($profileData['Address3']=='""'){
+		}else if($profileData['Address3']=='""' || empty($profileData['Address3'])){
 			$addressNo = 'address3';
 		}
-
+		
 		$upatedData = array(
 			'form'=>4,
 			$addressNo=>$userData
 		);	
-
+		
 		if(!empty($upatedData)) {
 			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
 			$result     = $this->curlPostRequest($url, $upatedData);
@@ -1880,15 +1880,17 @@ function sendCareerInfo(){
 
 		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userData['id']);
 		$profileData = json_decode($resp, true);
-
 		if($userData['addressNo'] == 'Address1'){
 			$address1 = json_decode($profileData['Address1'], true);
+			if(!empty($address1))
 			$address1['is_default'] = 1;
 
 			$address2 = json_decode($profileData['Address2'], true);
+			if(!empty($address2))
 			$address2['is_default'] = 0;
 
 			$address3 = json_decode($profileData['Address3'], true);
+			if(!empty($address3))
 			$address3['is_default'] = 0;
 
 			$upatedData = array(
@@ -1900,12 +1902,15 @@ function sendCareerInfo(){
 
 		}else if($userData['addressNo'] == 'Address2'){
 			$address1 = json_decode($profileData['Address1'], true);
+			if(!empty($address1))
 			$address1['is_default'] = 0;
 
 			$address2 = json_decode($profileData['Address2'], true);
+			if(!empty($address2))
 			$address2['is_default'] = 1;
 
 			$address3 = json_decode($profileData['Address3'], true);
+			if(!empty($address3))
 			$address3['is_default'] = 0;
 
 			$upatedData = array(
@@ -1917,12 +1922,15 @@ function sendCareerInfo(){
 
 		}else {
 			$address1 = json_decode($profileData['Address1'], true);
+			if(!empty($address1))
 			$address1['is_default'] = 0;
 
 			$address2 = json_decode($profileData['Address2'], true);
+			if(!empty($address2))
 			$address2['is_default'] = 0;
 
 			$address3 = json_decode($profileData['Address3'], true);
+			if(!empty($address3))
 			$address3['is_default'] = 1;
 
 			$upatedData = array(
