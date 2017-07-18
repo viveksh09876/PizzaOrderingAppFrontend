@@ -22,7 +22,6 @@ export class AccountComponent implements OnInit {
   user = null;
   account = null;
   address = null;
-  prefrence = null;
   favItems = [];
   favOrders = [];
   storeList = [];
@@ -36,6 +35,13 @@ export class AccountComponent implements OnInit {
   showAddressForm = false;
   addressArr = {};
   totalNoOfAddress = null;
+  option = [];
+  prefrence = {
+		question:[],
+		subscribe:null,
+    form:null,
+    id:null
+	};
 
 
   ngOnInit() {
@@ -55,10 +61,6 @@ export class AccountComponent implements OnInit {
 
     this.getUserIp();
 
-    this.dataService.getPrefreces()
-          .subscribe(data => {
-              this.prefreces = data;
-          });
   }
 
   getUserIp() {
@@ -119,14 +121,28 @@ export class AccountComponent implements OnInit {
     }
 
     if(this.currentTab == 'preference'){
-       this.showLoading = true;
+      this.dataService.getUserPrefreces()
+          .subscribe(data => {
+            this.prefreces = data;
+      });
+
+      this.showLoading = true;
       let userId = this.user.id;
       this.dataService.getProfile(userId).subscribe(pdata => {
-        this.prefrence = {
-          id: pdata.Id,
-          subscribe:parseInt(pdata.Subscribe),
-          option:[]
+        this.prefrence.subscribe = parseInt(pdata.Subscribe);
+        let questionId = null;
+        let answerId = null;
+        let QAarr = [];
+        pdata.Pref = JSON.parse(pdata.Pref);
+        for (var key in pdata.Pref) {
+            if(pdata.Pref.hasOwnProperty(key)){ 
+              for(var i=0; i<pdata.Pref[key].length; i++){
+                answerId = pdata.Pref[key][i];
+              }
+              QAarr[key] = {'questionId':key,'answerId':answerId};
+            }          
         }
+        this.prefrence.question.push(QAarr);
         this.error = { show:false, isSuccess:false, message: ''};
         this.showLoading = false;
       });
@@ -200,6 +216,8 @@ export class AccountComponent implements OnInit {
   updatePrefrence(){
     this.showLoading = true;
     this.prefrence.form = 3;
+    this.prefrence.id = this.user.id;
+    console.log(this.prefrence);
     this.dataService.updatePrefrence(this.prefrence).subscribe(data => {
      if(data.isSuccess) {
         this.error = data;

@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces'));
     }
 
     public function get_categories($count=10){
@@ -1362,6 +1362,38 @@ function sendCareerInfo(){
 			'order'=>'Question.sort_order'
 		));
 		echo json_encode($questions); 
+		die;
+	}
+
+	function getUserPrefreces(){
+		$this->autoRender = false;
+		$this->layout = 'false';
+		$this->Question->bindModel(array('hasMany'=>array('QuestionOption')));
+		$questions = $this->Question->find('all',array(
+			'conditions'=>array(
+				'Question.status'=>1
+			),
+			'order'=>'Question.sort_order'
+		));
+		
+		$userId = 82;
+		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userId);
+		$result = json_decode($resp, true);
+		$userPrefreces = json_decode($result['Pref']);
+
+		foreach($questions as $key=>$value):
+			$questionId = $value['Question']['id'];
+			foreach($value['QuestionOption'] as $k=>$v):
+				$optionId = $v['id'];
+				$arr = $userPrefreces->$questionId;
+				if(in_array($optionId, $arr)){
+					$questions[$key]['QuestionOption'][$k]['checked'] = 1;
+				}else{
+					$questions[$key]['QuestionOption'][$k]['checked'] = 0;
+				}
+			endforeach;
+		endforeach;
+		echo json_encode($questions);
 		die;
 	}
 

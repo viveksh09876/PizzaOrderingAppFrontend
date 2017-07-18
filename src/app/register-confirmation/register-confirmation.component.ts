@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { LoginComponent } from '../login/login.component';
+import { DataService } from '../data.service';
+import { OrdernowmodalComponent } from '../ordernowmodal/ordernowmodal.component';
 
 @Component({
   selector: 'app-register-confirmation',
@@ -11,7 +13,7 @@ import { LoginComponent } from '../login/login.component';
 export class RegisterConfirmationComponent extends DialogComponent<RegisterConfirmationModel, null> implements OnInit {
 
   constructor(dialogService: DialogService, private route: ActivatedRoute, 
-                    private router: Router) { super(dialogService); }
+                    private router: Router, private dataService: DataService) { super(dialogService); }
 
   openModal(type) {
     let self = this;
@@ -27,10 +29,22 @@ export class RegisterConfirmationComponent extends DialogComponent<RegisterConfi
   goto(gotoPage){
     let self = this;
     self.close();
-    window.location.reload();  
+    window.location.reload();
     setTimeout(function(){
       this.router.navigate(['/'+gotoPage]); 
     },3000);
+  }
+
+   goToOrderNow() {
+    let self = this;
+    self.close();
+    let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
+      if(isLoggedIn == undefined || isLoggedIn == 'false') {
+         this.dialogService.addDialog(LoginComponent, { }, { closeByClickingOutside:true });
+      }else{
+        this.dialogService.addDialog(OrdernowmodalComponent, { }, { closeByClickingOutside:true }); 
+      }
+
   }
 
   closePopup(){

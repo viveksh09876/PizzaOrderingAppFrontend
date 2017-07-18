@@ -119,7 +119,7 @@ export class OrderreviewComponent implements OnInit {
           first_name: userDetails.firstName,
           last_name: userDetails.lastName,
           email: userDetails.email,
-          phone: ''
+          phone: userDetails.phone
         }
       }
   }
