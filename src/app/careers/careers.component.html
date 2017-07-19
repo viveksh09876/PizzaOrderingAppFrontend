@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                            <input type="tel" class="form-control" [(ngModel)]="career.tel" id="tel" #tel="ngModel" name="career.tel" placeholder="Phone Number" required>
+                            <input type="tel" class="form-control" [(ngModel)]="career.tel" id="tel" #tel="ngModel" name="career.tel" placeholder="Phone Number" maxlength="12" required>
                             <div *ngIf="tel.errors && (tel.dirty || tel.touched)" class="alert alert-danger">
                                 <div [hidden]="!tel.errors.required">Phone number is required.</div>
                             </div>

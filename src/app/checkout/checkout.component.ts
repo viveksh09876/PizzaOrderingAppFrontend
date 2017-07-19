@@ -68,8 +68,9 @@ export class CheckoutComponent implements OnInit {
       this.showLoading = true;
         this.showPlaceOrder = false;
         this.dataService.placeOrder(this.orderData).subscribe(data => {
-              console.log(JSON.parse(data.response));
+              //console.log(JSON.parse(data.response));
               let resp = JSON.parse(data.response);
+
               if(resp.Status == 'Error') {
                 this.showPlaceOrder = true;
                 alert('There is some issue. Please try again later!');
@@ -82,6 +83,7 @@ export class CheckoutComponent implements OnInit {
                 this.dataService.setLocalStorageData('confirmationItems', JSON.stringify(this.items));
                 this.dataService.setLocalStorageData('finalOrder', null);                             
                 //alert('Order Placed');
+                this.dataService.setLocalStorageData('confirmationOrderId', resp.OrderId); 
                 this.dataService.setLocalStorageData('confirmationFinalOrder', JSON.stringify(this.orderData));                
                 this.showLoading = false;
                 this.router.navigate(['/confirmation']);

@@ -521,7 +521,7 @@ header.navigation ul.links li.eclub-btn ul li a i{min-width: 16px;}
 .slider-wrapper {
 	height: 50%;
 	width: 100%;
-	background: #000;
+	background: #fff;
 	min-height: 380px
 }
 .slider-wrapper .slides {
@@ -799,7 +799,7 @@ header.navigation .logo {
 	-moz-background-size:  100% 100%;
 	-webkit-background-size: 100% 100%;
 	position: relative; 
-	background-color: #ccc;
+	background-color: #789c48;
 }
 .blog-wrapper .blog-media {
 	width: 100%;
@@ -2926,7 +2926,7 @@ color:#fff
 .dottedlist_box{ background: #f4f4f4; padding: 10px 15px 20px;}
 .dottedlist_box .coupan_box{ margin: 10px 0}
 .dottedlist_box .coupan_box input[type="submit"]{ font-size: 16px; line-height: 20px; color: #fff; font-family: 'proxima_nova_ltlight'; background: #911c27; border: 0; border-bottom: 2px solid #4f050c; width: 100px; text-align: center; height: 35px; border-radius: 3px; float: right;}
-.dottedlist_box .coupan_box input[type="text"]{ width: calc(100% - 110px); background: #fff; border: 0; font-size: 16px; font-family: 'proxima_nova_ltsemibold'; line-height: 25px; padding: 5px 10px; height: 35px;}
+.dottedlist_box .coupan_box input[type="text"]{ width: calc(100% - 110px); background: #fff; border: 0; font-size: 16px; font-family: 'proxima_nova_ltsemibold'; line-height: 25px; padding: 5px 10px; height: 35px; text-transform:uppercase;}
 
 .dottedlist_box .dotted-list{ margin: 0; clear: both; padding: 0 10px 5px; list-style: none;}
 .dottedlist_box .dotted-list li{ font-size: 15px; color: #5b5a56; line-height: 29px; padding: 5px 0; border-bottom: 1px dashed #929292;  font-family: 'proxima_nova_ltlight';}

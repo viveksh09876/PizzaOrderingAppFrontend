@@ -61,7 +61,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
                                 <label>Phone</label>
-                                <input type="text" class="form-control" [(ngModel)]="user.phone" name="phone" placeholder="Mobile Number">
+                                <input type="text" maxlength="12" class="form-control" [(ngModel)]="user.phone" name="phone" placeholder="Mobile Number">
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <label>Favorite Location</label>
@@ -132,7 +132,7 @@
                     </div>  
                     <hr>
                     <div class="form-group">
-                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.enrolling" id="enrolling" #enrolling="ngModel" name="prefrence.enrolling">By enrolling in the nkd pizza eclub, you’ll receive updates on new menu items, special offers, and other happenings at your local nkd pizza. you can unsubscribe at any time, by following instructions in any eclub message. we respect your privacy and will never sell, rent, lease or give away your information (name, address, email, etc.) to any third party<span></span></label></div>
+                        <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.enrolling" id="enrolling" #enrolling="ngModel" name="prefrence.enrolling">By enrolling in the nkd pizza, you’ll receive updates on new menu items, special offers, and other happenings at your local nkd pizza. you can unsubscribe at any time, by following instructions in any nkd pizza message. we respect your privacy and will never sell, rent, lease or give away your information (name, address, email, etc.) to any third party<span></span></label></div>
                     </div>
                     <div class="form-group">
                         <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.privacy" id="privacy" #privacy="ngModel" name="prefrence.privacy" required> I have read and agree to the <a>Program Terms</a>, <a>Terms of Use</a>, and <a>Privacy Policy</a>, applicable to the nkd pizza program <span></span></label>

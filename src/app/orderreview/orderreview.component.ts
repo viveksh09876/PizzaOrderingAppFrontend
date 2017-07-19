@@ -297,7 +297,7 @@ export class OrderreviewComponent implements OnInit {
         this.order.order_details = this.prepareFinalOrderData(this.items);
         this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
         //console.log('order', this.order.order_details);
-        this.showLoading = false;;
+        this.showLoading = false;
         this.router.navigate(['/checkout']);
 
       }
