@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress'));
+        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces'));
     }
 
     public function get_categories($count=10){
@@ -728,6 +728,7 @@ class WebserviceController extends AppController {
 						}
 					}
 					
+					
 					$prod = array(
 						'add_extra' => false,
 						'choice' => "Full",
@@ -1364,6 +1365,38 @@ function sendCareerInfo(){
 		die;
 	}
 
+	function getUserPrefreces(){
+		$this->autoRender = false;
+		$this->layout = 'false';
+		$this->Question->bindModel(array('hasMany'=>array('QuestionOption')));
+		$questions = $this->Question->find('all',array(
+			'conditions'=>array(
+				'Question.status'=>1
+			),
+			'order'=>'Question.sort_order'
+		));
+		
+		$userId = 82;
+		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userId);
+		$result = json_decode($resp, true);
+		$userPrefreces = json_decode($result['Pref']);
+
+		foreach($questions as $key=>$value):
+			$questionId = $value['Question']['id'];
+			foreach($value['QuestionOption'] as $k=>$v):
+				$optionId = $v['id'];
+				$arr = $userPrefreces->$questionId;
+				if(in_array($optionId, $arr)){
+					$questions[$key]['QuestionOption'][$k]['checked'] = 1;
+				}else{
+					$questions[$key]['QuestionOption'][$k]['checked'] = 0;
+				}
+			endforeach;
+		endforeach;
+		echo json_encode($questions);
+		die;
+	}
+
 	function signUp(){
 		$data = $this->request->input ( 'json_decode', true);
 		$qData = array();
@@ -1528,17 +1561,17 @@ function sendCareerInfo(){
 				
 				$i = 0;
 				foreach($item['ProductModifier'] as $pm) {
-					$j = 0;
+					$j = 0; 
 					foreach($pm['Modifier']['ModifierOption'] as $mo) {
 						
-						foreach($favData['FDetail']['data']['modifiers'] as $fpm) {
+						foreach($favData as $fpm) {
 							
 							if($fpm['modifier_id'] == $item['ProductModifier'][$i]['Modifier']['id']) {
 								
 								foreach($fpm['option'] as $fop) {
 									
 									if($fop['plu_code'] == $mo['Option']['plu_code']) {
-										
+										//echo '<pre>'; print_r($fop); 
 										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_checked'] = $fop['is_checked'];
 										
 										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['default_checked'] = $fop['default_checked'];
@@ -1570,6 +1603,8 @@ function sendCareerInfo(){
 											
 										}
 									
+									} else {
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_checked'] = false;
 									}
 									
 								}	
@@ -1585,7 +1620,7 @@ function sendCareerInfo(){
 				}
 				
 			}
-			
+	//die;
 			return $item;
 			
 		//}
@@ -1604,10 +1639,11 @@ function sendCareerInfo(){
 			if(!empty($favOrderData['FDetail'])) {				
 				foreach($favOrderData['FDetail'] as $fd) {					
 					$item = $this->prepareFavResponse($fd['data']['modifiers'], $fd['data']['itemSlug'], $menuCountry);
+					//echo '<pre>'; print_r($item); die;
 					$item['totalItemCost'] = $fd['data']['totalItemCost'];
 					$allItems[] = $item;					
 				}				
-			}			
+			}	 //die;		
 			echo json_encode($allItems); die;
 		}		
 		die;
@@ -1763,19 +1799,19 @@ function sendCareerInfo(){
 		$getAddrs = array();
 		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userData['id']);
 		$profileData = json_decode($resp, true);
-
-		if(empty($profileData['Address1'])){
+		
+		if($profileData['Address1']=='""' || empty($profileData['Address1'])){
 			$addressNo = 'address1';
-		}else if(empty($profileData['Address2'])){
+		}else if($profileData['Address2']=='""' || empty($profileData['Address2'])){
 			$addressNo = 'address2';
-		}else{
+		}else if($profileData['Address3']=='""' || empty($profileData['Address3'])){
 			$addressNo = 'address3';
 		}
-
+		
 		$upatedData = array(
 			'form'=>4,
-			$addressNo=>json_encode($userData)
-		);
+			$addressNo=>$userData
+		);	
 		
 		if(!empty($upatedData)) {
 			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
@@ -1811,7 +1847,7 @@ function sendCareerInfo(){
 
 		$upatedData = array(
 			'form'=>4,
-			$addressNo=>json_encode($userData)
+			$addressNo=>$userData
 		);
 		
 		if(!empty($upatedData)) {
@@ -1848,7 +1884,7 @@ function sendCareerInfo(){
 
 		$upatedData = array(
 			'form'=>4,
-			$addressNo=>json_encode(array())
+			$addressNo=>""
 		);
 		
 		if(!empty($upatedData)) {
@@ -1869,4 +1905,89 @@ function sendCareerInfo(){
 		die;
 	}
 
+	public function setAsDefault(){
+		$this->layout = 'false';
+		$this->autoRender = false;
+		$userData = $this->request->input ( 'json_decode', true) ;	
+
+		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userData['id']);
+		$profileData = json_decode($resp, true);
+		if($userData['addressNo'] == 'Address1'){
+			$address1 = json_decode($profileData['Address1'], true);
+			if(!empty($address1))
+			$address1['is_default'] = 1;
+
+			$address2 = json_decode($profileData['Address2'], true);
+			if(!empty($address2))
+			$address2['is_default'] = 0;
+
+			$address3 = json_decode($profileData['Address3'], true);
+			if(!empty($address3))
+			$address3['is_default'] = 0;
+
+			$upatedData = array(
+				'form'=>4,
+				'address1'=>$address1,
+				'address2'=>$address2,
+				'address3'=>$address3
+			);
+
+		}else if($userData['addressNo'] == 'Address2'){
+			$address1 = json_decode($profileData['Address1'], true);
+			if(!empty($address1))
+			$address1['is_default'] = 0;
+
+			$address2 = json_decode($profileData['Address2'], true);
+			if(!empty($address2))
+			$address2['is_default'] = 1;
+
+			$address3 = json_decode($profileData['Address3'], true);
+			if(!empty($address3))
+			$address3['is_default'] = 0;
+
+			$upatedData = array(
+				'form'=>4,
+				'address1'=>$address1,
+				'address2'=>$address2,
+				'address3'=>$address3
+			);
+
+		}else {
+			$address1 = json_decode($profileData['Address1'], true);
+			if(!empty($address1))
+			$address1['is_default'] = 0;
+
+			$address2 = json_decode($profileData['Address2'], true);
+			if(!empty($address2))
+			$address2['is_default'] = 0;
+
+			$address3 = json_decode($profileData['Address3'], true);
+			if(!empty($address3))
+			$address3['is_default'] = 1;
+
+			$upatedData = array(
+				'form'=>4,
+				'address1'=>$address1,
+				'address2'=>$address2,
+				'address3'=>$address3
+			);
+		}
+		
+		if(!empty($upatedData)) {
+			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$result     = $this->curlPostRequest($url, $upatedData);
+			$response   = json_decode($result); 
+			if($response->Status=='OK'){
+				echo json_encode(array('show'=>true,'isSuccess'=>true, 'message'=>$response->Message));
+			}else{
+				$responseArr = array(
+					'show'=>true, 
+                    'isSuccess'=>false, 
+          			'message'=>'Not deleted'
+				);
+				echo json_encode($responseArr);
+			}			
+		}
+		die;
+	}
 }

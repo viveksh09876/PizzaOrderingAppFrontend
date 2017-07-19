@@ -51,23 +51,27 @@ export class LoginComponent extends DialogComponent<LoginModal, null> {
     this.showLoading = true;
     this.dataService.login(this.username,this.password)
          .subscribe(data => {
-              
               if(data.Status == 'Error') {
                 this.error.show = true;
               }else if(data.Status == 'OK') {
+                this.dataService.getProfile(data.id).subscribe(pdata => {
+                  let user = {
+                    id: pdata.Id,
+                    firstName : pdata.FirstName,
+                    lastName: pdata.LastName,
+                    email: pdata.Email,
+                    phone: pdata.Phone,
+                    dob: pdata.DOB,
+                    zip: pdata.PostalCode,
+                    favloc: pdata.FavLocation
+                  }
 
-                let user = {
-                  id: data.id,
-                  firstName : data.FirstName,
-                  lastName: data.LastName,
-                  email: this.username
-                }
-
-                this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
-                this.dataService.setLocalStorageData('isLoggedIn', true);
-                window.location.reload(); 
-                //this.router.navigate(['/account']);           
-                //this.openMessageModal('Welcome '+user.firstName + '!');
+                  this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
+                  this.dataService.setLocalStorageData('isLoggedIn', true);
+                  window.location.reload(); 
+                  //this.router.navigate(['/account']);           
+                  //this.openMessageModal('Welcome '+user.firstName + '!');
+                }); 
               }        
              
           });

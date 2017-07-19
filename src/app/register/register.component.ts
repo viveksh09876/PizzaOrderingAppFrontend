@@ -149,11 +149,15 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 								let userId = data.id;
 								this.dataService.getProfile(userId).subscribe(pdata => {
 									let user = {
-										id: pdata.Id,
-										firstName : pdata.FirstName,
-										lastName: pdata.LastName,
-										email: pdata.Email
-									}
+                    id: pdata.Id,
+                    firstName : pdata.FirstName,
+                    lastName: pdata.LastName,
+                    email: pdata.Email,
+                    phone: pdata.Phone,
+                    dob: pdata.DOB,
+                    zip: pdata.PostalCode,
+                    favloc: pdata.FavLocation
+                  }
 									this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
 									this.dataService.setLocalStorageData('isLoggedIn', true);
 									this.error = data;

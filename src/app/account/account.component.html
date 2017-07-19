@@ -288,10 +288,20 @@
                         <div class="checkbox" *ngFor="let opt of  pref.QuestionOption">
                             <label>
                                 <ng-container *ngIf="opt.question_id!=4">
-                                    <input type="checkbox" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                  <ng-container *ngIf="opt.checked==1">
+                                      <input type="checkbox" checked (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                  </ng-container>
+                                  <ng-container *ngIf="opt.checked==0">
+                                      <input type="checkbox" ng-checked="true" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                  </ng-container>
                                 </ng-container>
                                 <ng-container *ngIf="opt.question_id==4">
-                                    <input type="radio" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                  <ng-container *ngIf="opt.checked==1">
+                                      <input type="radio" checked  (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                  </ng-container>
+                                  <ng-container *ngIf="opt.checked==0">
+                                      <input type="radio" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                  </ng-container>
                                 </ng-container>
                                 {{opt.answer}}
                                 <span></span>
@@ -397,7 +407,7 @@
               </div>
               <hr>
                 <div class="row">
-                    <div class="col-md-4 col-sm-6">
+                    <div *ngIf="totalNoOfAddress!=3" class="col-md-4 col-sm-6">
                         <div class="address_box addaddress">
                             <a (click)="showAddAddressForm()"><i class="fa fa-plus"></i> Add Address</a>
                         </div>
@@ -413,13 +423,13 @@
                                 {{addressArr.address1.street}} {{addressArr.address1.city}}<br>
                                 {{addressArr.address1.state}} {{addressArr.address1.postal_code}}</p>
                                 <p>Phone Number:{{addressArr.address1.phone}}</p>
-                                <p><a (click)="editAddress('Address1')">Edit</a> | <a (click)="deleteAddress('address1')">Delete</a></p>
+                                <p><a (click)="editAddress('Address1')">Edit</a> | <a (click)="deleteAddress('Address1')">Delete</a> <ng-container *ngIf="!addressArr.address1.is_default"> | <a (click)="setAsDefault('Address1')">Set As Default</a></ng-container></p>
                             </div>
                         </div>
                     </div>    
                     <div *ngIf="addressArr.address2!=''" class="col-md-4 col-sm-6">
                         <div class="address_box">
-                            <h5>{{addressArr.address2.address_type}}<span>Default</span></h5>
+                            <h5>{{addressArr.address2.address_type}}<span *ngIf="addressArr.address2.is_default">Default</span></h5>
                             <div class="content">
                                 <p><strong>{{addressArr.address2.firstname}} {{addressArr.address2.lastname}} </strong><br>
                                 {{addressArr.address2.apartment}} <br>
@@ -427,13 +437,13 @@
                                 {{addressArr.address2.street}} {{addressArr.address2.city}}<br>
                                 {{addressArr.address2.state}} {{addressArr.address2.postal_code}}</p>
                                 <p>Phone Number:{{addressArr.address2.phone}}</p>
-                                <p><a (click)="editAddress('Address2')">Edit</a> | <a (click)="deleteAddress('address2')">Delete</a></p>
+                                <p><a (click)="editAddress('Address2')">Edit</a> | <a (click)="deleteAddress('Address2')">Delete</a> <ng-container *ngIf="!addressArr.address2.is_default"> | <a (click)="setAsDefault('Address2')">Set As Default</a></ng-container></p>
                             </div>
                         </div>
                     </div> 
                     <div *ngIf="addressArr.address3!=''" class="col-md-4 col-sm-6">
                         <div class="address_box">
-                            <h5>{{addressArr.address3.address_type}}<span>Default</span></h5>
+                            <h5>{{addressArr.address3.address_type}}<span *ngIf="addressArr.address3.is_default">Default</span></h5>
                             <div class="content">
                                 <p><strong>{{addressArr.address3.firstname}} {{addressArr.address3.lastname}} </strong><br>
                                 {{addressArr.address3.apartment}} <br>
@@ -441,7 +451,7 @@
                                 {{addressArr.address3.street}} {{addressArr.address3.city}}<br>
                                 {{addressArr.address3.state}} {{addressArr.address3.postal_code}}</p>
                                 <p>Phone Number:{{addressArr.address3.phone}}</p>
-                                <p><a (click)="editAddress('Address3')">Edit</a> | <a (click)="deleteAddress('address3')">Delete</a></p>
+                                <p><a (click)="editAddress('Address3')">Edit</a> | <a (click)="deleteAddress('Address3')">Delete</a> <ng-container *ngIf="!addressArr.address3.is_default"> | <a (click)="setAsDefault('Address3')">Set As Default</a></ng-container></p>
                             </div>
                         </div>
                     </div> 

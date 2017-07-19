@@ -199,6 +199,12 @@ export class DataService {
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
   
+  getUserPrefreces(): Observable<any>{
+    return this.http.get( this.domain + '/webservice/getUserPrefreces/')
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+  
   registerUser(userInfo): Observable<any>{   
     let data = userInfo;
     return this.http.post( this.domain + '/webservice/signUp', data)
@@ -298,8 +304,12 @@ export class DataService {
                   .map((res: Response) => res.json())
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   } 
-                
   
-  
+   setAsDefault(userData): Observable<any>{
+        var data = userData;
+        return this.http.post( this.domain + '/webservice/setAsDefault', data)
+                  .map((res: Response) => res.json())
+                  .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  } 
 
 }
