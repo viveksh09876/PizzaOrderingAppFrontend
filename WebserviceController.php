@@ -1,13 +1,13 @@
 <?php
 App::uses('AppController', 'Controller');
 class WebserviceController extends AppController {
-    public $uses = array('Category','Question','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog');
+    public $uses = array('Category','Question','Content','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog');
     public $components=array('Core','Email');
 
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces'));
+        $this->Auth->allow(array('get_categories','getPageInfo','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces'));
     }
 
     public function get_categories($count=10){
@@ -521,6 +521,9 @@ class WebserviceController extends AppController {
 						$j = 0;
 						foreach($pm['Modifier']['ModifierOption'] as $mo) {
 							
+							unset($mo['Modifier']['ModifierOption']);
+							unset($item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Modifier']['ModifierOption']);
+							
 							$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_checked'] = false;
 							
 							$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['default_checked'] = false;
@@ -682,6 +685,7 @@ class WebserviceController extends AppController {
 		if(!empty($data)) {
 			
 			$arr = array();
+			
 			if(!empty($data['order_details'])) {
 				$data['order_details'] = $this->formatPlaceOrderData($data);
 			}			
@@ -706,6 +710,7 @@ class WebserviceController extends AppController {
 			
 			$i = 0;
 			$pArr = array();
+			
 			foreach($data['order_details'] as $ord) {
 				
 				if($ord['category_id'] == 1) {						
@@ -758,22 +763,40 @@ class WebserviceController extends AppController {
 					//echo '<pre>'; print_r($data['order_details']); die;
 				}	
 				unset($data['order_details'][$i]['category_id']);
+				
+				$arr = array();
+				if(isset($ord['modifier']) && !empty($ord['modifier'])) {
+					$j = 0;
+					
+					foreach($ord['modifier'] as $mod) {
+						$arr[$i][$mod['choice']][$j] = $mod;
+						$j++;
+					}
+					//echo '<pre>'; print_r($arr[$i]); die;			
+					$data['order_details'][$i]['modifier'] = $arr[$i];
+				}
+				
 				$i++;					
 			}
-
-			$i = 0;
-			$arr = array();
+	
+			/*
+			echo '<pre>'; print_r($data['order_details']); die;
+			
 			foreach($data['order_details'] as $ord) {
-				
+				$i = 0;
+				$arr = array();
 				if(isset($ord['modifier']) && !empty($ord['modifier'])) {
+					$j = 0;
+					
 					foreach($ord['modifier'] as $mod) {
-						$arr[$i][$mod['choice']][] = $mod;
+						$arr[$i][$mod['choice']][$j] = $mod;
+						$j++;
 					}
-								
+					echo '<pre>'; print_r($arr[$i]); die;			
 					$data['order_details'][$i]['modifier'] = $arr[$i];
 				}
 				$i++;
-			}
+			}*/
 			
 		}
 		
@@ -1988,6 +2011,14 @@ function sendCareerInfo(){
 				echo json_encode($responseArr);
 			}			
 		}
+		die;
+	}
+
+	function getPageInfo($pageId){
+		$this->autoRender = false;
+		$this->layout = 'false';
+		$data = $this->Content->find('first',array('conditions'=>array('page_id'=>$pageId,'status'=>'Publish')));
+		echo json_encode($data);
 		die;
 	}
 }

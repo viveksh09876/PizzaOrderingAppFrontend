@@ -23,11 +23,18 @@ export class CateringComponent implements OnInit {
 	cateringRes = '';
 	showLoading = false;
 	startDate = new Date();
+	pageTitle = '';
+	pageSubtitle = '';
+	pageContent = '';
 
 	error = { show: false, isSuccess:false, message: 'Sorry ! mail not send, please try again.'};
 
   	ngOnInit() {
-     
+		this.dataService.getPageInfo(1).subscribe(data => {
+			this.pageTitle = data.Content.page_title;
+			this.pageSubtitle = data.Content.page_sub_title;
+			this.pageContent = data.Content.page_content;
+		});
   	}
 
 	CateringApi() {

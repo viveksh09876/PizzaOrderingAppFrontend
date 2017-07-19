@@ -134,15 +134,18 @@ export class AccountComponent implements OnInit {
         let answerId = null;
         let QAarr = [];
         pdata.Pref = JSON.parse(pdata.Pref);
+        console.log(pdata.Pref);
         for (var key in pdata.Pref) {
             if(pdata.Pref.hasOwnProperty(key)){ 
               for(var i=0; i<pdata.Pref[key].length; i++){
                 answerId = pdata.Pref[key][i];
               }
-              QAarr[key] = {'questionId':key,'answerId':answerId};
-            }          
+                QAarr[key] = {'questionId':key,'answerId':answerId};
+            }    
         }
-        this.prefrence.question.push(QAarr);
+                this.prefrence.question.push(QAarr);      
+          console.log(this.prefrence);
+        
         this.error = { show:false, isSuccess:false, message: ''};
         this.showLoading = false;
       });
@@ -178,15 +181,20 @@ export class AccountComponent implements OnInit {
     this.dataService.updateProfile(this.user).subscribe(data => {
       if(data.isSuccess) {
         this.error = data;
-        // this.dataService.getProfile(userId).subscribe(pdata => {
-        //   let user = {
-        //       id: pdata.Id,
-        //       FirstName : pdata.FirstName,
-        //       LastName: pdata.LastName,
-        //       email: pdata.Email
-        //   }
-        //   this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
-        // });
+        this.dataService.getProfile(this.user.id).subscribe(pdata => {
+          let user = {
+            id: pdata.Id,
+            firstName : pdata.FirstName,
+            lastName: pdata.LastName,
+            email: pdata.Email,
+            phone: pdata.Phone,
+            dob: pdata.DOB,
+            zip: pdata.PostalCode,
+            favloc: pdata.FavLocation
+          }
+          this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
+          window.location.reload();
+        });
       }else{
         this.error = data;
       }
@@ -207,10 +215,24 @@ export class AccountComponent implements OnInit {
     });
   }
 
-  setAnswer(questionId,answerId){
-		let QAarr = [];
-		QAarr[questionId] = {'questionId':questionId,'answerId':answerId};
-		this.prefrence.question.push(QAarr);
+  setAnswer(questionId,answerId,$event,index)
+  { 
+      let QAarr = [];
+      QAarr[questionId] = {'questionId':questionId,'answerId':answerId};
+      var checkbox = $event.target;
+      console.log(this.prefrence.question);
+      if(checkbox.checked){
+		    this.prefrence.question.push(QAarr);
+        // alert('checked');
+        console.log(index);
+        // console.log(this.prefrence.question);
+      }else{
+        console.log(index);
+        // console.log(this.prefrence.question);
+		    // this.prefrence.question.splice(index, 1);
+        // alert('unchecked');
+      }
+    // console.log(obj);
   }
   
   updatePrefrence(){

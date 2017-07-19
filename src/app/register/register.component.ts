@@ -138,6 +138,7 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 		let QAarr = [];
 		QAarr[questionId] = {'questionId':questionId,'answerId':answerId};
 		this.prefrence.question.push(QAarr);
+		// console.log(this.prefrence);
 	}
 
 	submit(){

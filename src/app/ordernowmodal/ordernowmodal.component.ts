@@ -163,7 +163,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
         this.dataService.setLocalStorageData('order-now', JSON.stringify(orderDetails));
         this.close();
         this.router.navigate(['/menu']);
-
+        window.location.reload();
     }else{
       this.showOutletError = true;
     }

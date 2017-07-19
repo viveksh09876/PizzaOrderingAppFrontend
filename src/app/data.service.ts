@@ -312,4 +312,12 @@ export class DataService {
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   } 
 
+   getPageInfo(pageId): Observable<any>{
+        return this.http.get( this.domain + '/webservice/getPageInfo/'+ pageId)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+
+  } 
+
+  
 }
