@@ -155,17 +155,16 @@ export class UtilService {
   findNearbyStore(stores, userLat, UserLong) {
     let myStore = stores[0];
     let myStoreDistance = this.getDistanceFromLatLonInKm(myStore.Store.latitude, myStore.Store.longitude, userLat, UserLong);
+    
     for(var i=0; i < stores.length; i++) {
       if(i != 0) {
         let distance = this.getDistanceFromLatLonInKm(stores[i].Store.latitude, stores[i].Store.longitude, userLat, UserLong);
-
         if(distance < myStoreDistance) {
           myStore = stores[i];
         }
       }
     }
-
-    return stores[i];
+    return myStore;
   }
 
   formatCountryName(name) {

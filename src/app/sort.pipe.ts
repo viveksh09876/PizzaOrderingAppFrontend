@@ -19,10 +19,19 @@ export class SortPipe implements PipeTransform {
         }
 
       }else{
+        if((a.Option.plu_code == '999991' || 
+              a.Option.plu_code == '999992' ||
+                a.Option.plu_code == '999993') && (b.Option.plu_code == '999991' || 
+              b.Option.plu_code == '999992' ||
+                b.Option.plu_code == '999993')) {
 
-        var textA = a.Option.name.toUpperCase();
-        var textB = b.Option.name.toUpperCase();
-        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+                  return 0;
+                } else {
+                  var textA = a.Option.name.toUpperCase();
+                  var textB = b.Option.name.toUpperCase();
+                  return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+                }
+        
 
        }
     });

@@ -99,16 +99,17 @@ export class HomeComponent implements OnInit, AfterContentInit {
   }
 
   setStore() {
+    
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
+        navigator.geolocation.getCurrentPosition((position) => { 
           this.dataService.getStoresFromLatLong(position.coords.latitude, position.coords.longitude)
               .subscribe(data => {      
-                    this.storeList = data.stores;  
-                     
+                    this.storeList = data.stores; 
                     if(this.storeList.length > 0) {
                       this.dataService.setLocalStorageData('menuCountry', this.countryName);
                       this.store = this.utilService.findNearbyStore(this.storeList, position.coords.latitude, position.coords.longitude);
                       
+                      this.dataService.setLocalStorageData('latlong', 'from geolocation: ' + position.coords.latitude + ',' + position.coords.longitude);
                       this.dataService.setLocalStorageData('nearByStore', this.store.Store.id);
                     }else{
                       this.dataService.setLocalStorageData('menuCountry', 'UAE');
@@ -128,6 +129,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
                         if(this.storeList.length > 0) {
                           this.dataService.setLocalStorageData('menuCountry', this.countryName);
                           this.store = this.utilService.findNearbyStore(this.storeList, data.geoplugin_latitude, data.geoplugin_longitude);
+                          this.dataService.setLocalStorageData('latlong', 'from ip: ' + data.geoplugin_latitude + ',' + data.geoplugin_longitude);
                           this.dataService.setLocalStorageData('nearByStore', this.store.Store.id); 
                         } else{
                           this.dataService.setLocalStorageData('menuCountry', 'UAE');
