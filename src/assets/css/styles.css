@@ -1094,7 +1094,7 @@ header.navigation .logo {
 .banner-wrapper.customize-mob .header-sec{background: #789c48; text-align: center; display: inline-block; width: 100%;}
 .banner-wrapper.customize-mob h3{color: #fff; font-size: 1.5em; line-height: 2em; display: inline-block;}
 
-.banner-wrapper {
+.banner-wrapper.customize-mob {
 	display: block;
 }
 .banner-wrapper .container {
@@ -1230,7 +1230,7 @@ header.navigation .logo {
 	margin-bottom: 106px;
 }
 .banner-wrapper .container {
-	top: 52px;
+	padding: 0 15px;
 }
 .banner-wrapper h1 {
 	font-size: 2.5em;
@@ -2788,6 +2788,8 @@ color:#fff
 .three-column-wrapper .inside-column-container.secondCol, .three-column-wrapper .inside-column-container.thirdCol {
 	font-size: 12px
 }
+header.navigation ul.links.mobile,.banner-wrapper.customize-desk{display: none;}
+.banner-wrapper.customize-mob{margin-bottom: 64px;}
 }
 .three-column-wrapper .inside-column-container.thirdCol {
 	width: 70%;
@@ -3190,6 +3192,7 @@ color:#fff
 }
 
 @media  (min-width: 768px) and (max-width: 991px) {
+	.banner-wrapper.customize-mob{margin-bottom: 56px;}
     .form_design{ margin: 0;}
     .form_design h3{ line-height: 30px; margin: 0 0 20px;}
     .form_design .form-group{ margin-bottom: 20px;}
