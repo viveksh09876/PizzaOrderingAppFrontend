@@ -93,7 +93,6 @@ We freshly slice ingredients for our pizzas in-restaurant — from tomatos, to j
       <ng-container *ngFor=" let Fbfeed of latestFbFeeds;  let j=index">
        <ng-container *ngIf="Fbfeed != null && j<2">
       <div class="col-md-4 col-sm-6" >
-        
         <div class="blog-content" [ngStyle]="{ 'background-image': 'url(' + Fbfeed.image + ')'}">
           <div class="media">
             <div class="media-left media-middle"> <i class="icon-facebook"></i> </div>
