@@ -64,6 +64,7 @@ $(document).ready(function(){
 
 });
 
+function temp() {
 mapboxgl.accessToken = 'pk.eyJ1IjoicHVzaHBlbmRyYXJhaiIsImEiOiJjajRwYzFtOTYxeWd0MzJwbDdsaGNzOTZiIn0.a9BUA890Vtyeqy21AaLClQ';
 $(document).ready(function(){
 
@@ -198,8 +199,7 @@ $(document).ready(function(){
           });
       }
   });
-
-  
-  
 });
+}
+
 
