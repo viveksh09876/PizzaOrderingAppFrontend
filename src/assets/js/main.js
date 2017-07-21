@@ -77,9 +77,9 @@ $(document).ready(function(){
         // country = 'UAE';
           
         var mapText = 'Coming Soon nearby your location';
-        var zoomLabel = 2;
+        var zoomLabel = 5;
         if(country == 'UAE' || country == 'United Arab Emirates') {
-          var zoomLabel = 3;
+          var zoomLabel = 5;
         }
 
         // inittialize map
