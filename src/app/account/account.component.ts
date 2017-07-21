@@ -134,7 +134,7 @@ export class AccountComponent implements OnInit {
         let answerId = null;
         let QAarr = [];
         pdata.Pref = JSON.parse(pdata.Pref);
-        console.log(pdata.Pref);
+        // console.log(pdata.Pref);
         for (var key in pdata.Pref) {
             if(pdata.Pref.hasOwnProperty(key)){ 
               for(var i=0; i<pdata.Pref[key].length; i++){
@@ -144,7 +144,7 @@ export class AccountComponent implements OnInit {
             }    
         }
                 this.prefrence.question.push(QAarr);      
-          console.log(this.prefrence);
+        // console.log(this.prefrence);
         
         this.error = { show:false, isSuccess:false, message: ''};
         this.showLoading = false;
@@ -215,7 +215,7 @@ export class AccountComponent implements OnInit {
     });
   }
 
-  setAnswer(questionId,answerId,$event,index)
+  setAnswer(questionId,answerId,$event,qIndex,iIndex)
   { 
       let QAarr = [];
       QAarr[questionId] = {'questionId':questionId,'answerId':answerId};
@@ -224,12 +224,12 @@ export class AccountComponent implements OnInit {
       if(checkbox.checked){
 		    this.prefrence.question.push(QAarr);
         // alert('checked');
-        console.log(index);
-        // console.log(this.prefrence.question);
+        //console.log(index);
+        console.log(this.prefrence.question);
       }else{
-        console.log(index);
+        //console.log(index);
         // console.log(this.prefrence.question);
-		    // this.prefrence.question.splice(index, 1);
+		     //this.prefrence.question[qIndex].slice(index, 1);
         // alert('unchecked');
       }
     // console.log(obj);

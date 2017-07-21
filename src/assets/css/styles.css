@@ -95,6 +95,7 @@ body {
 }
 
 @media (max-width: 767px) {
+	.slider-wrapper .slides .slide .container .slide-content img{width: 50%;}
 	.modal-dialog{margin:12% 20px !important;}
 	#signinModal .guest button{margin:0px !important;}
 	#signinModal .signin{border:none !important;}
@@ -442,7 +443,7 @@ header.navigation .logo {
 	padding: 10px 15px 0;
 	display: inline-block;
 }
-header.navigation .logo img{width: 200px;}
+header.navigation .logo img{width: 200px; height: 40px;}
 
 header.navigation ul.social-list {
 	float: left;
@@ -677,6 +678,15 @@ header.navigation .logo {
 	max-width: 100%
 }
 }
+@media (min-width: 768px) and (max-width: 1023px){
+	.how-are-we-different-wrapper .container{width: 100%;}
+.slider-wrapper .slides .slide .container .slide-content img{width: 60%;}
+#signinModal .signin{border:none !important;}	
+.how-are-we-different-wrapper .section-wrapper .section-container .img-box .overlap-text{overflow: auto;}
+.footer-wrapper ul.social-links{margin-top: 20px;}
+.footer-wrapper ul.nav-links.border-right{border-right: none !important;}
+}
+}
 .how-are-we-different-wrapper .section-wrapper .section-container.no-border {
 	border: none
 }
@@ -726,6 +736,7 @@ header.navigation .logo {
 }
 
 @media (max-width: 767px) {
+	.how-are-we-different-wrapper .section-wrapper .section-container .img-box .overlap-text{overflow: auto;}
 .our-journey-wrapper {
 	height: 350px;
 	min-height: 0px

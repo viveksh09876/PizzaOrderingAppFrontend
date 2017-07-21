@@ -30,24 +30,18 @@
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="whynkd">
           <div class="content-wrapper">
-            <div class="content-container">
-              <div [innerHTML]="whyNkdContent"></div>
-            </div>
+              <div class="content-container" [innerHTML]="whyNkdContent"></div>
           </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="ourmodel">
           <div class="content-wrapper">
-            <div class="content-container">
-              <div [innerHTML]="ourModelContent"></div>
-            </div>
+              <div class="content-container" [innerHTML]="ourModelContent"></div>
           </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="applynow">
           <div class="content-wrapper">
-          <div class="content-container">
-            <div [innerHTML]="applyNowContent"></div>
-              <a (click)="openModal('contact')">Click Here</a>
-          </div>
+            <div class="content-container" [innerHTML]="applyNowContent"></div>
+            <a (click)="openModal('contact')">Click Here</a>
           </div>
         </div>
       </div>

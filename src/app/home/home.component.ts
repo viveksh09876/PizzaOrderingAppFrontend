@@ -11,6 +11,7 @@ import { environment } from '../../environments/environment';
 //import * as $ from 'jquery';
 declare var jQuery: any;
 declare var google: any;
+declare var window: any;
 
 @Component({
   selector: 'app-home',
@@ -45,7 +46,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
       this.showLogin = false;
     } 
 
-    
+    window.temp();
+
     this.dataService.setLocalStorageData('favItemFetched', null);
     this.dataService.setLocalStorageData('favOrdersFetched', null); 
     this.dataService.setLocalStorageData('confirmationItems', null); 
@@ -151,14 +153,41 @@ export class HomeComponent implements OnInit, AfterContentInit {
   getFbFeeds(name) {
      this.dataService.getFbFeeds(name)
         .subscribe(data => {
-            this.latestFbFeeds = data;
+          let fbfeeds = data;
+            if(fbfeeds.length > 0) {
+              for(var i=0; i<fbfeeds.length; i++) {
+                fbfeeds[i].message = fbfeeds[i].message;
+                let tempImage =  fbfeeds[i].image;
+                let tempArr = tempImage.split("/");
+                if(tempArr[5]==undefined){
+                  fbfeeds[i].image = 'assets/images/social-default.jpg';
+                }else{
+                  fbfeeds[i].image = fbfeeds[i].image;
+                }
+              }
+            }
+            this.latestFbFeeds = fbfeeds;
         });
   }
 
   getIgFeeds(name) {
      this.dataService.getIgFeeds(name)
         .subscribe(data => {
-          this.latestIgFeeds = data;
+          let IgFeeds = data;
+          console.log(data);
+            if(IgFeeds.length > 0) {
+              for(var i=0; i<IgFeeds.length; i++) {
+                IgFeeds[i].message = IgFeeds[i].message;
+                let tempImage =  IgFeeds[i].image;
+                let tempArr = tempImage.split("/");
+                if(tempArr[5]==undefined){
+                  IgFeeds[i].image = 'assets/images/social-default.jpg';
+                }else{
+                  IgFeeds[i].image = IgFeeds[i].image;
+                }
+              }
+            }
+          this.latestIgFeeds = IgFeeds;
         });
   }
 
