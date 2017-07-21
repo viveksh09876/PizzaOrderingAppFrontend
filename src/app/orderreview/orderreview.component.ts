@@ -215,11 +215,8 @@ export class OrderreviewComponent implements OnInit {
       if(y) {
           let allItems = [];
           let item = this.items;
-          for(var i=0; i<this.items.length; i++) {
-            if(i != num && this.items[i].Product.plu_code != prod.Product.plu_code) {
-              allItems.push(this.items[i]);
-            }
-          }
+          this.items.splice(num, 1);
+          allItems = this.items;
 
           if(allItems.length > 0) {
             
@@ -509,6 +506,11 @@ export class OrderreviewComponent implements OnInit {
       setTimeout(function(){
         this.couponMsg = '';
       }, 4000);
+    }
+
+
+    editItem(index, prod) {
+      this.router.navigate(['/item/edit', index]);
     }
 
 

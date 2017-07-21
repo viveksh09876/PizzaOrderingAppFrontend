@@ -65,7 +65,7 @@
                     <div class="item_pic">
                         <div class="img-control">
                             <a (click)="deleteItem(i, item)"><span class="icon icon-close"></span></a>
-                              <!--<a href="#"><span class="icon icon-edit"></span></a>-->
+                            <a *ngIf="item.ProductModifier.length > 0" (click)="editItem(i, item)"><span class="icon icon-edit"></span></a>
                         </div>
                         <img *ngIf="item.Product.thumb_image == null" src="assets/images/pizza-images/2.jpg" alt="" class="item">
                         <img *ngIf="item.Product.thumb_image != null" src="{{cmsApiPath + '/' + item.Product.thumb_image}}" alt="" class="item">

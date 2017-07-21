@@ -25,6 +25,8 @@ export class ItemComponent implements OnInit {
   showAddToCart = true;
   menuCountry = null;
   currencyCode = null;
+  isEdit = false;
+  itemPos: 0;
 
   constructor(private dialogService:DialogService,
               private dataService: DataService, 
@@ -65,7 +67,18 @@ export class ItemComponent implements OnInit {
           }
           
         }else{
-          alert('Invalid Page Requested!');
+          //from edit item
+          if(params['itemPos'] && params['itemPos']!= '') {
+            
+            this.isEdit = true;
+            this.itemPos = params['itemPos'];
+            let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems')); 
+            this.item = allItems[params['itemPos']];
+            this.getTotalCost();
+
+          } else {
+            alert('Invalid Page Requested!');
+          }
         }
 
       });
@@ -755,22 +768,29 @@ export class ItemComponent implements OnInit {
 
 
   add_to_cart() {
-  
-    if(this.dataService.getLocalStorageData('allItems') != null
-          && this.dataService.getLocalStorageData('allItems') != 'null') {
-       let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
-       allItems.push(this.item);  
-       this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
-    }else{
-      let allItems = [];
-      allItems.push(this.item);
-      this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
-    }
     
-    this.dataService.setLocalStorageData('totalCost', this.totalCost); 
-    let selectedMenuCat = this.dataService.getLocalStorageData('selectedMenuCat');
-    this.router.navigate(['/menu', selectedMenuCat]);
+    if (this.isEdit) {
 
+      let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+      allItems[this.itemPos] = this.item;
+      this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems));
+      
+    } else {
+      if(this.dataService.getLocalStorageData('allItems') != null
+          && this.dataService.getLocalStorageData('allItems') != 'null') {
+        let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+        allItems.push(this.item);  
+        this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+      }else{
+        let allItems = [];
+        allItems.push(this.item);
+        this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+      } 
+    }
+
+    this.dataService.setLocalStorageData('totalCost', this.totalCost);
+    let selectedMenuCat = this.dataService.getLocalStorageData('selectedMenuCat');
+    this.router.navigate(['/menu', selectedMenuCat]);  
   }
 
 
