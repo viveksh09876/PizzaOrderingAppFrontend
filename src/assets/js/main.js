@@ -86,7 +86,8 @@ $(document).ready(function(){
         lat = resp.geoplugin_latitude;
         lng = resp.geoplugin_longitude;
 
-        directionUrl = directionUrl + '?saddr=' + lat + ',' + lng;
+        // directionUrl = directionUrl + '?saddr=' + lat + ',' + lng;
+        directionUrl = directionUrl + '?';
 
         var mapCanvas = new mapboxgl.Map({
             container: 'mapCanvas',
