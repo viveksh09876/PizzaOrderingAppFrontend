@@ -77,16 +77,17 @@ $(document).ready(function(){
         // country = 'UAE';
           
         var mapText = 'Coming Soon nearby your location';
-        var zoomLabel = 2;
+        var zoomLabel = 5;
         if(country == 'UAE' || country == 'United Arab Emirates') {
-          var zoomLabel = 3;
+          var zoomLabel = 5;
         }
 
         // inittialize map
         lat = resp.geoplugin_latitude;
         lng = resp.geoplugin_longitude;
 
-        directionUrl = directionUrl + '?saddr=' + lat + ',' + lng;
+        // directionUrl = directionUrl + '?saddr=' + lat + ',' + lng;
+        directionUrl = directionUrl + '?';
 
         var mapCanvas = new mapboxgl.Map({
             container: 'mapCanvas',

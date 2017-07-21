@@ -16,12 +16,12 @@
       <div class="cube2 icon icon-pizza-icon"></div>
     </div>
 
-  <div class="two-column-wrapper" *ngIf="menuData != null">
+  <div class="two-column-wrapper" *ngIf="menuData != null && selectedMenuCat != null">
   <!--Left Panel Starts-->
     <div class="inside-column-container leftContent"> 
       <!-- Nav tabs -->
       <ul class="nav nav-tabs hidden-xs  orderTabs" role="tablist" id="tabSwitch" [ngClass]="{'full': showViewCart ==  false}">
-        <li role="presentation" *ngFor="let cat of menuData; let i = index" [ngClass]="(i==0)? 'active': ''"> <a href="#{{cat.name}}" aria-controls="applyNow" role="tab" data-toggle="tab">{{cat.name}}</a> </li>
+        <li role="presentation" *ngFor="let cat of menuData; let i = index" [ngClass]="(cat.name == selectedMenuCat)? 'active': ''"> <a [routerLink]="['/menu', cat.name]" aria-controls="applyNow" role="tab" data-toggle="tab">{{cat.name}}</a> </li>
       </ul>
       <select class="custom-select visible-xs" target="#tabSwitch" (change)="changTab($event.target.value)">
         <option *ngFor="let cat of menuData" value="{{cat.name}}">{{cat.name}}</option>
@@ -30,7 +30,7 @@
       <!-- Tab panes -->
       <div class="tab-content">
 
-        <div role="tabpanel" *ngFor="let data of menuData; let z=index;" [ngClass]="{'active': z== 0}"  class="tab-pane" id="{{data.name}}">
+        <div role="tabpanel" *ngFor="let data of menuData; let z=index;" [ngClass]="{'active': (data.name == selectedMenuCat)}"  class="tab-pane" id="{{data.name}}">
             <div class="content-wrapper">
                 <div class="content-container">
                   <ng-container *ngFor="let prod of data.products">

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PipeTransform, Pipe } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 
@@ -18,7 +18,8 @@ export class MenuComponent implements OnInit {
 
   constructor(private dataService: DataService, 
                 private utilService: UtilService, 
-                    private router: Router) { }
+                     private route: ActivatedRoute, 
+                        private router: Router) { }
 
   menuData = null;
   categories: Array<any>;
@@ -30,6 +31,7 @@ export class MenuComponent implements OnInit {
   showFooter = false;
   cmsApiPath = environment.cmsApiPath;
   currencyCode = null;
+  selectedMenuCat = null;
 
 
   ngOnInit() {
@@ -42,6 +44,7 @@ export class MenuComponent implements OnInit {
 
     this.currencyCode = this.utilService.currencyCode;
     this.getAllCategories();
+        
     let items = this.dataService.getLocalStorageData('allItems'); 
     let orderNowDetails = this.dataService.getLocalStorageData('order-now'); 
     if((items != null && items != 'null') || (orderNowDetails != null && orderNowDetails != 'null')) {
@@ -70,9 +73,18 @@ export class MenuComponent implements OnInit {
       this.dataService.getMenuData(storeId, menuCountry)
             .subscribe(data => {
                         
-                this.menuData = data;
-              
-            }); 
+          this.menuData = data;
+          console.log(this.menuData[0].name);
+          this.selectedMenuCat = this.menuData[0].name;  
+
+
+          this.route.params.subscribe(params => { 
+            if(params['slug'] && params['slug']!= '') {
+              this.selectedMenuCat = params['slug'];
+              this.dataService.setLocalStorageData('selectedMenuCat', this.selectedMenuCat);
+            }
+          });          
+      }); 
 
       
   }
@@ -115,12 +127,9 @@ export class MenuComponent implements OnInit {
       if(y) {
           let allItems = [];
           let item = this.items;
-          for(var i=0; i<this.items.length; i++) {
-            if(i != num && this.items[i].Product.plu_code != prod.Product.plu_code) {
-              allItems.push(this.items[i]);
-            }
-          }
-
+          this.items.splice(num, 1);
+          allItems = this.items;
+         
           if(allItems.length > 0) {
             
             this.items = allItems;
@@ -132,7 +141,6 @@ export class MenuComponent implements OnInit {
             this.items = [];
             this.dataService.setLocalStorageData('allItems', 'null');
             alert('No items remaining in your cart!');
-            //this.router.navigate(['/menu']);
           }
          
       }      
