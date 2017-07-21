@@ -59,6 +59,11 @@ export class DataService {
     return localStorage.getItem(key);
   }
 
+  clearLocalStorageData() {
+    localStorage.clear();
+    return;
+  }
+
   placeOrder(data): Observable<any>{
    
   

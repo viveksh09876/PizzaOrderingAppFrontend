@@ -16,6 +16,7 @@ import { BahrainComponent } from './bahrain/bahrain.component';
 
 const appRoutes: Routes = [ 
     { path: '', component: HomeComponent },
+    { path: 'menu/:slug', component: MenuComponent },
     { path: 'menu', component: MenuComponent },
     { path: 'item/:slug', component: ItemComponent },
     { path: 'order-review', component: OrderreviewComponent },

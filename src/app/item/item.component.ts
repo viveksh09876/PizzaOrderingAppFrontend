@@ -84,18 +84,19 @@ export class ItemComponent implements OnInit {
                 
                 if(temp == null || temp == 'null') {
 
-                  let allItems = [];                  
+                  let allItems = [];  
                   allItems.push(data);
                   this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
                  
                 }else{
 
                   let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));                  
-                  allItems.push(data);  
+                  allItems.splice(0,0,data);  
                   this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
                 }
 
-                this.router.navigate(['/menu']);
+                let selectedMenuCat = this.dataService.getLocalStorageData('selectedMenuCat');
+                this.router.navigate(['/menu', selectedMenuCat]);
              
             }else{
                 this.item = data;
@@ -157,7 +158,8 @@ export class ItemComponent implements OnInit {
     
    
     if(this.item.ProductModifier.length > 0) {
-     let isNoMod = false;  
+     let isNoMod = false;
+     let noModId = null;  
       for(var i = 0; i < this.item.ProductModifier.length; i++) {
         
         let options = this.item.ProductModifier[i].Modifier.ModifierOption;
@@ -181,7 +183,7 @@ export class ItemComponent implements OnInit {
 
               if(options[j].Option.is_checked && options[j].Option.no_modifier == 1) {
                 isNoMod = true; 
-                
+                noModId = options[j].Option.id;
               }
 
               if(options[j].Option.OptionSuboption != undefined && options[j].Option.OptionSuboption.length > 0) {
@@ -237,14 +239,18 @@ export class ItemComponent implements OnInit {
               }
 
             }
-
-
              
         }
 
         if(isNoMod) {            
             for(var t=0; t < options.length; t++) {   
-                  options[t].Option.is_checked = false;
+                if(!options[t].Option.is_included_mod) {
+                  if(noModId != options[t].Option.id) {
+                    options[t].Option.is_checked = false;
+                  }else{
+                    options[t].Option.send_code = 0;
+                  }
+                }
             }            
         }
           
@@ -749,7 +755,7 @@ export class ItemComponent implements OnInit {
 
 
   add_to_cart() {
-    console.log(this.item);
+  
     if(this.dataService.getLocalStorageData('allItems') != null
           && this.dataService.getLocalStorageData('allItems') != 'null') {
        let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
@@ -762,7 +768,8 @@ export class ItemComponent implements OnInit {
     }
     
     this.dataService.setLocalStorageData('totalCost', this.totalCost); 
-    this.router.navigate(['/menu']);
+    let selectedMenuCat = this.dataService.getLocalStorageData('selectedMenuCat');
+    this.router.navigate(['/menu', selectedMenuCat]);
 
   }
 
