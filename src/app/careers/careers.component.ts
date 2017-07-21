@@ -22,10 +22,17 @@ export class CareersComponent implements OnInit {
   };
   
   showLoading = false;
-  error = { show: false, isSuccess:false, message: 'Sorry ! mail not send, please try again.'};
+	error = { show: false, isSuccess:false, message: 'Sorry ! mail not send, please try again.'};
+	pageTitle = '';
+  pageSubtitle = '';
+  pageContent = '';
 
   ngOnInit() {
-     
+    this.dataService.getPageInfo(2).subscribe(data => {
+			this.pageTitle = data.Content.page_title;
+			this.pageSubtitle = data.Content.page_sub_title;
+			this.pageContent = data.Content.page_content;
+		});
   }
 
   Submit(){

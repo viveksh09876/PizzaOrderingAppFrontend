@@ -5,13 +5,10 @@
 <div class="container">
   <div class="two-column-wrapper franchising">
     <div class="inside-column-container aside-wrapper">
-      <h3>why nkd pizza?</h3>
+      <h3>{{whyNkdPizzaTitle}}</h3>
       <div class="content-wrapper">
         <div class="img-wrapper" style="background-image:url(assets/images/why-nkd-img.jpg)"> <img src="assets/images/why-nkd-img.jpg" class="img-responsive center-block" alt=""> </div>
-        <div class="content-container">
-          <p><strong>More than ever, consumers want new alternatives to traditional fast-food. </strong></p>
-          <p>People want foods that feature delicious but carefully sourced ingredients. They're demanding the focus is placed on fresh ahead of processed, and that's where we step in.</p>
-        </div>
+        <div class="content-container" [innerHTML]="whyNkdPizzaContent"></div>
       </div>
     </div>
     <div class="inside-column-container"> 
@@ -23,9 +20,10 @@
         <li role="presentation"> <a href="#applynow" aria-controls="applynow" role="tab" data-toggle="tab">Apply now</a> </li>
       </ul>
       <select class="custom-select visible-xs visible-sm" target="#tabSwitch" (change)="changTab($event.target.value)">
-        <option value="whynkd">Why NKD</option>
-        <option value="ourmodel">Our model</option>
-        <option value="applynow">Apply now</option>
+        <option value="whynkd">{{whyNkdTitle}}</option>
+        <option value="ourmodel">{{ourModelTitle}}</option>
+        <option value="applynow">{{applyNowTitle}}</option>
+        {{whyNkdContent}}
       </select>
       
       <!-- Tab panes -->
@@ -33,32 +31,22 @@
         <div role="tabpanel" class="tab-pane fade in active" id="whynkd">
           <div class="content-wrapper">
             <div class="content-container">
-              <p>NKD provides feel-good pizza using ingredients such as local fresh vegetables, delivered right to your doorstep. We offer pizza our customers feel good about eating and we feel good about serving. </p>
-
-<p>Founded in late 2006 as one small store in New Orleans, NKD Pizza (originally named World’s Healthiest Pizza) was launched as an ambitious business model that sought to change the nutritional profile of fast food internationally.</p>
-
-<p>Today there is ever increasing consumer demand for healthier, convenient, great-tasting food. Pizza businesses who do not adapt and evolve with new consumer demands risk being left behind. We won’t be one of them, and we’re looking for like-minded people to join us as franchisees to be part of the NKD story.</p>
-
-<p>As an NKD Pizza franchisee, you’ll have the opportunity to bring pizza made only from carefully sourced and delicious ingredients.</p>
+              <div [innerHTML]="whyNkdContent"></div>
             </div>
           </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="ourmodel">
           <div class="content-wrapper">
-          <div class="content-container">
-          <p>Our model is a simple but successful one – carry out and delivery, no dining. We offer this via a cool, engaging brand with a product that makes people feel good about eating pizza. NKD’s stores are small spaces (800 to 1,200 sq ft) which means limited build out costs. You don’t need to be in prime locations as 70-80% of our business is delivery, but you’ll need to have a good customer reach in the neighborhood. We offer all the sophistication and efficiency of the major national chains, with a product that can promote healthier communities. </p>
-
-<p>We are looking to partner with entrepreneurs that have vision and drive. If you are interested in seizing opportunities others miss and creating and scaling sustainable solutions to change society for the better, then you just might be the type of partner we are looking for. </p>
-
-<p>We support our franchisees with site selection, construction assistance and ongoing support long after the doors have opened. Our experienced operations professionals will be with you every step of the way, offering the tools and guidance you will need to ensure your NKD Pizza journey is a success.</p>
-          </div>
+            <div class="content-container">
+              <div [innerHTML]="ourModelContent"></div>
+            </div>
           </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="applynow">
           <div class="content-wrapper">
           <div class="content-container">
-          <p>If you want to join an international, growing franchise and think you have what it takes, click here to start the application process. Alternatively contact us, for more information.</p>
-          <a (click)="openModal('contact')">Click Here</a>
+            <div [innerHTML]="applyNowContent"></div>
+              <a (click)="openModal('contact')">Click Here</a>
           </div>
           </div>
         </div>

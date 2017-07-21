@@ -1,6 +1,6 @@
 <div class="banner-wrapper twolines">
 <div class="container text-right right-text" style="background-image:url(assets/images/career-banner.jpg)">
-  <h1>join our team <span>shamelessly good</span></h1>
+  <h1>{{pageTitle}} <span>{{pageSubtitle}}</span></h1>
   </div>
 </div>
 <div class="clearfix"></div>
@@ -12,16 +12,7 @@
                     <img src="assets/images/white_logo.png">
                     <p>employees should possess the folllowing</p>
                 </div>
-                <ul>
-                    <li>A passion for great food.</li>
-                    <li>An excellent work ethic.</li>
-                    <li>An ability to follow rules and learn company standard operating procedures.</li>
-                    <li>Enthusiasm for amazing customer service.</li>
-                    <li>An unyielding approach to quality and standards.</li>
-                    <li>A strong desire to be part of a winning team.</li>
-                    <li>Ability to stay organized and calm in high-pressure situations.</li>
-                    <li>Impeccable communication skills.</li>
-                </ul>
+                <div [innerHTML]="pageContent"></div>
             </div>
         </div>
 
