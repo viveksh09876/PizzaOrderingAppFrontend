@@ -289,18 +289,18 @@
                             <label>
                                 <ng-container *ngIf="opt.question_id!=4">
                                   <ng-container *ngIf="opt.checked==1">
-                                      <input type="checkbox" checked (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                      <input type="checkbox" checked (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[]"> 
                                   </ng-container>
                                   <ng-container *ngIf="opt.checked==0">
-                                      <input type="checkbox" (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                      <input type="checkbox" (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[]"> 
                                   </ng-container>
                                 </ng-container>
                                 <ng-container *ngIf="opt.question_id==4">
                                   <ng-container *ngIf="opt.checked==1">
-                                      <input type="radio" checked  (click)="setAnswer(opt.question_id,opt.id,$event)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                      <input type="radio" checked  (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[]"> 
                                   </ng-container>
                                   <ng-container *ngIf="opt.checked==0">
-                                      <input type="radio" (click)="setAnswer(opt.question_id,opt.id,$event)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                      <input type="radio" (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[]"> 
                                   </ng-container>
                                 </ng-container>
                                 {{opt.answer}}

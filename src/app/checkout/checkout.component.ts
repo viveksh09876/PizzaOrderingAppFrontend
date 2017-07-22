@@ -68,12 +68,12 @@ export class CheckoutComponent implements OnInit {
       this.showLoading = true;
         this.showPlaceOrder = false;
         this.dataService.placeOrder(this.orderData).subscribe(data => {
-              //console.log(JSON.parse(data.response));
+             // console.log(JSON.parse(data.response));
               let resp = JSON.parse(data.response);
 
               if(resp.Status == 'Error') {
                 this.showPlaceOrder = true;
-                alert('There is some issue. Please try again later!');
+                alert(resp.message);
               /*
                 this.dialogService.addDialog(MessageComponent, { title: 'Oops!', message: resp.message, buttonText: 'Close', doReload: false }, { closeByClickingOutside:true });
                 this.router.navigate(['/order-review']); 

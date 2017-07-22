@@ -134,14 +134,17 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 		}	
 	}
 
-	setAnswer(questionId,answerId){
-		let QAarr = [];
-		QAarr[questionId] = {'questionId':questionId,'answerId':answerId};
-		this.prefrence.question.push(QAarr);
-		// console.log(this.prefrence);
-	}
+	 setAnswer(questionId,answerId,$event,qIndex,iIndex){ 
+      var checkbox = $event.target;
+      if(checkbox.checked){
+				this.prefreces[qIndex].QuestionOption[iIndex].checked = 1;
+      }else{
+				this.prefreces[qIndex].QuestionOption[iIndex].checked = 0;
+      }
+  }
 
 	submit(){
+		this.prefrence.question = this.prefreces;
 		this.userData.push(this.prefrence);
 		this.showLoading = true;
 		this.dataService.registerUser(this.userData)

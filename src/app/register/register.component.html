@@ -115,15 +115,15 @@
             <div role="tabpanel" style="height:55vh;overflow:auto;" class="tab-pane" [ngClass]="{'active': thirdStepForm}" id="prefer">
                 <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
                 <form #signUpStep3Form="ngForm" ngForm (ngSubmit)="submit()">
-                    <div class="form-group" *ngFor="let pref of prefreces">
+                    <div class="form-group" *ngFor="let pref of prefreces; let p=index">
                         <label>{{pref.Question.question}}</label>
-                        <div class="checkbox" *ngFor="let opt of  pref.QuestionOption">
+                        <div class="checkbox" *ngFor="let opt of  pref.QuestionOption; let i=index">
                             <label>
                                 <ng-container *ngIf="opt.question_id!=4">
-                                    <input type="checkbox" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                    <input type="checkbox" (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
                                 </ng-container>
                                 <ng-container *ngIf="opt.question_id==4">
-                                    <input type="radio" (click)="setAnswer(opt.question_id,opt.id)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                    <input type="radio" (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
                                 </ng-container>
                                 {{opt.answer}}
                                 <span></span>

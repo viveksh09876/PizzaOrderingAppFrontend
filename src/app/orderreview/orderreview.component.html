@@ -132,7 +132,7 @@
             <form class="order_reviewform" name="orderReviewForm">
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Appt#" type="text" name="apartment"  id="apartment" #apartment="ngModel" [(ngModel)]="order.address.apartment" required>
+                        <input class="form-control" placeholder="Appt#" type="text" name="apartment" id="apartment" #apartment="ngModel" [(ngModel)]="order.address.apartment" required>
                         <div *ngIf="apartment.errors && (apartment.dirty || apartment.touched)" class="alert alert-danger">
                             <div [hidden]="!apartment.errors.required">Apartment is required.</div>
                         </div>
