@@ -25,6 +25,8 @@ export class ItemComponent implements OnInit {
   showAddToCart = true;
   menuCountry = null;
   currencyCode = null;
+  isEdit = false;
+  itemPos: 0;
 
   constructor(private dialogService:DialogService,
               private dataService: DataService, 
@@ -65,7 +67,18 @@ export class ItemComponent implements OnInit {
           }
           
         }else{
-          alert('Invalid Page Requested!');
+          //from edit item
+          if(params['itemPos'] && params['itemPos']!= '') {
+            
+            this.isEdit = true;
+            this.itemPos = params['itemPos'];
+            let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems')); 
+            this.item = allItems[params['itemPos']];
+            this.getTotalCost();
+
+          } else {
+            alert('Invalid Page Requested!');
+          }
         }
 
       });
@@ -218,7 +231,7 @@ export class ItemComponent implements OnInit {
                         if(p_options[y].Option.id == p_op_id) {
                           ////console.log(p_options[y].Option.name + ' checked');
                           p_options[y].Option.is_checked = true;
-                          
+                          p_options[y].Option.subop_name = 'Full';
 
                         }else{
                           ////console.log(p_options[y].Option.name + ' unchecked');
@@ -351,6 +364,9 @@ export class ItemComponent implements OnInit {
               
               if(subOptionId == subOp[k].SubOption.id) {
                 this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.OptionSuboption[k].SubOption.is_active = true;
+
+                this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.subop_name = subOp[k].SubOption.name;
+
               }else{
                 this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.OptionSuboption[k].SubOption.is_active = false; 
               }
@@ -755,22 +771,29 @@ export class ItemComponent implements OnInit {
 
 
   add_to_cart() {
-  
-    if(this.dataService.getLocalStorageData('allItems') != null
-          && this.dataService.getLocalStorageData('allItems') != 'null') {
-       let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
-       allItems.push(this.item);  
-       this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
-    }else{
-      let allItems = [];
-      allItems.push(this.item);
-      this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
-    }
     
-    this.dataService.setLocalStorageData('totalCost', this.totalCost); 
-    let selectedMenuCat = this.dataService.getLocalStorageData('selectedMenuCat');
-    this.router.navigate(['/menu', selectedMenuCat]);
+    if (this.isEdit) {
 
+      let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+      allItems[this.itemPos] = this.item;
+      this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems));
+      
+    } else {
+      if(this.dataService.getLocalStorageData('allItems') != null
+          && this.dataService.getLocalStorageData('allItems') != 'null') {
+        let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+        allItems.push(this.item);  
+        this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+      }else{
+        let allItems = [];
+        allItems.push(this.item);
+        this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+      } 
+    }
+
+    this.dataService.setLocalStorageData('totalCost', this.totalCost);
+    let selectedMenuCat = this.dataService.getLocalStorageData('selectedMenuCat');
+    this.router.navigate(['/menu', selectedMenuCat]);  
   }
 
 

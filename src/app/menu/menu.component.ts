@@ -147,6 +147,10 @@ export class MenuComponent implements OnInit {
 
   }
 
+  editItem(index, prod) {
+      this.router.navigate(['/item/edit', index]);
+  }
+
   changTab(val) {
     let targetOption = "#"+val;
     let targetId = jQuery('#tabSwitch');

@@ -19,6 +19,7 @@ const appRoutes: Routes = [
     { path: 'menu/:slug', component: MenuComponent },
     { path: 'menu', component: MenuComponent },
     { path: 'item/:slug', component: ItemComponent },
+    { path: 'item/edit/:itemPos', component: ItemComponent },
     { path: 'order-review', component: OrderreviewComponent },
     { path: 'account', component: AccountComponent },
     { path: 'events', component: EventsComponent },

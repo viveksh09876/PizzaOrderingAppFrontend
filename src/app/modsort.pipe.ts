@@ -8,15 +8,29 @@ export class ModsortPipe implements PipeTransform {
   transform(array: any[], field: string): any[] {
     array.sort((a: any, b: any) => {
       let returnVal = 0;
-      if(a.Option.is_checked === b.Option.is_checked) {
-        returnVal = 0;
-      }else if(a.Option.is_checked) {
-        returnVal = -1;
-      }else {
-        returnVal = 1;
+
+      if((a.Option.plu_code == '999991' || 
+              a.Option.plu_code == '999992' ||
+                a.Option.plu_code == '999993') || (b.Option.plu_code == '999991' || 
+              b.Option.plu_code == '999992' ||
+                b.Option.plu_code == '999993')) {
+                              
+            return 0;
+
+      } else {
+       
+        if(a.Option.is_checked === b.Option.is_checked) {
+          returnVal = 0;
+        }else if(a.Option.is_checked) {
+          returnVal = -1;
+        }else {
+          returnVal = 1;
+        }
+      
       }
-      //console.log(a.Option.name,a.Option.is_checked, b.Option.name,b.Option.is_checked, returnVal);
+
      return returnVal;
+    
     });
     return array;
   }
