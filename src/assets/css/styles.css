@@ -570,12 +570,26 @@ header.navigation ul.links li.eclub-btn ul li a i{min-width: 16px;}
 }
 
 @media (max-width: 767px) {
+.mob-order{height: 40px; background: #fff; border-top: 1px solid #ccc; padding: 10px 0; width: 100%; text-align: center;}
+.mob-order a{font-size: 18px;
+    border: none;
+    line-height: 29px;
+    padding: 5px;
+    display: inline-block;
+    width: 64%;
+    background: #911c27;
+    text-align: center;
+    border-radius: 3px;
+    border-bottom: 2px solid #4f050c;
+    color: #fff;
+    font-family: 'proxima_nova_ltsemibold';}
+.slider-wrapper{min-height: 320px; margin-top: 60px;}
 header.navigation ul.links li a {
 	line-height: 50px;
 	padding: 0px 5px
 }
 header.navigation .logo {
-	padding: 10px 5px 0;
+	padding: 5px 5px 0;
 }
 .slider-wrapper .slides .slide .container .slide-content {
 	left: 0
@@ -1092,7 +1106,7 @@ header.navigation .logo {
     line-height: 36px;}
 }
 .banner-wrapper.customize-mob .header-sec{background: #789c48; text-align: center; display: inline-block; width: 100%;}
-.banner-wrapper.customize-mob h3{color: #fff; font-size: 1.5em; line-height: 2em; display: inline-block;}
+.banner-wrapper.customize-mob h3{color: #fff; font-size: 1.3em; line-height: 2.4em; display: inline-block;}
 
 .banner-wrapper.customize-mob {
 	display: block;
@@ -1903,6 +1917,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 	font-size: 2em
 }
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper .media .description .rightSection a.addBtn {float: left;}
+.two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper .media .description .rightSection a.cta-btn{float: left;}
 }
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper {
 	margin: 0 0 1.5em;
