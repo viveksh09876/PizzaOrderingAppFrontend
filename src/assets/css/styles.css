@@ -1122,7 +1122,7 @@ header.navigation .logo {
 }
 .banner-wrapper .leftButtons {
 	float: right;
-	width: 52%;
+	width: 51%;
 	margin: 10px 0;
 	position: relative;
 	text-align: right
@@ -1242,6 +1242,7 @@ header.navigation .logo {
 }
 
 @media (max-width: 767px) {
+	.three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control.checkbox{padding-bottom: 1.4em;}
 .banner-wrapper {
 	padding: 0px 0px;
 	margin-bottom: 44px;
