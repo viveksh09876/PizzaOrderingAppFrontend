@@ -1902,6 +1902,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection h5 {
 	font-size: 2em
 }
+.two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper .media .description .rightSection a.addBtn {float: left;}
 }
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper {
 	margin: 0 0 1.5em;
