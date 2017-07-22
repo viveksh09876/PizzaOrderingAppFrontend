@@ -14,17 +14,9 @@ export class ModsortPipe implements PipeTransform {
                 a.Option.plu_code == '999993') || (b.Option.plu_code == '999991' || 
               b.Option.plu_code == '999992' ||
                 b.Option.plu_code == '999993')) {
-            
-                  if(a.Option.plu_code == '999992' && b.Option.plu_code == '999991') {
-                    //console.log(1, a.Option.name, b.Option.name); 
-                    return -1;        
-                  } else if (b.Option.plu_code == '999993') {
-                    //console.log(2, a.Option.name, b.Option.name);
-                    return -1;
-                  } else{
-                    //console.log(3, a.Option.name, b.Option.name);
-                    return 0;
-                  }  
+                              
+            return 0;
+
       } else {
        
         if(a.Option.is_checked === b.Option.is_checked) {

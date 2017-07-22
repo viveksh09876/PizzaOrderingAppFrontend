@@ -194,7 +194,7 @@ export class OrderreviewComponent implements OnInit {
      
   }
 
-  confirmOrder() {
+  confirmOrder(isFormValid) {
 
     let isValid = this.validateFields();
 

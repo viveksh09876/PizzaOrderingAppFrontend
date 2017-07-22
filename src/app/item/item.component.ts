@@ -231,7 +231,7 @@ export class ItemComponent implements OnInit {
                         if(p_options[y].Option.id == p_op_id) {
                           ////console.log(p_options[y].Option.name + ' checked');
                           p_options[y].Option.is_checked = true;
-                          
+                          p_options[y].Option.subop_name = 'Full';
 
                         }else{
                           ////console.log(p_options[y].Option.name + ' unchecked');
@@ -364,6 +364,9 @@ export class ItemComponent implements OnInit {
               
               if(subOptionId == subOp[k].SubOption.id) {
                 this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.OptionSuboption[k].SubOption.is_active = true;
+
+                this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.subop_name = subOp[k].SubOption.name;
+
               }else{
                 this.item.ProductModifier[i].Modifier.ModifierOption[j].Option.OptionSuboption[k].SubOption.is_active = false; 
               }
