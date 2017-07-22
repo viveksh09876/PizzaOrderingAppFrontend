@@ -25,6 +25,8 @@ export class FranchisingComponent implements OnInit {
   ourModelContent = '';
   applyNowTitle = '';
   applyNowContent = '';
+  pageTitle = '';
+	pageSubtitle = '';
   ngOnInit() {
     this.dataService.getPageInfo(3).subscribe(data => {
 			this.whyNkdPizzaTitle = data.Content.page_title;
@@ -42,6 +44,10 @@ export class FranchisingComponent implements OnInit {
     this.dataService.getPageInfo(6).subscribe(data => {
 			this.applyNowTitle = data.Content.page_title;
 			this.applyNowContent = data.Content.page_content;
+    });
+    this.dataService.getPageInfo(7).subscribe(data => {
+			this.pageTitle = data.Content.page_title;
+			this.pageSubtitle = data.Content.page_sub_title;
 		});
   }
 
