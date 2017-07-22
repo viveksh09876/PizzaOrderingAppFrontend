@@ -121,33 +121,19 @@ export class AccountComponent implements OnInit {
     }
 
     if(this.currentTab == 'preference'){
-      this.dataService.getUserPrefreces()
+      this.showLoading = true;
+      let userId = this.user.id;
+
+      this.dataService.getUserPrefreces(userId)
           .subscribe(data => {
             this.prefreces = data;
       });
 
-      this.showLoading = true;
-      let userId = this.user.id;
       this.dataService.getProfile(userId).subscribe(pdata => {
-        this.prefrence.subscribe = parseInt(pdata.Subscribe);
-        let questionId = null;
-        let answerId = null;
-        let QAarr = [];
-        pdata.Pref = JSON.parse(pdata.Pref);
-        // console.log(pdata.Pref);
-        for (var key in pdata.Pref) {
-            if(pdata.Pref.hasOwnProperty(key)){ 
-              for(var i=0; i<pdata.Pref[key].length; i++){
-                answerId = pdata.Pref[key][i];
-              }
-                QAarr[key] = {'questionId':key,'answerId':answerId};
-            }    
-        }
-                this.prefrence.question.push(QAarr);      
-        // console.log(this.prefrence);
-        
-        this.error = { show:false, isSuccess:false, message: ''};
-        this.showLoading = false;
+      this.prefrence.subscribe = parseInt(pdata.Subscribe);        
+      
+      this.error = { show:false, isSuccess:false, message: ''};
+      this.showLoading = false;
       });
     }
 
@@ -215,31 +201,20 @@ export class AccountComponent implements OnInit {
     });
   }
 
-  setAnswer(questionId,answerId,$event,qIndex,iIndex)
-  { 
-      let QAarr = [];
-      QAarr[questionId] = {'questionId':questionId,'answerId':answerId};
+  setAnswer(questionId,answerId,$event,qIndex,iIndex){ 
       var checkbox = $event.target;
-      console.log(this.prefrence.question);
       if(checkbox.checked){
-		    this.prefrence.question.push(QAarr);
-        // alert('checked');
-        //console.log(index);
-        console.log(this.prefrence.question);
+        this.prefreces[qIndex].QuestionOption[iIndex].checked = 1;
       }else{
-        //console.log(index);
-        // console.log(this.prefrence.question);
-		     //this.prefrence.question[qIndex].slice(index, 1);
-        // alert('unchecked');
+        this.prefreces[qIndex].QuestionOption[iIndex].checked = 0;
       }
-    // console.log(obj);
   }
   
   updatePrefrence(){
     this.showLoading = true;
     this.prefrence.form = 3;
     this.prefrence.id = this.user.id;
-    console.log(this.prefrence);
+    this.prefrence.question = this.prefreces;
     this.dataService.updatePrefrence(this.prefrence).subscribe(data => {
      if(data.isSuccess) {
         this.error = data;

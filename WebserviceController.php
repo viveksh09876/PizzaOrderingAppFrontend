@@ -43,7 +43,8 @@ class WebserviceController extends AppController {
         else
             $ipaddress = 'UNKNOWN';
 		
-		//$ipaddress = '72.229.28.185';
+		//$ipaddress = '72.229.28.185';  //USA
+		//$ipaddress = '5.32.77.202'; //Dubai
 		
 		$url = "http://www.geoplugin.net/json.gp?ip=".$ipaddress;
 		$response = $this->curlGetRequest($url);
@@ -538,6 +539,10 @@ class WebserviceController extends AppController {
 							
 							$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['send_code_permanent'] = false;
 							
+							if($item['Product']['category_id'] == 1) {
+								$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['subop_name'] = 'Full';
+							}
+							
 							//add param if it is included modifier
 							if(!empty($item['ProductIncludedModifier'])) {
 								foreach($item['ProductIncludedModifier'] as $includedPm) {
@@ -690,8 +695,15 @@ class WebserviceController extends AppController {
 				$data['order_details'] = $this->formatPlaceOrderData($data);
 			}			
 			
+			$latlong = '';
+			if(isset($data['latlong']) && !empty($data['latlong'])) {
+				$latlong = $data['latlong'];
+			}
+			
+			unset($data['latlong']);
+			
 			$this->Orderlog->create();
-			$this->Orderlog->save(array('data' => json_encode($data)));
+			$this->Orderlog->save(array('latlong' => $latlong,'data' => json_encode($data)));
 			
 			$url = 'https://nkdpizza.com/beta/pos/index.php/placeOrder';
 			$result     = $this->curlPostRequest($url, $data);
@@ -710,7 +722,7 @@ class WebserviceController extends AppController {
 			
 			$i = 0;
 			$pArr = array();
-			
+						
 			foreach($data['order_details'] as $ord) {
 				
 				if($ord['category_id'] == 1) {						
@@ -742,64 +754,47 @@ class WebserviceController extends AppController {
 						'type' => '1'
 					);
 					
+					
+					
 					$pizzaArr['modifier'][] = $prod;
 					
 					$data['order_details'][$i] = $pizzaArr;
-					//echo '<pre>'; print_r($data['order_details']); die;
 					
 				}else{
 					
 					$otherArr = $ord;
-					
+					$m=0;
 					if(isset($ord['modifier']) && !empty($ord['modifier'])) {
 						foreach($ord['modifier'] as $modOther) {							
 							unset($modOther['send_code']);
 							unset($modOther['quantity']);
 							unset($modOther['is_checked']);
-							$otherArr['modifier'][] = $modOther;
+							$otherArr['modifier'][$m] = $modOther;
+							$m++;
 						}
 					}	
+					
 					$data['order_details'][$i] = $otherArr;
-					//echo '<pre>'; print_r($data['order_details']); die;
 				}	
 				unset($data['order_details'][$i]['category_id']);
 				
 				$arr = array();
-				if(isset($ord['modifier']) && !empty($ord['modifier'])) {
+				if(isset($data['order_details'][$i]['modifier']) && !empty($data['order_details'][$i]['modifier'])) {
 					$j = 0;
 					
-					foreach($ord['modifier'] as $mod) {
+					foreach($data['order_details'][$i]['modifier'] as $mod) {
 						$arr[$i][$mod['choice']][$j] = $mod;
 						$j++;
 					}
-					//echo '<pre>'; print_r($arr[$i]); die;			
+					
 					$data['order_details'][$i]['modifier'] = $arr[$i];
 				}
 				
 				$i++;					
 			}
-	
-			/*
-			echo '<pre>'; print_r($data['order_details']); die;
-			
-			foreach($data['order_details'] as $ord) {
-				$i = 0;
-				$arr = array();
-				if(isset($ord['modifier']) && !empty($ord['modifier'])) {
-					$j = 0;
-					
-					foreach($ord['modifier'] as $mod) {
-						$arr[$i][$mod['choice']][$j] = $mod;
-						$j++;
-					}
-					echo '<pre>'; print_r($arr[$i]); die;			
-					$data['order_details'][$i]['modifier'] = $arr[$i];
-				}
-				$i++;
-			}*/
 			
 		}
-		
+		//echo '<pre>'; print_r($data['order_details']); die;
 		return $data['order_details'];
 		
 	}
@@ -821,7 +816,7 @@ class WebserviceController extends AppController {
 									'Store.status' => 1	
 								),
 								'fields' => array(
-									'Store.id', 'Store.store_name', 'Store.store_address', 'Store.store_ip_address', 'Store.store_image', 'Store.store_phone', 'Store.store_email', 'Store.city', 'Store.state', 'Store.country', 'Store.zip', 'Store.latitude', 'Store.longitude', 'Store.delivery_radius'
+									'Store.id', 'Store.store_id', 'Store.store_name', 'Store.store_address', 'Store.store_ip_address', 'Store.store_image', 'Store.store_phone', 'Store.store_email', 'Store.city', 'Store.state', 'Store.country', 'Store.zip', 'Store.latitude', 'Store.longitude', 'Store.delivery_radius'
 								),
 								'order' => array('Store.store_name' => 'asc')
 							));
@@ -869,7 +864,7 @@ class WebserviceController extends AppController {
 									'Store.status' => 1	
 								),
 								'fields' => array(
-									'Store.id', 'Store.store_name', 'Store.store_address', 'Store.store_ip_address', 'Store.store_image', 'Store.store_phone', 'Store.store_email', 'Store.city', 'Store.state', 'Store.country', 'Store.zip', 'Store.latitude', 'Store.longitude', 'Store.delivery_radius'
+									'Store.id', 'Store.store_id', 'Store.store_name', 'Store.store_address', 'Store.store_ip_address', 'Store.store_image', 'Store.store_phone', 'Store.store_email', 'Store.city', 'Store.state', 'Store.country', 'Store.zip', 'Store.latitude', 'Store.longitude', 'Store.delivery_radius'
 								),
 								'order' => array('Store.store_name' => 'asc')
 							));
@@ -927,7 +922,7 @@ class WebserviceController extends AppController {
 						}
 					}					
 				}
-				
+				//$city = 'Delhi';
 				$stores = $this->Store->find('all', array(							
 								'conditions' => array(
 									'OR' => array(
@@ -937,7 +932,7 @@ class WebserviceController extends AppController {
 									'Store.status' => 1	
 								),
 								'fields' => array(
-									'Store.id', 'Store.store_name', 'Store.store_address', 'Store.store_ip_address', 'Store.store_image', 'Store.store_phone', 'Store.store_email', 'Store.city', 'Store.state', 'Store.country', 'Store.zip', 'Store.latitude', 'Store.longitude', 'Store.delivery_radius'
+									'Store.id', 'Store.store_id', 'Store.store_name', 'Store.store_address', 'Store.store_ip_address', 'Store.store_image', 'Store.store_phone', 'Store.store_email', 'Store.city', 'Store.state', 'Store.country', 'Store.zip', 'Store.latitude', 'Store.longitude', 'Store.delivery_radius'
 								),
 								'order' => array('Store.store_name' => 'asc')
 							));
@@ -1388,7 +1383,7 @@ function sendCareerInfo(){
 		die;
 	}
 
-	function getUserPrefreces(){
+	function getUserPrefreces($userId){
 		$this->autoRender = false;
 		$this->layout = 'false';
 		$this->Question->bindModel(array('hasMany'=>array('QuestionOption')));
@@ -1399,7 +1394,6 @@ function sendCareerInfo(){
 			'order'=>'Question.sort_order'
 		));
 		
-		$userId = 82;
 		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userId);
 		$result = json_decode($resp, true);
 		$userPrefreces = json_decode($result['Pref']);
@@ -1423,10 +1417,13 @@ function sendCareerInfo(){
 	function signUp(){
 		$data = $this->request->input ( 'json_decode', true);
 		$qData = array();
-		foreach($data[2]['question'] as $val):
-			$valNew = array_filter($val);	
+		foreach($data[2]['question'] as $val):	
+			$qId = $val['Question']['id'];
+			$valNew = $val['QuestionOption'];
 			foreach($valNew as $key=>$v):
-				$qData[$v['questionId']][] = $v['answerId'];
+				if($v['checked']){
+					$qData[$qId][] = $v['id'];
+				}
 			endforeach;
 		endforeach;
 
@@ -1702,6 +1699,7 @@ function sendCareerInfo(){
 												'Store.id' => $orders[$i]['OrderDetail']['storeId']
 											),
 											'fields' => array(
+												'Store.store_id',
 												'Store.store_name',
 												'Store.store_address',
 												'Store.store_phone'
@@ -1779,14 +1777,15 @@ function sendCareerInfo(){
 
 		$data = $this->request->input ( 'json_decode', true) ;
 		$qData = array();
-		// $arraykey = array();
-		foreach($data['question'] as $val):
-			$valNew = array_filter($val);	
+		foreach($data['question'] as $val):	
+			$qId = $val['Question']['id'];
+			$valNew = $val['QuestionOption'];
 			foreach($valNew as $key=>$v):
-				$qData[$v['questionId']][] = $v['answerId'];
+				if($v['checked']){
+					$qData[$qId][] = $v['id'];
+				}
 			endforeach;
 		endforeach;
-		
 		if(!empty($data)) {
 			$userData = array(
 				'form'=>$data['form'],

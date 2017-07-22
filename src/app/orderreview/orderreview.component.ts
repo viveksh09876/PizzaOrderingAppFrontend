@@ -195,13 +195,37 @@ export class OrderreviewComponent implements OnInit {
   }
 
   confirmOrder(isFormValid) {
+    let isDelivery = this.order.order_type;
+    let apartment = this.order.address.apartment;
+    let city = this.order.address.city;
+    let postal_code = this.order.address.postal_code;
+    let state = this.order.address.state;
+    let street = this.order.address.street;
+    let street_no = this.order.address.street_no;
+    let streetNo = this.order.address.streetNo;
 
     let isValid = this.validateFields();
-
+  
     if(isValid) {
-       
-      //this.showStep = 'step2';
-      this.placeFinalOrder();
+      if(isDelivery=='delivery'){
+        if(apartment==''){
+          alert('Apartment is required.');
+        }else if(streetNo==''){
+          alert('Street No is required.');
+        }else if(street==''){
+          alert('Street is required.');
+        }else if(city==''){
+          alert('City is required.');
+        }else if(state==''){
+          alert('State is required.');
+        }else if(postal_code==''){
+          alert('Postal Code is required.');
+        }else{
+          this.placeFinalOrder();
+        }
+      }else{
+        this.placeFinalOrder();
+      }
     }else{
       alert('Please fill all required fields!');
     }
