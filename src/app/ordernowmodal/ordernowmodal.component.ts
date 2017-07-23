@@ -90,6 +90,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
             .subscribe(data => {
                 this.areaList = data;
                 this.order['delivery_state'] = this.areaList.areas[0].state;
+                this.getAreaStreets(this.areaList.areas[0].city);
             });
     }
   }
@@ -103,7 +104,10 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
           streets.push(this.areaList.streets[i]);
         }
       }
-      this.streetArr = streets;
+      if (streets.length > 0) {
+        //console.log(streets);
+        this.streetArr = streets;
+      }
     }
   } 
 
