@@ -780,7 +780,13 @@ export class ItemComponent implements OnInit {
 
     this.dataService.setLocalStorageData('totalCost', this.totalCost);
     let selectedMenuCat = this.dataService.getLocalStorageData('selectedMenuCat');
-    this.router.navigate(['/menu', selectedMenuCat]);  
+
+    if (selectedMenuCat != null) {
+      this.router.navigate(['/menu', selectedMenuCat]);   
+    } else {
+      this.router.navigate(['/menu']);
+    }
+      
   }
 
 
