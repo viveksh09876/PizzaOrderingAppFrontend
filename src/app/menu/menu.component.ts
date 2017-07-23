@@ -152,10 +152,7 @@ export class MenuComponent implements OnInit {
   }
 
   changTab(val) {
-    let targetOption = "#"+val;
-    let targetId = jQuery('#tabSwitch');
-    targetId.find("a[href=\""+targetOption+"\"]").trigger("click");    
-    //console
+    this.router.navigate(['/menu', val]);
   }
 
   checkout() {    

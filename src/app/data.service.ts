@@ -65,42 +65,41 @@ export class DataService {
   }
 
   placeOrder(data): Observable<any>{
-   
-  
     return this.http.post( this.domain + '/webservice/placeOrder', data)
                     .map((res: Response) => res.json())
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
-
-
-                  
   }
 
-  getCitiesSuggestions(countryCode, searchKey): Observable<any>{   
-  
+  getCitiesSuggestions(countryCode, searchKey): Observable<any>{
     return this.http.get( this.domain + '/webservice/getCitiesSuggestion/'+searchKey+'/'+countryCode)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
-
-
-  }   
+  } 
+   
+  getAreaSuggestions(country, searchKey): Observable<any>{   
+    return this.http.get( this.domain + '/webservice/getAreaSuggestion/'+country+'/'+searchKey)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  } 
 
 
   getStoreList(city): Observable<any>{   
-  
     return this.http.get( this.domain + '/webservice/getStoreList/'+city)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
-
-
-  }  
+  }
+                  
+  
+  getAreaStoreList(street): Observable<any>{   
+    return this.http.get( this.domain + '/webservice/getAreaStoreList/'+street)
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
 
   getStoresFromPostalCode(code): Observable<any>{   
-  
     return this.http.get( this.domain + '/webservice/getStoresFromPostalCode/'+code)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
-
-
   } 
 
   getStoresFromLatLong(lat, lng): Observable<any>{   

@@ -53,20 +53,17 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.dataService.setLocalStorageData('confirmationItems', null); 
     this.dataService.setLocalStorageData('confirmationFinalOrder', null);
 
-    this.dataService.getIp()
-        .subscribe(data => {
-            let countryName = data.geoplugin_countryName;
-            this.countryName = this.utilService.formatCountryName(countryName);
-            this.dataService.setLocalStorageData('userCountry', this.countryName);
-            this.setStore();
-            if(countryName == 'Bahrain'){
-              this.getFbFeeds('nkdpizzabh');
-              this.getIgFeeds('nkdpizzabh');
-            }else{
-              this.getFbFeeds('nkdpizza');
-              this.getIgFeeds('nkdpizzauae');
-            }
-        });
+    let countryName = this.dataService.getLocalStorageData('userCountry');
+    this.countryName = countryName;
+
+    this.setStore();
+    if(countryName == 'Bahrain'){
+      this.getFbFeeds('nkdpizzabh');
+      this.getIgFeeds('nkdpizzabh');
+    }else{
+      this.getFbFeeds('nkdpizza');
+      this.getIgFeeds('nkdpizzauae');
+    }
     
     this.dataService.setLocalStorageData('confirmationItems', null);
     this.dataService.setLocalStorageData('confirmationFinalOrder', null);    
@@ -174,7 +171,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
      this.dataService.getIgFeeds(name)
         .subscribe(data => {
           let IgFeeds = data;
-          console.log(data);
+          //console.log(data);
             if(IgFeeds.length > 0) {
               for(var i=0; i<IgFeeds.length; i++) {
                 IgFeeds[i].message = IgFeeds[i].message;

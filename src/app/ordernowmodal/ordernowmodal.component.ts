@@ -19,6 +19,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   userCountryCode = '';
   cityList = [];
   storeList = [];
+  areaList = [];
   selectedStore = { info: null, val: ''};
   showContent = 'pickup-delivery';
   cityVal = '';
@@ -33,6 +34,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   curDate = new Date();
   showStoreLoading = false;
   timeModalText = '';
+  useStreetDb = false;
 
 
   order = {
@@ -43,19 +45,17 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
 
 
   ngOnInit() {
-    this.getUserIp();
+    
+    this.userCountryName = this.dataService.getLocalStorageData('userCountry');
+    this.userCountryCode = this.dataService.getLocalStorageData('userCountryCode');
+    if (this.userCountryName != undefined && this.userCountryName != null && this.userCountryName != '') {
+      this.userCountryName = 'uae';
+      if (this.userCountryName.toLowerCase() == 'uae' || this.userCountryName.toLowerCase() == 'united arab emirates') {
+        this.useStreetDb = true;
+      }
+    }
   }
 
-
-  getUserIp() {
-    this.dataService.getIp()
-          .subscribe(data => {
-             
-              this.userCountryName = data.geoplugin_countryName;
-              this.userCountryCode = data.geoplugin_countryCode;
-              
-          });
-  }
 
   updateOrderType(type) {
     this.order.orderType = type;
@@ -81,6 +81,46 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
     }
   
   }
+
+  getStreetArea(searchKey) {
+    if(searchKey.length > 1) {
+      this.dataService.getAreaSuggestions(this.userCountryName, searchKey)
+            .subscribe(data => {
+                this.areaList = data;
+            });
+    }
+  }
+
+
+  getAreaStores(street) {
+    this.showStoreLoading = true;
+    let stores = [];
+    let already = [];
+    let streetAddr = null;
+
+    for(var i=0; i<this.areaList.length; i++) {
+      if (this.areaList[i].Location.street_name.toLowerCase() == street.toLowerCase()) {
+
+        streetAddr = this.areaList[i].Location;
+        this.delivery_street = this.areaList[i].Location.street_name;
+        this.cityVal = this.areaList[i].Location.city;
+        this.order['delivery_state'] = this.areaList[i].Location.state;
+
+
+        if (this.areaList[i].LocationStore.length > 0) {
+          for(var j=0; j < this.areaList[i].LocationStore.length; j++) {
+            if (already.indexOf(this.areaList[i].LocationStore[j].Store.id) < 0) {
+              stores.push(this.areaList[i].LocationStore[j]);
+              already.push(this.areaList[i].LocationStore[j].Store.id);
+            }            
+          }
+        }
+      }
+    }
+
+    this.storeList = stores;
+  }
+
 
   getStores(cityVal) {
     this.showStoreLoading = true;
@@ -189,7 +229,6 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   getCurrentDateTime() {
     let now = new Date();
     now.setMinutes(now.getMinutes() + 30);
-    console.log(now);
   }
 
 }

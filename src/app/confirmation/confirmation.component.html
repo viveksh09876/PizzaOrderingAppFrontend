@@ -84,7 +84,7 @@
             <div class="thankyou_box">
                 <div class="col-md-8 col-md-offset-2 text-center">
                     <h4>Thank you for your order</h4>
-                    <h5>ORDER # 61</h5>
+                    <h5>ORDER # {{orderId}}</h5>
                     <address class="d-add" *ngIf="orderData.order_type == 'delivery'">
                         <strong>delivery address</strong>
                         <p><span>{{orderData.user.first_name}} {{orderData.user.last_name}}<br></span>
