@@ -19,7 +19,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   userCountryCode = '';
   cityList = [];
   storeList = [];
-  areaList = [];
+  areaList = { areas: [], streets: []};
   selectedStore = { info: null, val: ''};
   showContent = 'pickup-delivery';
   cityVal = '';
@@ -35,6 +35,8 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   showStoreLoading = false;
   timeModalText = '';
   useStreetDb = false;
+  streetArr = [];
+  selectedStreet = '';
 
 
   order = {
@@ -87,37 +89,38 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
       this.dataService.getAreaSuggestions(this.userCountryName, searchKey)
             .subscribe(data => {
                 this.areaList = data;
+                this.order['delivery_state'] = this.areaList.areas[0].state;
             });
     }
   }
 
 
+  getAreaStreets(area) {
+    let streets = [];
+    if(area != '' && this.areaList.streets.length > 0) {
+      for(var i=0; i<this.areaList.streets.length; i++) {
+        if(this.areaList.streets[i].area_name == area) {
+          streets.push(this.areaList.streets[i]);
+        }
+      }
+      this.streetArr = streets;
+    }
+  } 
+
+
   getAreaStores(street) {
-    this.showStoreLoading = true;
     let stores = [];
-    let already = [];
-    let streetAddr = null;
-
-    for(var i=0; i<this.areaList.length; i++) {
-      if (this.areaList[i].Location.street_name.toLowerCase() == street.toLowerCase()) {
-
-        streetAddr = this.areaList[i].Location;
-        this.delivery_street = this.areaList[i].Location.street_name;
-        this.cityVal = this.areaList[i].Location.city;
-        this.order['delivery_state'] = this.areaList[i].Location.state;
-
-
-        if (this.areaList[i].LocationStore.length > 0) {
-          for(var j=0; j < this.areaList[i].LocationStore.length; j++) {
-            if (already.indexOf(this.areaList[i].LocationStore[j].Store.id) < 0) {
-              stores.push(this.areaList[i].LocationStore[j]);
-              already.push(this.areaList[i].LocationStore[j].Store.id);
-            }            
+    this.showStoreLoading = true;
+    if(street != '' && this.areaList.streets.length > 0) {
+      for(var i=0; i<this.areaList.streets.length; i++) {
+        if(this.areaList.streets[i].street_name == street) {
+          let storeObj = {
+            Store: this.areaList.streets[i].Store
           }
+          stores.push(storeObj);
         }
       }
     }
-
     this.storeList = stores;
   }
 

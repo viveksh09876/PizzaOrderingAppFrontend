@@ -1,7 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 class WebserviceController extends AppController {
-    public $uses = array('Category','Question','Content','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog','Location','LocationStore');
+    public $uses = array('Category','Question','Content','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog','Location','LocationStreet');
     public $components=array('Core','Email');
 
     function beforeFilter(){
@@ -2026,45 +2026,94 @@ function sendCareerInfo(){
 	
 	public function getAreaSuggestion($country = null, $searchKey) {
 		
-		$result = array();		
+		$result = array(
+				'areas' => array(),
+				'streets' => array(),
+				'stores' => array()
+			);
+		$alreadyStreet = array();
+		$alreadyStores = array();
+		$alreadyArea = array();
+		$allStreetArr = array();
+		$allStoresArr = array();
+		$allAreaArr = array();
+		
 		if(!empty($searchKey)) {
 			
 			$this->Location->recursive = 2;
-			$this->LocationStore->bindModel(array(
+			
+			$this->LocationStreet->bindModel(array(
 									'belongsTo' => array(
-											'Store' => array(
+										'Store' => array(
 												'className' => 'Store',
 												'foreignKey' => 'store_id',
-												'conditions' => array('Store.status' => 1),
+												'conditions' => array(
+													'Store.status' => 1
+												),
 												'fields' => array(
 													'Store.id', 'Store.store_id', 'Store.store_name', 'Store.store_address', 'Store.store_ip_address', 'Store.store_image', 'Store.store_phone', 'Store.store_email', 'Store.city', 'Store.state', 'Store.country', 'Store.zip', 'Store.latitude', 'Store.longitude', 'Store.delivery_radius'
 												),
 												'order' => array('Store.store_name' => 'asc')
-											)
-									)	
-								));
+										)
+									)
+							));
 			
 			$this->Location->bindModel(array(
 									'hasMany' => array(
-											'LocationStore' => array(
-													'className' => 'LocationStore',
+											'LocationStreet' => array(
+													'className' => 'LocationStreet',
 													'foreignKey' => 'location_id'
 											)
 									)
 							));
 			
 			$areas = $this->Location->find('all', array('conditions' => array(
-													'LOWER(Location.street_name) LIKE' => '%'.strtolower($searchKey).'%'
+													'LOWER(Location.city) LIKE' => '%'.strtolower($searchKey).'%'
 										)));	
 			
+			
+			if(!empty($areas)) {
+				$i = 0;
+				foreach($areas as $area) {
+					
+					//add area name to street array
+					if(!in_array($area['Location']['id'], $alreadyArea)) {
+						
+						$allAreaArr[] = $area['Location'];
+						$alreadyArea[] = $area['Location']['id'];
+						
+					}
+					
+					foreach($areas[$i]['LocationStreet'] as $street) {
+						
+						//add street name to street array
+						if(!in_array($street['id'], $alreadyStreet)) {
+							
+							$streetData = $street;
+							$streetData['area_name'] = $area['Location']['city'];
+							//unset($streetData['Store']);
+							$allStreetArr[] = $streetData;
+							$alreadyStreet[] = $street['id'];
+							
+						}	
 
+								
+					}
+					
+					$i++;
+				}
 				
-			$areas = json_encode($areas);
+			}	
+
+			
+			$result = array(
+				'areas' => $allAreaArr,
+				'streets' => $allStreetArr
+			);
 		}
 			
-		echo $areas; die;
+		echo json_encode($result); die;
 		
-	}
-	
+	}	
 	
 }
