@@ -23,18 +23,34 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane" [ngClass]="{'active': order.orderType == 'pickup'}" id="pickup">
                         <div class="row form_sec">
-                            <div class="col-md-4 col-sm-4 optional">
+                            <div class="col-md-4 col-sm-4 optional" *ngIf="!useStreetDb">
                                 <input class="form-control" list="cityListId" placeholder="City" (keyup)="getCities($event.target.value);" [(ngModel)]="cityVal" (change)="getStores($event.target.value)">
                                 <datalist id="cityListId">                                
                                         <option *ngFor="let city of cityList" value="{{city}}">
                                 </datalist>
                                 <small>or</small>  
                             </div>
-                            <div class="col-md-4 col-sm-4 optional">
+                            <div class="col-md-12 col-sm-12" *ngIf="useStreetDb">
+                                <input class="form-control" list="areaListId" placeholder="Enter Area Name" (keyup)="getStreetArea($event.target.value);" [(ngModel)]="areaVal" (change)="getAreaStreets($event.target.value)"> <br/>
+                                <datalist id="areaListId">                                
+                                        <option *ngFor="let area of areaList.areas" value="{{area.city}}">
+                                </datalist>
+                            </div>
+                            
+                            <div class="col-md-12 col-sm-12" *ngIf="useStreetDb">
+                                <select class="form-control full" [(ngModel)]="delivery_street" (change)="getAreaStores($event.target.value)">
+                                    <option value="">Select Street</option>
+                                    <option *ngFor="let street of streetArr" value="{{street.street_name}}">{{street.street_name}}</option>
+                                </select>
+                                <br/>
+                            </div>
+                                
+                            
+                            <div class="col-md-4 col-sm-4 optional" *ngIf="!useStreetDb">
                                 <input class="form-control" type="text" placeholder="Postal code" [(ngModel)]="postalCode" (change)="getStoresFromPostalCode($event.target.value)">
                                 <small>or</small>  
                             </div>
-                            <div class="col-md-4 col-sm-4">
+                            <div class="col-md-4 col-sm-4" *ngIf="!useStreetDb">
                                 <a (click)="getUserLocation()" class="use-location"><i class="fa fa-map-marker"></i> Use my Location</a>
                             </div>
                         </div>
@@ -56,31 +72,45 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" [ngClass]="{'active': order.orderType == 'delivery'}" id="delivery">
                         <div class="row form_sec">
-                            <div class="col-md-4 col-sm-4 optional">
+                            <div class="col-md-4 col-sm-4 optional" *ngIf="!useStreetDb">
                                 <input class="form-control" list="cityListId" placeholder="City" (keyup)="getCities($event.target.value);" [(ngModel)]="cityVal" (change)="getStores($event.target.value)">
                                 <datalist id="cityListId">                                
                                         <option *ngFor="let city of cityList" value="{{city}}">
                                 </datalist>
                             </div>
-                            <div class="col-md-4 col-sm-4 optional">
-                                <input class="form-control" type="text" placeholder="State" [(ngModel)]="order.delivery_state">
+                            <div class="col-md-4 col-sm-4" *ngIf="useStreetDb">
+                                <input class="form-control" list="areaListId" placeholder="Enter Area Name" (keyup)="getStreetArea($event.target.value);" [(ngModel)]="areaVal" (change)="getAreaStreets($event.target.value)"> <br/>
+                                <datalist id="areaListId">                                
+                                        <option *ngFor="let area of areaList.areas" value="{{area.city}}">
+                                </datalist>
                             </div>
+                            
+                            <div class="col-md-4 col-sm-4" *ngIf="useStreetDb">
+                                <select class="form-control full" [(ngModel)]="delivery_street" (change)="getAreaStores($event.target.value)">
+                                    <option value="">Select Street</option>
+                                    <option *ngFor="let street of streetArr" value="{{street.street_name}}">{{street.street_name}}</option>
+                                </select>
+                                <br/>
+                            </div>
+
                             <div class="col-md-4 col-sm-4">
-                                <input class="form-control" type="text" placeholder="Postal code" [(ngModel)]="postalCode">
+                                <input class="form-control" type="text" placeholder="Street#" [(ngModel)]="delivery_streetno">
                             </div>
                         </div>
                         
-                        <p class="use-location">or <a (click)="getUserLocation()"><i class="fa fa-map-marker"></i> Use my Location</a></p>
+                        <p *ngIf="!useStreetDb" class="use-location">or <a (click)="getUserLocation()"><i class="fa fa-map-marker"></i> Use my Location</a></p>
                         
                         <div class="row form_sec">
                             <div class="col-md-4 col-sm-4 optional">
                                 <input class="form-control" type="text" placeholder="Appt#" [(ngModel)]="delivery_apartment">
                             </div>
-                            <div class="col-md-4 col-sm-4">
-                                <input class="form-control" type="text" placeholder="Street#" [(ngModel)]="delivery_streetno">
-                            </div>
+                            
                             <div class="col-md-4 col-sm-4 optional">
-                                <input class="form-control" type="text" placeholder="Street Name / Building Name" [(ngModel)]="delivery_street">
+                                <input class="form-control" type="text" placeholder="State" [(ngModel)]="order.delivery_state">
+                            </div>
+                            
+                            <div class="col-md-4 col-sm-4">
+                                <input class="form-control" type="text" placeholder="Postal code" [(ngModel)]="postalCode">
                             </div>
                         </div>
                         <br/>

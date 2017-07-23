@@ -6,6 +6,7 @@ import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component'
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { DataService } from './data.service';
+import { UtilService } from './util.service';
 
 declare var jQuery: any;
 
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit {
   constructor(private dialogService:DialogService,
                 private route: ActivatedRoute,
                 private router: Router,
-                private dataService: DataService){
+                private dataService: DataService,
+                private utilService: UtilService){
 
         this.router.events.subscribe((e) => {
           if (e instanceof NavigationEnd) {
@@ -70,6 +72,8 @@ export class AppComponent implements OnInit {
       this.dataService.getIp()
         .subscribe(data => {
             let countryName = data.geoplugin_countryName;
+            let userCountryCode = data.geoplugin_countryCode;
+
             if(countryName.toLowerCase() == 'bahrain'){
               this.orderUrl = 'http://www.nkdpizza.com/order-bh.html';
             }else if(countryName.toLowerCase() == 'united states' || countryName.toLowerCase() == 'usa'){
@@ -77,6 +81,10 @@ export class AppComponent implements OnInit {
             }else{
               this.orderUrl = '';
             }
+
+            countryName = this.utilService.formatCountryName(countryName);
+            this.dataService.setLocalStorageData('userCountry', countryName);
+            this.dataService.setLocalStorageData('userCountryCode', userCountryCode);
         })
 
       // jQuery("header.navigation ul.links li a").on('click', function(event) {

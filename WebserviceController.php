@@ -1,13 +1,13 @@
 <?php
 App::uses('AppController', 'Controller');
 class WebserviceController extends AppController {
-    public $uses = array('Category','Question','Content','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog');
+    public $uses = array('Category','Question','Content','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog','Location','LocationStreet');
     public $components=array('Core','Email');
 
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getPageInfo','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces'));
+        $this->Auth->allow(array('get_categories','getPageInfo','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion'));
     }
 
     public function get_categories($count=10){
@@ -1547,7 +1547,7 @@ function sendCareerInfo(){
 		$favData = json_decode($data['favData']);
 		$favData = json_decode($favData, true);
 		if(!empty($favData)) {
-			$item = $this->prepareFavResponse($favData['FDetail']['data']['modifiers'], $favData['FDetail']['data']['itemSlug'], $menuCountry);
+			$item = $this->prepareFavResponse($favData['FDetail']['data'], $favData['FDetail']['data']['itemSlug'], $menuCountry);
 			echo json_encode($item); die;
 		}		
 		die;
@@ -1574,9 +1574,15 @@ function sendCareerInfo(){
 	
 	public function prepareFavResponse($favData, $itemSlug, $menuCountry = 'UAE') {
 		//if(!empty($favData)) {
-			
+			$favDataObj = $favData;
+			$favData = $favData['modifiers'];
 			$item = $this->getFormattedItemData($itemSlug, $menuCountry);
-			//echo '<pre>'; print_r($item); die;
+			
+			if (isset($favDataObj['qty'])) {
+				$item['Product']['qty'] = $favDataObj['qty'];
+			}	
+			
+			//echo '<pre>'; print_r($favDataObj); die;
 			if(!empty($item) && !empty($item['ProductModifier']) && !empty($favData)) {
 				
 				$i = 0;
@@ -1658,7 +1664,7 @@ function sendCareerInfo(){
 			$allItems = array();
 			if(!empty($favOrderData['FDetail'])) {				
 				foreach($favOrderData['FDetail'] as $fd) {					
-					$item = $this->prepareFavResponse($fd['data']['modifiers'], $fd['data']['itemSlug'], $menuCountry);
+					$item = $this->prepareFavResponse($fd['data'], $fd['data']['itemSlug'], $menuCountry);
 					//echo '<pre>'; print_r($item); die;
 					$item['totalItemCost'] = $fd['data']['totalItemCost'];
 					$allItems[] = $item;					
@@ -2020,4 +2026,100 @@ function sendCareerInfo(){
 		echo json_encode($data);
 		die;
 	}
+	
+	
+	
+	
+	public function getAreaSuggestion($country = null, $searchKey) {
+		
+		$result = array(
+				'areas' => array(),
+				'streets' => array(),
+				'stores' => array()
+			);
+		$alreadyStreet = array();
+		$alreadyStores = array();
+		$alreadyArea = array();
+		$allStreetArr = array();
+		$allStoresArr = array();
+		$allAreaArr = array();
+		
+		if(!empty($searchKey)) {
+			
+			$this->Location->recursive = 2;
+			
+			$this->LocationStreet->bindModel(array(
+									'belongsTo' => array(
+										'Store' => array(
+												'className' => 'Store',
+												'foreignKey' => 'store_id',
+												'conditions' => array(
+													'Store.status' => 1
+												),
+												'fields' => array(
+													'Store.id', 'Store.store_id', 'Store.store_name', 'Store.store_address', 'Store.store_ip_address', 'Store.store_image', 'Store.store_phone', 'Store.store_email', 'Store.city', 'Store.state', 'Store.country', 'Store.zip', 'Store.latitude', 'Store.longitude', 'Store.delivery_radius'
+												),
+												'order' => array('Store.store_name' => 'asc')
+										)
+									)
+							));
+			
+			$this->Location->bindModel(array(
+									'hasMany' => array(
+											'LocationStreet' => array(
+													'className' => 'LocationStreet',
+													'foreignKey' => 'location_id'
+											)
+									)
+							));
+			
+			$areas = $this->Location->find('all', array('conditions' => array(
+													'LOWER(Location.city) LIKE' => '%'.strtolower($searchKey).'%'
+										)));	
+			
+			
+			if(!empty($areas)) {
+				$i = 0;
+				foreach($areas as $area) {
+					
+					//add area name to street array
+					if(!in_array($area['Location']['id'], $alreadyArea)) {
+						
+						$allAreaArr[] = $area['Location'];
+						$alreadyArea[] = $area['Location']['id'];
+						
+					}
+					
+					foreach($areas[$i]['LocationStreet'] as $street) {
+						
+						//add street name to street array
+						if(!in_array($street['id'], $alreadyStreet)) {
+							
+							$streetData = $street;
+							$streetData['area_name'] = $area['Location']['city'];
+							//unset($streetData['Store']);
+							$allStreetArr[] = $streetData;
+							$alreadyStreet[] = $street['id'];
+							
+						}	
+
+								
+					}
+					
+					$i++;
+				}
+				
+			}	
+
+			
+			$result = array(
+				'areas' => $allAreaArr,
+				'streets' => $allStreetArr
+			);
+		}
+			
+		echo json_encode($result); die;
+		
+	}	
+	
 }

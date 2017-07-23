@@ -158,6 +158,7 @@ export class OrderreviewComponent implements OnInit {
     for(var i=0; i<this.items.length; i++) {
       if(this.items[i].Product.plu_code == plu) {
 
+          let oldQty = this.items[i].Product.qty;
           //increase
           if(type == 1) {
             this.items[i].Product.qty += 1;      
@@ -169,8 +170,16 @@ export class OrderreviewComponent implements OnInit {
             }
           }
 
-          total =  parseFloat(this.items[i].originalItemCost)*this.items[i].Product.qty;
+          if (this.items[i].originalItemCost != undefined) {
+            total =  parseFloat(this.items[i].originalItemCost)*this.items[i].Product.qty;
+            
+          } else {
+            this.items[i].originalItemCost = this.items[i].totalItemCost/oldQty;
+            total =  parseFloat(this.items[i].originalItemCost)*this.items[i].Product.qty;
+          }
+
           this.items[i].totalItemCost = total;
+          
 
           break;
       }

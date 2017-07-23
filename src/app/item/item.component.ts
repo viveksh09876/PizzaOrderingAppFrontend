@@ -753,19 +753,6 @@ export class ItemComponent implements OnInit {
 
 
   checkout() {    
-    
-    if(this.dataService.getLocalStorageData('allItems') != null
-          && this.dataService.getLocalStorageData('allItems') != 'null') {
-       let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
-       allItems.push(this.item);  
-       this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
-    }else{
-      let allItems = [];
-      allItems.push(this.item);
-      this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
-    }
-    
-    this.dataService.setLocalStorageData('totalCost', this.totalCost); 
     this.router.navigate(['/order-review']);
   }
 
