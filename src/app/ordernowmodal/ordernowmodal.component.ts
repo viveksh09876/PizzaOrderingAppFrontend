@@ -23,6 +23,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   selectedStore = { info: null, val: ''};
   showContent = 'pickup-delivery';
   cityVal = '';
+  areaVal = '';
   postalCode = '';
   delivery_state = '';
   delivery_apartment = '';
@@ -37,7 +38,9 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   useStreetDb = false;
   streetArr = [];
   selectedStreet = '';
-
+  citySource = [];
+  showCityList = false;
+  showAreaList = false;
 
   order = {
     orderType: 'pickup',
@@ -51,7 +54,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
     this.userCountryName = this.dataService.getLocalStorageData('userCountry');
     this.userCountryCode = this.dataService.getLocalStorageData('userCountryCode');
     if (this.userCountryName != undefined && this.userCountryName != null && this.userCountryName != '') {
-      //this.userCountryName = 'uae';  //hardcode for testing
+      this.userCountryName = 'uae';  //hardcode for testing
       if (this.userCountryName.toLowerCase() == 'uae' || this.userCountryName.toLowerCase() == 'united arab emirates') {
         this.useStreetDb = true;
       }
@@ -71,6 +74,18 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
     }
   }
 
+  selectCity(city) {
+    this.getStores(city);
+    this.cityVal = city;
+    this.showCityList = false;
+  }
+
+  selectArea(area) {
+    this.getAreaStreets(area);
+    this.areaVal = area;
+    this.showAreaList = false;
+  }
+
   getCities(searchKey) {
 
     if(searchKey.length > 2) {
@@ -78,6 +93,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
             .subscribe(data => {
                 
                 this.cityList = data;
+                this.showCityList = true;
                 this.getStores(searchKey);
             });
     }
@@ -89,6 +105,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
       this.dataService.getAreaSuggestions(this.userCountryName, searchKey)
             .subscribe(data => {
                 this.areaList = data;
+                this.showAreaList = true;
                 this.order['delivery_state'] = this.areaList.areas[0].state;
                 this.getAreaStreets(this.areaList.areas[0].city);
             });
