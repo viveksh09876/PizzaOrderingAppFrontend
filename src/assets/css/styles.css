@@ -570,7 +570,7 @@ header.navigation ul.links li.eclub-btn ul li a i{min-width: 16px;}
 }
 
 @media (max-width: 767px) {
-.mob-order{height: 40px; background: #fff; border-top: 1px solid #ccc; padding: 10px 0; width: 100%; text-align: center;}
+.mob-order{height: 60px; margin-top: -1px; background: #fff; border-top: 1px solid #ccc; padding: 10px 0; width: 100%; text-align: center;}
 .mob-order a{font-size: 18px;
     border: none;
     line-height: 29px;
@@ -1265,6 +1265,7 @@ header.navigation .logo {
 .banner-wrapper .container {
 	top: 52px;
 	padding: 0px;
+	z-index: 999;
 }
 .banner-wrapper h1 {
 	font-size: 3em
