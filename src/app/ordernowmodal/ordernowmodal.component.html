@@ -24,16 +24,20 @@
                     <div role="tabpanel" class="tab-pane" [ngClass]="{'active': order.orderType == 'pickup'}" id="pickup">
                         <div class="row form_sec">
                             <div class="col-md-4 col-sm-4 optional" *ngIf="!useStreetDb">
-                                <input class="form-control" list="cityListId" placeholder="City" (keyup)="getCities($event.target.value);" [(ngModel)]="cityVal" (change)="getStores($event.target.value)">
-                                <datalist id="cityListId">                                
-                                        <option *ngFor="let city of cityList" value="{{city}}">
+                                <input class="form-control" list="cityListId" placeholder="City" (keyup)="getCities($event.target.value);" [(ngModel)]="cityVal" (change)="getStores($event.target.value)" name="cityVal">
+                                <datalist id="cityListId">                    
+                                    <select name="cityVal">            
+                                        <option *ngFor="let city of cityList" value="{{city}}">{{city}}
+                                    </select>
                                 </datalist>
                                 <small>or</small>  
                             </div>
                             <div class="col-md-12 col-sm-12" *ngIf="useStreetDb">
-                                <input class="form-control" list="areaListId" placeholder="Enter Area Name" (keyup)="getStreetArea($event.target.value);" [(ngModel)]="areaVal" (change)="getAreaStreets($event.target.value)"> <br/>
-                                <datalist id="areaListId">                                
-                                        <option *ngFor="let area of areaList.areas" value="{{area.city}}">
+                                <input class="form-control" list="areaListId" placeholder="Enter Area Name" (keyup)="getStreetArea($event.target.value);" [(ngModel)]="areaVal" (change)="getAreaStreets($event.target.value)" name="areaVal"> <br/>
+                                <datalist id="areaListId">
+                                    <select name="areaVal">                                
+                                        <option *ngFor="let area of areaList.areas" value="{{area.city}}">{{area.city}}
+                                    </select>        
                                 </datalist>
                             </div>
                             
@@ -73,15 +77,19 @@
                     <div role="tabpanel" class="tab-pane" [ngClass]="{'active': order.orderType == 'delivery'}" id="delivery">
                         <div class="row form_sec">
                             <div class="col-md-4 col-sm-4 optional" *ngIf="!useStreetDb">
-                                <input class="form-control" list="cityListId" placeholder="City" (keyup)="getCities($event.target.value);" [(ngModel)]="cityVal" (change)="getStores($event.target.value)">
-                                <datalist id="cityListId">                                
-                                        <option *ngFor="let city of cityList" value="{{city}}">
+                                <input class="form-control" list="cityListId" placeholder="City" (keyup)="getCities($event.target.value);" [(ngModel)]="cityVal" (change)="getStores($event.target.value)" name="cityVal">
+                                <datalist id="cityListId">                    
+                                    <select name="cityVal">            
+                                        <option *ngFor="let city of cityList" value="{{city}}">{{city}}
+                                    </select>        
                                 </datalist>
                             </div>
                             <div class="col-md-4 col-sm-4" *ngIf="useStreetDb">
-                                <input class="form-control" list="areaListId" placeholder="Enter Area Name" (keyup)="getStreetArea($event.target.value);" [(ngModel)]="areaVal" (change)="getAreaStreets($event.target.value)"> <br/>
-                                <datalist id="areaListId">                                
-                                        <option *ngFor="let area of areaList.areas" value="{{area.city}}">
+                                <input class="form-control" list="areaListId" placeholder="Enter Area Name" (keyup)="getStreetArea($event.target.value);" [(ngModel)]="areaVal" (change)="getAreaStreets($event.target.value)" name="areaVal"> <br/>
+                                <datalist id="areaListId">  
+                                    <select name="areaVal">                              
+                                        <option *ngFor="let area of areaList.areas" value="{{area.city}}">{{area.city}}
+                                    </select>        
                                 </datalist>
                             </div>
                             
