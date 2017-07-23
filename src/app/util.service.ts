@@ -49,7 +49,7 @@ export class UtilService {
 
   formatFavData(item) {
     let favData = { itemId: null , itemName: null, itemSlug: null, qty: 1, totalItemCost: 0,  modifiers: [] }
-    //console.log(item);
+    //console.log('format', item);
     favData.itemId = item.Product.id;
     favData.itemName = item.Product.title;
     favData.itemSlug = item.Product.slug;

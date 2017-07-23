@@ -1547,7 +1547,7 @@ function sendCareerInfo(){
 		$favData = json_decode($data['favData']);
 		$favData = json_decode($favData, true);
 		if(!empty($favData)) {
-			$item = $this->prepareFavResponse($favData['FDetail']['data']['modifiers'], $favData['FDetail']['data']['itemSlug'], $menuCountry);
+			$item = $this->prepareFavResponse($favData['FDetail']['data'], $favData['FDetail']['data']['itemSlug'], $menuCountry);
 			echo json_encode($item); die;
 		}		
 		die;
@@ -1574,9 +1574,15 @@ function sendCareerInfo(){
 	
 	public function prepareFavResponse($favData, $itemSlug, $menuCountry = 'UAE') {
 		//if(!empty($favData)) {
-			
+			$favDataObj = $favData;
+			$favData = $favData['modifiers'];
 			$item = $this->getFormattedItemData($itemSlug, $menuCountry);
-			//echo '<pre>'; print_r($item); die;
+			
+			if (isset($favDataObj['qty'])) {
+				$item['Product']['qty'] = $favDataObj['qty'];
+			}	
+			
+			//echo '<pre>'; print_r($favDataObj); die;
 			if(!empty($item) && !empty($item['ProductModifier']) && !empty($favData)) {
 				
 				$i = 0;
@@ -1658,7 +1664,7 @@ function sendCareerInfo(){
 			$allItems = array();
 			if(!empty($favOrderData['FDetail'])) {				
 				foreach($favOrderData['FDetail'] as $fd) {					
-					$item = $this->prepareFavResponse($fd['data']['modifiers'], $fd['data']['itemSlug'], $menuCountry);
+					$item = $this->prepareFavResponse($fd['data'], $fd['data']['itemSlug'], $menuCountry);
 					//echo '<pre>'; print_r($item); die;
 					$item['totalItemCost'] = $fd['data']['totalItemCost'];
 					$allItems[] = $item;					

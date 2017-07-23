@@ -470,6 +470,7 @@ export class AccountComponent implements OnInit {
 
     this.dataService.getFavOrderData(itemData, menuCountry)
           .subscribe(data => {
+            //console.log('data', data);
             this.dataService.setLocalStorageData('allItems', JSON.stringify(data));
             this.showLoading = false;
             this.router.navigate(['/order-review']);  
