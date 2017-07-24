@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getPageInfo','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion'));
+        $this->Auth->allow(array('get_categories','getPageInfo','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl'));
     }
 
     public function get_categories($count=10){
@@ -213,7 +213,8 @@ class WebserviceController extends AppController {
 		
 		//echo '<pre>'; print_r($data); die;
 		//$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/'.$menuCountry);
-		$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/UAE');
+		
+		$plu_json = $this->curlGetRequest(APIURL.'/index.php/menu/UAE');
 		$plu_json = json_decode($plu_json, true);
 		$plu_json = $plu_json['item'];
 		$resp = array();
@@ -422,7 +423,7 @@ class WebserviceController extends AppController {
 										));
 			
 			//$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/'.$menuCountry);
-			$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/UAE');
+			$plu_json = $this->curlGetRequest(APIURL.'/index.php/menu/UAE');
 			$plu_json = json_decode($plu_json, true);
 			
 			
@@ -705,7 +706,7 @@ class WebserviceController extends AppController {
 			$this->Orderlog->create();
 			$this->Orderlog->save(array('latlong' => $latlong,'data' => json_encode($data)));
 			
-			$url = 'https://nkdpizza.com/beta/pos/index.php/placeOrder';
+			$url = APIURL.'/index.php/placeOrder';
 			$result     = $this->curlPostRequest($url, $data);
 			$response = array( 'response' =>  $result, 'message' => 'success');
 			echo json_encode($response); die;
@@ -810,8 +811,8 @@ class WebserviceController extends AppController {
 			$stores = $this->Store->find('all', array(							
 								'conditions' => array(
 									'OR' => array(
-										'LOWER(Store.city)' => $city,
-										'LOWER(Store.state)' => $city
+										'LOWER(Store.city) LIKE' => '%'.$city.'%',
+										'LOWER(Store.state) LIKE' => '%'.$city.'%'
 									),
 									'Store.status' => 1	
 								),
@@ -977,7 +978,7 @@ class WebserviceController extends AppController {
 		
 		if(!empty($data)) {
 			
-			$url = 'https://nkdpizza.com/beta/pos/index.php/Login';
+			$url = APIURL.'/index.php/Login';
 			
 			$result     = $this->curlPostRequest($url, $data);
 			$response   = json_decode($result, true);
@@ -1141,7 +1142,7 @@ class WebserviceController extends AppController {
 		$data = $this->request->input ( 'json_decode', true) ;
 		if(!empty($data)) {
 			//echo '<pre>'; print_r(json_encode($data)); die;
-			$url = 'https://nkdpizza.com/beta/pos/index.php/addFav';
+			$url = APIURL.'/index.php/addFav';
 			 
 			$result     = $this->curlPostRequest($url, $data);
 			$response   = json_decode($result);
@@ -1255,7 +1256,7 @@ class WebserviceController extends AppController {
                     $this->Email->template='general';
                     $this->Email->delivery = 'smtp';
                     if($this->Email->send()){
-      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! information has been sent successfully will contact you soon.'));
+      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank you for your enquiry about your event - we’ll be in touch really soon to talk about how we can help!'));
      }
 
                 }catch(Exception $e){
@@ -1394,7 +1395,7 @@ function sendCareerInfo(){
 			'order'=>'Question.sort_order'
 		));
 		
-		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userId);
+		$resp = $this->curlGetRequest(APIURL.'/index.php/getProfile/'.$userId);
 		$result = json_decode($resp, true);
 		$userPrefreces = json_decode($result['Pref']);
 
@@ -1529,7 +1530,7 @@ function sendCareerInfo(){
 			if($type == 'order') {
 				$method = 'getFavOrder';
 			}
-			$url = "https://nkdpizza.com/beta/pos/index.php/".$method."/".$userId;
+			$url = APIURL."/index.php/".$method."/".$userId;
 			
 			$result     = $this->curlGetRequest($url);
 			$favItems   = json_decode($result, true);
@@ -1558,7 +1559,7 @@ function sendCareerInfo(){
 		$orderData = $this->request->input ( 'json_decode', true) ;
 		
 		if(!empty($orderData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/checkDiscount';
+			$url = APIURL.'/index.php/checkDiscount';
 			$orderData['order_details'] = $this->formatPlaceOrderData($orderData);
 			$this->Couponlog->create();
 			$this->Couponlog->save(array('data' => json_encode($orderData), 'created' => date('Y-m-d H:i:s')));	
@@ -1690,7 +1691,7 @@ function sendCareerInfo(){
 	
 	public function getOrderHistory($userId) {
 		if(!empty($userId)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/orderHistory/'.$userId;
+			$url = APIURL.'/index.php/orderHistory/'.$userId;
 			$orders = $this->curlGetRequest($url);	
 			$orders = json_decode($orders, true);	
 			if(!empty($orders)) {
@@ -1760,7 +1761,7 @@ function sendCareerInfo(){
 
 		$userData = $this->request->input ( 'json_decode', true) ;	
 		if(!empty($userData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$url = APIURL.'/index.php/updateProfile/'.$userData['id'];
 			$result     = $this->curlPostRequest($url, $userData);
 			$response   = json_decode($result); 
 			if($response->Status=='OK'){
@@ -1801,7 +1802,7 @@ function sendCareerInfo(){
 		}
 
 		if(!empty($userData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$data['id'];
+			$url = APIURL.'/index.php/updateProfile/'.$data['id'];
 			$result     = $this->curlPostRequest($url, $userData);
 			$response   = json_decode($result); 
 			if($response->Status=='OK'){
@@ -1825,7 +1826,7 @@ function sendCareerInfo(){
 		$userData = $this->request->input ( 'json_decode', true) ;	
 
 		$getAddrs = array();
-		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userData['id']);
+		$resp = $this->curlGetRequest(APIURL.'/index.php/getProfile/'.$userData['id']);
 		$profileData = json_decode($resp, true);
 		
 		if($profileData['Address1']=='""' || empty($profileData['Address1'])){
@@ -1842,7 +1843,7 @@ function sendCareerInfo(){
 		);	
 		
 		if(!empty($upatedData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$url = APIURL.'/index.php/updateProfile/'.$userData['id'];
 			$result     = $this->curlPostRequest($url, $upatedData);
 			$response   = json_decode($result); 
 			if($response->Status=='OK'){
@@ -1879,7 +1880,7 @@ function sendCareerInfo(){
 		);
 		
 		if(!empty($upatedData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$url = APIURL.'/index.php/updateProfile/'.$userData['id'];
 			$result     = $this->curlPostRequest($url, $upatedData);
 			$response   = json_decode($result); 
 			if($response->Status=='OK'){
@@ -1916,7 +1917,7 @@ function sendCareerInfo(){
 		);
 		
 		if(!empty($upatedData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$url = APIURL.'/index.php/updateProfile/'.$userData['id'];
 			$result     = $this->curlPostRequest($url, $upatedData);
 			$response   = json_decode($result); 
 			if($response->Status=='OK'){
@@ -1938,7 +1939,7 @@ function sendCareerInfo(){
 		$this->autoRender = false;
 		$userData = $this->request->input ( 'json_decode', true) ;	
 
-		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userData['id']);
+		$resp = $this->curlGetRequest(APIURL.'/index.php/getProfile/'.$userData['id']);
 		$profileData = json_decode($resp, true);
 		if($userData['addressNo'] == 'Address1'){
 			$address1 = json_decode($profileData['Address1'], true);
@@ -2002,7 +2003,7 @@ function sendCareerInfo(){
 		}
 		
 		if(!empty($upatedData)) {
-			$url = 'https://nkdpizza.com/beta/pos/index.php/updateProfile/'.$userData['id'];
+			$url = APIURL.'/index.php/updateProfile/'.$userData['id'];
 			$result     = $this->curlPostRequest($url, $upatedData);
 			$response   = json_decode($result); 
 			if($response->Status=='OK'){
@@ -2121,5 +2122,12 @@ function sendCareerInfo(){
 		echo json_encode($result); die;
 		
 	}	
+	
+	
+	public function testUrl() {
+		echo APIURL; die;
+		echo 'http://'.$_SERVER['HTTP_HOST'].$this->base; die;
+		echo 'https://'.$_SERVER['SERVER_NAME'].'/beta'; die;
+	}
 	
 }

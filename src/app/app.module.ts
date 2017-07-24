@@ -6,7 +6,6 @@ import { routing } from './app.routing';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import { CustomFormsModule } from 'ng2-validation';
-import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 
 import { DataService } from './data.service';
 import { UtilService } from './util.service';
@@ -70,8 +69,7 @@ import { ModsortPipe } from './modsort.pipe';
     BootstrapModalModule,
     JsonpModule,
     NguiDatetimePickerModule,
-    CustomFormsModule,
-    NguiAutoCompleteModule
+    CustomFormsModule
   ],
   entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent, RegisterConfirmationComponent],
   schemas:  [CUSTOM_ELEMENTS_SCHEMA],
