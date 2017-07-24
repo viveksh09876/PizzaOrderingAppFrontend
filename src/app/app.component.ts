@@ -62,6 +62,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {      
+
+      this.router.events.subscribe((evt) => {
+          if (!(evt instanceof NavigationEnd)) {
+              return;
+          }
+          //window.scrollTo(0, 0)
+          jQuery("body").animate({ scrollTop: 0 }, 500);
+      });
+    
+
       //check if user logged In
       let user = this.dataService.getLocalStorageData('isLoggedIn');
       if(user != undefined && user == 'true') {
