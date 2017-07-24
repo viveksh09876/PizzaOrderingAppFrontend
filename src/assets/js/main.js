@@ -4,7 +4,7 @@ var lat = '25.040657';
 var lng = '55.197286';
 var map, places = [], cordinates, pos, contentString, coordinates;
 var zoom=3;
-cmsurl = "https://nkdpizza.com/beta/dev";
+cmsurl = "https://"+ window.location.hostname+"/beta/dev";
 //cmsurl = "https://mavin360.com/demo/nkd/";
 var directionUrl = 'http://maps.google.com/';
 

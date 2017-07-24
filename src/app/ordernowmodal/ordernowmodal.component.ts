@@ -90,8 +90,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
 
     if(searchKey.length > 2) {
       this.dataService.getCitiesSuggestions(this.userCountryCode, searchKey)
-            .subscribe(data => {
-                
+            .subscribe(data => {            
                 this.cityList = data;
                 this.showCityList = true;
                 this.getStores(searchKey);
