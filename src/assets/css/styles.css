@@ -285,7 +285,8 @@ nav.main-navigation {
 	z-index: 100;
 	display: none;
 	padding-top: 63px;
-	top: 0
+	top: 0;
+	z-index: 9999;
 }
 
 @media (max-width: 767px) {
@@ -1421,7 +1422,7 @@ header.navigation .logo {
 
 
 /*==============16 may css start here=========*/
-.modal.fade.in{background: rgba(0,0,0,.5); height: 100vh; overflow: auto;}
+.modal.fade.in{background: rgba(0,0,0,.5); height: 100vh; overflow: auto; z-index: 9999;}
 .modal-header {
 	padding: 0;
 	border: none;
@@ -2505,9 +2506,9 @@ color:#fff
     line-height: 18px;
     border: none;
     font-family: "proxima_nova_rgregular";}
-.three-column-wrapper .inside-column-container .item-qty-price .quantity{text-align:center; float:left; color:#911c27;}	
-.three-column-wrapper .inside-column-container .item-qty-price .quantity a{ border: 1px solid #911c27;; color: #911c27;; width: 30px; height: 25px; line-height: 25px; display: inline-block;  text-decoration:none;float:left}
-.three-column-wrapper .inside-column-container .item-qty-price .quantity .num{ border-left: 0; border-right: 0; background: #911c27; color: #fff;  display: inline-block;  width: 30px; height: 25px; vertical-align: top;float:left; line-height: 25px;}
+.three-column-wrapper .inside-column-container .item-qty-price .quantity{text-align:center; color:#911c27;}	
+.three-column-wrapper .inside-column-container .item-qty-price .quantity a{ border: 1px solid #911c27;; color: #911c27;; width: 30px; height: 30px; line-height: 30px; display: inline-block;  text-decoration:none;float:left}
+.three-column-wrapper .inside-column-container .item-qty-price .quantity .num{ border-left: 0; border-right: 0; background: #911c27; color: #fff;  display: inline-block;  width: 30px; height: 30px; vertical-align: top;float:left; line-height: 30px;}
 .three-column-wrapper .inside-column-container .item-qty-price .quantity a:first-child{ border-radius: 2px 0 0 2px;}
 .three-column-wrapper .inside-column-container .item-qty-price .quantity .num+a{ border-radius:0 2px 2px 0; margin:0 10px 0 0;}
 .three-column-wrapper .inside-column-container .item-qty-price .quantity span.cost{font: 1.8em "proxima_nova_ltsemibold";
@@ -2852,7 +2853,7 @@ header.navigation ul.links.mobile,.banner-wrapper.customize-desk{display: none;}
     bottom: 0px;
 }
 .three-column-wrapper .inside-column-container.fixed .item-qty-price{background: #789c48; padding: .7em 1em 0.7em 1em;}
-.three-column-wrapper .inside-column-container .item-qty-price button{font-size: 12px; padding: 3px 10px;}
+.three-column-wrapper .inside-column-container .item-qty-price button{font-size: 12px; padding: 6px 10px; position: relative; z-index: 9999;}
 .three-column-wrapper .inside-column-container .item-qty-price .quantity a{background: #f4f4f4; border-color: #f4f4f4;}
 .three-column-wrapper .inside-column-container .item-qty-price .quantity span.cost{color: #fff;}
 .three-column-wrapper .inside-column-container.fixed h3,.three-column-wrapper .inside-column-container.fixed .img-wrapper,.three-column-wrapper .inside-column-container.fixed .nuitrition,.three-column-wrapper .inside-column-container.fixed .content-container{display: none;}
@@ -3061,7 +3062,20 @@ header.navigation ul.links.mobile,.banner-wrapper.customize-desk{display: none;}
 .fancypopup button.close{background: #fff; color: #333; border: 2px solid #fff; font-size: 20px; top: -15px; right: -15px;}
 
 #pickupdeliveryModal .modal-body{ padding: 30px;}
-
+#pickupdeliveryModal .tab-content .form_sec div{position: relative;}
+#pickupdeliveryModal .tab-content .form_sec .col-md-4 .autocomplete-list{width: 89.5%;}
+#pickupdeliveryModal .tab-content .form_sec .autocomplete-list{
+    position: absolute; z-index: 9; max-height: 150px; overflow: auto;
+    width: 96.5%;
+    left: 15px;
+    background: #fff;
+    list-style: none;
+    padding: 0px;
+    border: 1px solid #4d91b9;
+}
+#pickupdeliveryModal .tab-content .form_sec .autocomplete-list li{display: block;}
+#pickupdeliveryModal .tab-content .form_sec .autocomplete-list li a{padding:0px 10px; display: block; color: #555;}
+#pickupdeliveryModal .tab-content .form_sec .autocomplete-list li a:hover{background: #2c92fb; color: #fff;}
 
 /*=====Career page start here=======*/
 .form_design{ margin-top: 60px;}
@@ -3254,6 +3268,12 @@ header.navigation ul.links.mobile,.banner-wrapper.customize-desk{display: none;}
 }
 
 @media (max-width: 767px) {
+	.fancypopup .nav-tabs {
+    margin: 10px 0;
+}
+.fancypopup .nav-tabs li{
+    margin:0 0 10px 0;
+}
     .banner-wrapper.twolines{ margin-bottom: 110px;}
     .banner-wrapper.twolines.thin{ margin-bottom: 200px;}
     .career_points ul{ font-size: 16px; line-height: 20px;}
