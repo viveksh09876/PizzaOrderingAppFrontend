@@ -74,7 +74,7 @@ export class MenuComponent implements OnInit {
             .subscribe(data => {
                         
           this.menuData = data;
-          console.log(this.menuData[0].name);
+          //console.log(this.menuData[0].name);
           this.selectedMenuCat = this.menuData[0].name;  
 
 
