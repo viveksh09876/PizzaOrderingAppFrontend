@@ -132,7 +132,7 @@
             <form class="order_reviewform" name="orderReviewForm">
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Appt#" type="text" name="apartment" id="apartment" #apartment="ngModel" [(ngModel)]="order.address.apartment" required>
+                        <input class="form-control" placeholder="Appt#" type="text" name="apartment" id="apartment" #apartment="ngModel" [(ngModel)]="order.address.apartment" ng-required="!isDubai">
                         <div *ngIf="apartment.errors && (apartment.dirty || apartment.touched)" class="alert alert-danger">
                             <div [hidden]="!apartment.errors.required">Apartment is required.</div>
                         </div>
@@ -140,7 +140,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Street#" type="text" name="streetNo" id="streetNo" #streetNo="ngModel" [(ngModel)]="order.address.streetNo" required>
+                        <input class="form-control" placeholder="Street#" type="text" name="streetNo" id="streetNo" #streetNo="ngModel" [(ngModel)]="order.address.streetNo" ng-required="!isDubai">
                         <div *ngIf="streetNo.errors && (streetNo.dirty || streetNo.touched)" class="alert alert-danger">
                             <div [hidden]="!streetNo.errors.required">Street No is required.</div>
                         </div>
@@ -148,7 +148,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Street / Building name" name="street" id="street" #street="ngModel" type="text" [(ngModel)]="order.address.street" required>
+                        <input class="form-control" placeholder="Street / Building name" name="street" id="street" #street="ngModel" type="text" [(ngModel)]="order.address.street" ng-required="!isDubai">
                         <div *ngIf="street.errors && (street.dirty || street.touched)" class="alert alert-danger">
                             <div [hidden]="!street.errors.required">Street is required.</div>
                         </div>
@@ -172,7 +172,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Postal Code" type="text" name="postal_code" id="postal_code" #postal_code="ngModel" [(ngModel)]="order.address.postal_code" required>
+                        <input class="form-control" placeholder="Postal Code" type="text" name="postal_code" id="postal_code" #postal_code="ngModel" [(ngModel)]="order.address.postal_code" ng-required="!isDubai">
                         <div *ngIf="postal_code.errors && (postal_code.dirty || postal_code.touched)" class="alert alert-danger">
                             <div [hidden]="!postal_code.errors.required">Postal Code is required.</div>
                         </div>

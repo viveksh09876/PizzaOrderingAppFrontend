@@ -64,6 +64,7 @@ export class OrderreviewComponent implements OnInit {
     couponDiscount = 0;  
     isDiscountApply = false;
     currencyCode = null;
+    isDubai = false;
 
   constructor(private dataService: DataService,
                private dialogService:DialogService,
@@ -83,8 +84,13 @@ export class OrderreviewComponent implements OnInit {
           this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
           //this.order.storeId = 'Marina';
       }
-      
-      
+    
+    let uCountry = this.dataService.getLocalStorageData('userCountry');
+    if (uCountry != undefined && uCountry != null && uCountry != '') {
+      if (uCountry.toLowerCase() == 'uae' || uCountry.toLowerCase() == 'united arab emirates') {
+        this.isDubai = true;
+      }
+    }  
     this.dataService.setLocalStorageData('favItemFetched', null);
     this.dataService.setLocalStorageData('favOrdersFetched', null); 
     this.dataService.setLocalStorageData('confirmationItems', null); 
@@ -512,6 +518,7 @@ export class OrderreviewComponent implements OnInit {
                     this.couponMsg = 'Coupon appled successfully.';
                     this.showCouponWait = false;
                     this.order.coupon = this.couponCode;
+                    this.order.couponDiscount = this.couponDiscount;
                     this.totalCost = this.totalCost - this.couponDiscount;
                   }
 

@@ -83,6 +83,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   selectArea(area) {
     this.getAreaStreets(area);
     this.areaVal = area;
+    this.cityVal = area;
     this.showAreaList = false;
   }
 
