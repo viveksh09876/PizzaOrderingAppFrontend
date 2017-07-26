@@ -284,14 +284,14 @@ nav.main-navigation {
 	position: fixed;
 	z-index: 100;
 	display: none;
-	padding-top: 63px;
+	margin-top: 63px;
 	top: 0;
 	z-index: 9999;
 }
 
 @media (max-width: 767px) {
 nav.main-navigation {
-	padding-top: 52px
+	margin-top: 52px;
 }
 }
 nav.main-navigation .nav-container {
@@ -510,7 +510,7 @@ header.navigation ul.links li a span.icon {
 }
 header.navigation ul.links li a span {
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: top;
 	line-height: inherit;
 }
 header.navigation ul.links li.eclub-btn a{background: #911c28; color: #fff; padding: 0 15px; line-height: 63px;}
@@ -571,22 +571,9 @@ header.navigation ul.links li.eclub-btn ul li a i{min-width: 16px;}
 }
 
 @media (max-width: 767px) {
-.mob-order{height: 60px; margin-top: -1px; background: #fff; border-top: 1px solid #ccc; padding: 10px 0; width: 100%; text-align: center;}
-.mob-order a{font-size: 18px;
-    border: none;
-    line-height: 29px;
-    padding: 5px;
-    display: inline-block;
-    width: 64%;
-    background: #911c27;
-    text-align: center;
-    border-radius: 3px;
-    border-bottom: 2px solid #4f050c;
-    color: #fff;
-    font-family: 'proxima_nova_ltsemibold';}
-.slider-wrapper{min-height: 320px; margin-top: 60px;}
+
 header.navigation ul.links li a {
-	line-height: 50px;
+	line-height: 52px;
 	padding: 0px 5px
 }
 header.navigation .logo {
@@ -1212,12 +1199,33 @@ header.navigation .logo {
 }
 
 @media (max-width: 991px) {
+	header.navigation ul.links.mobile li a {
+	background: none !Important;
+	box-shadow: none;
+	font-size: 25px;
+	padding: 0 2px;
+	color: #911C27!important;
+}
 .banner-wrapper .leftButtons.searchBox {
 	float: none;
 	text-align: center;
 	margin: 1.5em auto 0;
 	width: 60%
 }
+.mob-order{height: 60px; clear: both; margin-top: -1px; background: #fff; border-top: 1px solid #ccc; padding: 10px 0; width: 100%; text-align: center;}
+.mob-order a{font-size: 18px;
+    border: none;
+    line-height: 29px;
+    padding: 5px;
+    display: inline-block;
+    width: 64%;
+    background: #911c27;
+    text-align: center;
+    border-radius: 3px;
+    border-bottom: 2px solid #4f050c;
+    color: #fff;
+    font-family: 'proxima_nova_ltsemibold';}
+.slider-wrapper{min-height: 320px; margin-top: 60px;}
 }
 
 @media (max-width: 2560px) {
@@ -1242,10 +1250,12 @@ header.navigation .logo {
 @media (max-width: 1199px) {
 .banner-wrapper {
 	padding: 0px 0px;
-	margin-bottom: 106px;
+	margin-bottom: 76px;
 }
 .banner-wrapper .container {
 	padding: 0 15px;
+	z-index: 999;
+	margin-bottom: 0px;
 }
 .banner-wrapper h1 {
 	font-size: 2.5em;
@@ -2804,10 +2814,13 @@ color:#fff
 }
 .three-column-wrapper .inside-column-container.thirdCol .col-md-6:only-child{width:100%;}
 @media (max-width: 1199px) and (min-width: 991px) {
+	header.navigation{z-index: 9999;}
+	.slider-wrapper .slides .slide .container .slide-content img{width: 70%;}
+	.banner-wrapper .leftButtons{display: block !important;}
 .three-column-wrapper .inside-column-container.secondCol, .three-column-wrapper .inside-column-container.thirdCol {
 	font-size: 12px
 }
-header.navigation ul.links.mobile,.banner-wrapper.customize-desk{display: none;}
+/*header.navigation ul.links.mobile,.banner-wrapper.customize-desk{display: none;}*/
 .banner-wrapper.customize-mob{margin-bottom: 64px;}
 }
 .three-column-wrapper .inside-column-container.thirdCol {
@@ -3067,7 +3080,7 @@ header.navigation ul.links.mobile,.banner-wrapper.customize-desk{display: none;}
 #pickupdeliveryModal .tab-content .form_sec .autocomplete-list{
     position: absolute; z-index: 9; max-height: 150px; overflow: auto;
     width: 96.5%;
-    left: 15px;
+    left: 15px; top:45px;
     background: #fff;
     list-style: none;
     padding: 0px;
