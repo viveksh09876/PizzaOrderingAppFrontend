@@ -73,7 +73,7 @@ export class CheckoutComponent implements OnInit {
 
               if(resp.Status == 'Error') {
                 this.showPlaceOrder = true;
-                alert(resp.message);
+                alert(resp.Message);
               /*
                 this.dialogService.addDialog(MessageComponent, { title: 'Oops!', message: resp.message, buttonText: 'Close', doReload: false }, { closeByClickingOutside:true });
                 this.router.navigate(['/order-review']); 

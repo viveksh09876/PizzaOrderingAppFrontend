@@ -64,6 +64,7 @@ export class OrderreviewComponent implements OnInit {
     couponDiscount = 0;  
     isDiscountApply = false;
     currencyCode = null;
+    isDubai = false;
 
   constructor(private dataService: DataService,
                private dialogService:DialogService,
@@ -83,8 +84,13 @@ export class OrderreviewComponent implements OnInit {
           this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
           //this.order.storeId = 'Marina';
       }
-      
-      
+    
+    let uCountry = this.dataService.getLocalStorageData('userCountry');
+    if (uCountry != undefined && uCountry != null && uCountry != '') {
+      if (uCountry.toLowerCase() == 'uae' || uCountry.toLowerCase() == 'united arab emirates') {
+        this.isDubai = true;
+      }
+    }  
     this.dataService.setLocalStorageData('favItemFetched', null);
     this.dataService.setLocalStorageData('favOrdersFetched', null); 
     this.dataService.setLocalStorageData('confirmationItems', null); 
@@ -217,9 +223,9 @@ export class OrderreviewComponent implements OnInit {
   
     if(isValid) {
       if(isDelivery=='delivery'){
-        if(apartment==''){
+        if(apartment=='' && !this.isDubai){
           alert('Apartment is required.');
-        }else if(streetNo==''){
+        }else if(streetNo=='' && !this.isDubai){
           alert('Street No is required.');
         }else if(street==''){
           alert('Street is required.');
@@ -227,8 +233,6 @@ export class OrderreviewComponent implements OnInit {
           alert('City is required.');
         }else if(state==''){
           alert('State is required.');
-        }else if(postal_code==''){
-          alert('Postal Code is required.');
         }else{
           this.placeFinalOrder();
         }
@@ -300,6 +304,9 @@ export class OrderreviewComponent implements OnInit {
         let orderData = this.order;
         if(orderData.address) {
          orderData.address.street_no = orderData.address.streetNo;
+         if(orderData.address.postal_code == '') {
+           orderData.address.postal_code = '0';
+         }
           delete orderData.address.streetNo; 
         }
 
@@ -512,6 +519,7 @@ export class OrderreviewComponent implements OnInit {
                     this.couponMsg = 'Coupon appled successfully.';
                     this.showCouponWait = false;
                     this.order.coupon = this.couponCode;
+                    this.order.couponDiscount = this.couponDiscount;
                     this.totalCost = this.totalCost - this.couponDiscount;
                   }
 

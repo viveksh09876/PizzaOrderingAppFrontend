@@ -54,7 +54,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
     this.userCountryName = this.dataService.getLocalStorageData('userCountry');
     this.userCountryCode = this.dataService.getLocalStorageData('userCountryCode');
     if (this.userCountryName != undefined && this.userCountryName != null && this.userCountryName != '') {
-      this.userCountryName = 'uae';  //hardcode for testing
+      //this.userCountryName = 'uae';  //hardcode for testing
       if (this.userCountryName.toLowerCase() == 'uae' || this.userCountryName.toLowerCase() == 'united arab emirates') {
         this.useStreetDb = true;
       }
@@ -83,6 +83,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   selectArea(area) {
     this.getAreaStreets(area);
     this.areaVal = area;
+    this.cityVal = area;
     this.showAreaList = false;
   }
 
@@ -226,7 +227,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
         this.dataService.setLocalStorageData('order-now', JSON.stringify(orderDetails));
         this.close();
         this.router.navigate(['/menu']);
-        window.location.reload();
+        //window.location.reload();
     }else{
       this.showOutletError = true;
     }
