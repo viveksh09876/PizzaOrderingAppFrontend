@@ -78,12 +78,7 @@ export class OrderreviewComponent implements OnInit {
     this.getItems();
     this.updateUserDetails();
     this.order.storeId = '1';
-    if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
-            this.dataService.getLocalStorageData('nearByStore') != '') { 
-
-          this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
-          //this.order.storeId = 'Marina';
-      }
+    
     
     let uCountry = this.dataService.getLocalStorageData('userCountry');
     if (uCountry != undefined && uCountry != null && uCountry != '') {
@@ -109,6 +104,25 @@ export class OrderreviewComponent implements OnInit {
       
       if(this.order.order_type == 'delivery') {
         this.totalCost += 6;
+      }
+
+      if (orderDetails.selectedStore != undefined && orderDetails.selectedStore.Store.id != undefined) {
+        this.order.storeId = orderDetails.selectedStore.Store.id;
+
+      } else if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
+            this.dataService.getLocalStorageData('nearByStore') != '') { 
+
+          this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
+          //this.order.storeId = 'Marina';
+      }
+
+
+    } else {
+      if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
+            this.dataService.getLocalStorageData('nearByStore') != '') { 
+
+          this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
+          //this.order.storeId = 'Marina';
       }
     }
     
@@ -304,6 +318,11 @@ export class OrderreviewComponent implements OnInit {
         let orderData = this.order;
         if(orderData.address) {
          orderData.address.street_no = orderData.address.streetNo;
+         
+         if(orderData.address.state.toLowerCase() == 'dubai') {
+           orderData.address.state = 'UAE';
+         }
+
          if(orderData.address.postal_code == '') {
            orderData.address.postal_code = '0';
          }

@@ -86,8 +86,6 @@ export class AppComponent implements OnInit {
 
             if(countryName.toLowerCase() == 'bahrain'){
               this.orderUrl = 'http://www.nkdpizza.com/order-bh.html';
-            }else if(countryName.toLowerCase() == 'united states' || countryName.toLowerCase() == 'usa'){
-              this.orderUrl = 'https://www.toasttab.com/nkd-pizza-sterling-heights/v2/online-order';
             }else{
               this.orderUrl = '';
             }
