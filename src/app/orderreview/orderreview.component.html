@@ -172,10 +172,8 @@
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Postal Code" type="text" name="postal_code" id="postal_code" #postal_code="ngModel" [(ngModel)]="order.address.postal_code" ng-required="!isDubai">
-                        <div *ngIf="postal_code.errors && (postal_code.dirty || postal_code.touched)" class="alert alert-danger">
-                            <div [hidden]="!postal_code.errors.required">Postal Code is required.</div>
-                        </div>
+                        <input class="form-control" placeholder="Postal Code" type="text" name="postal_code" id="postal_code" #postal_code="ngModel" [(ngModel)]="order.address.postal_code">
+                        
                     </div>
                 </div>
             </form>
