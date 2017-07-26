@@ -73,7 +73,6 @@ export class OrderreviewComponent implements OnInit {
                     private router: Router) { }
   
   ngOnInit() {
-
     this.currencyCode = this.utilService.currencyCode;
     this.getItems();
     this.updateUserDetails();
@@ -91,7 +90,7 @@ export class OrderreviewComponent implements OnInit {
     this.dataService.setLocalStorageData('confirmationItems', null); 
     this.dataService.setLocalStorageData('confirmationFinalOrder', null);
 
-    this.getStoreDetails(this.order.storeId);
+    
 
     let orderDetailsData = this.dataService.getLocalStorageData('order-now');
     if(orderDetailsData != null && orderDetailsData != 'null') {
@@ -107,8 +106,8 @@ export class OrderreviewComponent implements OnInit {
       }
 
       if (orderDetails.selectedStore != undefined && orderDetails.selectedStore.Store.id != undefined) {
-        this.order.storeId = orderDetails.selectedStore.Store.id;
-
+        this.order.storeId = orderDetails.selectedStore.Store.store_id;
+        this.getStoreDetails(orderDetails.selectedStore.Store.id);
       } else if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
             this.dataService.getLocalStorageData('nearByStore') != '') { 
 
@@ -150,7 +149,7 @@ export class OrderreviewComponent implements OnInit {
       .subscribe(data => {              
               this.storeDetails = data;
               this.order.storeId = data.Store.store_id;
-              
+              //console.log('store details', this.order.storeId);
           });
   }
 
@@ -234,7 +233,7 @@ export class OrderreviewComponent implements OnInit {
     let streetNo = this.order.address.streetNo;
 
     let isValid = this.validateFields();
-  
+    //console.log('validate', this.order);
     if(isValid) {
       if(isDelivery=='delivery'){
         if(apartment=='' && !this.isDubai){
@@ -312,7 +311,7 @@ export class OrderreviewComponent implements OnInit {
   placeFinalOrder() {
       //this.showLoading = true;
       let finalOrder = [];
-      
+      //console.log('final', this.order);
       if(this.items.length > 0) {
 
         let orderData = this.order;

@@ -226,63 +226,11 @@
                  </form>
                  </ng-container>
                  <button (click)="confirmOrder()" [disabled]="!newRuleForm.valid" class="fullred-btn placeorder-btn">Place Order</button>
-             </div>
+                </div>
          </div>
      </div>  
   </div>
 
-
-    <div class="row step2" *ngIf="showStep == 'step2'">
-      <div class="col-md-4 col-sm-4">
-         <h3 class="green-title">payment summary</h3>
-         <div class="dottedlist_box">
-            <ul class="dotted-list">
-                <li>Coupon Discount<span>0.0</span></li> 
-                <li>Sub Total<span>{{netCost}}</span></li> 
-                <li>Taxes<span>0.00</span></li> 
-                <li *ngIf="order.order_type=='delivery'">Delivery Charges <span>6.0</span></li> 
-            </ul>
-             <div class="grand-total">
-                Grand Total <span>{{currencyCode}} {{totalCost}}</span>
-             </div>
-             <address class="delivery_addrs" *ngIf="order.order_type == 'delivery'">
-                <h4>delivery address</h4>
-                <p><strong>{{order.user.firstName}} {{order.user.lastName}}<br></strong>
-                {{order.address.apartment}} {{order.address.streetNo}}, {{order.address.street}}<br>
-                {{order.address.city}}, {{order.address.state}} - {{order.address.postal_code}}
-                Mobile: {{order.user.phone}}</p>
-             </address>
-             <address class="delivery_addrs pickupStore" *ngIf="order.order_type == 'pickup'">
-                <h4>Store address</h4>
-                <p><strong>{{order.user.firstName}} {{order.user.lastName}}<br></strong>
-                {{order.address.apartment}} {{order.address.streetNo}}, {{order.address.street}}<br>
-                {{order.address.city}}, {{order.address.state}} - {{order.address.postal_code}}<br>
-                Mobile: {{order.user.phone}}</p>
-             </address>
-         </div>
-      </div>
-      <div class="col-md-8 col-sm-8">
-        <h3 class="green-title">choose a payment method</h3>
-        <div class="payment_method">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"> <a href="#cod" aria-controls="cod" role="tab" data-toggle="tab">Payment on Delivery</a> </li> 
-                <li role="presentation"> <a href="#cd-cards" aria-controls="cd-cards" role="tab" data-toggle="tab">Credit / Debit Card</a> </li> 
-            </ul>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="cod">
-                    <h5>pay using payment on Delivery</h5>
-                    <p>Generate an OTP to my registered mobile number for verification</p>
-                    <a class="btn-red btn-block" href="#">Click to Authenticate & place order</a>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="cd-cards">
-                    <h5>pay using Credit / Debit Card</h5>
-                    <p>Generate an OTP to my registered mobile number for verification</p>
-                    <a class="btn-red btn-block" (click)="placeFinalOrder()">Click to Authenticate & place order</a>
-                </div>
-            </div>
-        </div>
-      </div>
-  </div>
  
 </div>
 
