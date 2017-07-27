@@ -1495,6 +1495,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 #signinModal .modal-body button.signup {
 	background: #911c28;
+	margin-top: 12px;
 }
 #signinModal .modal-body {
 	padding: 50px 20px;
@@ -2046,6 +2047,17 @@ button.close:hover,button.close:focus{opacity: 1;}
 
 .franchising .nav-tabs{margin-bottom: 2em;}
 .franchising .tab-content{padding: 0 20px;}
+.franchising .tab-content #applynow a{font-size: 16px;
+    line-height: 20px;
+    color: #fff;
+    font-family: 'proxima_nova_ltlight';
+    background: #911c27;
+    border: 0;
+    border-bottom: 2px solid #4f050c;
+    text-align: center;
+    padding: 5px 20px;
+    border-radius: 3px;
+    float: left;}
 .franchising .tab-content p{font-size: 1em; margin-bottom: 1em;}
 .nav-tabs {
 	border: none;
@@ -2882,7 +2894,7 @@ color:#fff
 /*# sourceMappingURL=styles.css.map */
 .leftContent .tab-content{margin-top:70px;}
 .tab-content{margin-bottom:20px; min-height: 65px;}
-.tab-content #prefer{height: auto !important;}
+/*.tab-content #prefer{height: auto !important;}*/
 #quickview .modal-body{padding: 0px;}
 #quickview .modal-body .inside-column-container{width:auto;}
 

@@ -12,7 +12,7 @@
         <div class="col-md-4 col-sm-6 text-center">
             <div class="left-caterbox">
                 <img src="assets/images/truck.png" alt="" class="truck">
-                <p>{{pageContent}}</p>
+                <div  [innerHTML]="pageContent"></div>
                 <img src="assets/images/cater-img.jpg" alt="" class="food">
                 <small>With NKD we care about the fine print, but even more so about delivering fine pizza.</small>
                 <a [routerLink]="['/menu']" class="check"><img src="assets/images/mini-pizza.png" alt=""> Check our Menu</a>

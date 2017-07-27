@@ -17,7 +17,7 @@
         </div>
 
         <div class="col-md-8 col-sm-6 form_design">
-            <h3>If you think you are the one we need</h3>
+            <h3>Think you’ve got what it takes to join the team? Then we want to hear from you.</h3>
             <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
             <form  #careerForm="ngForm" ngForm (ngSubmit)="Submit()">
                 <div class="row">

@@ -8,7 +8,7 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-6 signin">
-                <h3>Sign In to my nkd pizza</h3>
+                <h3>Sign into mynkd pizza</h3>
                 <p class="text-danger" *ngIf="error.show == true">{{error.message}}<p>
                 <form  #heroForm="ngForm">
                   <div class="form-group">
@@ -27,7 +27,7 @@
                     <label>Password</label>
                     <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="password" required>
                   </div>
-                  <div class="form-group"><a>Forget username or password</a></div>
+                  <div class="form-group"><a>Forget username or password?</a></div>
                   <div class="form-group">
                     <button type="button" (click)="loginApi()" class="btn btn-default btn-block">Submit</button>
                   </div>
@@ -37,8 +37,7 @@
                 <h3>Continue as guest</h3>
                 <button type="submit" (click)="openModal('ordernow')" class="btn btn-default btn-block">Order without signing in</button>
                 <span class="seprator"><small>OR</small></span>
-                <p class="text-center join"><em>My</em> <img src="assets/images/logo.svg" alt="Logo" width="220"></p>
-                <button type="submit" class="btn btn-default btn-block signup" (click)="openModal('register')">Register</button>
+                <button type="submit" class="btn btn-default btn-block signup" (click)="openModal('register')">Register for MyNKD Pizza</button>
                 <!--<div class="text-center"><a href="#" data-toggle="modal" data-target="#signupModal">Sign Up or Register Existing my nkd Pizaa</a></div>-->
             </div>    
         </div>
