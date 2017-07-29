@@ -137,7 +137,7 @@
                     <div class="form-group">
                         <div class="checkbox"><label><input type="checkbox" [(ngModel)]="prefrence.privacy" id="privacy" #privacy="ngModel" name="prefrence.privacy" required> I have read and agree to the <a>Program Terms</a>, <a>Terms of Use</a>, and <a>Privacy Policy</a>, applicable to the nkd pizza program <span></span></label>
                         <div *ngIf="privacy.errors && (privacy.dirty || privacy.touched)" class="alert alert-danger">
-                                <div [hidden]="!over.errors.required">Confirm our privacy policy</div>
+                                <div [hidden]="!privacy.errors.required">Confirm our privacy policy</div>
                         </div>
                         </div>
                     </div>
