@@ -23,7 +23,7 @@ $(document).ready(function(){
     });
     
    
-    $("#menuButton").click(function(e){
+    $("#menuButton,.menu-overlay").click(function(e){
     	e.preventDefault();
     	$("body").toggleClass("menu-open");
     });

@@ -288,6 +288,7 @@ nav.main-navigation {
 	top: 0;
 	z-index: 9999;
 }
+nav.main-navigation .menu-overlay{position: absolute; top: -63px; left: 0px; width: 100%; height: 100%; background: rgba(255,255,255,.2);}
 
 @media (max-width: 767px) {
 nav.main-navigation {
@@ -1229,7 +1230,7 @@ header.navigation .logo {
 }
 
 @media (max-width: 2560px) {
-.banner-wrapper.franchising{margin-bottom: 30px;
+.banner-wrapper.franchising{margin-bottom: 30px; position: relative; z-index: 9999;
     padding: 0 20px;}
 .banner-wrapper {
 	padding: 0px 0px;
