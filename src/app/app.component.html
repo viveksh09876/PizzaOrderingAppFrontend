@@ -1,5 +1,6 @@
 <!--Navigation-->
 <nav class="main-navigation fadeIn animated">
+<div class="menu-overlay"></div>
   <div class="nav-container">
     <ul>
       <li class="active"> <a (click)="navigateMenu('')">Home</a> </li>
@@ -10,16 +11,16 @@
       <li> <a (click)="navigateMenu('careers')">join our team</a> </li>
       <!-- <li> <a href="#">news</a> </li> -->
     </ul>
-    <hr class="clearfix visible-xs">
-    <ul class="links visible-xs">
+    <hr class="clearfix visible-xs visible-sm">
+    <ul class="links visible-xs visible-sm">
 
       <li *ngIf="showLocationTab"> <a href="#mapCanvas"> <span class="icon icon-locations"></span> <span>locations</span> </a> </li>
       <li *ngIf="showLogin"> <a (click)="openModal('login')"> <span class="icon icon-eclub"></span> <span class="loginText">MyNKD</span> </a> </li>
       <li *ngIf="!showLogin"> <a (click)="logout()"> <i class="fa fa-sign-out"></i> Logout</a> 
       </li>
     </ul>
-    <hr class="clearfix visible-xs">
-    <ul class="list-inline social-list visible-xs">
+    <hr class="clearfix visible-xs visible-sm">
+    <ul class="list-inline social-list visible-xs visible-sm">
       <li><a href="https://www.facebook.com/nkdpizzabh/" target="_blank"><i class="icon-facebook"></i></a></li>
       <li><a href="https://twitter.com/NKDPizzabh" target="_blank"><i class="icon-twitter"></i></a></li>
       <li><a href="https://www.instagram.com/nkdpizzabh/" target="_blank"><i class="icon-instagram"></i></a></li>
