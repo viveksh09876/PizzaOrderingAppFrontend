@@ -41,6 +41,11 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   citySource = [];
   showCityList = false;
   showAreaList = false;
+  time = { hour: '01', minutes: '00' };
+  showStoreTimeError = false;
+
+  hours = [];
+  minutes = [];
 
   order = {
     orderType: 'pickup',
@@ -59,6 +64,23 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
         this.useStreetDb = true;
       }
     }
+
+    for(var i=0; i<24; i++) {
+      let hrVal = (i+1).toString();
+      if(i < 9) {
+        hrVal = '0' + hrVal.toString();
+      }
+      this.hours.push(hrVal)
+    }
+
+    for(var i=0; i<60; i++) {
+      let minVal = (i).toString();
+      if(i < 10) {
+        minVal = '0' + minVal.toString();        
+      }
+      this.minutes.push(minVal)
+    }
+
   }
 
 
@@ -200,11 +222,20 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   
     if(this.selectedStore.info != '') {
 
+      let timeHr = parseInt(this.time.hour);
+      let timeMin =  parseInt(this.time.minutes);
+      if (timeHr == 3 && timeMin > 0) { 
+        this.showStoreTimeError = true;
+      } else if (timeHr > 3 && timeHr < 11) {
+        this.showStoreTimeError = true;
+      } else {
+        this.showStoreTimeError = false;
+        let tVal = this.delivery_time + ' ' + this.time.hour + ':' + this.time.minutes;
         let orderDetails = {
             
               type: this.order.orderType,
               delivery_time_type: this.order.delivery_time_type,
-              delivery_time: this.delivery_time,
+              delivery_time: tVal,
               selectedStore: this.order.selectedStore,
               address: {
                 apartment: this.delivery_apartment,
@@ -223,11 +254,13 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
           }
         }
 
-
         this.dataService.setLocalStorageData('order-now', JSON.stringify(orderDetails));
         this.close();
         this.router.navigate(['/menu']);
         //window.location.reload();
+      
+      }  
+
     }else{
       this.showOutletError = true;
     }

@@ -29,6 +29,7 @@ export class ConfirmationComponent implements OnInit {
     this.currencyCode = this.utilService.currencyCode;
     this.getItems(); 
     this.getStoreDetails();  
+    this.dataService.setLocalStorageData('order-now', null);
   }
 
 
@@ -63,7 +64,8 @@ export class ConfirmationComponent implements OnInit {
   }
 
   getStoreDetails() {
-     this.dataService.getStoreDetails(this.orderData.storeId)
+
+     this.dataService.getStoreDetailsByStoreId(this.orderData.storeId)
           .subscribe(data => {                        
               this.storeData = data;
           }); 

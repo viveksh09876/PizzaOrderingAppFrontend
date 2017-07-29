@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PipeTransform, Pipe } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DialogService } from "ng2-bootstrap-modal";
+import { OrdernowmodalComponent } from '../ordernowmodal/ordernowmodal.component';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 
@@ -16,7 +18,8 @@ declare var jQuery: any;
 
 export class MenuComponent implements OnInit {
 
-  constructor(private dataService: DataService, 
+  constructor(private dialogService:DialogService,
+              private dataService: DataService, 
                 private utilService: UtilService, 
                      private route: ActivatedRoute, 
                         private router: Router) { }
@@ -87,6 +90,17 @@ export class MenuComponent implements OnInit {
       }); 
 
       
+  }
+
+
+  goToCustomize(slug) {
+    let orderNow = this.dataService.getLocalStorageData('order-now');
+    if (orderNow == undefined || orderNow == null) {
+      //open order-now modal
+      this.dialogService.addDialog(OrdernowmodalComponent, { }, { closeByClickingOutside:true }); 
+    } else {
+      this.router.navigate(['/item', slug]);
+    }
   }
 
 

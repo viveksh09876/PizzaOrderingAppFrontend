@@ -25,7 +25,7 @@
                         <div class="row form_sec">
                             <div class="col-md-4 col-sm-4 optional" *ngIf="!useStreetDb">
                                  <input class="form-control" placeholder="City" (keyup)="getCities($event.target.value);" [(ngModel)]="cityVal" (change)="getStores($event.target.value)" name="cityVal">
-                                <ul class="autocomplete-list" *ngIf="showCityList && cityList.length > 0">       <ng-container>
+                                <ul class="autocomplete-list" *ngIf="showCityList && cityList.length > 0">       <ng-container *ngIf="cityList.length > 0">
                                         <li *ngFor="let city of cityList"><a (click)="selectCity(city);">{{city}}</a></li>
                                     </ng-container>
                                 </ul>
@@ -35,7 +35,7 @@
                             <div class="col-md-12 col-sm-12" *ngIf="useStreetDb">
                                 <input class="form-control" placeholder="Enter Area Name" (keyup)="getStreetArea($event.target.value);" [(ngModel)]="areaVal" (change)="getAreaStreets($event.target.value)" name="areaVal">
                                 <ul class="autocomplete-list" *ngIf="showAreaList && areaList.areas.length > 0">       
-                                    <ng-container>
+                                    <ng-container *ngIf="areaList.areas.length > 0">
                                         <li *ngFor="let area of areaList.areas"><a (click)="selectArea(area.city);">{{area.city}}</a></li>
                                     </ng-container>
                                 </ul>
@@ -79,7 +79,7 @@
                         <div class="row form_sec">
                             <div class="col-md-4 col-sm-4 optional" *ngIf="!useStreetDb">
                                  <input class="form-control" placeholder="City" (keyup)="getCities($event.target.value);" [(ngModel)]="cityVal" (change)="getStores($event.target.value)" name="cityVal">
-                                <ul class="autocomplete-list" *ngIf="showCityList && cityList.length > 0">       <ng-container>
+                                <ul class="autocomplete-list" *ngIf="showCityList && cityList.length > 0">       <ng-container *ngIf="cityList.length > 0">
                                         <li *ngFor="let city of cityList"><a (click)="selectCity(city);">{{city}}</a></li>
                                     </ng-container>
                                 </ul>
@@ -87,7 +87,7 @@
                             <div class="col-md-4 col-sm-4" *ngIf="useStreetDb">
                                 <input class="form-control" placeholder="Enter Area Name" (keyup)="getStreetArea($event.target.value);" [(ngModel)]="areaVal" (change)="getAreaStreets($event.target.value)" name="areaVal">
                                 <ul class="autocomplete-list" *ngIf="showAreaList && areaList.areas.length > 0">       
-                                    <ng-container>
+                                    <ng-container *ngIf="areaList.areas.length > 0">
                                         <li *ngFor="let area of areaList.areas"><a (click)="selectArea(area.city);">{{area.city}}</a></li>
                                     </ng-container>
                                 </ul>
@@ -175,12 +175,19 @@
                     <div role="tabpanel" class="tab-pane active" id="asap">
                         <div class="row form_sec">
                             <div class="col-md-8 col-sm-8">
-                                <p class="text-danger"></p>
+                                <p class="text-danger" *ngIf="showStoreTimeError">Pickup/Delivery possible only between 11AM - 3AM</p>
                                 <input class="form-control" placeholder="Date / Time of Delivery" 
                                         [(ngModel)]="delivery_time" 
                                             ngui-datetime-picker 
-                                            date-format="MM/DD/YYYY HH:mm"
-                                            min-date="{{curDate}}">                              
+                                            date-only="true"
+                                            date-format="MM/DD/YYYY"
+                                            min-date="{{curDate}}">  
+                                <select class="timeInput" name="timeHr" [(ngModel)]="time.hour">
+                                    <option *ngFor="let hr of hours" [ngValue]="hr">{{hr}}</option>    
+                                </select>
+                                <select class="timeInput" name="timeMn" [(ngModel)]="time.minutes">
+                                    <option *ngFor="let min of minutes" [ngValue]="min">{{min}}</option>    
+                                </select>                                                
                             </div>                            
                         </div>
                         <div class="row">
