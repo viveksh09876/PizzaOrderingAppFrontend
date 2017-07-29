@@ -238,8 +238,6 @@ export class OrderreviewComponent implements OnInit {
       if(isDelivery=='delivery'){
         if(apartment=='' && !this.isDubai){
           alert('Apartment is required.');
-        }else if(streetNo=='' && !this.isDubai){
-          alert('Street No is required.');
         }else if(street==''){
           alert('Street is required.');
         }else if(city==''){
