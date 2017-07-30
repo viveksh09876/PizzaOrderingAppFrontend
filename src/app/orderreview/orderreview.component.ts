@@ -73,21 +73,21 @@ export class OrderreviewComponent implements OnInit {
 
     hours = [];
     minutes = this.utilService.getMinutes();
-
-    pickerOptions: Object = {
-    'showDropdowns': true,
-    'singleDatePicker': true,
-    'timePicker': true,
-    'startDate': new Date(this.order.delivery_time),
-    'minDate': this.utilService.getNowDateTime(35),
-    'autoUpdateInput': true,
-    'timePickerIncrement': 5,    
-    locale: {
-            format: 'YYYY/MM/DD hh:mm A',
-            'applyLabel': 'Submit',
-            'cancelLabel': 'Close'
-        }
-  };
+    
+    pickerOptions = {
+        showDropdowns: true,
+        singleDatePicker: true,
+        timePicker: true,
+        startDate: this.utilService.getNowDateTime(35),
+        minDate: this.utilService.getNowDateTime(35),
+        autoUpdateInput: true,
+        timePickerIncrement: 5,    
+        locale: {
+                format: 'YYYY/MM/DD hh:mm A',
+                'applyLabel': 'Submit',
+                'cancelLabel': 'Close'
+            }
+      };
 
   constructor(private dataService: DataService,
                private dialogService:DialogService,
@@ -100,7 +100,7 @@ export class OrderreviewComponent implements OnInit {
     this.getItems();
     this.updateUserDetails();
     this.order.storeId = '1';
-
+    console.log();
 
     // for(var i=0; i<24; i++) {
     //   let hrVal = (i+1).toString();
@@ -129,16 +129,10 @@ export class OrderreviewComponent implements OnInit {
       
       this.order.order_type = orderDetails.type;
 
-      //format delivery time
-      let timeVal = orderDetails.delivery_time.split(' ');
-      this.order.delivery_time = timeVal[0];
-      let tVal = timeVal[1].split(':');
-      this.time.hour = tVal[0];
-      this.time.minutes = tVal[1];
-      //this.order.delivery_time = orderDetails.delivery_time;
+      this.order.delivery_time = orderDetails.delivery_time;
       this.order.delivery_time_type = orderDetails.delivery_time_type;
       
-      
+      this.pickerOptions.startDate = new Date(this.order.delivery_time);
       
       this.order.address = orderDetails.address;
       
@@ -351,19 +345,9 @@ export class OrderreviewComponent implements OnInit {
 
     let goFlag = true;
     let tVal = null;
+     
+     tVal = this.order.delivery_time
     
-    let timeHr = parseInt(this.time.hour);
-    let timeMin =  parseInt(this.time.minutes);
-    if (timeHr == 3 && timeMin > 0) { 
-      this.showStoreTimeError = true;
-      goFlag = false;
-    } else if (timeHr > 3 && timeHr < 11) {
-      this.showStoreTimeError = true;
-      goFlag = false;
-    } else {
-      this.showStoreTimeError = false;
-      tVal = this.order.delivery_time + ' ' + this.time.hour + ':' + this.time.minutes;
-    }
     
 
     if (goFlag) {

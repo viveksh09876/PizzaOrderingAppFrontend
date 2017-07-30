@@ -243,20 +243,11 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   
     if(this.selectedStore.info != '') {
 
-      let timeHr = parseInt(this.time.hour);
-      let timeMin =  parseInt(this.time.minutes);
-      if (timeHr == 3 && timeMin > 0) { 
-        this.showStoreTimeError = true;
-      } else if (timeHr > 3 && timeHr < 11) {
-        this.showStoreTimeError = true;
-      } else {
-        this.showStoreTimeError = false;
-        let tVal = this.delivery_time + ' ' + this.time.hour + ':' + this.time.minutes;
         let orderDetails = {
             
               type: this.order.orderType,
               delivery_time_type: this.order.delivery_time_type,
-              delivery_time: tVal,
+              delivery_time: this.delivery_time,
               selectedStore: this.order.selectedStore,
               address: {
                 apartment: this.delivery_apartment,
@@ -280,7 +271,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
         this.router.navigate(['/menu']);
         //window.location.reload();
       
-      }  
+       
 
     }else{
       this.showOutletError = true;
