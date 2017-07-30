@@ -65,6 +65,11 @@ export class OrderreviewComponent implements OnInit {
     isDiscountApply = false;
     currencyCode = null;
     isDubai = false;
+    time = { hour: '01', minutes: '00' };
+    showStoreTimeError = false;
+
+    hours = [];
+    minutes = [];
 
   constructor(private dataService: DataService,
                private dialogService:DialogService,
@@ -77,7 +82,23 @@ export class OrderreviewComponent implements OnInit {
     this.getItems();
     this.updateUserDetails();
     this.order.storeId = '1';
-    
+
+
+    for(var i=0; i<24; i++) {
+      let hrVal = (i+1).toString();
+      if(i < 9) {
+        hrVal = '0' + hrVal.toString();
+      }
+      this.hours.push(hrVal)
+    }
+
+    for(var i=0; i<60; i++) {
+      let minVal = (i).toString();
+      if(i < 10) {
+        minVal = '0' + minVal.toString();        
+      }
+      this.minutes.push(minVal)
+    }
     
     let uCountry = this.dataService.getLocalStorageData('userCountry');
     if (uCountry != undefined && uCountry != null && uCountry != '') {
@@ -97,8 +118,18 @@ export class OrderreviewComponent implements OnInit {
       let orderDetails = JSON.parse(orderDetailsData);
       
       this.order.order_type = orderDetails.type;
-      this.order.delivery_time = orderDetails.delivery_time;
+
+      //format delivery time
+      let timeVal = orderDetails.delivery_time.split(' ');
+      this.order.delivery_time = timeVal[0];
+      let tVal = timeVal[1].split(':');
+      this.time.hour = tVal[0];
+      this.time.minutes = tVal[1];
+      //this.order.delivery_time = orderDetails.delivery_time;
       this.order.delivery_time_type = orderDetails.delivery_time_type;
+      
+      
+      
       this.order.address = orderDetails.address;
       
       if(this.order.order_type == 'delivery') {
@@ -238,8 +269,6 @@ export class OrderreviewComponent implements OnInit {
       if(isDelivery=='delivery'){
         if(apartment=='' && !this.isDubai){
           alert('Apartment is required.');
-        }else if(streetNo=='' && !this.isDubai){
-          alert('Street No is required.');
         }else if(street==''){
           alert('Street is required.');
         }else if(city==''){
@@ -309,54 +338,74 @@ export class OrderreviewComponent implements OnInit {
 
 
   placeFinalOrder() {
-      //this.showLoading = true;
-      let finalOrder = [];
-      //console.log('final', this.order);
-      if(this.items.length > 0) {
 
-        let orderData = this.order;
-        if(orderData.address) {
-         orderData.address.street_no = orderData.address.streetNo;
-         
-         if(orderData.address.state.toLowerCase() == 'dubai') {
-           orderData.address.state = 'UAE';
-         }
+    let goFlag = true;
+    let tVal = null;
+    
+    let timeHr = parseInt(this.time.hour);
+    let timeMin =  parseInt(this.time.minutes);
+    if (timeHr == 3 && timeMin > 0) { 
+      this.showStoreTimeError = true;
+      goFlag = false;
+    } else if (timeHr > 3 && timeHr < 11) {
+      this.showStoreTimeError = true;
+      goFlag = false;
+    } else {
+      this.showStoreTimeError = false;
+      tVal = this.order.delivery_time + ' ' + this.time.hour + ':' + this.time.minutes;
+    }
+    
 
-         if(orderData.address.postal_code == '') {
-           orderData.address.postal_code = '0';
-         }
-          delete orderData.address.streetNo; 
-        }
+    if (goFlag) {
 
-        if(this.order.order_type == 'delivery' && this.order.delivery_time_type == 'defer') {
-          
-          orderData.defer = {
-            print_time: new Date().toString(),
-            required_time: new Date(this.order.delivery_time).toString()
+        let finalOrder = [];
+        if(this.items.length > 0) {
+
+            let orderData = this.order;
+            if(orderData.address) {
+            orderData.address.street_no = orderData.address.streetNo;
+            
+            if(orderData.address.state.toLowerCase() == 'dubai') {
+              orderData.address.state = 'UAE';
+            }
+
+            if(orderData.address.postal_code == '') {
+              orderData.address.postal_code = '0';
+            }
+              delete orderData.address.streetNo; 
+            }
+
+            if(this.order.order_type == 'delivery' && this.order.delivery_time_type == 'defer') {
+              
+              orderData.defer = {
+                print_time: new Date().toString(),
+                required_time: new Date(tVal).toString()
+              }
+              
+              orderData.defer.print_time = this.utilService.toISOString(orderData.defer.print_time);
+              orderData.defer.required_time = this.utilService.toISOString(orderData.defer.required_time);
+
+            }else if(this.order.order_type == 'pickup') {
+              //orderData.delivery_time;
+              //delete orderData.delivery_time_type;
+              delete orderData.address;
+              delete orderData.defer;
+            }
+
+            if(this.order.delivery_time_type == 'asap') {
+              delete orderData.defer;
+            }
+
+            this.order.order_details = this.prepareFinalOrderData(this.items);
+            this.order['latlong'] = this.dataService.getLocalStorageData('latlong');
+            this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
+            //console.log('order', this.order.order_details);
+            this.showLoading = false;
+            this.router.navigate(['/checkout']);
+
           }
-          
-          orderData.defer.print_time = this.utilService.toISOString(orderData.defer.print_time);
-          orderData.defer.required_time = this.utilService.toISOString(orderData.defer.required_time);
 
-        }else if(this.order.order_type == 'pickup') {
-          //orderData.delivery_time;
-          //delete orderData.delivery_time_type;
-          delete orderData.address;
-          delete orderData.defer;
-        }
-
-        if(this.order.delivery_time_type == 'asap') {
-          delete orderData.defer;
-        }
-
-        this.order.order_details = this.prepareFinalOrderData(this.items);
-        this.order['latlong'] = this.dataService.getLocalStorageData('latlong');
-        this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
-        //console.log('order', this.order.order_details);
-        this.showLoading = false;
-        this.router.navigate(['/checkout']);
-
-      }
+    }
       
   }
 

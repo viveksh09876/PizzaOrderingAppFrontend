@@ -195,8 +195,10 @@ $(document).ready(function(){
                       mapCanvas.setCenter([longitude, latitude]);
                       mapText = 'Currently open at <span>'+stData.length + locText + '</span> <strong>' + country + '</strong>';
 
-                      $('#mapText').html(mapText);
-                  }   
+                      
+                  } 
+                    
+                  $('#mapText').html(mapText);
           });
       }
   });

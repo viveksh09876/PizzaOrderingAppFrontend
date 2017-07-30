@@ -48,7 +48,7 @@ export class AccountComponent implements OnInit {
     
     let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
     if(isLoggedIn == undefined || isLoggedIn == 'false') {
-      window.location.href = '/';
+      window.location.href = '/beta';
       // window.location.reload();
     }else{
       this.currencyCode = this.utilService.currencyCode;

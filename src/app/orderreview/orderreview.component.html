@@ -215,11 +215,20 @@
                     <li><label><input type="radio" name="time" [checked]="order.delivery_time_type == 'defer'" (click)="updateDeliveryTimeType('defer');"><small></small> later </label></li>
                  </ul>
                  <form class="order_reviewform">
-                    <div class="col-md-6 col-sm-12" *ngIf="order.delivery_time_type == 'defer'">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group">
+                            <p class="text-danger" *ngIf="showStoreTimeError">Pickup/Delivery possible only between 11AM - 3AM</p>
                             <input type="text" class="form-control" name="dateTime" [(ngModel)]="order.delivery_time" ngui-datetime-picker 
-                                            date-format="MM/DD/YYYY HH:mm"
+                                            date-only="true"
+                                            date-format="MM/DD/YYYY"
                                             min-date="{{curDate}}">
+                            
+                            <select class="timeInput" name="timeHr" [(ngModel)]="time.hour">
+                                <option *ngFor="let hr of hours" [value]="hr">{{hr}}</option>    
+                            </select>
+                            <select class="timeInput" name="timeMn" [(ngModel)]="time.minutes">
+                                <option *ngFor="let min of minutes" [value]="min">{{min}}</option>    
+                            </select>                                            
                         </div>
                     </div>
                     
