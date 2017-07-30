@@ -7,6 +7,8 @@ import { FavmodalComponent } from '../favmodal/favmodal.component';
 import { MessageComponent } from '../message/message.component';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
+import {DateRangePickDirective} from '../date-range-pick.directive';
+import { DateRange } from '../date-range';
 
 @Component({
   selector: 'app-orderreview',
@@ -15,6 +17,7 @@ import { UtilService } from '../util.service';
 })
 export class OrderreviewComponent implements OnInit {
 
+  dateRange:DateRange=new DateRange({});
   showLoading = true;
   items = null;
   totalCost = null;
@@ -69,7 +72,17 @@ export class OrderreviewComponent implements OnInit {
     showStoreTimeError = false;
 
     hours = [];
-    minutes = [];
+    minutes = this.utilService.getMinutes();
+
+    pickerOptions: Object = {
+      'showDropdowns': true,
+      'singleDatePicker': true,
+      'minDate': new Date(),
+      'autoUpdateInput': true,
+      locale: {
+              format: 'YYYY/MM/DD'
+          }
+    };
 
   constructor(private dataService: DataService,
                private dialogService:DialogService,
@@ -90,14 +103,6 @@ export class OrderreviewComponent implements OnInit {
         hrVal = '0' + hrVal.toString();
       }
       this.hours.push(hrVal)
-    }
-
-    for(var i=0; i<60; i++) {
-      let minVal = (i).toString();
-      if(i < 10) {
-        minVal = '0' + minVal.toString();        
-      }
-      this.minutes.push(minVal)
     }
     
     let uCountry = this.dataService.getLocalStorageData('userCountry');

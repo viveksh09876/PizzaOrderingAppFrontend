@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   ngOnInit() {
     //check if user logged In
     let user = this.dataService.getLocalStorageData('isLoggedIn');
+    this.dataService.setLocalStorageData('order-now', null);
     if(user != undefined && user == 'true') {
       this.showLogin = false;
     } 

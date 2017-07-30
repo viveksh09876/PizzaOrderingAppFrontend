@@ -218,11 +218,15 @@
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <p class="text-danger" *ngIf="showStoreTimeError">Pickup/Delivery possible only between 11AM - 3AM</p>
-                            <input type="text" class="form-control" name="dateTime" [(ngModel)]="order.delivery_time" ngui-datetime-picker 
+                            <!-- <input type="text" class="form-control" name="dateTime" [(ngModel)]="order.delivery_time" ngui-datetime-picker 
                                             date-only="true"
                                             date-format="MM/DD/YYYY"
-                                            min-date="{{curDate}}">
-                            
+                                            min-date="{{curDate}}"> -->
+                             <input appDateRangePick
+                                        name="dateTime"
+                                        [(ngModel)]="order.delivery_time"
+                                        [options]="pickerOptions" type="text"
+                                        class="form-control"/>
                             <select class="timeInput" name="timeHr" [(ngModel)]="time.hour">
                                 <option *ngFor="let hr of hours" [value]="hr">{{hr}}</option>    
                             </select>

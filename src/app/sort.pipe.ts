@@ -10,12 +10,23 @@ export class SortPipe implements PipeTransform {
       
       if(a.Option.is_checked || b.Option.is_checked) {
 
-        if(a.Option.is_checked && b.Option.is_checked) {
-          return 0;
-        }else if(a.Option.is_checked && !b.Option.is_checked) {
-          return -1;
-        }else if(!a.Option.is_checked && b.Option.is_checked) {
-          return 1;
+        if((a.Option.plu_code == '999991' || 
+              a.Option.plu_code == '999992' ||
+                a.Option.plu_code == '999993') && (b.Option.plu_code == '999991' || 
+              b.Option.plu_code == '999992' ||
+                b.Option.plu_code == '999993')) {
+                  //console.log(a.Option.plu_code, a.Option.plu_code);
+                  return 0;
+        } else {
+
+            if(a.Option.is_checked && b.Option.is_checked) {
+              return 0;
+            }else if(a.Option.is_checked && !b.Option.is_checked) {
+              return -1;
+            }else if(!a.Option.is_checked && b.Option.is_checked) {
+              return 1;
+            }
+
         }
 
       }else{
@@ -24,7 +35,7 @@ export class SortPipe implements PipeTransform {
                 a.Option.plu_code == '999993') && (b.Option.plu_code == '999991' || 
               b.Option.plu_code == '999992' ||
                 b.Option.plu_code == '999993')) {
-
+                  //console.log(a.Option.plu_code, a.Option.plu_code);
                   return 0;
                 } else {
                   var textA = a.Option.name.toUpperCase();

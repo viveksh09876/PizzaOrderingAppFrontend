@@ -34,6 +34,8 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { RegisterConfirmationComponent } from './register-confirmation/register-confirmation.component';
 import { ModsortPipe } from './modsort.pipe';
 
+import { DateRangePickDirective } from './date-range-pick.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +61,8 @@ import { ModsortPipe } from './modsort.pipe';
     BahrainComponent,
     ContactUsComponent,
     RegisterConfirmationComponent,
-    ModsortPipe
+    ModsortPipe,
+    DateRangePickDirective
   ],
   imports: [
     BrowserModule,

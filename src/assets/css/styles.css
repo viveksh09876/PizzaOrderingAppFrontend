@@ -1433,7 +1433,7 @@ header.navigation .logo {
 
 
 /*==============16 may css start here=========*/
-.modal.fade.in{background: rgba(0,0,0,.5); height: 100vh; overflow: auto; z-index: 9999;}
+.modal.fade.in{background: rgba(0,0,0,.5); height: 100vh; overflow: auto; z-index: 99;}
 .modal-header {
 	padding: 0;
 	border: none;
