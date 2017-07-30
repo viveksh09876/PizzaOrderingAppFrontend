@@ -11,7 +11,17 @@ body, html {
   background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
+.daterangepicker.dropdown-menu{z-index: 9999 !important;}
 a{cursor: pointer;}
+.modal-dialog .calendar{display: block; position: relative;}
+.modal-dialog .col-md-6.calendar:before{right; 24px}
+.modal-dialog .calendar:before{content:"\f073"; position: absolute; right: 7px; top: 12px; color: #454545;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;}
 .modal-dialog .form-group{position: relative;}
 .modal-dialog .alert-danger {
     color: #a94442;
@@ -3085,7 +3095,7 @@ color:#fff
 .coupan-card .coupan_box .total button{ display: block; width:100%; background: #911C27; color: #fff; font-size: 17px; line-height: 25px; border: 0; padding: 5px 0; border-radius: 5px; font-family:  "proxima_nova_ltsemibold";}
 
 
-.fancypopup .form-control{ height: 45px; margin-bottom: 0; border: 1px solid #901c27; font-size: 16px; font-family: 'proxima_nova_ltlight';}
+.fancypopup .form-control{ height: 45px; background: transparent; margin-bottom: 0; border: 1px solid #901c27; font-size: 16px; font-family: 'proxima_nova_ltlight';}
 .fancypopup select.form-control.full{  background: url(../images/down-arrow.png) no-repeat 99% 15px;}
 .fancypopup select.form-control{ appearance:none; -moz-appearance:none; -webkit-appearance:none; background: url(../images/down-arrow.png) no-repeat 95% 15px;}
 
