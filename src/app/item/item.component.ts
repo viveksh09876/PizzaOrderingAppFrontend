@@ -399,9 +399,25 @@ export class ItemComponent implements OnInit {
 
       if(this.item.ProductModifier.length > 0) {
         
+        for(var h = 0; h < this.item.ProductModifier.length; h++) {
+          let defoptions = this.item.ProductModifier[h].Modifier.ModifierOption;
+          
+          for(var v = 0; v < defoptions.length; v++) {
+            if(defoptions[v].Option.is_checked && defoptions[v].Option.is_included_mod) {
+              if(defoptions[v].Option.plu_code == 999991) {
+                defaultSize = 'small'; break;
+              } else if (defoptions[v].Option.plu_code == 999992) {
+                defaultSize = 'medium'; break;
+              } else if (defoptions[v].Option.plu_code == 999993) {
+                defaultSize = 'large'; break;
+              }
+            }
+          }
+        }
+
         for(var i = 0; i < this.item.ProductModifier.length; i++) {
           let options = this.item.ProductModifier[i].Modifier.ModifierOption;
-          
+
           for(var j = 0; j < options.length; j++) {
               
               if(options[j].Option.is_checked || options[j].Option.is_included_mod) {                
@@ -411,6 +427,7 @@ export class ItemComponent implements OnInit {
                   if(!options[j].Option.is_included_mod && options[j].Option.is_checked) {
                     
                     if(typeof options[j].Option.price[defaultSize] == 'string') {
+                      //console.log('def', defaultSize);
                       if(is_crust_size_price_added == true) {
                         priceBinding = true;
                         addPrice = parseFloat(options[j].Option.price[defaultSize]);
@@ -455,10 +472,10 @@ export class ItemComponent implements OnInit {
 
                     if((options[j].Option.plu_code == 'I100' || options[j].Option.plu_code == 'I101' || options[j].Option.plu_code == '91') && options[j].Option.is_checked) {
                       if(typeof options[j].Option.price[defaultSize] == 'string') {
+                        //console.log('plu', defaultSize, options[j].Option.price[defaultSize]);
                         addPrice = parseFloat(options[j].Option.price[defaultSize]);
                         itemBasePrice = true;
                         priceBinding = true;
-                        //console.log(123);
                       }
                     }
                   }
@@ -479,10 +496,10 @@ export class ItemComponent implements OnInit {
                         } else if(p_op[y].Option.default_checked && p_op[y].Option.plu_code == 999993) {
                           defaultSize = 'large';
                         }
-
+                        
                         if(options[j].Option.dependent_modifier_option_id == p_op[y].Option.id) {
                           if(p_op[y].Option.is_checked && options[j].Option.is_checked) {
-                            
+                            //console.log('plu', defaultSize, options[j].Option.price[defaultSize]);
                             addPrice = parseFloat(options[j].Option.price[defaultSize]);
                             itemBasePrice = true;
                             if(options[j].Option.price[defaultSize] != 0) {
@@ -490,7 +507,7 @@ export class ItemComponent implements OnInit {
                               } 
                             
                           }
-                          //console.log(defaultSize, options[j].Option.dependent_modifier_id, p_op[y].Option);
+                          //console.log('check',defaultSize, options[j].Option.dependent_modifier_id, p_op[y].Option);
                         }
 
                         if(p_op[y].Option.is_checked && options[j].Option.is_checked && (options[j].Option.plu_code == 'I100' || options[j].Option.plu_code == 'I101')) {
@@ -500,10 +517,13 @@ export class ItemComponent implements OnInit {
                         
                         
                         if(p_op[y].Option.is_checked && p_op[y].Option.is_included_mod == false && options[j].Option.is_checked) {
+                          
                           if(p_op[y].Option.plu_code == 999991) {  //small
 
                             if(typeof options[j].Option.price.small == 'string') {
+                              
                               addPrice = parseFloat(options[j].Option.price.small);
+                              
                               itemSizePrice = 'small';
                               defaultSize = 'small';
                               if(options[j].Option.price.small == 0) {
@@ -516,7 +536,7 @@ export class ItemComponent implements OnInit {
                             
                           }else if(p_op[y].Option.plu_code == 999992) {
                             if(typeof options[j].Option.price.medium == 'string') {
-                              console.log('med', options[j].Option.price.medium,  options[j].Option.name , options[j].Option.is_checked, options[j].Option.is_included_mod, p_op[y].Option.is_included_mod);
+                              //console.log('med', options[j].Option.price.medium,  options[j].Option.name , options[j].Option.is_checked, options[j].Option.is_included_mod, p_op[y].Option.is_included_mod);
                               addPrice = parseFloat(options[j].Option.price.medium);
                               itemSizePrice = 'medium';
                               defaultSize = 'medium';
@@ -531,7 +551,7 @@ export class ItemComponent implements OnInit {
                           }else if(p_op[y].Option.plu_code == 999993) {
                             if(typeof options[j].Option.price.large == 'string') {
                               
-                              console.log('large: ', options[j].Option.price.large,  options[j].Option.name , options[j].Option.is_checked, options[j].Option.is_included_mod, p_op[y].Option.is_included_mod);
+                              //console.log('large: ', options[j].Option.price.large,  options[j].Option.name , options[j].Option.is_checked, options[j].Option.is_included_mod, p_op[y].Option.is_included_mod);
                               addPrice = parseFloat(options[j].Option.price.large);
                               itemSizePrice = 'large';
                               defaultSize = 'large';

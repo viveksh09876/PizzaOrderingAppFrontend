@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
+import { UtilService } from '../util.service';
+import {DateRangePickDirective} from '../date-range-pick.directive';
+import { DateRange } from '../date-range';
 
 @Component({
   selector: 'app-ordernowmodal',
@@ -10,10 +13,12 @@ import { DataService } from '../data.service';
 })
 export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null> implements OnInit{
 
-  constructor(dialogService: DialogService, private dataService: DataService, private router: Router) {
+  constructor(dialogService: DialogService, private dataService: DataService, private router: Router, private utilService: UtilService) {
     super(dialogService);
    }
 
+  dateRange:DateRange=new DateRange({});
+   
   
   userCountryName = '';
   userCountryCode = '';
@@ -30,7 +35,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   delivery_streetno = '';
   delivery_street = '';
   showOutletError = false;
-  delivery_time = new Date();
+  delivery_time = new Date().toISOString().slice(0,10).replace(/-/g, '/');
   showTimeError = '';
   curDate = new Date();
   showStoreLoading = false;
@@ -45,12 +50,23 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   showStoreTimeError = false;
 
   hours = [];
-  minutes = [];
+  minutes = this.utilService.getMinutes();
 
   order = {
     orderType: 'pickup',
     delivery_time_type: 'asap',
     selectedStore: this.selectedStore
+  };
+
+
+  pickerOptions: Object = {
+    'showDropdowns': true,
+    'singleDatePicker': true,
+    'minDate': this.curDate,
+    'autoUpdateInput': true,
+    locale: {
+            format: 'YYYY/MM/DD'
+        }
   };
 
 
@@ -73,16 +89,13 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
       this.hours.push(hrVal)
     }
 
-    for(var i=0; i<60; i++) {
-      let minVal = (i).toString();
-      if(i < 10) {
-        minVal = '0' + minVal.toString();        
-      }
-      this.minutes.push(minVal)
-    }
 
   }
 
+
+  dateSelected(dateRange:DateRange) {
+    this.dateRange=dateRange;
+  }
 
   updateOrderType(type) {
     this.order.orderType = type;

@@ -178,4 +178,9 @@ export class UtilService {
   }
 
 
+  getMinutes() {
+    let min = ['00','05','10','15','20','25','30','35','40','45','50','55']; 
+    return min;
+  }
+
 }

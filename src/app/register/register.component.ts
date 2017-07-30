@@ -4,7 +4,8 @@ import { MessageComponent } from '../message/message.component';
 import { RegisterConfirmationComponent } from '../register-confirmation/register-confirmation.component';
 import { DataService } from '../data.service';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import {DateRangePickDirective} from '../date-range-pick.directive';
+import { DateRange } from '../date-range';
 
 @Component({
   selector: 'app-register',
@@ -12,6 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent extends DialogComponent<RegisterModal, null> {
+	dateRange:DateRange=new DateRange({});
 
   constructor(dialogService: DialogService, 
 								private dataService: DataService,
@@ -50,6 +52,19 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 
 	};
 
+	maxDate = new Date().getFullYear()-18;
+	pickerOptions: Object = {
+      'showDropdowns': true,
+      'singleDatePicker': true,
+			'minDate': new Date('1940-01-01'),
+			'maxDate': new Date(this.maxDate + '-01-01'),
+			"startDate": (this.maxDate -1) + '-01-01',
+      'autoUpdateInput': true,
+      locale: {
+              format: 'YYYY-MM-DD'
+          }
+    };
+
 	firstStepForm = true;
 	secondStepForm = false;
 	thirdStepForm = false;
@@ -61,7 +76,7 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
   userCountryCode = '';
 	PersonalInfo = '';
 	
-	maxDate = new Date().getFullYear()-18;
+	
 	showLoading = false;
 	html = '';
 	error = { show:false, isSuccess:false, message: ''};
@@ -88,6 +103,10 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
           .subscribe(data => {
               this.prefreces = data;
           });
+	}
+				
+	dateSelected(dateRange:DateRange) {
+		this.user.dob = dateRange.startDate.toString();
   }
 
 	add(email){
