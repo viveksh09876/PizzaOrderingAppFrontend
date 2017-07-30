@@ -12,7 +12,22 @@ body, html {
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 a{cursor: pointer;}
-
+.modal-dialog .form-group{position: relative;}
+.modal-dialog .alert-danger {
+    color: #a94442;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    height: initial;
+    padding: 0px;
+    margin: 0px;
+    top: 0px;
+    right: 0px;
+}
+.modal-dialog .alert-danger div{display: inline-block;}
+.modal-dialog .alert-danger div[hidden]{display: none;}
+#prefer .checkbox .alert-danger{left:0px; right: auto; top: auto;}
+#prefer .form-group{position: inherit;}
 /*===========Preloader css start here=============*/
 .spinner {
   position: fixed;
@@ -1433,7 +1448,7 @@ header.navigation .logo {
 
 
 /*==============16 may css start here=========*/
-.modal.fade.in{background: rgba(0,0,0,.5); height: 100vh; overflow: auto; z-index: 99;}
+.modal.fade.in{background: rgba(0,0,0,.5); height: 100vh; overflow: auto; z-index: 999;}
 .modal-header {
 	padding: 0;
 	border: none;
