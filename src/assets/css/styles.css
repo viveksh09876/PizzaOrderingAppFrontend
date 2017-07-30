@@ -1576,6 +1576,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 	font-size: 15px;
 	margin: 0 0 5px;
 	font-family: "proxima_nova_rgregular";
+	text-transform: capitalize;
 }
 #signupModal .checkbox label span{position: absolute; content: '';
     top: 2px;
@@ -2894,7 +2895,8 @@ color:#fff
 }
 /*# sourceMappingURL=styles.css.map */
 .leftContent .tab-content{margin-top:70px;}
-.tab-content{margin-bottom:20px; min-height: 65px;}
+.tab-content{margin-bottom: 20px;
+    min-height: 65px;;}
 /*.tab-content #prefer{height: auto !important;}*/
 #quickview .modal-body{padding: 0px;}
 #quickview .modal-body .inside-column-container{width:auto;}
