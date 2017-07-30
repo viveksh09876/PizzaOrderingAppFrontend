@@ -216,8 +216,8 @@
                  </ul>
                  <form class="order_reviewform">
                     <div class="col-md-6 col-sm-6">
-                        <div class="form-group">
-                            <p class="text-danger" *ngIf="showStoreTimeError">Pickup/Delivery possible only between 11AM - 3AM</p>
+                        <div class="form-group calendar">
+                            
                             <!-- <input type="text" class="form-control" name="dateTime" [(ngModel)]="order.delivery_time" ngui-datetime-picker 
                                             date-only="true"
                                             date-format="MM/DD/YYYY"
@@ -229,7 +229,7 @@
                                         class="form-control" readonly/>
                                         </div>
                                         </div>
-                            <div class="col-md-6 col-sm-6">
+                            <!-- <div class="col-md-6 col-sm-6">
                             <select class="timeInput form-control" name="timeHr" [(ngModel)]="time.hour">
                                 <option *ngFor="let hr of hours" [value]="hr">{{hr}}</option>    
                             </select>
@@ -238,7 +238,7 @@
                             <select class="timeInput form-control" name="timeMn" [(ngModel)]="time.minutes">
                                 <option *ngFor="let min of minutes" [value]="min">{{min}}</option>    
                             </select>  
-                            </div>                                          
+                            </div>                                           -->
                     
                  </form>
                  </ng-container>

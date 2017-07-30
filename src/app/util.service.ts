@@ -183,4 +183,40 @@ export class UtilService {
     return min;
   }
 
+  getNowDateTime(min) {
+    let d1 = new Date();
+    let d2 = new Date ( d1 );
+    d2.setMinutes ( d1.getMinutes() + parseInt(min) );
+    return d2;
+  }
+
+  formatDate(dateVal) {
+    var newDate = new Date(dateVal);
+
+      var sMonth = this.padValue(newDate.getMonth() + 1);
+      var sDay = this.padValue(newDate.getDate());
+      var sYear = newDate.getFullYear();
+      var sHour = newDate.getHours().toString();
+      var sMinute = this.padValue(newDate.getMinutes());
+      var sAMPM = "AM";
+
+      var iHourCheck = parseInt(sHour);
+
+      if (iHourCheck > 12) {
+          sAMPM = "PM";
+          sHour = (iHourCheck - 12).toString();
+      }
+      else if (iHourCheck === 0) {
+          sHour = "12";
+      }
+
+      sHour = this.padValue(sHour);
+
+      return sYear + "/" + sMonth + "/" + sDay + " " + sHour + ":" + sMinute + " " + sAMPM;
+  }
+
+  padValue(value) {
+      return (value < 10) ? "0" + value : value;
+  }
+
 }

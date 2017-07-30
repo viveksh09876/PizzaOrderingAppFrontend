@@ -75,14 +75,19 @@ export class OrderreviewComponent implements OnInit {
     minutes = this.utilService.getMinutes();
 
     pickerOptions: Object = {
-      'showDropdowns': true,
-      'singleDatePicker': true,
-      'minDate': new Date(),
-      'autoUpdateInput': true,
-      locale: {
-              format: 'YYYY/MM/DD'
-          }
-    };
+    'showDropdowns': true,
+    'singleDatePicker': true,
+    'timePicker': true,
+    'startDate': new Date(this.order.delivery_time),
+    'minDate': this.utilService.getNowDateTime(35),
+    'autoUpdateInput': true,
+    'timePickerIncrement': 5,    
+    locale: {
+            format: 'YYYY/MM/DD hh:mm A',
+            'applyLabel': 'Submit',
+            'cancelLabel': 'Close'
+        }
+  };
 
   constructor(private dataService: DataService,
                private dialogService:DialogService,
@@ -97,13 +102,13 @@ export class OrderreviewComponent implements OnInit {
     this.order.storeId = '1';
 
 
-    for(var i=0; i<24; i++) {
-      let hrVal = (i+1).toString();
-      if(i < 9) {
-        hrVal = '0' + hrVal.toString();
-      }
-      this.hours.push(hrVal)
-    }
+    // for(var i=0; i<24; i++) {
+    //   let hrVal = (i+1).toString();
+    //   if(i < 9) {
+    //     hrVal = '0' + hrVal.toString();
+    //   }
+    //   this.hours.push(hrVal)
+    // }
     
     let uCountry = this.dataService.getLocalStorageData('userCountry');
     if (uCountry != undefined && uCountry != null && uCountry != '') {

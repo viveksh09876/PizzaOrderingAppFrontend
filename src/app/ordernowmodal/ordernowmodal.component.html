@@ -174,8 +174,8 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="asap">
                         <div class="row form_sec">
-                            <div class="col-md-6 col-sm-6">
-                                <p class="text-danger" *ngIf="showStoreTimeError">Pickup/Delivery possible only between 11AM - 3AM</p>
+                            <div class="col-md-6 col-sm-6 calendar">
+                                
                                 <input appDateRangePick
                                         name="dateTime"
                                         [(ngModel)]="delivery_time"
@@ -188,7 +188,7 @@
                                             date-format="MM/DD/YYYY"
                                             min-date="{{curDate}}">    -->
                                             </div>
-                                <div class="col-md-3 col-sm-3">
+                                <!-- <div class="col-md-3 col-sm-3">
                                 <select class="timeInput form-control" name="timeHr" [(ngModel)]="time.hour">
                                     <option *ngFor="let hr of hours" [ngValue]="hr">{{hr}}</option>    
                                 </select>
@@ -197,7 +197,8 @@
                                 <select class="timeInput form-control" name="timeMn" [(ngModel)]="time.minutes">
                                     <option *ngFor="let min of minutes" [ngValue]="min">{{min}}</option>    
                                 </select>    
-                                </div>                                                                       
+                                </div> -->
+                                                                                                    
                         </div>
                         <div class="row">
                             <div class="col-md-12">

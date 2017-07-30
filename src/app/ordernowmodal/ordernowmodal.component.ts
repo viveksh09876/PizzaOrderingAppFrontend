@@ -19,7 +19,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
 
   dateRange:DateRange=new DateRange({});
    
-  
+  curDateTime = this.utilService.formatDate(this.utilService.getNowDateTime(35));
   userCountryName = '';
   userCountryCode = '';
   cityList = [];
@@ -35,7 +35,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   delivery_streetno = '';
   delivery_street = '';
   showOutletError = false;
-  delivery_time = new Date().toISOString().slice(0,10).replace(/-/g, '/');
+  delivery_time = this.curDateTime;
   showTimeError = '';
   curDate = new Date();
   showStoreLoading = false;
@@ -58,16 +58,23 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
     selectedStore: this.selectedStore
   };
 
-
+   
   pickerOptions: Object = {
     'showDropdowns': true,
     'singleDatePicker': true,
-    'minDate': this.curDate,
+    'timePicker': true,
+    'startDate': this.utilService.getNowDateTime(35),
+    'minDate': this.utilService.getNowDateTime(35),
     'autoUpdateInput': true,
+    'timePickerIncrement': 5,    
     locale: {
-            format: 'YYYY/MM/DD'
+            format: 'YYYY/MM/DD hh:mm A',
+            'applyLabel': 'Submit',
+            'cancelLabel': 'Close'
         }
   };
+
+
 
 
   ngOnInit() {
@@ -81,13 +88,13 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
       }
     }
 
-    for(var i=0; i<24; i++) {
-      let hrVal = (i+1).toString();
-      if(i < 9) {
-        hrVal = '0' + hrVal.toString();
-      }
-      this.hours.push(hrVal)
-    }
+    // for(var i=0; i<24; i++) {
+    //   let hrVal = (i+1).toString();
+    //   if(i < 9) {
+    //     hrVal = '0' + hrVal.toString();
+    //   }
+    //   this.hours.push(hrVal)
+    // }
 
 
   }
@@ -229,6 +236,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   updateDeliveryTimeType(type) {
     this.order.delivery_time_type = type;
     this.showOutletError = false;
+    this.time.hour = '01';
   }
 
   goToMenu() {
