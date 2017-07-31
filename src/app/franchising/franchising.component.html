@@ -41,7 +41,7 @@
         <div role="tabpanel" class="tab-pane" id="applynow">
           <div class="content-wrapper">
             <div class="content-container" [innerHTML]="applyNowContent"></div>
-            <a>I’m interested</a>
+            <a (click)="openModal('applynow')">I’m interested</a>
           </div>
         </div>
       </div>

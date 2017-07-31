@@ -191,6 +191,14 @@ export class DataService {
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
                 
   }
+                  
+  sendApplyInfo(ApplyInfo): Observable<any>{   
+    let data = ApplyInfo;
+    return this.http.post( this.domain + '/webservice/sendApplyInfo', data)
+                    .map((res: Response) => res.json())
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+                
+  }
 
   sendCareerInfo(CareerInfo): Observable<any>{   
     let data = CareerInfo;
