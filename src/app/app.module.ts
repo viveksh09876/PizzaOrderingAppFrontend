@@ -35,6 +35,7 @@ import { RegisterConfirmationComponent } from './register-confirmation/register-
 import { ModsortPipe } from './modsort.pipe';
 
 import { DateRangePickDirective } from './date-range-pick.directive';
+import { ApplynowComponent } from './applynow/applynow.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { DateRangePickDirective } from './date-range-pick.directive';
     ContactUsComponent,
     RegisterConfirmationComponent,
     ModsortPipe,
-    DateRangePickDirective
+    DateRangePickDirective,
+    ApplynowComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +76,7 @@ import { DateRangePickDirective } from './date-range-pick.directive';
     NguiDatetimePickerModule,
     CustomFormsModule
   ],
-  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent, RegisterConfirmationComponent],
+  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent, RegisterConfirmationComponent, ApplynowComponent],
   schemas:  [CUSTOM_ELEMENTS_SCHEMA],
   providers: [DataService, UtilService],
   bootstrap: [AppComponent]

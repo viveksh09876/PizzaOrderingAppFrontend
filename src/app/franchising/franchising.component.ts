@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from "ng2-bootstrap-modal";
 import { ContactUsComponent } from '../contact-us/contact-us.component';
+import { ApplynowComponent } from '../applynow/applynow.component';
 import { DataService } from '../data.service';
 
 
@@ -26,7 +27,8 @@ export class FranchisingComponent implements OnInit {
   applyNowTitle = '';
   applyNowContent = '';
   pageTitle = '';
-	pageSubtitle = '';
+  pageSubtitle = '';
+  
   ngOnInit() {
     this.dataService.getPageInfo(3).subscribe(data => {
 			this.whyNkdPizzaTitle = data.Content.page_title;
@@ -52,7 +54,11 @@ export class FranchisingComponent implements OnInit {
   }
 
    openModal(type) {
+      if(type=='applynow'){
+      this.dialogService.addDialog(ApplynowComponent, {  }, { closeByClickingOutside:true });
+     }else{
       this.dialogService.addDialog(ContactUsComponent, {  }, { closeByClickingOutside:true });
+     }
   }
 
   changTab(val) {
