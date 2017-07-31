@@ -24,6 +24,7 @@ a{cursor: pointer;}
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;}
 .modal-dialog .form-group{position: relative;}
+.modal-dialog p.alert-danger{top: 5px !important; left: 0px; right: auto !important;}
 .modal-dialog .alert-danger {
     color: #a94442;
     background-color: transparent;
