@@ -27,7 +27,8 @@ export class CheckoutComponent implements OnInit {
   showPlaceOrder = true; 
   couponDiscount = 0; 
   currencyCode = null;      
-  showLoading = true;       
+  showLoading = true; 
+
 
   ngOnInit() {
     this.currencyCode = this.utilService.currencyCode;
@@ -56,11 +57,20 @@ export class CheckoutComponent implements OnInit {
             this.totalCost += 6;
         } 
 
+        if(this.orderData.payment_type == undefined) { 
+          this.orderData['payment_type'] = 'cash';
+        }
+
     } else {
         window.location.href = '/';
     }
     
     this.showLoading = false;
+  }
+
+
+  updatePaymentType(type) {
+    this.orderData['payment_type'] = type;
   }
 
 

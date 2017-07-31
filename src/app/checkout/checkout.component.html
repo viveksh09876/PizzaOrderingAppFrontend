@@ -59,8 +59,23 @@
                 <li role="presentation" class="active"> <a href="#cod" aria-controls="cod" role="tab" data-toggle="tab">Pay on Delivery Cash or Credit</a> </li> 
                 <li role="presentation"> <a href="#cd-cards" aria-controls="cd-cards" role="tab" data-toggle="tab">Online Payment</a> </li> 
             </ul>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="cod">
+            <div class="tab-content three-column-wrapper">
+                <div role="tabpanel" class="tab-pane fade in active inside-column-container" id="cod">
+                    <div class="content-wrapper">
+                        <div class="content-container">
+                            <div class="control-group payment">
+                                <label class="control radio" [ngClass]="{'checked': orderData.payment_type == 'cash'}" (click)="updatePaymentType('cash')">
+                                    <h4>Cash</h4>
+                                    <div class="control__indicator"></div>    
+                                </label>
+                                <label class="control radio" [ngClass]="{'checked': orderData.payment_type == 'credit'}" (click)="updatePaymentType('credit')">
+                                    <h4>Credit</h4>
+                                    <div class="control__indicator"></div>    
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <a *ngIf="showPlaceOrder" class="btn-red btn-block" (click)="placeOrder()">continue</a>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="cd-cards" style="text-align: center;">

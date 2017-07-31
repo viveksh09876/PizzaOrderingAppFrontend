@@ -11,10 +11,10 @@ body, html {
   background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
-.daterangepicker.dropdown-menu{z-index: 9999 !important;}
+.daterangepicker.dropdown-menu{z-index: 99999 !important;}
 a{cursor: pointer;}
 .modal-dialog .calendar{display: block; position: relative;}
-.modal-dialog .col-md-6.calendar:before{right; 24px}
+.modal-dialog .col-md-6.calendar:before{right: 24px}
 .modal-dialog .calendar:before{content:"\f073"; position: absolute; right: 7px; top: 12px; color: #454545;
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
@@ -311,7 +311,7 @@ nav.main-navigation {
 	display: none;
 	margin-top: 63px;
 	top: 0;
-	z-index: 9999;
+	z-index: 99999;
 }
 nav.main-navigation .menu-overlay{position: absolute; top: -63px; left: 0px; width: 100%; height: 100%; background: rgba(255,255,255,.2);}
 
@@ -1458,7 +1458,7 @@ header.navigation .logo {
 
 
 /*==============16 may css start here=========*/
-.modal.fade.in{background: rgba(0,0,0,.5); height: 100vh; overflow: auto; z-index: 999;}
+.modal.fade.in{background: rgba(0,0,0,.5); height: 100vh; overflow: auto; z-index: 99999;}
 .modal-header {
 	padding: 0;
 	border: none;

@@ -82,7 +82,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
     this.userCountryName = this.dataService.getLocalStorageData('userCountry');
     this.userCountryCode = this.dataService.getLocalStorageData('userCountryCode');
     if (this.userCountryName != undefined && this.userCountryName != null && this.userCountryName != '') {
-     // this.userCountryName = 'uae';  //hardcode for testing
+      this.userCountryName = 'uae';  //hardcode for testing
       if (this.userCountryName.toLowerCase() == 'uae' || this.userCountryName.toLowerCase() == 'united arab emirates') {
         this.useStreetDb = true;
       }
@@ -148,7 +148,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
             .subscribe(data => {
                 this.areaList = data;
                 this.showAreaList = true;
-                this.order['delivery_state'] = this.areaList.areas[0].state;
+                this.order['delivery_state'] = this.areaList.areas[0].country;
                 this.getAreaStreets(this.areaList.areas[0].city);
             });
     }
