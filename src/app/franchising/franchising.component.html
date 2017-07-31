@@ -15,9 +15,9 @@
       
       <!-- Nav tabs -->
       <ul class="nav nav-tabs hidden-xs hidden-sm" role="tablist" id="tabSwitch">
-        <li role="presentation" class="active"> <a href="#whynkd" aria-controls="whynkd" role="tab" data-toggle="tab">Why NKD</a> </li>
-        <li role="presentation"> <a href="#ourmodel" aria-controls="ourmodel" role="tab" data-toggle="tab">Our model</a> </li>
-        <li role="presentation"> <a href="#applynow" aria-controls="applynow" role="tab" data-toggle="tab">Apply now</a> </li>
+        <li role="presentation" class="active"> <a href="#whynkd" aria-controls="whynkd" role="tab" data-toggle="tab">{{whyNkdTitle}}</a> </li>
+        <li role="presentation"> <a href="#ourmodel" aria-controls="ourmodel" role="tab" data-toggle="tab">{{ourModelTitle}}</a> </li>
+        <li role="presentation"> <a href="#applynow" aria-controls="applynow" role="tab" data-toggle="tab">{{applyNowTitle}}</a> </li>
       </ul>
       <select class="custom-select visible-xs visible-sm" target="#tabSwitch" (change)="changTab($event.target.value)">
         <option value="whynkd">{{whyNkdTitle}}</option>

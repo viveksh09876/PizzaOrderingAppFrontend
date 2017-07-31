@@ -366,10 +366,10 @@
                       </div>
                       <div class="col-md-6 col-sm-12">
                           <div class="form-group">
-                              <input class="form-control" placeholder="Street#" type="text" id="streetNo" #streetNo="ngModel" name="address.streetNo" [(ngModel)]="address.streetNo" required>
-                              <div *ngIf="streetNo.errors && (streetNo.dirty || streetNo.touched)" class="alert alert-danger">
+                              <input class="form-control" placeholder="Street#" type="text" id="streetNo" #streetNo="ngModel" name="address.streetNo" [(ngModel)]="address.streetNo">
+                              <!-- <div *ngIf="streetNo.errors && (streetNo.dirty || streetNo.touched)" class="alert alert-danger">
                                   <div [hidden]="!streetNo.errors.required">Street Number is required.</div>
-                              </div>
+                              </div> -->
                           </div>
                       </div>
                       <div class="col-md-6 col-sm-12">

@@ -11,6 +11,7 @@ body, html {
   background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
+
 .daterangepicker.dropdown-menu{z-index: 99999 !important;}
 a{cursor: pointer;}
 .modal-dialog .calendar{display: block; position: relative;}
@@ -706,6 +707,10 @@ header.navigation .logo {
 	max-width: 100%
 }
 }
+@media (min-width: 991px) {
+header.navigation{z-index: 9999;}
+
+}
 @media (min-width: 768px) and (max-width: 1023px){
 	.how-are-we-different-wrapper .container{width: 100%;}
 .slider-wrapper .slides .slide .container .slide-content img{width: 60%;}
@@ -1097,8 +1102,7 @@ header.navigation .logo {
     pointer-events: none;
 }
 .map-wrapper .title-image span{color:#789c48;}
-.map-wrapper .title-image strong{color:#911c27; text-transform: uppercase;font-size: 50px;
-    line-height: 44px;}
+.map-wrapper .title-image strong{color:#911c27; font-size: 50px; line-height: 44px;}
 
 @media (max-width: 2560px) {
 .map-wrapper .title-image {
@@ -1255,7 +1259,7 @@ header.navigation .logo {
 }
 
 @media (max-width: 2560px) {
-.banner-wrapper.franchising{margin-bottom: 30px; position: relative; z-index: 9999;
+.banner-wrapper.franchising{margin-bottom: 30px; position: relative; z-index: 999;
     padding: 0 20px;}
 .banner-wrapper {
 	padding: 0px 0px;
@@ -1601,7 +1605,6 @@ button.close:hover,button.close:focus{opacity: 1;}
 	font-size: 15px;
 	margin: 0 0 5px;
 	font-family: "proxima_nova_rgregular";
-	text-transform: capitalize;
 }
 #signupModal .checkbox label span{position: absolute; content: '';
     top: 2px;
@@ -2853,7 +2856,7 @@ color:#fff
 }
 .three-column-wrapper .inside-column-container.thirdCol .col-md-6:only-child{width:100%;}
 @media (max-width: 1199px) and (min-width: 991px) {
-	header.navigation{z-index: 9999;}
+	header.navigation ul.links.mobile,header.navigation .mob-order{display: none;}
 	.slider-wrapper .slides .slide .container .slide-content img{width: 70%;}
 	.banner-wrapper .leftButtons{display: block !important;}
 .three-column-wrapper .inside-column-container.secondCol, .three-column-wrapper .inside-column-container.thirdCol {

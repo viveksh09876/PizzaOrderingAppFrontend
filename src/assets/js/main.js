@@ -76,7 +76,7 @@ $(document).ready(function(){
         }
         // country = 'UAE';
           
-        var mapText = 'Coming Soon nearby your location';
+        var mapText = 'coming soon to a location near you';
         var zoomLabel = 5;
         if(country == 'UAE' || country == 'United Arab Emirates') {
           var zoomLabel = 5;
@@ -149,7 +149,7 @@ $(document).ready(function(){
             mapCanvas.setCenter([longitude, latitude]);
             // mapCanvas.setView([longitude, latitude],5);
 
-            mapText = 'Currently open at <span>'+cordinates.length + locText + '</span> <strong>' + country + '</strong>';
+            mapText = 'currently open at <span>'+cordinates.length + locText + '</span> <strong>' + country + '</strong>';
 
             $('#mapText').html(mapText);
         }else{ 
