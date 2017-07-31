@@ -193,7 +193,7 @@ $(document).ready(function(){
                         var locText = ' location';
                       }
                       mapCanvas.setCenter([longitude, latitude]);
-                      mapText = 'Currently open at <span>'+stData.length + locText + '</span> <strong>' + country + '</strong>';
+                      mapText = 'currently open at <span>'+stData.length + locText + '</span> <strong>' + country + '</strong>';
 
                       
                   } 
