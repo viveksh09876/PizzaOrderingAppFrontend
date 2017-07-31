@@ -8,7 +8,6 @@
         <div class="row">
           <div class="col-md-12">
             <h3>Franchisee Enquiry</h3>
-            <h5>which countries you are interested in operating in, how many stores you intend to open, and your experience in the fast food sector</h5>
           </div>
         </div>
           <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
@@ -44,7 +43,11 @@
           <div class="form-group">
             <textarea class="form-control" id="feedback" #feedback="ngModel" [(ngModel)]="apply.feedback" name="feedback" required placeholder="give us your feedback *"></textarea>
             <div *ngIf="feedback.errors && (feedback.dirty || feedback.touched)" class="alert alert-danger">
-                <div [hidden]="!feedback.errors.required">Give us your feedback.</div>
+                <div [hidden]="!feedback.errors.required">Please provide further information that will help us
+deals with your enquiry (for example which countries
+you are interested in operating in, how many stores you
+intend to open, and your experience in the fast food
+sector)</div>
             </div>
           </div>
       </div>
