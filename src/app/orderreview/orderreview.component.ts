@@ -346,9 +346,8 @@ export class OrderreviewComponent implements OnInit {
     let goFlag = true;
     let tVal = null;
      
-     tVal = this.order.delivery_time
-    
-    
+    tVal = this.order.delivery_time
+    this.dataService.setLocalStorageData('allItems', JSON.stringify(this.items));
 
     if (goFlag) {
 

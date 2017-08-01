@@ -58,7 +58,7 @@ export class CheckoutComponent implements OnInit {
         } 
 
         if(this.orderData.payment_type == undefined) { 
-          this.orderData['payment_type'] = 'cash';
+          this.orderData['payment_type'] = 'Cash';
         }
 
     } else {
