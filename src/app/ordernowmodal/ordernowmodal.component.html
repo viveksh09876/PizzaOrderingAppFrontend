@@ -44,7 +44,7 @@
                             
                             <div class="col-md-12 col-sm-12" *ngIf="useStreetDb">
                                 <select class="form-control full" [(ngModel)]="delivery_street" (change)="getAreaStores($event.target.value)">
-                                    <option value="">Select Street</option>
+                                    <option value="">Select Street/Building</option>
                                     <option *ngFor="let street of streetArr" value="{{street.street_name}}">{{street.street_name}}</option>
                                 </select>
                                 <br/>
@@ -96,7 +96,7 @@
                             
                             <div class="col-md-4 col-sm-4" *ngIf="useStreetDb">
                                 <select class="form-control full" [(ngModel)]="delivery_street" (change)="getAreaStores($event.target.value)">
-                                    <option value="">Select Street</option>
+                                    <option value="">Select Street/Building</option>
                                     <option *ngFor="let street of streetArr" value="{{street.street_name}}">{{street.street_name}}</option>
                                 </select>
                                 <br/>
@@ -177,28 +177,17 @@
                             <div class="col-md-6 col-sm-6 calendar">
                                 
                                 <input appDateRangePick
+                                        *ngIf="order.delivery_time_type == 'defer'"
                                         name="dateTime"
                                         [(ngModel)]="delivery_time"
                                         [options]="pickerOptions" type="text"
                                         class="form-control" readonly />
-                                 <!-- <input class="form-control" placeholder="Date / Time of Delivery" 
-                                        [(ngModel)]="delivery_time" 
-                                            ngui-datetime-picker 
-                                            date-only="true"
-                                            date-format="MM/DD/YYYY"
-                                            min-date="{{curDate}}">    -->
-                                            </div>
-                                <!-- <div class="col-md-3 col-sm-3">
-                                <select class="timeInput form-control" name="timeHr" [(ngModel)]="time.hour">
-                                    <option *ngFor="let hr of hours" [ngValue]="hr">{{hr}}</option>    
-                                </select>
-                                </div>
-                                <div class="col-md-3 col-sm-3">
-                                <select class="timeInput form-control" name="timeMn" [(ngModel)]="time.minutes">
-                                    <option *ngFor="let min of minutes" [ngValue]="min">{{min}}</option>    
-                                </select>    
-                                </div> -->
-                                                                                                    
+                                <input *ngIf="order.delivery_time_type == 'asap'" 
+                                        name="dateTime"
+                                        [(ngModel)]="delivery_time"
+                                         type="text"
+                                        class="form-control" readonly />                                        
+                            </div>                                                                                               
                         </div>
                         <div class="row">
                             <div class="col-md-12">
