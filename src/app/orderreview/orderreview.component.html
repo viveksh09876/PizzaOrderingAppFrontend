@@ -217,28 +217,19 @@
                  <form class="order_reviewform">
                     <div class="col-md-6 col-sm-6">
                         <div class="form-group calendar">
-                            
-                            <!-- <input type="text" class="form-control" name="dateTime" [(ngModel)]="order.delivery_time" ngui-datetime-picker 
-                                            date-only="true"
-                                            date-format="MM/DD/YYYY"
-                                            min-date="{{curDate}}"> -->
                              <input appDateRangePick
+                                        *ngIf="order.delivery_time_type == 'defer'"
                                         name="dateTime"
                                         [(ngModel)]="order.delivery_time"
                                         [options]="pickerOptions" type="text"
                                         class="form-control" readonly/>
-                                        </div>
-                                        </div>
-                            <!-- <div class="col-md-6 col-sm-6">
-                            <select class="timeInput form-control" name="timeHr" [(ngModel)]="time.hour">
-                                <option *ngFor="let hr of hours" [value]="hr">{{hr}}</option>    
-                            </select>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                            <select class="timeInput form-control" name="timeMn" [(ngModel)]="time.minutes">
-                                <option *ngFor="let min of minutes" [value]="min">{{min}}</option>    
-                            </select>  
-                            </div>                                           -->
+                            <input *ngIf="order.delivery_time_type == 'asap'" 
+                                        name="dateTime"
+                                        [(ngModel)]="order.delivery_time"
+                                         type="text"
+                                        class="form-control" readonly />                                     
+                        </div>
+                    </div>
                     
                  </form>
                  </ng-container>
