@@ -109,14 +109,23 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 		this.user.dob = dateRange.startDate.toString();
   }
 
-	add(email){
-		this.account.username = email;
+	add(email, $event){
+		var checkbox = $event.target;
+		if(checkbox.checked){
+			this.account.username = email;
+		}else{
+			this.account.username = null;
+		}
 	}
 
 	getUserIp() {
     this.dataService.getIp()
           .subscribe(data => {
-              this.userCountryName = data.geoplugin_countryName;
+							this.userCountryName = data.geoplugin_countryName;
+							this.userCountryCode = data.geoplugin_countryCode;
+							if(this.userCountryCode=='AE'){
+								this.userCountryName = 'UAE';
+							}
 							this.getStores(this.userCountryName);
           });
   }

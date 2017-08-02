@@ -37,7 +37,6 @@ export class FranchisingComponent implements OnInit {
     this.dataService.getPageInfo(4).subscribe(data => {
 			this.whyNkdTitle = data.Content.page_title;
       this.whyNkdContent = data.Content.page_content;
-      console.log(this.whyNkdContent);
     });
     this.dataService.getPageInfo(5).subscribe(data => {
 			this.ourModelTitle = data.Content.page_title;

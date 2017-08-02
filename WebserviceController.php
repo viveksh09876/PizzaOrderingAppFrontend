@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_categories','getPageInfo','getip','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl'));
+        $this->Auth->allow(array('get_categories','getPageInfo','getip','sendApplyInfo','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl', 'getStoreDetailsByStoreId'));
     }
 
     public function get_categories($count=10){
@@ -246,7 +246,7 @@ class WebserviceController extends AppController {
 								//echo '<pre>'; print_r($pluData); die;
 								foreach($pluData as $pdat) {
 									//echo '<pre>'; print_r($pdat); 
-									if($dat['Category']['name'] == 'Pizza') {
+									if($dat['Category']['id'] == '1') {
 										
 										if($prod['plu_code'] == 999999) {
 											$prod['is_price_mapped'] = 1;
@@ -356,7 +356,7 @@ class WebserviceController extends AppController {
 												'Option.id','Option.lang_id','Option.store_id','Option.name','Option.plu_code','Option.image','Option.sort_order','Option.dependent_modifier_id','Option.dependent_modifier_option_id','Option.dependent_modifier_count'
 											
 										),
-										'order' => array('Option.sort_order' => 'asc')
+										'order' => array('Option.sort_order' => 'asc', 'Option.no_modifier' => 'asc')
 									)
 								)
 							));
@@ -972,6 +972,17 @@ class WebserviceController extends AppController {
 		echo json_encode($store); die;
 	}
 	
+	public function getStoreDetailsByStoreId($storeId) {
+		
+		$store = $this->Store->find('first', array(
+										'conditions' => array(
+											'store_id' => $storeId,
+											'status' => 1
+										)
+									));
+		echo json_encode($store); die;
+	}
+	
 	
 	public function login() {
 		$data = $this->request->input ( 'json_decode', true) ;
@@ -1129,7 +1140,8 @@ class WebserviceController extends AppController {
 			$country = strtolower($country);
 			$stores = $this->Store->find('all', array(
 				'conditions' => array(
-					'LOWER(Store.country)' => $country
+					'LOWER(Store.country)' => $country,
+					'Store.status' => 1
 				)
 			));	
 			echo json_encode($stores);
@@ -1309,6 +1321,57 @@ class WebserviceController extends AppController {
                     $this->Email->delivery = 'smtp';
                     if($this->Email->send()){
       echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! information has been sent successfully will contact you soon.'));
+     }
+
+                }catch(Exception $e){
+                    echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
+                }
+                /*-[end]template asssignment*/ 
+  }
+  die;
+ }
+
+ function sendApplyInfo(){
+  $data = $this->request->input ( 'json_decode', true);
+  if(!empty($data)) {
+
+   	$fname = $data['fname'];
+   	$lname = $data['lname'];
+   	$tel = $data['tel'];
+   	$email = $data['email'];
+   	$country = $data['country'];
+   	$city = $data['city'];
+   	$feedback = $data['feedback'];
+	$name = $fname.' '.$lname;
+   /*-template asssignment if any*/
+                $template = $this->EmailTemplate->find('first',array(
+                        'conditions' => array(
+                            'template_key'=> 'enquiry_notification',
+                            'template_status' =>'Active'
+                        )
+                    )
+                );
+
+                if($template){  
+                    $arrFind=array('{name}','{email}','{phone}','{country}','{city}','{feedback}');
+                    $arrReplace=array($name,$email,$tel,$country,$city,$feedback);
+                    
+                    $from=$template['EmailTemplate']['from_email'];
+                    $subject=$template['EmailTemplate']['email_subject'];
+                    $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
+                }
+
+                $this->set('Content',$content);   
+
+                try{
+                    $this->Email->from=$from;
+                    $this->Email->to=ENQUIRY_EMAIL;
+                    $this->Email->subject=$subject;
+                    $this->Email->sendAs='html';
+                    $this->Email->template='general';
+                    $this->Email->delivery = 'smtp';
+                    if($this->Email->send()){
+      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! you information has been sent successfully will contact you soon.'));
      }
 
                 }catch(Exception $e){

@@ -13,23 +13,29 @@ export class ApplynowComponent extends DialogComponent<ApplyNowModel, null> impl
 
   showLoading = false;
   apply = {
-		name:'',
-		email:'',
+		fname:'',
+		lname:'',
 		tel:'',
+		email:'',
+		country:'UAE',
+		city:'',
 		feedback: ''
 	};
 
   error = { show:false, isSuccess:false, message: ''};
-
+	countryList = ['UAE','United Kingdom','Scotland','Ireland','USA'];
   ngOnInit() {
   }
 
   submit(){
     this.showLoading = true;
 		let ApplyInfo = {
-			fname: this.apply.name,
-			email:this.apply.email,
+			fname: this.apply.fname,
+			lname: this.apply.lname,
 			tel:this.apply.tel,
+			email:this.apply.email,
+			country:this.apply.country,
+			city:this.apply.city,
 			feedback:this.apply.feedback
 		};
 	
