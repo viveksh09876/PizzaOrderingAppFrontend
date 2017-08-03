@@ -67,7 +67,7 @@ $(document).ready(function(){
 function temp() {
 mapboxgl.accessToken = 'pk.eyJ1IjoicHVzaHBlbmRyYXJhaiIsImEiOiJjajRwYzFtOTYxeWd0MzJwbDdsaGNzOTZiIn0.a9BUA890Vtyeqy21AaLClQ';
 $(document).ready(function(){
-
+    
     $.get(cmsurl + '/webservice/getip', function(resp){
         resp = JSON.parse(resp);
         country = resp.geoplugin_countryName;
@@ -79,7 +79,8 @@ $(document).ready(function(){
         var mapText = 'coming soon to a location near you';
         var zoomLabel = 5;
         if(country == 'UAE' || country == 'United Arab Emirates') {
-          var zoomLabel = 5;
+            country = 'UAE';
+            var zoomLabel = 5;
         }
 
         // inittialize map
