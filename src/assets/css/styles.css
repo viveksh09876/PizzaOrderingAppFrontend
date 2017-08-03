@@ -122,6 +122,7 @@ body {
 }
 
 @media (max-width: 767px) {
+	.slider-wrapper .slides .slide{background-size: cover;}
 	.slider-wrapper .slides .slide .container .slide-content img{width: 50%;}
 	.modal-dialog{margin:12% 20px !important;}
 	#signinModal .guest button{margin:0px !important;}

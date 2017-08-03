@@ -7,7 +7,7 @@
       <button type="button" class="close" (click)="close()"><span class="icon icon-close"></span></button>
         <div class="row">
           <div class="col-md-12">
-            <h3>Franchisee Enquiry</h3>
+            <h3 style="margin-bottom: 10px;">Franchisee Enquiry</h3>
           </div>
         </div>
           <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
