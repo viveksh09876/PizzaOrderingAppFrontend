@@ -164,7 +164,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
                 }
               }
             }
-            this.latestFbFeeds = fbfeeds;
+            this.latestFbFeeds = fbfeeds.reverse();
         });
   }
 
@@ -185,7 +185,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
                 }
               }
             }
-          this.latestIgFeeds = IgFeeds;
+          this.latestIgFeeds = IgFeeds.reverse();
         });
   }
 
