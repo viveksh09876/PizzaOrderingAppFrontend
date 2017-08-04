@@ -205,7 +205,16 @@
                   <div class="form-group">
                     <label class="col-sm-4 col-md-3 control-label">Date of Birth</label>
                     <div class="col-sm-7 col-md-7">
-                      <input type="text" class="form-control" [(ngModel)]="user.dob" #dob="ngModel" name="dob" placeholder="yyyy-mm-dd" ngui-datetime-picker date-format="YYYY-MM-DD" date-only="true" max-date="{{maxDate}}-01-01" min-date="1940-01-01" required>
+                      
+                      <input appDateRangePick
+                                        #dob="ngModel"
+                                        name="dob"
+                                        (selected)="dateSelected($event)"
+                                        placeholder="yyyy-mm-dd"
+                                        [(ngModel)]="user.dob"
+                                        [options]="pickerOptions" type="text"
+                                        class="form-control" required autocomplete="off" readonly/>
+
                       <div *ngIf="dob.errors && (dob.dirty || dob.touched)" class="alert alert-danger">
                           <div [hidden]="!dob.errors.required">Date of Birth is required.</div>
                       </div>

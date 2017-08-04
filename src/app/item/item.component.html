@@ -60,7 +60,7 @@ style="background-image:url(assets/images/banner-inside/4.jpg)"-->
                     
                     <h4 (click)="updateModifier(option.Option.id,'checkbox', mod.modifier_id)">{{option.Option.name}}</h4> 
 
-                    <a class="grayBtn cta-btn" (click)="updateExtra(option.Option.id, 'modifier','checkbox')">add Extra</a>                                
+                    <a class="grayBtn cta-btn add_extra" (click)="updateExtra(option.Option.id, 'modifier','checkbox')"><span>add Extra</span><span *ngIf="option.Option.add_extra" class="remove">x</span></a>                                
                     <div class="control__indicator" (click)="updateModifier(option.Option.id, 'checkbox', mod.modifier_id)"><img *ngIf="option.Option.image == null" src="assets/images/blog/img-4.jpg" alt=""><img *ngIf="option.Option.image != null" src="{{cmsApiPath + '/' + option.Option.image}}" alt=""></div>
                     <ng-container *ngIf="option.Option.OptionSuboption != '' && option.Option.OptionSuboption.length > 0">
                       <ng-container *ngFor="let subop of option.Option.OptionSuboption">

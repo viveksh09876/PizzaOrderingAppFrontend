@@ -2605,6 +2605,19 @@ color:#fff
 	padding: 4px;
 	margin-top: 4px;
 }
+.three-column-wrapper .inside-column-container .content-wrapper .content-container a.grayBtn.add_extra {
+	padding: 0;
+}
+.three-column-wrapper .inside-column-container .content-wrapper .content-container a.grayBtn.add_extra span{
+	display: inline-block;
+    padding: 4px;
+}
+.three-column-wrapper .inside-column-container .content-wrapper .content-container a.grayBtn.add_extra span.remove{
+	background: #911c27;
+	margin-left: 3px;
+	position: absolute;
+}
+
 .three-column-wrapper .inside-column-container .content-wrapper .content-container h5 {
 	margin-top: 0em;
 	text-transform: uppercase;

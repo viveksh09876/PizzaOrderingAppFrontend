@@ -5,6 +5,7 @@ import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 import {DateRangePickDirective} from '../date-range-pick.directive';
 import { DateRange } from '../date-range';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-ordernowmodal',
@@ -48,6 +49,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   showAreaList = false;
   time = { hour: '01', minutes: '00' };
   showStoreTimeError = false;
+  storeImg = null;
 
   hours = [];
   minutes = this.utilService.getMinutes();
@@ -213,6 +215,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
       for(var i=0; i<stores.length; i++) {
          if(stores[i].Store.id == id) {
            this.selectedStore.info = stores[i];
+           this.storeImg = environment.cmsApiPath + '/' + stores[i].Store.store_image;
            break;
          } 
       }

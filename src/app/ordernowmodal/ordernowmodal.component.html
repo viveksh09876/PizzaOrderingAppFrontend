@@ -143,7 +143,7 @@
               
               <div class="col-md-4 col-sm-4" *ngIf="selectedStore.val != ''">
                 <div class="location-wrapper">
-                  <div class="img-wrapper" style="background-image:url(assets/images/pickup-delivery/img-1.jpg);"></div>
+                  <div class="img-wrapper" [ngStyle]="{'background-image': 'url(' + storeImg + ')'}"></div>
                   <h4>{{selectedStore.info.Store.store_name}}</h4>
                   <p>{{selectedStore.info.Store.store_address}}</p>
                   <p>Open now:  11:00am-3:00am</p>

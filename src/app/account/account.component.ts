@@ -5,6 +5,8 @@ import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 import { OrdernowmodalComponent } from '../ordernowmodal/ordernowmodal.component';
 import { LoginComponent } from '../login/login.component';
+import {DateRangePickDirective} from '../date-range-pick.directive';
+import { DateRange } from '../date-range';
 
 @Component({
   selector: 'app-account',
@@ -13,13 +15,15 @@ import { LoginComponent } from '../login/login.component';
 })
 export class AccountComponent implements OnInit {
 
+  dateRange:DateRange=new DateRange({});
+
   constructor(private dialogService:DialogService,
               private dataService: DataService,
                 private utilService: UtilService,
                   private router: Router) { }
   name = '';
   currentTab = 'favItems';
-  user = null;
+  user = JSON.parse(this.dataService.getLocalStorageData('user-details'));;
   account = null;
   address = null;
   favItems = [];
@@ -41,7 +45,20 @@ export class AccountComponent implements OnInit {
 		subscribe:null,
     form:null,
     id:null
-	};
+  };
+  
+  maxDate = new Date().getFullYear()-18;
+	pickerOptions: Object = {
+    'showDropdowns': true,
+    'singleDatePicker': true,
+    'minDate': new Date('1940-01-01'),
+    'maxDate': new Date(this.maxDate + '-01-01'),
+    "startDate": new Date(this.user.dob),
+    'autoUpdateInput': true,
+    locale: {
+            format: 'YYYY-MM-DD'
+        }
+  };
 
 
   ngOnInit() {
