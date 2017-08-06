@@ -17,14 +17,17 @@ export class ApplynowComponent extends DialogComponent<ApplyNowModel, null> impl
 		lname:'',
 		tel:'',
 		email:'',
-		country:'UAE',
+		country:'Andorra',
 		city:'',
 		feedback: ''
 	};
 
   error = { show:false, isSuccess:false, message: ''};
-	countryList = ['UAE','United Kingdom','Scotland','Ireland','USA'];
+	countryList = null;
   ngOnInit() {
+		this.dataService.getCountries().subscribe(data => {
+			this.countryList = data;
+		});
   }
 
   submit(){

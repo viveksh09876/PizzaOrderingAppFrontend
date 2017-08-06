@@ -340,5 +340,11 @@ export class DataService {
 
   } 
 
+  getCountries(): Observable<any>{
+        return this.http.get( this.domain + '/webservice/get_countries/')
+                    .map( (res: Response) => res.json() )
+                    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+
+  } 
   
 }
