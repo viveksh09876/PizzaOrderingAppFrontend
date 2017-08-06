@@ -163,12 +163,22 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 	}
 
 	 setAnswer(questionId,answerId,$event,qIndex,iIndex){ 
-      var checkbox = $event.target;
+			var checkbox = $event.target;
       if(checkbox.checked){
 				this.prefreces[qIndex].QuestionOption[iIndex].checked = 1;
       }else{
 				this.prefreces[qIndex].QuestionOption[iIndex].checked = 0;
+			}
+	}
+		
+	setNewAnswer(questionId,answerId,$event,qIndex,iIndex){ 
+			var checkbox = $event.target;
+      for(let a of this.prefreces[qIndex].QuestionOption){
+        a.checked = 0;
       }
+      if(checkbox.checked){
+        this.prefreces[qIndex].QuestionOption[iIndex].checked = 1;
+			}
   }
 
 	submit(){

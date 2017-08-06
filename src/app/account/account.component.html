@@ -296,7 +296,7 @@
                         <label>{{pref.Question.question}}</label>
                         <div class="checkbox" *ngFor="let opt of  pref.QuestionOption; let i=index;">
                             <label>
-                                <ng-container *ngIf="opt.question_id!=4">
+                                <ng-container *ngIf="pref.Question.is_multiple==1">
                                   <ng-container *ngIf="opt.checked==1">
                                       <input type="checkbox" checked (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[]"> 
                                   </ng-container>
@@ -304,12 +304,12 @@
                                       <input type="checkbox" (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[]"> 
                                   </ng-container>
                                 </ng-container>
-                                <ng-container *ngIf="opt.question_id==4">
+                                <ng-container *ngIf="pref.Question.is_multiple==0">
                                   <ng-container *ngIf="opt.checked==1">
-                                      <input type="radio" checked  (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[]"> 
+                                      <input type="radio" checked  (click)="setNewAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option_{{opt.question_id}}"> 
                                   </ng-container>
                                   <ng-container *ngIf="opt.checked==0">
-                                      <input type="radio" (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[]"> 
+                                      <input type="radio" (click)="setNewAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option_{{opt.question_id}}"> 
                                   </ng-container>
                                 </ng-container>
                                 {{opt.answer}}

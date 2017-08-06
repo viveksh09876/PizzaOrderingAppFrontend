@@ -129,11 +129,11 @@
                         <label>{{pref.Question.question}}</label>
                         <div class="checkbox" *ngFor="let opt of  pref.QuestionOption; let i=index">
                             <label>
-                                <ng-container *ngIf="opt.question_id!=4 && opt.question_id!=3">
+                                <ng-container *ngIf="pref.Question.is_multiple==1">
                                     <input type="checkbox" (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
                                 </ng-container>
-                                <ng-container *ngIf="opt.question_id==4 || opt.question_id==3">
-                                    <input type="radio" (click)="setAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
+                                <ng-container *ngIf="pref.Question.is_multiple==0">
+                                    <input type="radio" (click)="setNewAnswer(opt.question_id,opt.id,$event,p,i)" id="option" value="{{opt.id}}" name="option[{{pref.Question.id}}]"> 
                                 </ng-container>
                                 {{opt.answer}}
                                 <span></span>

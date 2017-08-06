@@ -145,7 +145,7 @@ export class AccountComponent implements OnInit {
           .subscribe(data => {
             this.prefreces = data;
       });
-
+          
       this.dataService.getProfile(userId).subscribe(pdata => {
       this.prefrence.subscribe = parseInt(pdata.Subscribe);        
       
@@ -227,11 +227,22 @@ export class AccountComponent implements OnInit {
       }
   }
   
+  setNewAnswer(questionId,answerId,$event,qIndex,iIndex){ 
+      var checkbox = $event.target;
+      for(let a of this.prefreces[qIndex].QuestionOption){
+        a.checked = 0;
+      }
+      if(checkbox.checked){
+        this.prefreces[qIndex].QuestionOption[iIndex].checked = 1;
+      }
+  }
+
   updatePrefrence(){
     this.showLoading = true;
     this.prefrence.form = 3;
     this.prefrence.id = this.user.id;
     this.prefrence.question = this.prefreces;
+    console.log(this.prefrence);
     this.dataService.updatePrefrence(this.prefrence).subscribe(data => {
      if(data.isSuccess) {
         this.error = data;
