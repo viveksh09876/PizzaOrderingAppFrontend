@@ -111,6 +111,7 @@ button:disabled {
   }
 }
 
+.two-column-wrapper .inside-column-container h3.sub-head small{ color: #fff; }
 
 @media (max-width: 2560px) {
 body, html {
@@ -2331,8 +2332,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 .modal-dialog .modal-content .modal-body.green textarea.form-control {
 	height: 200px;
-	resize: none;
-	padding: 18px 12px;
+	resize: none
 }
 .modal-dialog .modal-content .modal-body.green ::-webkit-input-placeholder {
 color:#fff
