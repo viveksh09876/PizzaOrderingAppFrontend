@@ -288,6 +288,7 @@ class WebserviceController extends AppController {
 							
 							if(!in_array($prod['SubCategory']['name'], $cats[$i]['subCatsName'])) {
 								$cats[$i]['subCatsName'][] = $prod['SubCategory']['name'];
+								$cats[$i]['subCatsPrice'][] = $prod['SubCategory']['short_description'];
 							}
 							
 							

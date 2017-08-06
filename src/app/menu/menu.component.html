@@ -59,8 +59,9 @@
 
                             <div class="sub-cat-section" *ngIf="data.subCatsName.length > 0">
                               
-                              <div class="col-md-6" *ngFor="let subCt of data.subCats | keysPipe">
-                                <h3 class="sub-head">{{subCt.key}}</h3>
+                              <div class="col-md-6" *ngFor="let subCt of data.subCats | keysPipe; let r=index;">
+                                <h3 class="sub-head">{{subCt.key}}<br/>
+                                <small>{{data.subCatsPrice[r]}}</small></h3>
                                 <div class="row">
                                   
                                 <div *ngFor="let subProducts of subCt.value" class="col-md-12">
@@ -77,7 +78,7 @@
                                           <div class="leftSection">
                                             <h4 class="media-heading">{{subProd.title}}</h4>
                                             
-                                            <h5>{{subProd.price_title}}</h5>
+                                            <!-- <h5>{{subProd.price_title}}</h5> -->
                                             <p>{{subProd.short_description}}</p>
                                           </div>
                                           <div class="rightSection bottom"> <a (click)="goToCustomize(subProd.slug)" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
@@ -108,7 +109,7 @@
                                         <div class="leftSection">
                                           <h4 class="media-heading">{{prod.title}}</h4>
                                           
-                                          <h5>{{prod.price_title}} </h5>
+                                          <!-- <h5>{{prod.price_title}} </h5> -->
                                           <p>{{prod.short_description}}</p>
                                         </div>
                                         <div class="rightSection bottom"> <a (click)="goToCustomize(prod.slug)" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
