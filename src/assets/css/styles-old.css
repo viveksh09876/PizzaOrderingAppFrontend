@@ -2332,11 +2332,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 .modal-dialog .modal-content .modal-body.green textarea.form-control {
 	height: 200px;
-	resize: none;
-	padding: 18px 12px;
-}
-.modal-dialog .modal-content .modal-body.green.applynow textarea.form-control {
-	padding: 18px 12px;
+	resize: none
 }
 .modal-dialog .modal-content .modal-body.green ::-webkit-input-placeholder {
 color:#fff
