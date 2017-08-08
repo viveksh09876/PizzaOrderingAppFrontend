@@ -17,7 +17,7 @@ export class ApplynowComponent extends DialogComponent<ApplyNowModel, null> impl
 		lname:'',
 		tel:'',
 		email:'',
-		country:'Andorra',
+		country:'',
 		city:'',
 		feedback: ''
 	};
