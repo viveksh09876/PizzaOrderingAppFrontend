@@ -38,7 +38,6 @@ export class MenuComponent implements OnInit {
 
 
   ngOnInit() {
-
     
     this.dataService.setLocalStorageData('favItemFetched', null);
     this.dataService.setLocalStorageData('favOrdersFetched', null); 
@@ -47,8 +46,13 @@ export class MenuComponent implements OnInit {
 
     this.currencyCode = this.utilService.currencyCode;
     this.getAllCategories();
-        
-    let items = this.dataService.getLocalStorageData('allItems'); 
+    this.getCartItems();        
+    
+  }
+
+
+  getCartItems() {
+    let items = this.dataService.getLocalStorageData('allItems');
     let orderNowDetails = this.dataService.getLocalStorageData('order-now'); 
     if((items != null && items != 'null') || (orderNowDetails != null && orderNowDetails != 'null')) {
       
@@ -58,8 +62,7 @@ export class MenuComponent implements OnInit {
         this.netCost = this.totalCost;
       }      
       this.showViewCart = true;
-    }    
-
+    }
   }
 
   getAllCategories(){
@@ -93,13 +96,55 @@ export class MenuComponent implements OnInit {
   }
 
 
-  goToCustomize(slug) {
+  goToCustomize(slug, modCount) {
     let orderNow = this.dataService.getLocalStorageData('order-now');
     if (orderNow == undefined || orderNow == null || orderNow == 'null') {
       //open order-now modal
       this.dialogService.addDialog(OrdernowmodalComponent, { }, { closeByClickingOutside:true }); 
     } else {
-      this.router.navigate(['/item', slug]);
+      if (modCount > 0) {
+        //navigate to customize page
+        this.router.navigate(['/item', slug]);        
+      } else {
+         //add product to cart without page refresh
+         let menuCountry = this.dataService.getLocalStorageData('menuCountry');
+         this.dataService.getItemData(slug, menuCountry)
+          .subscribe(data => {
+               
+                data.originalItemCost = data.Product.price;
+                data.totalItemCost = data.Product.price;
+                let temp = this.dataService.getLocalStorageData('allItems');
+                
+                if(temp == null || temp == 'null') {
+
+                  let allItems = [];  
+                  allItems.push(data);
+                  this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+                 
+                }else{
+
+                  let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems')); 
+                  let isExist = false;
+                  for(var i=0; i<allItems.length; i++) {
+                    if(allItems[i].Product.id == data.Product.id) {
+                      allItems[i].Product.qty += 1;
+                      allItems[i].totalItemCost = parseFloat(allItems[i].Product.price)*allItems[i].Product.qty;
+                      isExist = true;
+                      break;
+                    }
+                  }         
+                  
+                  if(!isExist) {
+                    allItems.splice(0,0,data);
+                  }
+                    
+                  this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems)); 
+                }
+
+                this.getCartItems();
+            
+          });
+      }
     }
   }
 

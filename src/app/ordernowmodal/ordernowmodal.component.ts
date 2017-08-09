@@ -90,14 +90,20 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
       }
     }
 
-    // for(var i=0; i<24; i++) {
-    //   let hrVal = (i+1).toString();
-    //   if(i < 9) {
-    //     hrVal = '0' + hrVal.toString();
-    //   }
-    //   this.hours.push(hrVal)
-    // }
+    let user_details = this.dataService.getLocalStorageData('user-details');
+    if (user_details != undefined) {
+      user_details = JSON.parse(user_details);
 
+      if (user_details['defaultAddress'] != null) {
+        this.cityVal = user_details['defaultAddress'].city;
+        this.areaVal = user_details['defaultAddress'].city;
+        this.postalCode = user_details['defaultAddress'].postal_code;
+        this.delivery_streetno = user_details['defaultAddress'].streetNo;
+        this.delivery_apartment = user_details['defaultAddress'].apartment;
+        this.order['delivery_state'] = user_details['defaultAddress'].state;
+        
+      }
+    }
 
   }
 

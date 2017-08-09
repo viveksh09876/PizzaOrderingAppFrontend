@@ -199,8 +199,9 @@ class WebserviceController extends AppController {
 								)
 						)));
 						
-		$this->Product->bindModel(array('belongsTo' => array(
-									'SubCategory' => array(
+		$this->Product->bindModel(array(
+									'belongsTo' => array(
+										'SubCategory' => array(
 											'ClassName' => 'SubCategory',
 											'foreignKey' => 'sub_category_id',
 											'conditions' => array('SubCategory.status' => 1),
@@ -208,8 +209,16 @@ class WebserviceController extends AppController {
 													'SubCategory.id','SubCategory.lang_id','SubCategory.store_id','SubCategory.cat_id','SubCategory.name','SubCategory.slug','SubCategory.short_description','SubCategory.sort_order','SubCategory.image','SubCategory.status'
 												),
 											'order' => array('SubCategory.sort_order' => 'asc')	
+										)
+									),
+									'hasMany' => array(
+										'ProductModifier' => array(
+											'className' => 'ProductModifier',
+											'foreignKey' => 'product_id',
+											'fields' => array('ProductModifier.id')
+										)
 									)
-								)));
+								));
         
 		
 									
@@ -246,6 +255,8 @@ class WebserviceController extends AppController {
 					foreach($dat['Product'] as $prod) {
 						
 						$prod['is_price_mapped'] = 0;
+						$prod['mod_count'] = count($prod['ProductModifier']);
+						unset($prod['ProductModifier']);
 						
 						//map price of product using plu code
 						if(!empty($plu_json)) {
@@ -1249,40 +1260,29 @@ class WebserviceController extends AppController {
    $social = $data['social'];
 
    /*-template asssignment if any*/
-                $template = $this->EmailTemplate->find('first',array(
-                        'conditions' => array(
-                            'template_key'=> 'catering_notification',
-                            'template_status' =>'Active'
-                        )
-                    )
-                );
+    $template = $this->EmailTemplate->find('first',array(
+            'conditions' => array(
+                'template_key'=> 'catering_notification',
+                'template_status' =>'Active'
+            )
+        )
+    );
 
-                if($template){  
-                    $arrFind=array('{name}','{email}','{phone}','{location}','{event_date}','{no_of_person}','{special_instruction}');
-                    $arrReplace=array($username,$email,$tel,$location,$date,$noofuser,$social);
-                    
-                    $from=$template['EmailTemplate']['from_email'];
-                    $subject=$template['EmailTemplate']['email_subject'];
-                    $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
-                }
+    if($template){  
+        $arrFind=array('{name}','{email}','{phone}','{location}','{event_date}','{no_of_person}','{special_instruction}');
+        $arrReplace=array($username,$email,$tel,$location,$date,$noofuser,$social);
+        
+        $from=$template['EmailTemplate']['from_email'];
+        $subject=$template['EmailTemplate']['email_subject'];
+        $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
+    }
 
-                $this->set('Content',$content);   
-
-                try{
-                    $this->Email->from=$from;
-                    $this->Email->to=CATERING_EMAIL;
-                    $this->Email->subject=$subject;
-                    $this->Email->sendAs='html';
-                    $this->Email->template='general';
-                    $this->Email->delivery = 'smtp';
-                    if($this->Email->send()){
-      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank you for your enquiry about your event - we’ll be in touch really soon to talk about how we can help!'));
-     }
-
-                }catch(Exception $e){
-                    echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
-                }
-                /*-[end]template asssignment*/ 
+    if($this->sendPhpEmail(CATERING_EMAIL,$from,$subject,$content)){
+		echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank you for your enquiry about your event - we’ll be in touch really soon to talk about how we can help!'));
+	}else{
+		echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
+	}
+    /*-[end]template asssignment*/ 
   }
   die;
  }
@@ -1301,40 +1301,29 @@ class WebserviceController extends AppController {
 
 	$name = $fname.' '.$lname;
    /*-template asssignment if any*/
-                $template = $this->EmailTemplate->find('first',array(
-                        'conditions' => array(
-                            'template_key'=> 'contact_notification',
-                            'template_status' =>'Active'
-                        )
-                    )
-                );
+    $template = $this->EmailTemplate->find('first',array(
+            'conditions' => array(
+                'template_key'=> 'contact_notification',
+                'template_status' =>'Active'
+            )
+        )
+    );
 
-                if($template){  
-                    $arrFind=array('{name}','{email}','{phone}','{location}','{question}','{feedback}');
-                    $arrReplace=array($name,$email,$tel,$location,$question,$feedback);
-                    
-                    $from=$template['EmailTemplate']['from_email'];
-                    $subject=$template['EmailTemplate']['email_subject'];
-                    $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
-                }
-
-                $this->set('Content',$content);   
-
-                try{
-                    $this->Email->from=$from;
-                    $this->Email->to=CONTACT_EMAIL;
-                    $this->Email->subject=$subject;
-                    $this->Email->sendAs='html';
-                    $this->Email->template='general';
-                    $this->Email->delivery = 'smtp';
-                    if($this->Email->send()){
-      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! information has been sent successfully will contact you soon.'));
-     }
-
-                }catch(Exception $e){
-                    echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
-                }
-                /*-[end]template asssignment*/ 
+    if($template){  
+        $arrFind=array('{name}','{email}','{phone}','{location}','{question}','{feedback}');
+        $arrReplace=array($name,$email,$tel,$location,$question,$feedback);
+        
+        $from=$template['EmailTemplate']['from_email'];
+        $subject=$template['EmailTemplate']['email_subject'];
+        $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
+    }
+  
+    if($this->sendPhpEmail(CONTACT_EMAIL,$from,$subject,$content)){
+		echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! information has been sent successfully will contact you soon.'));
+	}else{
+		echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
+	}
+    /*-[end]template asssignment*/ 
   }
   die;
  }
@@ -1352,40 +1341,28 @@ class WebserviceController extends AppController {
    	$feedback = $data['feedback'];
 	$name = $fname.' '.$lname;
    /*-template asssignment if any*/
-                $template = $this->EmailTemplate->find('first',array(
-                        'conditions' => array(
-                            'template_key'=> 'enquiry_notification',
-                            'template_status' =>'Active'
-                        )
-                    )
-                );
+    $template = $this->EmailTemplate->find('first',array(
+            'conditions' => array(
+                'template_key'=> 'enquiry_notification',
+                'template_status' =>'Active'
+            )
+        )
+    );
 
-                if($template){  
-                    $arrFind=array('{name}','{email}','{phone}','{country}','{city}','{feedback}');
-                    $arrReplace=array($name,$email,$tel,$country,$city,$feedback);
-                    
-                    $from=$template['EmailTemplate']['from_email'];
-                    $subject=$template['EmailTemplate']['email_subject'];
-                    $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
-                }
-
-                $this->set('Content',$content);   
-
-                try{
-                    $this->Email->from=$from;
-                    $this->Email->to=ENQUIRY_EMAIL;
-                    $this->Email->subject=$subject;
-                    $this->Email->sendAs='html';
-                    $this->Email->template='general';
-                    $this->Email->delivery = 'smtp';
-                    if($this->Email->send()){
-      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! you information has been sent successfully will contact you soon.'));
-     }
-
-                }catch(Exception $e){
-                    echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
-                }
-                /*-[end]template asssignment*/ 
+    if($template){  
+        $arrFind=array('{name}','{email}','{phone}','{country}','{city}','{feedback}');
+        $arrReplace=array($name,$email,$tel,$country,$city,$feedback);
+        
+        $from=$template['EmailTemplate']['from_email'];
+        $subject=$template['EmailTemplate']['email_subject'];
+        $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
+    }
+    if($this->sendPhpEmail(ENQUIRY_EMAIL,$from,$subject,$content)){
+			echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! you information has been sent successfully will contact you soon.'));
+		}else{
+    	echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
+		}
+    /*-[end]template asssignment*/ 
   }
   die;
  }
@@ -1404,40 +1381,29 @@ function sendCareerInfo(){
 
 	$name = $fname.' '.$lname;
    /*-template asssignment if any*/
-                $template = $this->EmailTemplate->find('first',array(
-                        'conditions' => array(
-                            'template_key'=> 'career_notification',
-                            'template_status' =>'Active'
-                        )
-                    )
-                );
+    $template = $this->EmailTemplate->find('first',array(
+            'conditions' => array(
+                'template_key'=> 'career_notification',
+                'template_status' =>'Active'
+            )
+        )
+    );
 
-                if($template){  
-                    $arrFind=array('{name}','{email}','{phone}','{position}','{lkdin}','{resume}');
-                    $arrReplace=array($name,$email,$tel,$position,$lkdin,$resume);
-                    
-                    $from=$template['EmailTemplate']['from_email'];
-                    $subject=$template['EmailTemplate']['email_subject'];
-                    $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
-                }
+    if($template){  
+        $arrFind=array('{name}','{email}','{phone}','{position}','{lkdin}','{resume}');
+        $arrReplace=array($name,$email,$tel,$position,$lkdin,$resume);
+        
+        $from=$template['EmailTemplate']['from_email'];
+        $subject=$template['EmailTemplate']['email_subject'];
+        $content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
+    }
 
-                $this->set('Content',$content);   
-
-                try{
-                    $this->Email->from=$from;
-                    $this->Email->to=CAREER_EMAIL;
-                    $this->Email->subject=$subject;
-                    $this->Email->sendAs='html';
-                    $this->Email->template='general';
-                    $this->Email->delivery = 'smtp';
-                    if($this->Email->send()){
-      echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! information has been sent successfully, will contact you soon.'));
-     }
-
-                }catch(Exception $e){
-                    echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
-                }
-                /*-[end]template asssignment*/ 
+    if($this->sendPhpEmail(CAREER_EMAIL,$from,$subject,$content)){
+			echo json_encode(array('show'=>true, 'isSuccess'=>true, 'message'=>'Thank You ! information has been sent successfully, will contact you soon.'));
+		}else{
+    	echo json_encode(array('show'=>true, 'isSuccess'=>false, 'message'=>'Sorry ! mail not send, please try again.'));
+		}
+    /*-[end]template asssignment*/ 
   }
   die;
  }
@@ -1541,20 +1507,9 @@ function sendCareerInfo(){
 					$content=str_replace($arrFind, $arrReplace,$template['EmailTemplate']['email_body']);
 				}
 
-				$this->set('Content',$content);   
-
-				try{
-					$this->Email->from=$from;
-					$this->Email->to=$data[0]['email'];
-					$this->Email->subject=$subject;
-					$this->Email->sendAs='html';
-					$this->Email->template='general';
-					$this->Email->delivery = 'smtp';
-					if($this->Email->send()){
-						echo json_encode(array('isSuccess'=>true, 'show'=>true, 'id'=>$response->Id, 'message'=>'Thank You ! you have successfully registered with us, login details has been sent to registered email.'));
-					}
-
-				}catch(Exception $e){
+				if($this->sendPhpEmail($data[0]['email'],$from,$subject,$content)){
+					echo json_encode(array('isSuccess'=>true, 'show'=>true, 'id'=>$response->Id, 'message'=>'Thank You ! you have successfully registered with us, login details has been sent to registered email.'));
+				}else{
 					echo json_encode(array('isSuccess'=>true, 'show'=>true, 'id'=>$response->Id,  'message'=>'Thank You ! you have successfully registered with us.'));
 				}
 				/*-[end]template asssignment*/
