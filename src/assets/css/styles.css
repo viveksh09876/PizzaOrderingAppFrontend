@@ -709,6 +709,7 @@ header.navigation .logo {
 	border-bottom: none;
 	max-width: 100%
 }
+/*.slider-wrapper{height: 80%;}*/
 }
 @media (min-width: 991px) {
 header.navigation{z-index: 9999;}
@@ -1153,7 +1154,8 @@ header.navigation{z-index: 9999;}
 .banner-wrapper h1 span {
 	color: #fff;
 	font-size: 3.750rem;
-	display: block
+	display: block;
+	font-family: 'proxima_nova_ltlight';
 }
 .banner-wrapper .leftButtons {
 	float: right;
@@ -1675,7 +1677,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 	color: #fff;
 	padding: 4px 20px;
 	border-radius: 0;
-	font-family: "bureaueaglebookregular";
+	font-family: "proxima_nova_rgregular";
 	font-size: 16px;
 	margin: 10px 0 0;
 }
