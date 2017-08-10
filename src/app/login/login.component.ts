@@ -63,8 +63,32 @@ export class LoginComponent extends DialogComponent<LoginModal, null> {
                     phone: pdata.Phone,
                     dob: pdata.DOB,
                     zip: pdata.PostalCode,
-                    favloc: pdata.FavLocation
+                    favloc: pdata.FavLocation,
+                    defaultAddress: null
                   }
+
+                  if (pdata.Address1 != '') {
+                    let address = JSON.parse(pdata.Address1);
+                    if (address.is_default == 1) {
+                      user.defaultAddress = address;
+                    }
+                  }
+
+                  if (pdata.Address2 != '') {
+                    let address = JSON.parse(pdata.Address2);
+                    if (address.is_default == 1) {
+                      user.defaultAddress = address;
+                    }
+                  }
+
+                  if (pdata.Address3 != '') {
+                    let address = JSON.parse(pdata.Address3);
+                    if (address.is_default == 1) {
+                      user.defaultAddress = address;
+                    }
+                  }
+
+                  
 
                   this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
                   this.dataService.setLocalStorageData('isLoggedIn', true);

@@ -48,7 +48,7 @@
                                 <h5>{{prod.price_title}}</h5>
                                 <p>{{prod.short_description}}</p>
                               </div>
-                              <div class="rightSection bottom"> <a (click)="goToCustomize(prod.slug)" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
+                              <div class="rightSection bottom"> <a (click)="goToCustomize(prod.slug, prod.mod_count)" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
                             </div>
                           </div>
                       </div>
@@ -81,7 +81,7 @@
                                             <!-- <h5>{{subProd.price_title}}</h5> -->
                                             <p>{{subProd.short_description}}</p>
                                           </div>
-                                          <div class="rightSection bottom"> <a (click)="goToCustomize(subProd.slug)" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
+                                          <div class="rightSection bottom"> <a (click)="goToCustomize(subProd.slug, subProd.mod_count)" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
                                         </div>
                                       </div>
                                     </div>
@@ -112,7 +112,7 @@
                                            <h5>{{prod.price_title}} </h5> 
                                           <p>{{prod.short_description}}</p>
                                         </div>
-                                        <div class="rightSection bottom"> <a (click)="goToCustomize(prod.slug)" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
+                                        <div class="rightSection bottom"> <a (click)="goToCustomize(prod.slug, prod.mod_count)" class="addBtn cta-btn"><span class="glyphicon glyphicon-plus"></span></a> </div>
                                       </div>
                                     </div>
                                   </div>
