@@ -36,6 +36,8 @@ import { ModsortPipe } from './modsort.pipe';
 
 import { DateRangePickDirective } from './date-range-pick.directive';
 import { ApplynowComponent } from './applynow/applynow.component';
+import { TermsComponent } from './terms/terms.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { ApplynowComponent } from './applynow/applynow.component';
     RegisterConfirmationComponent,
     ModsortPipe,
     DateRangePickDirective,
-    ApplynowComponent
+    ApplynowComponent,
+    TermsComponent,
+    PrivacyComponent
   ],
   imports: [
     BrowserModule,

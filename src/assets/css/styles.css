@@ -3032,6 +3032,8 @@ color:#fff
 .stepboxes .radio_tabs li input:checked + small{background: url(../images/radio-button.png) no-repeat 0 -23px;}
 .stepboxes .radio_tabs li small{ display: inline-block; vertical-align: top; width: 23px; height: 23px; background: url(../images/radio-button.png) no-repeat 0 0;}
 
+.terms{margin: 50px 0;}
+
 .dottedlist_box{ background: #f4f4f4; padding: 10px 15px 20px;}
 .dottedlist_box .coupan_box{ margin: 10px 0}
 .dottedlist_box .coupan_box input[type="submit"]{ font-size: 16px; line-height: 20px; color: #fff; font-family: 'proxima_nova_ltlight'; background: #911c27; border: 0; border-bottom: 2px solid #4f050c; width: 100px; text-align: center; height: 35px; border-radius: 3px; float: right;}
