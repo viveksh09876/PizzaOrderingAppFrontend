@@ -25,6 +25,7 @@ export class ContactUsComponent extends DialogComponent<ContactUsModel, null> im
   error = { show:false, isSuccess:false, message: ''};
   storeList = [];
 	userCountryName = '';
+  userCountryCode = '';
   
   ngOnInit() {
     this.getUserIp();
@@ -34,10 +35,14 @@ export class ContactUsComponent extends DialogComponent<ContactUsModel, null> im
     this.dataService.getIp()
           .subscribe(data => {
               this.userCountryName = data.geoplugin_countryName;
+              this.userCountryCode = data.geoplugin_countryCode;
+              if(this.userCountryCode=='AE'){
+                this.userCountryName = 'UAE';
+              }
 							this.getStores(this.userCountryName);
           });
   }
-
+  
 	getStores(CountryName) {
     if(CountryName.length > 0) {
       this.dataService.getCountryStore(CountryName)

@@ -229,7 +229,7 @@
                   <div class="form-group">
                     <label class="col-sm-4 col-md-3 control-label">Phone Number</label>
                     <div class="col-sm-7 col-md-7">
-                      <input type="text" class="form-control" [(ngModel)]="user.phone" id="phone" #phone="ngModel" name="user.phone" placeholder="Enter Mobile">
+                      <input type="text" class="form-control" [(ngModel)]="user.phone" id="phone" #phone="ngModel" name="user.phone" placeholder="Enter Mobile" maxlength="15">
                     </div>
                   </div>
                   <div class="form-group">
@@ -403,7 +403,7 @@
                       </div>
                       <div class="col-md-6 col-sm-12">
                           <div class="form-group">
-                              <input class="form-control" maxlength="12" placeholder="Phone" type="text" id="phone" #phone="ngModel" name="address.phone" [(ngModel)]="address.phone">
+                              <input class="form-control" maxlength="15" placeholder="Phone" type="text" id="phone" #phone="ngModel" name="address.phone" [(ngModel)]="address.phone">
                           </div>
                       </div>
                       <div class="form-group buttons">

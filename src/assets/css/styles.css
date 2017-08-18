@@ -2051,7 +2051,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 .two-column-wrapper .inside-column-container.aside-wrapper.orderProcessIns h3 {
 	font-size: 1.5em;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	padding: 0.95rem 1em
 }
 

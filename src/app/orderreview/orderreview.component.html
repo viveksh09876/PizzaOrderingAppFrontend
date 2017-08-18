@@ -115,7 +115,7 @@
 
             <div class="col-md-12 col-sm-12">
                 <div class="form-group">
-                    <input class="form-control" placeholder="Mobile number*" name="phone" type="text" [(ngModel)]="order.user.phone" id="phone" #phone="ngModel" maxlength="12" required number autocomplete="off">
+                    <input class="form-control" placeholder="Mobile number*" name="phone" type="text" [(ngModel)]="order.user.phone" id="phone" #phone="ngModel" maxlength="15" required number autocomplete="off">
                     <div *ngIf="phone.errors && (phone.dirty || phone.touched)" class="alert alert-danger">
                         <div [hidden]="!phone.errors.required">Valid mobile number is required.</div>
                         <div [hidden]="!phone.errors.number">Invalid phone number.</div>
