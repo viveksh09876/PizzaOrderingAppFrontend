@@ -200,11 +200,13 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
     this.showStoreLoading = true;
     this.dataService.getStoreList(cityVal)
           .subscribe(data => {                    
-                    this.storeList = data;   
+                    this.storeList = data;
+                    this.selectedStore.val = data[0].Store.id;
+                    this.setSelectedStore(data[0].Store.id);
                     this.showStoreLoading = false;                 
                 }); 
   }
-
+  
   getStoresFromPostalCode(postal_code) {
     this.showStoreLoading = true;
     this.dataService.getStoresFromPostalCode(postal_code)
