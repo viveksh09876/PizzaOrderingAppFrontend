@@ -257,16 +257,17 @@ export class AccountComponent implements OnInit {
     this.showLoading = true;
     this.errorAddress = { show:false, isSuccess:false, message: ''};
     this.address = {
-        address_type: 'Home',
+        address_type: this.user.defaultAddress.address_type,
         is_default:0,
-        firstname : '',
-        lastname: '',
-        apartment:'',
-        streetNo:'',
-        street:'',
-        city:'',
-        state:'',
-        postal_code:'',
+        firstname : this.user.defaultAddress.firstname,
+        lastname: this.user.defaultAddress.lastname,
+        apartment:this.user.defaultAddress.apartment,
+        streetNo:this.user.defaultAddress.streetNo,
+        street:this.user.defaultAddress.street,
+        city:this.user.defaultAddress.city,
+        state:this.user.defaultAddress.state,
+        postal_code:this.user.defaultAddress.postal_code,
+        phone:this.user.defaultAddress.phone
     }
     this.showAddressForm = !this.showAddressForm;
     this.showLoading = false;
@@ -304,6 +305,47 @@ export class AccountComponent implements OnInit {
         }); 
     }
     this.showLoading = false;
+  }
+
+  updateLocalStorage(){
+    this.dataService.getProfile(this.user.id).subscribe(pdata => {
+      let user = {
+        id: pdata.Id,
+        firstName : pdata.FirstName,
+        lastName: pdata.LastName,
+        email: pdata.Email,
+        phone: pdata.Phone,
+        dob: pdata.DOB,
+        zip: pdata.PostalCode,
+        favloc: pdata.FavLocation,
+        defaultAddress: null
+      }
+
+      if (pdata.Address1 != '') {
+        let address = JSON.parse(pdata.Address1);
+        if (address.is_default == 1) {
+          user.defaultAddress = address;
+        }
+      }
+
+      if (pdata.Address2 != '') {
+        let address = JSON.parse(pdata.Address2);
+        if (address.is_default == 1) {
+          user.defaultAddress = address;
+        }
+      }
+
+      if (pdata.Address3 != '') {
+        let address = JSON.parse(pdata.Address3);
+        if (address.is_default == 1) {
+          user.defaultAddress = address;
+        }
+      }
+
+      this.dataService.setLocalStorageData('user-details', JSON.stringify(user));
+      this.dataService.setLocalStorageData('isLoggedIn', true);
+      window.location.reload();
+    }); 
   }
 
   editAddress(addressNo){
@@ -400,6 +442,7 @@ export class AccountComponent implements OnInit {
 
   setAsDefault(addressNo){
     this.showLoading = true;
+    this.showAddressForm = false;
     let userId = this.user.id;
     if(addressNo=='Address1'){
         this.address = {
@@ -421,6 +464,7 @@ export class AccountComponent implements OnInit {
         .subscribe(data => {
           if(data.isSuccess) {
             this.errorAddress = data;
+            this.updateLocalStorage();
               setTimeout(()=>{ 
                   this.goToTab('address');
               },3000);
