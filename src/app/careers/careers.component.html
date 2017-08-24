@@ -80,9 +80,9 @@
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group attachment">
                             <div class="file-attach">
-                                <input type="file" [(ngModel)]="career.resume" id="resume" #resume="ngModel" name="career.resume"><span>Attach Resume</span>
+                                <input type="file" [(ngModel)]="career.resume" id="resume" #resume="ngModel" name="career.resume" ngFileSelect [options]="options" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)"><span>Attach Resume</span>
                             </div>
-                            <input type="text" class="form-control">
+                            <input type="text" [(ngModel)]="career.attachment" id="attachment" #attachment="ngModel" name="career.attachment" class="form-control">
                         </div>
                     </div>
                 </div>

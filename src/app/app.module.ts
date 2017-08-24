@@ -6,6 +6,7 @@ import { routing } from './app.routing';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import { CustomFormsModule } from 'ng2-validation';
+import { Ng2UploaderModule } from 'ng2-uploader';
 
 import { DataService } from './data.service';
 import { UtilService } from './util.service';
@@ -78,7 +79,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
     BootstrapModalModule,
     JsonpModule,
     NguiDatetimePickerModule,
-    CustomFormsModule
+    CustomFormsModule,
+    Ng2UploaderModule
   ],
   entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent, RegisterConfirmationComponent, ApplynowComponent],
   schemas:  [CUSTOM_ELEMENTS_SCHEMA],
