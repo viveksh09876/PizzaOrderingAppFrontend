@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { RegisterComponent } from '../register/register.component';
+import { ForgotComponent } from '../forgot/forgot.component';
 import { MessageComponent } from '../message/message.component';
 import { OrdernowmodalComponent } from '../ordernowmodal/ordernowmodal.component';
 import { DataService } from '../data.service';
@@ -35,6 +36,8 @@ export class LoginComponent extends DialogComponent<LoginModal, null> {
       self.dialogService.addDialog(RegisterComponent, { callback: ''  }, { closeByClickingOutside:true }); 
      }else if(type == 'ordernow') {
       self.dialogService.addDialog(OrdernowmodalComponent, { }, { closeByClickingOutside:true });   
+     }else if(type == 'forgot'){
+      self.dialogService.addDialog(ForgotComponent, { callback: '' }, { closeByClickingOutside:true }); 
      }
        
   }

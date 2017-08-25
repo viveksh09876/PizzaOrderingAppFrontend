@@ -346,5 +346,14 @@ export class DataService {
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
 
   } 
+
+  forgotPassword(userData): Observable<any>{
+    var data = userData;
+    return this.http.post( this.domain + '/webservice/forgot_password', data)
+              .map((res: Response) => res.json())
+              .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  } 
   
 }
+
+

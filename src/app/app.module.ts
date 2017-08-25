@@ -39,6 +39,7 @@ import { DateRangePickDirective } from './date-range-pick.directive';
 import { ApplynowComponent } from './applynow/applynow.component';
 import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { ForgotComponent } from './forgot/forgot.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
     DateRangePickDirective,
     ApplynowComponent,
     TermsComponent,
-    PrivacyComponent
+    PrivacyComponent,
+    ForgotComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +84,7 @@ import { PrivacyComponent } from './privacy/privacy.component';
     CustomFormsModule,
     Ng2UploaderModule
   ],
-  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent, RegisterConfirmationComponent, ApplynowComponent],
+  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent, RegisterConfirmationComponent, ApplynowComponent, ForgotComponent],
   schemas:  [CUSTOM_ELEMENTS_SCHEMA],
   providers: [DataService, UtilService],
   bootstrap: [AppComponent]
