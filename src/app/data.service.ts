@@ -275,7 +275,17 @@ export class DataService {
         return this.http.post( this.domain + '/webservice/getFavOrderData', data)
                   .map((res: Response) => res.json())
                   .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
-  } 
+  }
+                
+  getReOrderData(orderData, menuCountry): Observable<any>{
+  if(menuCountry == null) {
+      menuCountry = 'UAE';
+    }
+        var data = { menuCountry: menuCountry, orderData: orderData };
+        return this.http.post( this.domain + '/webservice/getReOrderData', data)
+                  .map((res: Response) => res.json())
+                  .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
 
   getProfile(userId): Observable<any>{
 
