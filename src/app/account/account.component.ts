@@ -548,7 +548,26 @@ export class AccountComponent implements OnInit {
             this.router.navigate(['/order-review']);  
         });  
     //  
-  }  
+  }
+  
+  orderReOrder(itemData) {
+    this.showLoading = true;
+    this.dataService.setLocalStorageData('favOrdersFetched', JSON.stringify(itemData));
+    let menuCountry = 'UAE';
+    if(this.dataService.getLocalStorageData('menuCountry') != null && 
+            this.dataService.getLocalStorageData('menuCountry') != undefined) {
+          menuCountry = this.dataService.getLocalStorageData('menuCountry');    
+    }
+
+    this.dataService.getReOrderData(itemData, menuCountry)
+          .subscribe(data => {
+            //console.log('data', data);
+            this.dataService.setLocalStorageData('allItems', JSON.stringify(data));
+            this.showLoading = false;
+            this.router.navigate(['/order-review']);  
+        });  
+    //  
+  }
 
 
   openModal(type) {     

@@ -96,6 +96,7 @@
               <div class="panel-heading" role="tab" id="headingOne">
                 <h4 class="panel-title">
                   <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{i}}" aria-expanded="true" aria-controls="collapseOne">Order # {{ord.OrderId}} <span><i class="fa fa-check"></i>Order Date: {{ord.CreatedAt}}</span> <strong>Order Value : {{currencyCode}} {{ord.OrderDetail.total_price}}</strong><i class="fa fa-angle-down"></i></a>
+                  
                 </h4>
               </div>
               <div id="collapse_{{i}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
@@ -165,6 +166,9 @@
                           {{ord.OrderDetail.store.store_address}}<br/>
                           {{ord.OrderDetail.store.store_phone}}</li>
                       </ul>
+                        <h4 class="panel-title">
+                        <a class="ordernow" *ngIf="ord.OrderDetail.customData != undefined" (click)="orderReOrder(ord.OrderDetail.customData)">Re-Order</a>
+                        </h4>
                     </div>
                   </div>
                 </div>
