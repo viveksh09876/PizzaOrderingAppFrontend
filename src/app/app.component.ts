@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { OrdernowmodalComponent } from './ordernowmodal/ordernowmodal.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { ResetComponent } from './reset/reset.component';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { DataService } from './data.service';
 import { UtilService } from './util.service';
@@ -35,12 +36,20 @@ export class AppComponent implements OnInit {
               this.showFooter = true;
             } 
 
+            if(urlArr.indexOf('reset-password')> -1 ){
+              let loggedIn = this.dataService.getLocalStorageData('isLoggedIn');
+              if(!loggedIn){ 
+                this.dataService.setLocalStorageData('reset-email', urlArr[2]);
+                this.dataService.setLocalStorageData('reset-key', urlArr[3]);
+                this.openModal('reset');
+              }
+            }
+
             if(urlArr[1] == ''){
               this.showLocationTab = true;
             }else{
               this.showLocationTab = false;
             }
-            //console.log(urlArr);
           }
         });         
 
@@ -57,6 +66,8 @@ export class AppComponent implements OnInit {
       this.dialogService.addDialog(OrdernowmodalComponent, {  }, { closeByClickingOutside:true });
     }else if(type=='contact'){
       this.dialogService.addDialog(ContactUsComponent, {  }, { closeByClickingOutside:true });
+    }else if(type=='reset'){
+      this.dialogService.addDialog(ResetComponent, {  }, { closeByClickingOutside:true });
     }
     
   }

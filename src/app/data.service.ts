@@ -353,7 +353,13 @@ export class DataService {
               .map((res: Response) => res.json())
               .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   } 
-  
+
+  resetPassword(userData): Observable<any>{
+    var data = userData;
+    return this.http.post( this.domain + '/webservice/reset_password', data)
+              .map((res: Response) => res.json())
+              .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }  
 }
 
 

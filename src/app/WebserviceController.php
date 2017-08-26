@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		//Configure::write('debug', 2);
-        $this->Auth->allow(array('get_countries','get_categories','getPageInfo','getip','sendApplyInfo','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl', 'getStoreDetailsByStoreId','forgot_password'));
+        $this->Auth->allow(array('get_countries','get_categories','getPageInfo','getip','sendApplyInfo','get_languages','get_slides','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl', 'getStoreDetailsByStoreId','forgot_password','reset_password','getReOrderData'));
     }
 
 	public function get_countries(){
@@ -1484,7 +1484,8 @@ function sendCareerInfo(){
 				'pref'=>$qData,
 			);
 
-			$url = 'https://nkdpizza.com/beta/pos/index.php/Signup';
+			// $url = 'https://nkdpizza.com/beta/pos/index.php/Signup';
+			$url = APIURL."/index.php/Signup";
 			$result     = $this->curlPostRequest($url, $userData);
 			$response   = json_decode($result);
 			if($response->Status == 'OK') {
@@ -1535,7 +1536,7 @@ function sendCareerInfo(){
 	
 	public function curlPostRequest($url, $data) {
 		$content = json_encode($data);
-		$curl = curl_init($url);
+		$curl = curl_init($url); 
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HTTPHEADER,
@@ -1703,6 +1704,28 @@ function sendCareerInfo(){
 	}
 	
 	
+	public function getReOrderData() {
+		
+		$data = $this->request->input( 'json_decode', true) ;
+		$menuCountry = $data['menuCountry'];
+		$favOrderData = $data['orderData'];
+				
+		if(!empty($favOrderData)) {
+			$allItems = array();
+			if(!empty($favOrderData)) {				
+				foreach($favOrderData as $fd) {					
+					$item = $this->prepareFavResponse($fd['data'], $fd['data']['itemSlug'], $menuCountry);
+					//echo '<pre>'; print_r($item); die;
+					$item['totalItemCost'] = $fd['data']['totalItemCost'];
+					$allItems[] = $item;					
+				}				
+			}	 //die;		
+			echo json_encode($allItems); die;
+		}		
+		die;
+	}
+	
+	
 	public function getProfile($userId){
 		$this->layout = 'false';
 		$this->autoRender = false;
@@ -1738,7 +1761,11 @@ function sendCareerInfo(){
 												'Store.store_phone'
 											)	
 									));
-					$orders[$i]['OrderDetail']['store'] = $store['Store'];
+					
+					if (isset($store['Store'])) {
+						$orders[$i]['OrderDetail']['store'] = $store['Store'];	
+					}
+					
 					foreach($orders[$i]['OrderDetail']['order_details'] as $ordv){
 						
 						$pluCode = $ordv['plu'];
@@ -2159,10 +2186,24 @@ function sendCareerInfo(){
 	public function forgot_password(){
 		$this->layout = FALSE;
 		$this->autoRender = FALSE;
-		echo ' hiiii';
-		echo $userData = $this->request->input ( 'json_decode', true) ;	
-		print_r($userData);
-		die;
+	
+		$userData = $this->request->input ( 'json_decode', true);
+		$postData['emailid'] = $userData['useremail'];
+		$url = APIURL."/index.php/resetPasswordReq";
+		$result = $this->curlPostRequest($url, $postData);
+		echo $result;
+	}
+
+	public function reset_password(){
+		$this->layout = FALSE;
+		$this->autoRender = FALSE;
+		$userData = $this->request->input ( 'json_decode', true);
+		$postData['newpwd'] = $userData['password'];
+		$postData['emailid'] = $userData['email'];
+		$postData['resetid'] = $userData['key'];
+		$url = APIURL."/index.php/resetPassword";
+		$result = $this->curlPostRequest($url, $postData);
+		echo $result;
 	}
 	
 }

@@ -40,6 +40,7 @@ import { ApplynowComponent } from './applynow/applynow.component';
 import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { ForgotComponent } from './forgot/forgot.component';
+import { ResetComponent } from './reset/reset.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { ForgotComponent } from './forgot/forgot.component';
     ApplynowComponent,
     TermsComponent,
     PrivacyComponent,
-    ForgotComponent
+    ForgotComponent,
+    ResetComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +86,7 @@ import { ForgotComponent } from './forgot/forgot.component';
     CustomFormsModule,
     Ng2UploaderModule
   ],
-  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent, RegisterConfirmationComponent, ApplynowComponent, ForgotComponent],
+  entryComponents: [LoginComponent, RegisterComponent, OrdernowmodalComponent, MessageComponent, FavmodalComponent, ContactUsComponent, RegisterConfirmationComponent, ApplynowComponent, ForgotComponent, ResetComponent],
   schemas:  [CUSTOM_ELEMENTS_SCHEMA],
   providers: [DataService, UtilService],
   bootstrap: [AppComponent]

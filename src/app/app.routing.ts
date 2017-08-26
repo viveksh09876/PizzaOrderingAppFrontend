@@ -18,6 +18,7 @@ import { PrivacyComponent } from './privacy/privacy.component';
 
 const appRoutes: Routes = [ 
     { path: '', component: HomeComponent },
+    { path: 'reset-password/:email/:key', component: HomeComponent },
     { path: 'menu/:slug', component: MenuComponent },
     { path: 'menu', component: MenuComponent },
     { path: 'item/:slug', component: ItemComponent },

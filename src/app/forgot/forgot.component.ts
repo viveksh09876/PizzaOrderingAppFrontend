@@ -11,27 +11,26 @@ export class ForgotComponent extends DialogComponent<ForgotModal, null>  {
 
   constructor(dialogService: DialogService, private dataService: DataService) { super(dialogService); }
 
-  user = {
-    useremail:''
-  };
-
+  user = {useremail:''};
   showLoading = false;
-  error = { show: false, message: 'User does not exists!'};
+  error = { show: false, message: '', isSuccess:false};
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {  }
 
   forgotPassword(){
     this.showLoading = true;
-    // console.log(this.user.useremail);
     this.dataService.forgotPassword(this.user)
     .subscribe(data => {
       if(data.Status == 'Error') {
         this.error.show = true;
+        this.error.isSuccess = false;
+        this.error.message = data.Message;
       }else if(data.Status == 'OK') {
-
+        this.error.show = true;
+        this.error.isSuccess = true;
+        this.error.message = data.Message;
       }
+      this.showLoading = false;
     });
   }
 

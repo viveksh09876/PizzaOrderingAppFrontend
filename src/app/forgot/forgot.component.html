@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-12 signin">
                 <h3>forgot your password?</h3>
-                <p class="text-danger" *ngIf="error.show == true">{{error.message}}<p>
+                <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
                   <form #forgotForm="ngForm" ngForm (ngSubmit)="forgotPassword()">
                     <div class="form-group">
                     <p>Enter your email addres below and we'll send you a link to reset your password.</p>
@@ -23,7 +23,8 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <button type="submit" [disabled]="!forgotForm.form.valid" class="btn btn-default btn-block">Submit</button>
+                    <button type="submit" [disabled]="!forgotForm.form.valid" [disabled]="showLoading" class="btn btn-default btn-block">Send Reset Link</button>
+                    <ng-container *ngIf="showLoading"><div class="loader"><p>Please wait...</p></div></ng-container>
                   </div>
                 </form>
             </div>    
