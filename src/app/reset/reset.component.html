@@ -6,8 +6,8 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-12 signin">
-                <h3>reset password</h3>
+            <div class="col-md-12 signin forgotfeild text-center">
+                <h4>reset password</h4>
                 <p class="alert" [ngClass]="{'alert-success': error.isSuccess, 'alert-danger': !error.isSuccess}" *ngIf="error.show == true">{{error.message}}<p>
                   <form #resetForm="ngForm" ngForm (ngSubmit)="resetPassword()">
                     <div class="form-group">
@@ -25,7 +25,7 @@
                       </p>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group submit-btn">
                     <button type="submit" [disabled]="!resetForm.form.valid" [disabled]="showLoading" class="btn btn-default btn-block">Reset Password</button>
                     <ng-container *ngIf="showLoading"><div class="loader"><p>Please wait...</p></div></ng-container>
                   </div>

@@ -123,6 +123,7 @@ body {
 }
 
 @media (max-width: 767px) {
+	.forgotfeild{margin: 0 auto; width: 100%; float: none;}
 	.slider-wrapper .slides .slide{background-size: cover;}
 	.slider-wrapper .slides .slide .container .slide-content img{width: 50%;}
 	.modal-dialog{margin:12% 20px !important;}
@@ -1488,7 +1489,7 @@ button.close {
     right: -15px;
 }
 button.close:hover,button.close:focus{opacity: 1;}
-#signinModal .modal-dialog {
+#signinModal .modal-dialog,#forgotModal  .modal-dialog{
 	margin-top: 8%;
 }
 #signinModal .col-md-6 {
@@ -3435,3 +3436,34 @@ color:#fff
     .address_box{ margin-bottom: 20px;}
     
 }
+
+
+.forgotfeild{margin: 0px auto; width: 50%; float: none;}
+.forgotfeild form{border:1px solid #e9e9e9; margin: 10px 0;}
+.forgotfeild form .form-group{padding: 10px 30px;}
+.forgotfeild form .form-group input{margin: 10px 0 0 0;}
+.forgotfeild form .form-group.submit-btn{background: #f4f4f4; display: block; margin-bottom: 0px;}
+.forgotfeild form .form-group.submit-btn button{font-size: 18px;
+    border: none;
+    line-height: 29px;
+    padding: 5px;
+    display: inline-block;
+    width: 100%;
+    background: #911c27;
+    text-align: center;
+    border-radius: 3px;
+    border-bottom: 2px solid #4f050c;
+    color: #fff;
+    font-family: 'proxima_nova_ltsemibold';}
+
+
+  .forgotfeild form .form-group.submit-btn .loader p{margin-top: 5%;}
+ #forgotModal .modal-dialog .alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 5px 0 5px 10px;
+    text-align: left;
+    position: static;
+}
+ #forgotModal .modal-dialog .alert-success{padding: 5px 0 5px 10px; text-align: left;}
