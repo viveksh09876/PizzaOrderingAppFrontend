@@ -100,15 +100,6 @@ export class OrderreviewComponent implements OnInit {
     this.getItems();
     this.updateUserDetails();
     this.order.storeId = '1';
-    console.log();
-
-    // for(var i=0; i<24; i++) {
-    //   let hrVal = (i+1).toString();
-    //   if(i < 9) {
-    //     hrVal = '0' + hrVal.toString();
-    //   }
-    //   this.hours.push(hrVal)
-    // }
     
     let uCountry = this.dataService.getLocalStorageData('userCountry');
     if (uCountry != undefined && uCountry != null && uCountry != '') {
@@ -121,44 +112,60 @@ export class OrderreviewComponent implements OnInit {
     this.dataService.setLocalStorageData('confirmationItems', null); 
     this.dataService.setLocalStorageData('confirmationFinalOrder', null);
 
-    
+    let reOrderData = this.dataService.getLocalStorageData('reOrderData');
+    if(reOrderData != null && reOrderData != 'null') {
 
-    let orderDetailsData = this.dataService.getLocalStorageData('order-now');
-    if(orderDetailsData != null && orderDetailsData != 'null') {
-      let orderDetails = JSON.parse(orderDetailsData);
-      
-      this.order.order_type = orderDetails.type;
+      reOrderData = JSON.parse(reOrderData);
+      this.order.order_type = reOrderData['order_type'];
+      this.order.delivery_time_type = reOrderData['delivery_time_type'];
+      this.order.storeId = reOrderData['storeId'];
 
-      this.order.delivery_time = orderDetails.delivery_time;
-      this.order.delivery_time_type = orderDetails.delivery_time_type;
-      
-      this.pickerOptions.startDate = new Date(this.order.delivery_time);
-      
-      this.order.address = orderDetails.address;
-      
-      if(this.order.order_type == 'delivery') {
-        this.totalCost += 6;
+      if (reOrderData['address'] != undefined) {
+        this.order.address = reOrderData['address']; 
+        this.order.address.streetNo = this.order.address.street_no;     
       }
 
-      if (orderDetails.selectedStore != undefined && orderDetails.selectedStore.Store.id != undefined) {
-        this.order.storeId = orderDetails.selectedStore.Store.store_id;
-        this.getStoreDetails(orderDetails.selectedStore.Store.id);
-      } else if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
-            this.dataService.getLocalStorageData('nearByStore') != '') { 
-
-          this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
-          //this.order.storeId = 'Marina';
-      }
-
+      let curDateTime = this.utilService.formatDate(this.utilService.getNowDateTime(35));
+      this.order.delivery_time = curDateTime;
+      this.dataService.setLocalStorageData('reOrderData', null);
 
     } else {
-      if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
+    
+      let orderDetailsData = this.dataService.getLocalStorageData('order-now');
+      if(orderDetailsData != null && orderDetailsData != 'null') {
+        
+        let orderDetails = JSON.parse(orderDetailsData);  
+        this.order.order_type = orderDetails.type;
+        this.order.delivery_time = orderDetails.delivery_time;
+        this.order.delivery_time_type = orderDetails.delivery_time_type;
+        this.pickerOptions.startDate = new Date(this.order.delivery_time);
+        this.order.address = orderDetails.address;
+        
+        if (orderDetails.selectedStore != undefined && orderDetails.selectedStore.Store.id != undefined) {
+          this.order.storeId = orderDetails.selectedStore.Store.store_id;
+          this.getStoreDetails(orderDetails.selectedStore.Store.id);
+        } else if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
             this.dataService.getLocalStorageData('nearByStore') != '') { 
+            this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
+            //this.order.storeId = 'Marina';
+        }
 
-          this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
-          //this.order.storeId = 'Marina';
+      } else {
+
+        if(this.dataService.getLocalStorageData('nearByStore') != undefined && 
+              this.dataService.getLocalStorageData('nearByStore') != '') { 
+
+            this.order.storeId = this.dataService.getLocalStorageData('nearByStore'); 
+            //this.order.storeId = 'Marina';
+        }
+      }
+      
+      if(this.order.order_type == 'delivery') {
+         this.totalCost += 6;
       }
     }
+
+
     
     //console.log(this.order);
   }

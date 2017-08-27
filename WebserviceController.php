@@ -1536,7 +1536,7 @@ function sendCareerInfo(){
 	
 	public function curlPostRequest($url, $data) {
 		$content = json_encode($data);
-		$curl = curl_init($url);
+		$curl = curl_init($url); 
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HTTPHEADER,
@@ -1752,7 +1752,7 @@ function sendCareerInfo(){
 					
 					$store = $this->Store->find('first', array(
 											'conditions' => array(
-												'Store.id' => $orders[$i]['OrderDetail']['storeId']
+												'Store.store_id' => $orders[$i]['OrderDetail']['storeId']
 											),
 											'fields' => array(
 												'Store.store_id',
@@ -2197,12 +2197,10 @@ function sendCareerInfo(){
 	public function reset_password(){
 		$this->layout = FALSE;
 		$this->autoRender = FALSE;
-		Configure::write('debug', 2);
 		$userData = $this->request->input ( 'json_decode', true);
-		// $postData['newpwd'] = $userData['password'];
-		$postData['newpwd'] = '124';
-		$postData['emailid'] = 'rajput.pushpendra61@gmail.com';
-		$postData['resetid'] = '26597ee22bb1936294aeb2a0b68dc512';
+		$postData['newpwd'] = $userData['password'];
+		$postData['emailid'] = $userData['email'];
+		$postData['resetid'] = $userData['key'];
 		$url = APIURL."/index.php/resetPassword";
 		$result = $this->curlPostRequest($url, $postData);
 		echo $result;

@@ -113,37 +113,38 @@
                                   </tr>
                               </thead>
                               <tbody>
-                                  <ng-container *ngFor="let prod of ord.OrderDetail.order_details">
+                                  <ng-container *ngFor="let prod of ord.OrderDetail.customData">
                                     <tr>
                                         <td>
-                                            <h4>{{prod.name}}</h4>
-                                            <ng-container *ngFor="let mod of prod.modifier">
+                                            <h4>{{prod.data.itemName}}</h4>
+                                            <ng-container *ngFor="let mod of prod.data.modifiers">
 
-                                              <ng-container *ngIf="mod.modifier_type == 'modifier'">
-                                                <p>
-                                                  <ng-container *ngIf="mod.plu == '999991' || mod.plu == '999992' || mod.plu == '999993'">
-                                                    <span>Size: </span>
-                                                  </ng-container>
-                                                  <ng-container *ngIf="mod.plu == '91' || mod.plu == 'I100' || mod.plu == 'I101'">
-                                                    <span>Crust: </span>
-                                                  </ng-container>
-                                                  <ng-container *ngIf="mod.plu != '91' && mod.plu != 'I100' && mod.plu != 'I101' && mod.plu != '999991' && mod.plu != '999992' && mod.plu != '999993'">add </ng-container>
-                                                  {{mod.modifier_name}}
-                                                  <ng-container *ngIf="mod.add_extra"> (extra)</ng-container> 
-                                                </p>
-                                              </ng-container>
+                                              <ng-container *ngIf="mod.option.length > 0">
+                                                <ng-container *ngIf="mod.option[0].is_included_mod == false">
+                                                  <p>
+                                                    <ng-container *ngIf="mod.option[0].plu_code == '999991' || mod.option[0].plu_code == '999992' || mod.option[0].plu_code == '999993'">
+                                                      <span>Size: </span>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="mod.option[0].plu_code == '91' || mod.option[0].plu_code == 'I100' || mod.option[0].plu_code == 'I101'">
+                                                      <span>Crust: </span>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="mod.option[0].plu_code != '91' && mod.option[0].plu_code != 'I100' && mod.option[0].plu_code != 'I101' && mod.option[0].plu_code != '999991' && mod.option[0].plu_code != '999992' && mod.option[0].plu_code != '999993'">add </ng-container>
+                                                    {{mod.option[0].name}}
+                                                    <ng-container *ngIf="mod.option[0].add_extra == true"> (extra)</ng-container> 
+                                                  </p>
+                                                </ng-container>
 
-                                              <ng-container *ngIf="mod.modifier_type == 'included_modifier'">
-                                                <p>
-                                                  <ng-container *ngIf="mod.type == 0">no </ng-container>
-                                                  {{mod.modifier_name}}
-                                                  <ng-container *ngIf="mod.add_extra"> (extra)</ng-container>  
-                                                </p>
-                                              </ng-container>                                                
+                                                <ng-container *ngIf="mod.option[0].is_included_mod == true">
+                                                  <p>
+                                                    <ng-container *ngIf="mod.option[0].is_checked == false">no </ng-container>
+                                                    {{mod.option[0].name}}
+                                                    <ng-container *ngIf="mod.option[0].add_extra == true"> (extra)</ng-container>  
+                                                  </p>
+                                                </ng-container>                                              </ng-container>  
                                             </ng-container>                                            
                                         </td>
-                                        <td>{{prod.quantity}}</td>
-                                        <td>{{currencyCode}} {{prod.price}}</td>
+                                        <td>{{prod.data.qty}}</td>
+                                        <td>{{currencyCode}} {{prod.data.totalItemCost}}</td>
                                     </tr>
                                   </ng-container>
                               </tbody>
@@ -167,7 +168,7 @@
                           {{ord.OrderDetail.store.store_phone}}</li>
                       </ul>
                         <h4 class="panel-title">
-                        <a class="ordernow" *ngIf="ord.OrderDetail.customData != undefined" (click)="orderReOrder(ord.OrderDetail.customData)">Re-Order</a>
+                        <a class="ordernow" *ngIf="ord.OrderDetail.customData != undefined" (click)="orderReOrder(ord)">Re-Order</a>
                         </h4>
                     </div>
                   </div>

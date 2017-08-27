@@ -242,7 +242,7 @@ export class AccountComponent implements OnInit {
     this.prefrence.form = 3;
     this.prefrence.id = this.user.id;
     this.prefrence.question = this.prefreces;
-    console.log(this.prefrence);
+    
     this.dataService.updatePrefrence(this.prefrence).subscribe(data => {
      if(data.isSuccess) {
         this.error = data;
@@ -550,8 +550,21 @@ export class AccountComponent implements OnInit {
     //  
   }
   
-  orderReOrder(itemData) {
+  orderReOrder(orderData) {
     this.showLoading = true;
+    let itemData = orderData.OrderDetail.customData;
+
+    let deliveryObj = {
+      storeId: orderData.OrderDetail.storeId,
+      order_type: orderData.OrderDetail.order_type,
+      delivery_time: orderData.OrderDetail.delivery_time,
+      delivery_time_type: orderData.OrderDetail.delivery_time_type
+    }
+
+    if (orderData.OrderDetail.address != undefined) {
+      deliveryObj['address'] = orderData.OrderDetail.address;
+    }
+    
     this.dataService.setLocalStorageData('favOrdersFetched', JSON.stringify(itemData));
     let menuCountry = 'UAE';
     if(this.dataService.getLocalStorageData('menuCountry') != null && 
@@ -561,7 +574,7 @@ export class AccountComponent implements OnInit {
 
     this.dataService.getReOrderData(itemData, menuCountry)
           .subscribe(data => {
-            //console.log('data', data);
+            this.dataService.setLocalStorageData('reOrderData', JSON.stringify(deliveryObj));
             this.dataService.setLocalStorageData('allItems', JSON.stringify(data));
             this.showLoading = false;
             this.router.navigate(['/order-review']);  
