@@ -58,7 +58,7 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
       'singleDatePicker': true,
 			'minDate': new Date('01-01-1940'),
 			'maxDate': new Date('01-01' + this.maxDate),
-			"startDate":  '-01-01' + (this.maxDate -1),
+			"startDate":  '01-01' + (this.maxDate -1),
       'autoUpdateInput': true,
       locale: {
               format: 'DD-MM-YYYY'
