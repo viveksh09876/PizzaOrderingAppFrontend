@@ -38,7 +38,8 @@ export class AppComponent implements OnInit {
 
             if(urlArr.indexOf('reset-password')> -1 ){
               let loggedIn = this.dataService.getLocalStorageData('isLoggedIn');
-              if(!loggedIn){ 
+              if(!loggedIn){
+                urlArr[2] = urlArr[2].replace('%40','@'); 
                 this.dataService.setLocalStorageData('reset-email', urlArr[2]);
                 this.dataService.setLocalStorageData('reset-key', urlArr[3]);
                 this.openModal('reset');

@@ -1150,7 +1150,8 @@ header.navigation{z-index: 9999;}
 	font-family: "bureaueaglebookregular";
 	color: #789c48;
 	text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-	display: inline-block
+	display: inline-block;
+	text-transform: lowercase;
 }
 .banner-wrapper h1 span {
 	color: #fff;
@@ -3439,6 +3440,7 @@ color:#fff
 
 
 .forgotfeild{margin: 0px auto; width: 50%; float: none;}
+.forgotfeild h4{color: #911c28}
 .forgotfeild form{border:1px solid #e9e9e9; margin: 10px 0;}
 .forgotfeild form .form-group{padding: 10px 30px;}
 .forgotfeild form .form-group input{margin: 10px 0 0 0;}
@@ -3458,7 +3460,7 @@ color:#fff
 
 
   .forgotfeild form .form-group.submit-btn .loader p{margin-top: 5%;}
- #forgotModal .modal-dialog .alert-danger {
+ #forgotModal .modal-dialog .alert-danger, #resetModal .modal-dialog .alert-danger {
     color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
@@ -3466,4 +3468,4 @@ color:#fff
     text-align: left;
     position: static;
 }
- #forgotModal .modal-dialog .alert-success{padding: 5px 0 5px 10px; text-align: left;}
+ #forgotModal .modal-dialog .alert-success,#resetModal .modal-dialog .alert-success{padding: 5px 0 5px 10px; text-align: left;}

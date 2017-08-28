@@ -20,11 +20,11 @@ export class DateRangePickDirective {
   dateCallback(start, end, label) {
     let message = `
       New date range selected:
-      ${start.format('YYYY-MM-DD')} to ${end.format('YYYY-MM-DD')}
+      ${start.format('DD-MM-YYYY')} to ${end.format('DD-MM-YYYY')}
       (predefined range: ${label})
     `;
-    this.dateRange.startDate=start.format('YYYY-MM-DD');
-    this.dateRange.endDate=end.format('YYYY-MM-DD');
+    this.dateRange.startDate=start.format('DD-MM-YYYY');
+    this.dateRange.endDate=end.format('DD-MM-YYYY');
     this.selected.emit(this.dateRange);
   }
 }

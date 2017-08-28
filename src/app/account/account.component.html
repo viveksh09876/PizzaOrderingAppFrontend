@@ -215,7 +215,7 @@
                                         #dob="ngModel"
                                         name="dob"
                                         (selected)="dateSelected($event)"
-                                        placeholder="yyyy-mm-dd"
+                                        placeholder="dd-mm-yyyy"
                                         [(ngModel)]="user.dob"
                                         [options]="pickerOptions" type="text"
                                         class="form-control" required autocomplete="off" readonly/>
@@ -226,9 +226,9 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-4 col-md-3 control-label">zip code (us only)</label>
+                    <label class="col-sm-4 col-md-3 control-label">Postal Code</label>
                     <div class="col-sm-7 col-md-7">
-                      <input type="text" class="form-control" [(ngModel)]="user.postal" name="postal" placeholder="Zip code">
+                      <input type="text" class="form-control" [(ngModel)]="user.postal" name="postal" placeholder="Postal Code">
                     </div>
                   </div>
                   <div class="form-group">

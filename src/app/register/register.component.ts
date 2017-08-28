@@ -56,12 +56,12 @@ export class RegisterComponent extends DialogComponent<RegisterModal, null> {
 	pickerOptions: Object = {
       'showDropdowns': true,
       'singleDatePicker': true,
-			'minDate': new Date('1940-01-01'),
-			'maxDate': new Date(this.maxDate + '-01-01'),
-			"startDate": (this.maxDate -1) + '-01-01',
+			'minDate': new Date('01-01-1940'),
+			'maxDate': new Date('01-01' + this.maxDate),
+			"startDate":  '-01-01' + (this.maxDate -1),
       'autoUpdateInput': true,
       locale: {
-              format: 'YYYY-MM-DD'
+              format: 'DD-MM-YYYY'
           }
     };
 
