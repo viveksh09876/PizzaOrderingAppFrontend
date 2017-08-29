@@ -1211,9 +1211,12 @@ class WebserviceController extends AppController {
 	    foreach($fb_feed["data"] as $f)
 	    {
 		    $id_arr = explode("_", $f["id"]);
-
+			$m = '';
+			if (isset($f["message"])) {
+				$m = $f["message"];
+			}
 		    $feed = array(
-			                "message" => $f["message"],
+			                "message" => $m,
 			                "image" => 'https://graph.facebook.com/' . $id_arr[1] . '/picture'
 	                    );
 
@@ -1459,7 +1462,7 @@ function sendCareerInfo(){
 			$qId = $val['Question']['id'];
 			$valNew = $val['QuestionOption'];
 			foreach($valNew as $key=>$v):
-				if($v['checked']){
+				if(isset($v['checked']) && $v['checked']){
 					$qData[$qId][] = $v['id'];
 				}
 			endforeach;
@@ -1731,7 +1734,7 @@ function sendCareerInfo(){
 		$this->autoRender = false;
 
 		$result = array();
-		$resp = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/getProfile/'.$userId);
+		$resp = $this->curlGetRequest('https://nkdpizza.com/pos/index.php/getProfile/'.$userId);
 		$result = json_decode($resp, true);
 		echo json_encode($result);
 	    die;
@@ -2199,7 +2202,7 @@ function sendCareerInfo(){
 		$this->autoRender = FALSE;
 		$userData = $this->request->input ( 'json_decode', true);
 		$postData['newpwd'] = $userData['password'];
-		$postData['emailid'] = $userData['email'];
+		$postData['emailid'] = urldecode($userData['email']);
 		$postData['resetid'] = $userData['key'];
 		$url = APIURL."/index.php/resetPassword";
 		$result = $this->curlPostRequest($url, $postData);

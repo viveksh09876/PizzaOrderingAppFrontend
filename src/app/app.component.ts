@@ -59,6 +59,12 @@ export class AppComponent implements OnInit {
   
   showLogin = true;
   orderUrl = '';
+  hideForUK = false;
+  followUsLinks = {
+    fb: 'https://www.facebook.com/nkdpizza/',
+    twitter: 'https://twitter.com/NKDPizza',
+    instagram: 'https://www.instagram.com/nkdpizza/'
+  }
 
   openModal(type) {
     if(type == 'login') {
@@ -98,6 +104,19 @@ export class AppComponent implements OnInit {
 
             if(countryName.toLowerCase() == 'bahrain'){
               this.orderUrl = 'http://www.nkdpizza.com/order-bh.html';
+              this.followUsLinks = {
+                fb: 'https://www.facebook.com/nkdpizzabh/',
+                twitter: 'https://twitter.com/NKDPizzabh',
+                instagram: 'https://www.instagram.com/nkdpizzabh/'
+              }
+            } else if (countryName.toLowerCase() == 'united kingdom') {
+              this.followUsLinks = {
+                fb: 'https://www.facebook.com/NKDPizzaScotland/',
+                twitter: 'https://twitter.com/nkdscotland',
+                instagram: 'https://www.instagram.com/nkdpizzascotland/'
+              }
+              this.orderUrl = '';
+              this.hideForUK = true;
             }else{
               this.orderUrl = '';
             }
@@ -105,7 +124,7 @@ export class AppComponent implements OnInit {
             countryName = this.utilService.formatCountryName(countryName);
             this.dataService.setLocalStorageData('userCountry', countryName);
             this.dataService.setLocalStorageData('userCountryCode', userCountryCode);
-        })
+        });
 
       // jQuery("header.navigation ul.links li a").on('click', function(event) {
       //  if (this.hash !== "") {
@@ -128,7 +147,7 @@ export class AppComponent implements OnInit {
 
   logout(){
     this.dataService.clearLocalStorageData();
-    window.location.href = '/beta/';
+    window.location.href = '/';
     window.location.reload();
   }
 

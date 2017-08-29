@@ -60,31 +60,45 @@ export class AccountComponent implements OnInit {
         }
   };
 
+  orderUrl = '';
+  hideForUK = false;
+
 
   ngOnInit() {
     
+    
     let isLoggedIn = this.dataService.getLocalStorageData('isLoggedIn');
     if(isLoggedIn == undefined || isLoggedIn == 'false') {
-      window.location.href = '/beta';
+      window.location.href = '/';
       // window.location.reload();
     }else{
+      
       this.currencyCode = this.utilService.currencyCode;
       let user = JSON.parse(this.dataService.getLocalStorageData('user-details'));
       this.user = user;
       this.name = user.firstName + ' ' + user.lastName; 
-      this.getFavItems(user.id);
+      this.getUserIp();
     } 
-
-
-    this.getUserIp();
-
   }
 
   getUserIp() {
     this.dataService.getIp()
           .subscribe(data => {
-              this.userCountryName = data.geoplugin_countryName;
-              this.getStores(this.userCountryName);
+            let countryName = data.geoplugin_countryName;
+            if(countryName.toLowerCase() == 'bahrain'){
+              this.orderUrl = 'http://www.nkdpizza.com/order-bh.html';
+              this.goToTab('personalInfo');
+            }else if (countryName.toLowerCase() == 'united kingdom'){
+              this.orderUrl = '';
+              this.hideForUK = true;
+              this.goToTab('personalInfo');
+            } else {
+              this.orderUrl = '';
+              this.getFavItems(this.user.id);
+            }
+            
+            this.userCountryName = data.geoplugin_countryName;
+            this.getStores(this.userCountryName);
           });
   }
 
@@ -160,17 +174,25 @@ export class AccountComponent implements OnInit {
       this.showAddressForm = false;
       let userId = this.user.id;
       this.dataService.getProfile(userId).subscribe(pdata => {
-        this.addressArr = {
-          address1 :(pdata.Address1!='')?JSON.parse(pdata.Address1):'',
-          address2 :(pdata.Address2!='')?JSON.parse(pdata.Address2):'',
-          address3 :(pdata.Address3!='')?JSON.parse(pdata.Address3):'',
-        };
-        for (var key in this.addressArr) {
-          if(this.addressArr.hasOwnProperty(key) && this.addressArr[key]!=''){
-            this.totalNoOfAddress++;
+
+        if (pdata.Status != 'Error') {
+          this.addressArr = {
+            address1 :(pdata.Address1!='')?JSON.parse(pdata.Address1):'',
+            address2 :(pdata.Address2!='')?JSON.parse(pdata.Address2):'',
+            address3 :(pdata.Address3!='')?JSON.parse(pdata.Address3):'',
+          };
+          for (var key in this.addressArr) {
+            if(this.addressArr.hasOwnProperty(key) && this.addressArr[key]!=''){
+              this.totalNoOfAddress++;
+            }
           }
+
+          this.error = { show:false, isSuccess:false, message: ''};
+        } else {
+          this.error = { show:true, isSuccess:false, message: pdata.Message};
         }
-        this.error = { show:false, isSuccess:false, message: ''};
+        
+        
         this.showLoading = false;
       });
     }

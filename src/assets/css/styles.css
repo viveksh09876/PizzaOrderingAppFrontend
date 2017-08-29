@@ -11,6 +11,14 @@ body, html {
   background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
+iframe[name='google_conversion_frame'] { 
+    height: 0 !important;
+    width: 0 !important; 
+    line-height: 0 !important; 
+    font-size: 0 !important;
+    margin-top: -13px;
+    float: left;
+}
 
 .daterangepicker.dropdown-menu{z-index: 99999 !important;}
 a{cursor: pointer;}
