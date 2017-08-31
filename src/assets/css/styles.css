@@ -178,7 +178,7 @@ body {
 h3 {
 	font-family: "bureaueaglebookregular";
 	font-size: 3.125em;
-	margin: 0
+	margin: 0;
 }
 h4 {
 	font-family: "bureaueaglebookregular";
@@ -1358,7 +1358,7 @@ header.navigation{z-index: 9999;}
 	background-color: #789c48;
 	font-size: 2.813em;
 	padding: 1.750rem 15px;
-	color: #fff
+	color: #fff;
 }
 
 @media (max-width: 2560px) {
@@ -2067,7 +2067,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 .two-column-wrapper .inside-column-container.aside-wrapper.orderProcessIns h3 {
 	font-size: 1.5em;
-	/*text-transform: uppercase;*/
+	text-transform: lowercase;
 	padding: 0.95rem 1em
 }
 

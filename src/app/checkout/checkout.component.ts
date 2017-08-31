@@ -62,13 +62,18 @@ export class CheckoutComponent implements OnInit {
         }
 
         let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
-        let userId = userDetails.id;
+        let userId = '';
+        if (userDetails != '' && userDetails != null) {
+          
+          userId = userDetails.id;
+        }
+        
         let favData = null;
         let favOrdArr = [];
         for(var i=0; i < this.items.length; i++) {
           let favObj = this.utilService.formatFavData(this.items[i]);
           let favDataObj = {
-            userId: userDetails.id,
+            userId: userId,
             data: favObj
           }
           favOrdArr.push(favDataObj);
