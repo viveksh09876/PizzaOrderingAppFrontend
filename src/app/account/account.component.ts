@@ -174,7 +174,6 @@ export class AccountComponent implements OnInit {
       this.showAddressForm = false;
       let userId = this.user.id;
       this.dataService.getProfile(userId).subscribe(pdata => {
-
         if (pdata.Status != 'Error') {
           this.addressArr = {
             address1 :(pdata.Address1!='')?JSON.parse(pdata.Address1):'',
@@ -182,17 +181,15 @@ export class AccountComponent implements OnInit {
             address3 :(pdata.Address3!='')?JSON.parse(pdata.Address3):'',
           };
           for (var key in this.addressArr) {
-            if(this.addressArr.hasOwnProperty(key) && this.addressArr[key]!=''){
+            if(this.addressArr.hasOwnProperty(key) && this.addressArr[key]!='' && this.addressArr[key]!=null){
               this.totalNoOfAddress++;
             }
           }
-
+        
           this.error = { show:false, isSuccess:false, message: ''};
         } else {
           this.error = { show:true, isSuccess:false, message: pdata.Message};
         }
-        
-        
         this.showLoading = false;
       });
     }
@@ -278,19 +275,37 @@ export class AccountComponent implements OnInit {
   showAddAddressForm(){
     this.showLoading = true;
     this.errorAddress = { show:false, isSuccess:false, message: ''};
-    this.address = {
-        address_type: this.user.defaultAddress.address_type,
-        is_default:0,
-        firstname : this.user.defaultAddress.firstname,
-        lastname: this.user.defaultAddress.lastname,
-        apartment:this.user.defaultAddress.apartment,
-        streetNo:this.user.defaultAddress.streetNo,
-        street:this.user.defaultAddress.street,
-        city:this.user.defaultAddress.city,
-        state:this.user.defaultAddress.state,
-        postal_code:this.user.defaultAddress.postal_code,
-        phone:this.user.defaultAddress.phone
+    
+    if(this.user.defaultAddress!=null){
+      this.address = {
+          address_type: (this.user.defaultAddress.address_type!='')?this.user.defaultAddress.address_type:'',
+          is_default:0,
+          firstname : (this.user.defaultAddress.firstname!='')?this.user.defaultAddress.firstname:'',
+          lastname: (this.user.defaultAddress.lastname!='')?this.user.defaultAddress.lastname:'',
+          apartment:(this.user.defaultAddress.apartment!='')?this.user.defaultAddress.apartment:'',
+          streetNo:(this.user.defaultAddress.streetNo!='')?this.user.defaultAddress.streetNo:'',
+          street:(this.user.defaultAddress.street)?this.user.defaultAddress.street:'',
+          city:(this.user.defaultAddress.city)?this.user.defaultAddress.city:'',
+          state:(this.user.defaultAddress.state)?this.user.defaultAddress.state:'',
+          postal_code:(this.user.defaultAddress.postal_code)?this.user.defaultAddress.postal_code:'',
+          phone:(this.user.defaultAddress.phone)?this.user.defaultAddress.phone:''
+      }
+    }else{
+      this.address = {
+          address_type:'',
+          is_default:0,
+          firstname : '',
+          lastname: '',
+          apartment:'',
+          streetNo:'',
+          street:'',
+          city:'',
+          state:'',
+          postal_code:'',
+          phone:''
+      }
     }
+   
     this.showAddressForm = !this.showAddressForm;
     this.showLoading = false;
   }
@@ -343,21 +358,21 @@ export class AccountComponent implements OnInit {
         defaultAddress: null
       }
 
-      if (pdata.Address1 != '') {
+      if (pdata.Address1 != '' && pdata.Address1 != null && pdata.Address1 != "null") {
         let address = JSON.parse(pdata.Address1);
         if (address.is_default == 1) {
           user.defaultAddress = address;
         }
       }
 
-      if (pdata.Address2 != '') {
+      if (pdata.Address2 != '' && pdata.Address2 != null && pdata.Address2 != "null") {
         let address = JSON.parse(pdata.Address2);
         if (address.is_default == 1) {
           user.defaultAddress = address;
         }
       }
 
-      if (pdata.Address3 != '') {
+      if (pdata.Address3 != '' && pdata.Address3 != null && pdata.Address3 != "null") {
         let address = JSON.parse(pdata.Address3);
         if (address.is_default == 1) {
           user.defaultAddress = address;
