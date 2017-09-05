@@ -291,6 +291,7 @@ export class AccountComponent implements OnInit {
           phone:(this.user.defaultAddress.phone)?this.user.defaultAddress.phone:''
       }
     }else{
+
       this.address = {
           address_type:'',
           is_default:0,
@@ -303,6 +304,14 @@ export class AccountComponent implements OnInit {
           state:'',
           postal_code:'',
           phone:''
+      }
+
+      let userDetails = this.dataService.getLocalStorageData('user-details');
+      if(userDetails != null && userDetails != undefined && userDetails != '') {
+        userDetails = JSON.parse(userDetails); 
+        this.address.firstname = userDetails['firstName'];
+        this.address.lastname = userDetails['lastName'];
+        this.address.phone = userDetails['phone']; 
       }
     }
    

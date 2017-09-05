@@ -58,12 +58,18 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.countryName = countryName;
 
     this.setStore();
-    if(countryName == 'Bahrain'){
+    if(countryName.toLocaleLowerCase() == 'bahrain'){
       this.getFbFeeds('nkdpizzabh');
       this.getIgFeeds('nkdpizzabh');
-    }else{
+      this.getTwitterFeeds('NKDPizzabh');
+    } else if (countryName.toLowerCase() == 'united kingdom') {
+      this.getFbFeeds('NKDPizzaScotland');
+      this.getIgFeeds('nkdpizzascotland');
+      this.getTwitterFeeds('nkdscotland');
+    } else{
       this.getFbFeeds('nkdpizza');
       this.getIgFeeds('nkdpizzauae');
+      this.getTwitterFeeds('NKDPizzaUSA');
     }
     
     this.dataService.setLocalStorageData('confirmationItems', null);
@@ -80,7 +86,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
       document.body.appendChild(script);
     }
 
-    this.getTwitterFeeds('NKDPizzaUSA');
+    
 
   }
 

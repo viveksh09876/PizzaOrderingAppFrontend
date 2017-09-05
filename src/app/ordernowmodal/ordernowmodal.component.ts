@@ -87,6 +87,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
       //this.userCountryName = 'uae';  //hardcode for testing
       if (this.userCountryName.toLowerCase() == 'uae' || this.userCountryName.toLowerCase() == 'united arab emirates') {
         this.useStreetDb = true;
+        this.order['delivery_state'] = 'UAE';
       }
     }
 
@@ -224,6 +225,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
          if(stores[i].Store.id == id) {
            this.selectedStore.info = stores[i];
            this.storeImg = environment.cmsApiPath + '/' + stores[i].Store.store_image;
+           this.order['delivery_state'] = stores[i].Store.state;
            break;
          } 
       }
@@ -298,7 +300,11 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
               .subscribe(data => {             
                     this.cityVal = data.cityVal;
                     this.postalCode = data.postalCode;      
-                    this.storeList = data.stores;                    
+                    this.storeList = data.stores;   
+                    if (data.stores.length > 0) {
+                      this.selectedStore.val = data.stores[0].Store.id;
+                      this.setSelectedStore(data.stores[0].Store.id);
+                    }                 
                 }); 
         });
     } else {
