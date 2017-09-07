@@ -54,23 +54,27 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.dataService.setLocalStorageData('confirmationItems', null); 
     this.dataService.setLocalStorageData('confirmationFinalOrder', null);
 
-    let countryName = this.dataService.getLocalStorageData('userCountry');
-    this.countryName = countryName;
-
-    this.setStore();
-    if(countryName.toLocaleLowerCase() == 'bahrain'){
-      this.getFbFeeds('nkdpizzabh');
-      this.getIgFeeds('nkdpizzabh');
-      this.getTwitterFeeds('NKDPizzabh');
-    } else if (countryName.toLowerCase() == 'united kingdom') {
-      this.getFbFeeds('NKDPizzaScotland');
-      this.getIgFeeds('nkdpizzascotland');
-      this.getTwitterFeeds('nkdscotland');
-    } else{
-      this.getFbFeeds('nkdpizza');
-      this.getIgFeeds('nkdpizzauae');
-      this.getTwitterFeeds('NKDPizzaUSA');
-    }
+    this.dataService.getIp()
+        .subscribe(data => {
+          let countryName = data.geoplugin_countryName;
+          //let countryName = this.dataService.getLocalStorageData('userCountry');
+          this.countryName = countryName;
+      
+          this.setStore();
+          if(countryName.toLowerCase() == 'bahrain'){
+            this.getFbFeeds('nkdpizzabh');
+            this.getIgFeeds('nkdpizzabh');
+            this.getTwitterFeeds('NKDPizzabh');
+          } else if (countryName.toLowerCase() == 'united kingdom') {
+            this.getFbFeeds('NKDPizzaScotland');
+            this.getIgFeeds('nkdpizzascotland');
+            this.getTwitterFeeds('nkdscotland');
+          } else{
+            this.getFbFeeds('nkdpizza');
+            this.getIgFeeds('nkdpizzauae');
+            this.getTwitterFeeds('NKDPizzaUSA');
+          }
+    });
     
     this.dataService.setLocalStorageData('confirmationItems', null);
     this.dataService.setLocalStorageData('confirmationFinalOrder', null);    
