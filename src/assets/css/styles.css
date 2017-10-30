@@ -3089,6 +3089,21 @@ color:#fff
 .payment_method .tab-content p{ color: #5b5a56; font-size: 18px; line-height: 22px; font-family: 'proxima_nova_ltlight'; margin: 0 0 20px;}
 .payment_method .tab-content .btn-red{ padding: 10px; background: #911c27; color: #fff; font-size: 20px; line-height: 27px; text-align: center;  font-family: 'proxima_nova_rgbold'; border-bottom: 2px solid #4f050c; border-radius: 3px;}
 
+.payment_method .tab-content form{padding: 10px 0; display: inline-block; width: 100%;}
+.payment_method .tab-content form .row{margin:0 0 15px; padding: 0px;}
+.payment_method .tab-content form .row label{color: #5b5a56; font-family: "proxima_nova_ltlight";
+    font-size: 14px;    line-height: 20px; font-weight: normal; display: block;}
+ .payment_method .tab-content form .row label img{margin: -5px 0 0 5px; height: 15px; width: 15px;} 
+ .payment_method .tab-content form .row.card-no span{position: relative;}
+.payment_method .tab-content form .row.card-no span:after{content: "";  position: absolute;
+    right: 10px;  top: -2px; background:  url(../images/lock-icon.png) no-repeat 0 0; height: 19px; width: 14px;}
+.payment_method .tab-content form .row select,.payment_method .tab-content form .row input{background: #fff; border: 1px solid #acacac; border-radius: 3px; display: inline-block; padding: 10px; font-size: 14px; line-height: 24px; color: #333; width: 100%;}
+.payment_method .tab-content form .row input.half,.payment_method .tab-content form .row select.half{    width: 44%;
+    margin-right: 5%; min-height: 46px; -webkit-appearance: none;}
+.payment_method .tab-content form .row.col-md-8{margin-right: 10px;  width: 62.5%;}
+.payment_method .tab-content form .row.col-md-4{margin-left: 10px;}
+.payment_method .tab-content form .row.submit{margin-top: 15px;}
+
 .thankyou_box{ color: #5b5a56; background: #f4f4f4; padding: 30px 0 60px; display: inline-block; width: 100%;}
 .thankyou_box h4{ font-size: 30px; line-height: 40px; font-family: 'proxima_nova_rgbold'; margin: 0;}
 .thankyou_box h5{ font-size: 22px; font-family: 'proxima_nova_ltlight'; line-height: 30px; margin: 0 0 30px;}

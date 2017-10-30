@@ -7,6 +7,9 @@ import {DateRangePickDirective} from '../date-range-pick.directive';
 import { DateRange } from '../date-range';
 import { environment } from '../../environments/environment';
 
+declare var moment: any;
+declare var $: any;
+
 @Component({
   selector: 'app-ordernowmodal',
   templateUrl: './ordernowmodal.component.html',
@@ -50,6 +53,10 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   time = { hour: '01', minutes: '00' };
   showStoreTimeError = false;
   storeImg = null;
+  storeTimeObj = {
+    fromTime: null,
+    toTime: null
+  }
 
   hours = [];
   minutes = this.utilService.getMinutes();
@@ -220,10 +227,37 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
 
   setSelectedStore(id) {    
     if(id != '') { 
-      let stores = this.storeList;     
+
+      let cDate = new Date();
+      let cDay = cDate.getDay();
+      let storeTime = null;
+      let stores = this.storeList;    
+      let storeFromTime = null;
+      let storeToTime = null; 
+      
+      let cTime = moment().format('hh:mm a');
+
       for(var i=0; i<stores.length; i++) {
          if(stores[i].Store.id == id) {
            this.selectedStore.info = stores[i];
+
+           for (var j=0; j < stores[i].StoreTime.length; j++) {
+              if (stores[i].StoreTime[j].from_day == cDay) {
+                storeTime = stores[i].StoreTime[j];
+              }
+           } 
+
+           storeFromTime = storeTime.from_time + ":" + storeTime.from_minutes;
+           storeFromTime = moment(storeFromTime, 'HH:mm').format('hh:mm a');
+
+           storeToTime = storeTime.to_time + ":" + storeTime.to_minutes;
+           storeToTime = moment(storeToTime, 'HH:mm').format('hh:mm a');
+           
+           this.storeTimeObj.fromTime = storeFromTime;
+           this.storeTimeObj.toTime = storeToTime;
+
+           //inTimeRange = this.utilService.inTimeRange(cTime, storeFromTime, storeToTime);
+
            this.storeImg = environment.cmsApiPath + '/' + stores[i].Store.store_image;
            this.order['delivery_state'] = stores[i].Store.state;
            break;
@@ -255,8 +289,16 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   goToMenu() {
   
     if(this.selectedStore.info != '') {
+      this.delivery_time = $("#DateTimeDel").val();
 
-        let orderDetails = {
+      let cTime = moment(this.delivery_time, 'YYYY-MM-DD HH:mm A').format('hh:mm a');
+      
+      //let cTime = moment().format('hh:mm a');
+      let inTimeRange = this.utilService.inTimeRange(cTime, this.storeTimeObj.fromTime, this.storeTimeObj.toTime);
+
+      if (inTimeRange) {
+        
+          let orderDetails = {
             
               type: this.order.orderType,
               delivery_time_type: this.order.delivery_time_type,
@@ -274,7 +316,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
         }
 
         if(orderDetails.type == 'delivery' && orderDetails.delivery_time_type == 'defer') {
-           if(orderDetails.delivery_time == null) {
+          if(orderDetails.delivery_time == null) {
             this.showTimeError = 'Please select delivery date/time';
           }
         }
@@ -283,8 +325,11 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
         this.close();
         this.router.navigate(['/menu']);
         //window.location.reload();
-      
-       
+        
+      } else {
+        alert('Store is closed!');
+      }
+
 
     }else{
       this.showOutletError = true;

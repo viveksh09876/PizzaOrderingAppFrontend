@@ -28,7 +28,23 @@ export class CheckoutComponent implements OnInit {
   couponDiscount = 0; 
   currencyCode = null;      
   showLoading = true; 
+  payError = '';
+  card = {
+    name: null,
+    customerId: null,
+    customerEmail: null,
+    postalCode: null,
+    amount: null,
+    expirationMonth: '',
+    expirationYear: new Date().getFullYear(),
+    card: null,
+    cvc: null,
+    type: false 
+  }
 
+  months = this.utilService.getMonths();
+  years = this.utilService.getYears(2037);
+  formattedItems = null;
 
   ngOnInit() {
     this.currencyCode = this.utilService.currencyCode;
@@ -119,6 +135,28 @@ export class CheckoutComponent implements OnInit {
               }
               this.showLoading = false;
             });
+  }
+
+
+  payOnline(isValid) {
+    
+    if (isValid) {
+      this.showLoading = true;
+      this.dataService.sendPaymentData(this.card)
+      .subscribe(data => {
+        console.log(data);
+        if (data.Status == 'Error') {
+          this.showLoading = false;
+          this.payError = data.Message;
+        } else if (data.Status == 'OK') {
+          this.showLoading = false;
+          //let paymentUrl = JSON.parse(data.payment_url);
+          //alert(data.payment_url);
+          window.location.href = data.payment_url;
+          //this.placeOrder();
+        }
+      });
+    }
   }
         
 
