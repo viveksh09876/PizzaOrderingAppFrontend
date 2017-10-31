@@ -42,6 +42,27 @@ export class CheckoutComponent implements OnInit {
     type: false 
   }
 
+  payDetails = {
+    uuid: this.utilService.generateUniqueId(),
+    fname: null,
+    lname: null,
+    ccode: null,
+    phone: null,
+    email: null,
+    amount: null,
+    userid: null,
+    bill_address_txt: { apartment: null, streetNo: null, street: null },
+    bill_city: null,
+    bill_state: null,
+    bill_postal: null,
+    bill_country: null,
+    ship_address_txt: { apartment: null, streetNo: null, street: null },
+    ship_city: null,
+    ship_state: null,
+    ship_postal: null,
+    ship_country: null
+  }
+
   months = this.utilService.getMonths();
   years = this.utilService.getYears(2037);
   formattedItems = null;
@@ -62,6 +83,7 @@ export class CheckoutComponent implements OnInit {
         
         this.items = JSON.parse(this.dataService.getLocalStorageData('allItems'));
         this.orderData = JSON.parse(this.dataService.getLocalStorageData('finalOrder'));
+
         let tCost = this.utilService.calculateOverAllCost(this.items);
         this.totalCost = tCost
         this.netCost = tCost;  
@@ -74,15 +96,41 @@ export class CheckoutComponent implements OnInit {
         } 
 
         if(this.orderData.payment_type == undefined) { 
-          this.orderData['payment_type'] = 'Cash';
+          this.orderData['payment_type'] = 'Credit';
         }
 
         let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
         let userId = '';
         if (userDetails != '' && userDetails != null) {
-          
           userId = userDetails.id;
         }
+
+        //set paytab api payment details
+        this.payDetails.fname = this.orderData.user.first_name;
+        this.payDetails.lname = this.orderData.user.last_name;
+        this.payDetails.email = this.orderData.user.email;
+        this.payDetails.phone = this.orderData.user.phone;
+        this.payDetails.amount = this.totalCost;
+        if (userId != '') {
+          this.payDetails.userid = userId;
+        }
+
+        if (this.orderData.order_type == 'delivery') {
+          this.payDetails.bill_address_txt.apartment = this.orderData.address.apartment;
+          this.payDetails.bill_address_txt.streetNo = this.orderData.address.street_no;
+          this.payDetails.bill_address_txt.street = this.orderData.address.street;
+          this.payDetails.bill_city = this.orderData.address.city;
+          this.payDetails.bill_state = this.orderData.address.state;
+          this.payDetails.bill_postal = this.orderData.address.postal_code;
+
+          this.payDetails.ship_address_txt.apartment = this.orderData.address.apartment;
+          this.payDetails.ship_address_txt.streetNo = this.orderData.address.street_no;
+          this.payDetails.ship_address_txt.street = this.orderData.address.street;
+          this.payDetails.ship_city = this.orderData.address.city;
+          this.payDetails.ship_state = this.orderData.address.state;
+          this.payDetails.ship_postal = this.orderData.address.postal_code;
+        }
+        
         
         let favData = null;
         let favOrdArr = [];
@@ -140,9 +188,34 @@ export class CheckoutComponent implements OnInit {
 
   payOnline(isValid) {
     
-    if (isValid) {
+    //if (isValid) {
       this.showLoading = true;
-      this.dataService.sendPaymentData(this.card)
+
+      let bill_address = this.payDetails.bill_address_txt.apartment + ' ' 
+                            + this.payDetails.bill_address_txt.streetNo + ' ' 
+                            + this.payDetails.bill_address_txt.street;
+
+      delete this.payDetails.bill_address_txt;
+      this.payDetails['bill_address'] = bill_address;
+                            
+      let ship_address = this.payDetails.ship_address_txt.apartment + ' ' 
+                            + this.payDetails.ship_address_txt.streetNo + ' ' 
+                            + this.payDetails.ship_address_txt.street;                            
+
+      delete this.payDetails.ship_address_txt;
+      this.payDetails['ship_address'] = ship_address;
+
+      for (var key in this.payDetails) {
+        if (this.payDetails.hasOwnProperty(key)) {
+          if (this.payDetails[key] == null || this.payDetails[key] == '') {
+            this.payDetails[key] = 0;
+          }
+        }
+      }
+
+      console.log(this.payDetails);
+
+      this.dataService.sendPaymentData(this.payDetails)
       .subscribe(data => {
         console.log(data);
         if (data.Status == 'Error') {
@@ -156,7 +229,7 @@ export class CheckoutComponent implements OnInit {
           //this.placeOrder();
         }
       });
-    }
+   // }
   }
         
 
