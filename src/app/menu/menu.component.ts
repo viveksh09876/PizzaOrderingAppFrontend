@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
 import { OrdernowmodalComponent } from '../ordernowmodal/ordernowmodal.component';
+import { SuggestionmodalComponent } from '../suggestionmodal/suggestionmodal.component';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 
@@ -35,6 +36,9 @@ export class MenuComponent implements OnInit {
   cmsApiPath = environment.cmsApiPath;
   currencyCode = null;
   selectedMenuCat = null;
+  addedCategories = [];
+  suggestionProducts = [];
+  formattedItems = null;
 
 
   ngOnInit() {
@@ -63,6 +67,20 @@ export class MenuComponent implements OnInit {
       }      
       this.showViewCart = true;
     }
+  }
+
+  loadAddedCategories() {
+    let items = this.items;
+    let catsArr = [];
+    for (var i=0; i<items.length; i++) {
+      if (catsArr.indexOf(items[i].Product.category_id) < 0 && items[i].Product.dealId == undefined) {
+        catsArr.push(items[i].Product.category_id);
+      }
+    }
+    
+    this.addedCategories = catsArr;
+    return catsArr;
+    //this.prepareSuggestions(this.addedCategories);
   }
 
   getAllCategories(){
@@ -215,11 +233,110 @@ export class MenuComponent implements OnInit {
   }
 
   checkout() {    
-    
-    this.dataService.setLocalStorageData('allItems', JSON.stringify(this.items));    
-    this.dataService.setLocalStorageData('totalCost', this.totalCost); 
-    this.router.navigate(['/order-review']);
+    let goFlag = this.getSuggestions();
+    if (goFlag) { 
+      this.dataService.setLocalStorageData('allItems', JSON.stringify(this.items));    
+      this.dataService.setLocalStorageData('totalCost', this.totalCost); 
+      this.router.navigate(['/order-review']);
+    }
   }
+
+  getSuggestions() {
+    let addedCats = this.loadAddedCategories();
+    if (addedCats.length > 3) {
+      return true;
+    } else {
+      let suggestionProducts = this.prepareSuggestions(addedCats, [], []);
+      
+        if (suggestionProducts == true) {
+          return true;
+        }
+    }
+  }
+
+
+  prepareSuggestions(addedCategories, prodArr, addedProducts) {
+    let menuItems = this.menuData;
+    let products = prodArr;
+    let myCats = [];
+    
+    if (menuItems != null) {
+      //get categories which are not added
+      for (var i=0; i<menuItems.length; i++) {
+        if (menuItems[i].type != 'deal' && addedCategories.indexOf(menuItems[i].id) < 0) {
+          myCats.push(menuItems[i].id);
+        }
+      }
+      
+      for (var i=0; i<myCats.length; i++) {
+        if (products.length < 4) {
+          let item = this.getProductFromCat(myCats[i]);
+          if (item != undefined && addedProducts.indexOf(item.id) < 0) {
+            products.push(item);
+            addedProducts.push(item.id);
+          }          
+        }
+      }
+
+      this.suggestionProducts = products;
+
+      if (this.suggestionProducts.length < 4) {
+        this.prepareSuggestions(addedCategories, products, addedProducts);
+      } else {
+        
+        let orderNowDetails = this.dataService.getLocalStorageData('order-now'); 
+        if (orderNowDetails != null && orderNowDetails != undefined && orderNowDetails != '') {
+          orderNowDetails = JSON.parse(orderNowDetails);
+    
+          ////console.log('suggestions', this.suggestionProducts);
+        let dservice = this.dialogService.addDialog(SuggestionmodalComponent, { 
+                items: products }, { closeByClickingOutside:true 
+            }).subscribe((isSkipped)=>{
+              //We get dialog result
+              if(isSkipped) {
+                this.router.navigate(['/order-review']);
+              }
+          }); 
+        } else {
+          return true;
+        }
+
+      }
+      
+    }
+    
+  }
+
+
+  getProductFromCat(catId) {
+    let menuItems = this.menuData;
+    for (var i=0; i<menuItems.length; i++) {
+      if (menuItems[i].id ==  catId) {
+
+        //for pizza we get items from subcategories 
+        if (menuItems[i].subCatsName.length > 0) {
+          var tmpList = Object.keys(menuItems[i].subCats);
+          var randomPropertyName = tmpList[ Math.floor(Math.random()*tmpList.length) ];
+          var itemArr = menuItems[i].subCats[randomPropertyName];
+          let item = itemArr[Math.floor(Math.random()*itemArr.length)]; 
+          item.products[0].qty = 0;
+          return item.products[0];
+
+        } else {
+
+          let itemArr = menuItems[i].products;
+          let item = itemArr[Math.floor(Math.random()*itemArr.length)]; 
+          if (item != undefined) {
+            item['qty'] = 0;
+            return item;
+          }
+          
+        
+        }
+      }
+    }
+  }
+
 
 
 
