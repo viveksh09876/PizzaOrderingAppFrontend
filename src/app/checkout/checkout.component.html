@@ -109,10 +109,10 @@
                                             
                                         </div>
                                     </div>
-                                <div class="col-md-12 col-sm-12">
+                                <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Country Phone Code" name="ccode" type="text" [(ngModel)]="payDetails.ccode" id="ccode" #ccode="ngModel" maxlength="15" required autocomplete="off">
-                                        <input class="form-control" placeholder="Mobile number*" name="phone" type="text" [(ngModel)]="payDetails.phone" id="phone" #phone="ngModel" maxlength="15" required number autocomplete="off">
+                                        <input class="form-control width20" placeholder="+971" name="ccode" type="text" [(ngModel)]="payDetails.ccode" id="ccode" #ccode="ngModel" maxlength="15" required autocomplete="off">
+                                        <input class="form-control" placeholder="05x xxx xxxx*" name="phone" type="text" [(ngModel)]="payDetails.phone" id="phone" #phone="ngModel" maxlength="15" required number autocomplete="off">
                                     </div>
                                 </div>
                                 <ng-container *ngIf="orderData.order_type == 'delivery'">
