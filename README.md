@@ -2,6 +2,30 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.3.
 
+## Build Commands
+npm install angular-cli  
+
+npm install ng2-bootstrap-modal
+
+
+npm install angular2-IE9-shims
+
+npm i mdn-polyfills --save
+
+npm install classlist.js --save
+
+npm install web-animation-js --save
+
+npm install ngx-popover
+
+npm install es6-symbol
+
+npm install moment-range --save
+
+npm install moment --save
+
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

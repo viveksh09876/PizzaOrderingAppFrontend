@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
 
   showFooter = true;
   showLocationTab = true;
+  countryName = null;
+  userCountryCode = null;
 
   constructor(private dialogService:DialogService,
                 private route: ActivatedRoute,
@@ -35,9 +37,10 @@ export class AppComponent implements OnInit {
             let urlArr = e.url.split('/');
 
             this.dataService.getIp().subscribe(data => {
-              let countryName = data.geoplugin_countryName;
+              this.countryName = data.geoplugin_countryName;
+              this.userCountryCode = data.geoplugin_countryCode;
               //redirect to uk based
-              if (countryName.toLowerCase() == 'united kingdom') {
+              if (this.countryName.toLowerCase() == 'united kingdom') {
                 if(urlArr.indexOf('uk') < 0) {
                   window.location.href = '/uk';
                 }  

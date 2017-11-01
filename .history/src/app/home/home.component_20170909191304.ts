@@ -66,17 +66,14 @@ export class HomeComponent implements OnInit, AfterContentInit {
             this.getFbFeeds('nkdpizzabh');
             this.getIgFeeds('nkdpizzabh');
             this.getTwitterFeeds('NKDPizzabh');
-            this.twitterScreenName = 'NKDPizzabh';
           } else if (countryName.toLowerCase() == 'united kingdom') {
             this.getFbFeeds('NKDPizzaScotland');
             this.getIgFeeds('nkdpizzascotland');
             this.getTwitterFeeds('nkdscotland');
-            this.twitterScreenName = 'nkdscotland';
           } else{
             this.getFbFeeds('nkdpizza');
             this.getIgFeeds('nkdpizzauae');
             this.getTwitterFeeds('NKDPizzaUSA');
-            this.twitterScreenName = 'NKDPizzaUSA';
           }
     });
     

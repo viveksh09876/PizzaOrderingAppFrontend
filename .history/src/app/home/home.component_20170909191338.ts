@@ -76,7 +76,6 @@ export class HomeComponent implements OnInit, AfterContentInit {
             this.getFbFeeds('nkdpizza');
             this.getIgFeeds('nkdpizzauae');
             this.getTwitterFeeds('NKDPizzaUSA');
-            this.twitterScreenName = 'NKDPizzaUSA';
           }
     });
     

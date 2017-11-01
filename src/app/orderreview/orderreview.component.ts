@@ -10,6 +10,9 @@ import { UtilService } from '../util.service';
 import {DateRangePickDirective} from '../date-range-pick.directive';
 import { DateRange } from '../date-range';
 
+declare var moment: any;
+declare var $: any;
+
 @Component({
   selector: 'app-orderreview',
   templateUrl: './orderreview.component.html',
@@ -57,6 +60,11 @@ export class OrderreviewComponent implements OnInit {
     validationError = {
       field: '',
       message: ''
+    }
+
+    storeTimeObj = {
+      fromTime: null,
+      toTime: null
     }
 
     showStep = 'step1';
@@ -140,6 +148,27 @@ export class OrderreviewComponent implements OnInit {
         this.order.delivery_time_type = orderDetails.delivery_time_type;
         this.pickerOptions.startDate = new Date(this.order.delivery_time);
         this.order.address = orderDetails.address;
+
+        let cDate = new Date();
+        let cDay = cDate.getDay();
+        let storeTime = null;
+        let storeFromTime = null;
+        let storeToTime = null; 
+
+        for (var j=0; j < orderDetails.selectedStore.StoreTime.length; j++) {
+            if (orderDetails.selectedStore.StoreTime[j].from_day == cDay) {
+              storeTime = orderDetails.selectedStore.StoreTime[j];
+            }
+        } 
+
+        storeFromTime = storeTime.from_time + ":" + storeTime.from_minutes;
+        storeFromTime = moment(storeFromTime, 'HH:mm').format('hh:mm a');
+
+        storeToTime = storeTime.to_time + ":" + storeTime.to_minutes;
+        storeToTime = moment(storeToTime, 'HH:mm').format('hh:mm a');
+        
+        this.storeTimeObj.fromTime = storeFromTime;
+        this.storeTimeObj.toTime = storeToTime;
         
         if (orderDetails.selectedStore != undefined && orderDetails.selectedStore.Store.id != undefined) {
           this.order.storeId = orderDetails.selectedStore.Store.store_id;
@@ -352,61 +381,69 @@ export class OrderreviewComponent implements OnInit {
 
     let goFlag = true;
     let tVal = null;
-     
+    this.order.delivery_time = $("#DateTimeDel").val();
+
     tVal = this.order.delivery_time
     this.dataService.setLocalStorageData('allItems', JSON.stringify(this.items));
+    let cTime = moment(tVal, 'YYYY-MM-DD HH:mm A').format('hh:mm a');
+    
+    let inTimeRange = this.utilService.inTimeRange(cTime, this.storeTimeObj.fromTime, this.storeTimeObj.toTime);
 
-    if (goFlag) {
+    if (inTimeRange) {
 
-        let finalOrder = [];
-        if(this.items.length > 0) {
+      if (goFlag) {
 
-            let orderData = this.order;
-            if(orderData.address) {
-            orderData.address.street_no = orderData.address.streetNo;
-            
-            if(orderData.address.state.toLowerCase() == 'dubai') {
-              orderData.address.state = 'UAE';
-            }
+          let finalOrder = [];
+          if(this.items.length > 0) {
 
-            if(orderData.address.postal_code == '') {
-              orderData.address.postal_code = '0';
-            }
-              delete orderData.address.streetNo; 
-            }
-
-            if(this.order.order_type == 'delivery' && this.order.delivery_time_type == 'defer') {
+              let orderData = this.order;
+              if(orderData.address) {
+              orderData.address.street_no = orderData.address.streetNo;
               
-              orderData.defer = {
-                print_time: new Date().toString(),
-                required_time: new Date(tVal).toString()
+              if(orderData.address.state.toLowerCase() == 'dubai') {
+                orderData.address.state = 'UAE';
               }
-              
-              orderData.defer.print_time = this.utilService.toISOString(orderData.defer.print_time);
-              orderData.defer.required_time = this.utilService.toISOString(orderData.defer.required_time);
 
-            }else if(this.order.order_type == 'pickup') {
-              //orderData.delivery_time;
-              //delete orderData.delivery_time_type;
-              delete orderData.address;
-              delete orderData.defer;
+              if(orderData.address.postal_code == '') {
+                orderData.address.postal_code = '0';
+              }
+                delete orderData.address.streetNo; 
+              }
+
+              if(this.order.order_type == 'delivery' && this.order.delivery_time_type == 'defer') {
+                
+                orderData.defer = {
+                  print_time: new Date().toString(),
+                  required_time: new Date(tVal).toString()
+                }
+                
+                orderData.defer.print_time = this.utilService.toISOString(orderData.defer.print_time);
+                orderData.defer.required_time = this.utilService.toISOString(orderData.defer.required_time);
+
+              }else if(this.order.order_type == 'pickup') {
+                //orderData.delivery_time;
+                //delete orderData.delivery_time_type;
+                delete orderData.address;
+                delete orderData.defer;
+              }
+
+              if(this.order.delivery_time_type == 'asap') {
+                delete orderData.defer;
+              }
+
+              this.order.order_details = this.prepareFinalOrderData(this.items);
+              this.order['latlong'] = this.dataService.getLocalStorageData('latlong');
+              this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
+              //console.log('order', this.order.order_details);
+              this.showLoading = false;
+              this.router.navigate(['/checkout']);
+
             }
 
-            if(this.order.delivery_time_type == 'asap') {
-              delete orderData.defer;
-            }
-
-            this.order.order_details = this.prepareFinalOrderData(this.items);
-            this.order['latlong'] = this.dataService.getLocalStorageData('latlong');
-            this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
-            //console.log('order', this.order.order_details);
-            this.showLoading = false;
-            this.router.navigate(['/checkout']);
-
-          }
-
-    }
-      
+      }
+    } else {
+      alert('Store is closed!');
+    }    
   }
 
 

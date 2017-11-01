@@ -69,22 +69,22 @@ export class LoginComponent extends DialogComponent<LoginModal, null> {
                     favloc: pdata.FavLocation,
                     defaultAddress: null
                   }
-
-                  if (pdata.Address1 != '') {
+                  
+                  if (pdata.Address1 != '' && pdata.Address1 != null && pdata.Address1 != "null") {
                     let address = JSON.parse(pdata.Address1);
                     if (address.is_default == 1) {
                       user.defaultAddress = address;
                     }
                   }
 
-                  if (pdata.Address2 != '') {
+                  if (pdata.Address2 != '' && pdata.Address2 != null && pdata.Address2 != "null") {
                     let address = JSON.parse(pdata.Address2);
                     if (address.is_default == 1) {
                       user.defaultAddress = address;
                     }
                   }
 
-                  if (pdata.Address3 != '') {
+                  if (pdata.Address3 != '' && pdata.Address3 != null && pdata.Address3 != "null") {
                     let address = JSON.parse(pdata.Address3);
                     if (address.is_default == 1) {
                       user.defaultAddress = address;

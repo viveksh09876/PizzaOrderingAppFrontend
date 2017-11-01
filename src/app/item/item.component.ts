@@ -182,7 +182,7 @@ export class ItemComponent implements OnInit {
               if(options[j].Option.id != option_id) {
 
                 if(options[j].Modifier.id == modifier_id) {
-                  //////console.log(options[j].Option.name + ' first unchecked');
+                  //console.log(options[j].Option.name + ' first unchecked', options[j].Option);
                   options[j].Option.is_checked = false;
                 }                
               }
@@ -193,7 +193,7 @@ export class ItemComponent implements OnInit {
             if(options[j].Option.id == option_id) {
               
               options[j].Option.is_checked = !options[j].Option.is_checked;
-
+              //console.log(123, options[j].Option);
               if(options[j].Option.is_checked && options[j].Option.no_modifier == 1) {
                 isNoMod = true; 
                 noModId = options[j].Option.id;
@@ -403,12 +403,15 @@ export class ItemComponent implements OnInit {
           let defoptions = this.item.ProductModifier[h].Modifier.ModifierOption;
           
           for(var v = 0; v < defoptions.length; v++) {
-            if(defoptions[v].Option.is_checked && defoptions[v].Option.is_included_mod) {
+            if(defoptions[v].Option.is_checked) {
               if(defoptions[v].Option.plu_code == 999991) {
+                //console.log('def1');
                 defaultSize = 'small'; break;
               } else if (defoptions[v].Option.plu_code == 999992) {
+                //console.log('def2');
                 defaultSize = 'medium'; break;
               } else if (defoptions[v].Option.plu_code == 999993) {
+                //console.log('def3');
                 defaultSize = 'large'; break;
               }
             }
@@ -427,7 +430,7 @@ export class ItemComponent implements OnInit {
                   if(!options[j].Option.is_included_mod && options[j].Option.is_checked) {
                     
                     if(typeof options[j].Option.price[defaultSize] == 'string') {
-                      //console.log('def', defaultSize);
+                      //console.log('def', defaultSize, is_crust_size_price_added);
                       if(is_crust_size_price_added == true) {
                         priceBinding = true;
                         addPrice = parseFloat(options[j].Option.price[defaultSize]);
@@ -436,9 +439,11 @@ export class ItemComponent implements OnInit {
 
                         if(this.item.Product.plu_code != 999999) {
                           priceBinding = true;
+                          //console.log(123, defaultSize, options[j].Option.price[defaultSize]);
                           addPrice = parseFloat(options[j].Option.price[defaultSize]);
                           itemBasePrice = true;
                         }else{
+                          //console.log(123, defaultSize);
                             if(itemSizePrice != '' || options[j].Option.plu_code == 'I101') {
                              priceBinding = true;
                               addPrice = parseFloat(options[j].Option.price[defaultSize]);
@@ -491,11 +496,12 @@ export class ItemComponent implements OnInit {
                       for(var y = 0; y < p_op.length; y++) {
                         ////console.log('new', p_op[y].Option);
 
-                        if(p_op[y].Option.default_checked && p_op[y].Option.plu_code == 999991) {
+                        if(p_op[y].Option.default_checked && p_op[y].Option.plu_code == 999991 && p_op[y].Option.is_checked) {
                           defaultSize = 'small';
-                        } else if(p_op[y].Option.default_checked && p_op[y].Option.plu_code == 999992) {
+                        } else if(p_op[y].Option.default_checked && p_op[y].Option.plu_code == 999992 && p_op[y].Option.is_checked) {
+                         
                           defaultSize = 'medium';
-                        } else if(p_op[y].Option.default_checked && p_op[y].Option.plu_code == 999993) {
+                        } else if(p_op[y].Option.default_checked && p_op[y].Option.plu_code == 999993 && p_op[y].Option.is_checked) {
                           defaultSize = 'large';
                         }
                         

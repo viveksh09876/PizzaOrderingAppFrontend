@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
 
   showFooter = true;
   showLocationTab = true;
+  countryName = null;
+  userCountryCode = null;
 
   constructor(private dialogService:DialogService,
                 private route: ActivatedRoute,
@@ -28,22 +30,21 @@ export class AppComponent implements OnInit {
                 private utilService: UtilService){
 
 
-        
+        this.dataService.getIp().subscribe(data => {
+          this.countryName = data.geoplugin_countryName;
+          this.userCountryCode = data.geoplugin_countryCode;
+        });
 
         this.router.events.subscribe((e) => {
           if (e instanceof NavigationEnd) {
             let urlArr = e.url.split('/');
 
-            this.dataService.getIp().subscribe(data => {
-              let countryName = data.geoplugin_countryName;
-              //redirect to uk based
-              if (countryName.toLowerCase() == 'united kingdom') {
-                if(urlArr.indexOf('uk') < 0) {
-                  window.location.href = '/uk';
-                }  
-              }
-            });
-            
+            //redirect to uk based
+            if (this.countryName.toLowerCase() == 'united kingdom') {
+              if(urlArr.indexOf('uk') < 0) {
+                
+              }  
+            }
 
             if(urlArr.indexOf('menu') > -1 || urlArr.indexOf('item') > -1) {
               this.showFooter = false;
