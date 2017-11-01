@@ -238,6 +238,37 @@ a.custom-button:hover span {
 }
 
 @media (max-width: 767px) {
+	.sugg-popup .modal-header h3 {
+    font-size: 17px !important;
+}
+.sugg-popup .modal-body {
+    max-height: 340px;
+    overflow: auto;
+}
+.sugg-popup .modal-footer {
+    border: medium none !important;
+    display: inline-block;
+    padding: 0 !important;
+    width: 100%;
+}
+.sugg-popup .actions {
+    background: #fff;
+    width: 100%;
+    padding: 10px 0;
+    display: inline-block;
+}
+.sugg-popup .actions .red-btn {
+    clear: both;
+    font-size: 16px;
+    margin: 0 0 0px;
+    min-width: 114px;
+    padding: 3px 10px;
+}
+.sugg-popup .modal-body .favSection .img-Wrapper {
+    width: 100% !important;
+    text-align: center;
+    display: inline-block !important;
+}
 a.custom-button {
 	font-size: 1.5em;
 	border-width: 5px
@@ -3083,7 +3114,7 @@ color:#fff
 .payment_method .nav-tabs > li a:hover, .payment_method .nav-tabs > li a:focus{ opacity: 1; font-family: 'proxima_nova_ltlight'; font-size: 18px; border-right:4px solid #cfcfcf; text-align: right}
 .payment_method .nav-tabs > li.active a{ border-color: #789c48; color: #789c48; font-family: 'proxima_nova_rgbold'; }
 
-.payment_method .tab-content{ float: right; width: 75%; padding: 20px 0 0 5%; height: 310px; position: relative}
+.payment_method .tab-content{ float: right; width: 75%; padding: 20px 0 0 5%; min-height: 310px; position: relative}
 .payment_method .tab-content:after{ position: absolute; left: -4px; top: 0; width: 4px; height: 100%; content: ''; background: #cfcfcf;}
 .payment_method .tab-content h5{ color: #5b5a56; font-size: 18px; line-height: 22px; font-family: 'proxima_nova_rgbold'; margin: 0 0 15px;}
 .payment_method .tab-content p{ color: #5b5a56; font-size: 18px; line-height: 22px; font-family: 'proxima_nova_ltlight'; margin: 0 0 20px;}
@@ -3105,6 +3136,8 @@ color:#fff
 .payment_method .tab-content form .row.col-md-8{margin-right: 10px;  width: 62.5%;}
 .payment_method .tab-content form .row.col-md-4{margin-left: 10px;}
 .payment_method .tab-content form .row.submit{margin-top: 15px;}
+
+.payment_method .tab-content form input +input{margin-top: 10px;}
 
 .thankyou_box{ color: #5b5a56; background: #f4f4f4; padding: 30px 0 60px; display: inline-block; width: 100%;}
 .thankyou_box h4{ font-size: 30px; line-height: 40px; font-family: 'proxima_nova_rgbold'; margin: 0;}
