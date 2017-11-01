@@ -42,8 +42,10 @@ export class CheckoutComponent implements OnInit {
     type: false 
   }
 
+  uniqueId = this.utilService.generateUniqueId();
+
   payDetails = {
-    uuid: this.utilService.generateUniqueId(),
+    uuid: null,
     fname: null,
     lname: null,
     ccode: null,
@@ -66,14 +68,37 @@ export class CheckoutComponent implements OnInit {
   months = this.utilService.getMonths();
   years = this.utilService.getYears(2037);
   formattedItems = null;
+  paymentReference = null;
 
   ngOnInit() {
+    
     this.currencyCode = this.utilService.currencyCode;
     this.getItems();
-    this.dataService.setLocalStorageData('favItemFetched', null);
-    this.dataService.setLocalStorageData('favOrdersFetched', null); 
-    this.dataService.setLocalStorageData('confirmationItems', null); 
-    this.dataService.setLocalStorageData('confirmationFinalOrder', null);
+
+    this.route.queryParams.subscribe(params => {
+      if (params['payment_reference'] != undefined) {
+        this.paymentReference = params['payment_reference'];
+
+        if (this.paymentReference == 0) {
+          this.payError = 'Payment rejected. Please contact administartor.';
+        } else {
+          this.orderData['uuid'] = this.dataService.getLocalStorageData('uuid');
+          this.orderData['pref'] = this.paymentReference;
+          this.placeOrder();
+        }
+
+      } else {
+        
+        this.dataService.setLocalStorageData('favItemFetched', null);
+        this.dataService.setLocalStorageData('favOrdersFetched', null); 
+        this.dataService.setLocalStorageData('confirmationItems', null); 
+        this.dataService.setLocalStorageData('confirmationFinalOrder', null);
+      }
+    });
+	  
+	  
+	  
+    
   }
 
 
@@ -200,7 +225,10 @@ export class CheckoutComponent implements OnInit {
                             
       let ship_address = this.payDetails.ship_address_txt.apartment + ' ' 
                             + this.payDetails.ship_address_txt.streetNo + ' ' 
-                            + this.payDetails.ship_address_txt.street;                            
+                            + this.payDetails.ship_address_txt.street;   
+                            
+                            
+                           
 
       delete this.payDetails.ship_address_txt;
       this.payDetails['ship_address'] = ship_address;
@@ -213,20 +241,28 @@ export class CheckoutComponent implements OnInit {
         }
       }
 
-      console.log(this.payDetails);
+      if (this.orderData.order_type == 'pickup') {
+        
+        this.payDetails.ship_city = this.payDetails.bill_city;
+        this.payDetails.ship_state = this.payDetails.bill_state;
+        this.payDetails.ship_postal = this.payDetails.bill_postal;
+        this.payDetails.ship_country = this.payDetails.bill_country;
+      } 
+
+      this.payDetails.uuid = this.uniqueId;
+      this.dataService.setLocalStorageData('uuid', this.payDetails.uuid);
 
       this.dataService.sendPaymentData(this.payDetails)
       .subscribe(data => {
-        console.log(data);
+        
         if (data.Status == 'Error') {
           this.showLoading = false;
           this.payError = data.Message;
         } else if (data.Status == 'OK') {
           this.showLoading = false;
-          //let paymentUrl = JSON.parse(data.payment_url);
-          //alert(data.payment_url);
+          
           window.location.href = data.payment_url;
-          //this.placeOrder();
+          
         }
       });
    // }
