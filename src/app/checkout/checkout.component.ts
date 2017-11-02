@@ -57,12 +57,12 @@ export class CheckoutComponent implements OnInit {
     bill_city: null,
     bill_state: null,
     bill_postal: null,
-    bill_country: null,
+    bill_country: 'ARE',
     ship_address_txt: { apartment: null, streetNo: null, street: null },
     ship_city: null,
     ship_state: null,
     ship_postal: null,
-    ship_country: null
+    ship_country: 'ARE'
   }
 
   months = this.utilService.getMonths();
@@ -220,7 +220,7 @@ export class CheckoutComponent implements OnInit {
                             + this.payDetails.bill_address_txt.streetNo + ' ' 
                             + this.payDetails.bill_address_txt.street;
 
-      delete this.payDetails.bill_address_txt;
+      //delete this.payDetails.bill_address_txt;
       this.payDetails['bill_address'] = bill_address;
                             
       let ship_address = this.payDetails.ship_address_txt.apartment + ' ' 
@@ -230,7 +230,7 @@ export class CheckoutComponent implements OnInit {
                             
                            
 
-      delete this.payDetails.ship_address_txt;
+      //delete this.payDetails.ship_address_txt;
       this.payDetails['ship_address'] = ship_address;
 
       for (var key in this.payDetails) {
@@ -256,8 +256,10 @@ export class CheckoutComponent implements OnInit {
       .subscribe(data => {
         
         if (data.Status == 'Error') {
+          
           this.showLoading = false;
           this.payError = data.Message;
+          
         } else if (data.Status == 'OK') {
           this.showLoading = false;
           
@@ -268,6 +270,16 @@ export class CheckoutComponent implements OnInit {
    // }
   }
         
+  getCountryCode(key) {
 
+    if (key.length > 0) {
+      this.dataService.getCountryCodes(key)
+      .subscribe(data => {
+          
+        
+      });
+    }
+    
+  }
 
 }
