@@ -69,6 +69,10 @@ export class CheckoutComponent implements OnInit {
   years = this.utilService.getYears(2037);
   formattedItems = null;
   paymentReference = null;
+  showBillCountryList = false;
+  showShipCountryList = false;
+  countryList = [];
+  
 
   ngOnInit() {
     
@@ -270,16 +274,29 @@ export class CheckoutComponent implements OnInit {
    // }
   }
         
-  getCountryCode(key) {
+  getCountryCodes(key, type) {
 
     if (key.length > 0) {
       this.dataService.getCountryCodes(key)
       .subscribe(data => {
           
+		  this.countryList = data;
+		  if (type == 'bill') {
+			  this.showBillCountryList = true;
+		  } else {
+			  this.showShipCountryList = true;
+		  }
+		 
         
       });
     }
     
+  }
+  
+  selectCountry(country, modal) {
+	  
+	  this.payDetails[modal] = country.Countrycode.iso3;
+	  
   }
 
 }

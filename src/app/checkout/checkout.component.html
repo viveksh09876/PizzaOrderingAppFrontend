@@ -100,8 +100,12 @@
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                         <div class="form-group">
-                                            <input class="form-control" placeholder="Country Code" type="text" name="country_code" id="country_code" #country_code="ngModel" [(ngModel)]="payDetails.bill_country">
-                                            
+                                            <input class="form-control" placeholder="Country Code" type="text" name="country_code" id="country_code" #country_code="ngModel" [(ngModel)]="payDetails.bill_country" (change)="getCountryCodes($event.target.value, 'bill')">
+                                            <ul class="autocomplete-list" *ngIf="showBillCountryList && countryList.length > 0">       
+												<ng-container *ngIf="countryList.length > 0">
+													<li *ngFor="let country of countryList"><a (click)="selectCountry(country, 'bill_country');">{{country.Countrycode.nicename}} - {{country.Countrycode.iso3}}</a></li>
+												</ng-container>
+											</ul>
                                         </div>
                                     </div>
                                 <div class="col-md-6 col-sm-12">
