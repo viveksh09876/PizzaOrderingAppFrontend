@@ -48,7 +48,7 @@ export class CheckoutComponent implements OnInit {
     uuid: null,
     fname: null,
     lname: null,
-    ccode: null,
+    ccode: '+971',
     phone: null,
     email: null,
     amount: null,
@@ -78,6 +78,7 @@ export class CheckoutComponent implements OnInit {
     
     this.currencyCode = this.utilService.currencyCode;
     this.getItems();
+    this.getCountryCodes();
 
     this.route.queryParams.subscribe(params => {
       if (params['payment_reference'] != undefined) {
@@ -274,28 +275,20 @@ export class CheckoutComponent implements OnInit {
    // }
   }
         
-  getCountryCodes(key, type) {
+  getCountryCodes() {
 
-    if (key.length > 0) {
-      this.dataService.getCountryCodes(key)
-      .subscribe(data => {
-          
-		  this.countryList = data;
-		  if (type == 'bill') {
-			  this.showBillCountryList = true;
-		  } else {
-			  this.showShipCountryList = true;
-		  }
-		 
-        
+      this.dataService.getCountryCodes()
+        .subscribe(data => {
+          this.countryList = data;
       });
-    }
     
   }
   
   selectCountry(country, modal) {
-	  
-	  this.payDetails[modal] = country.Countrycode.iso3;
+    
+    let obj = this.countryList.find(o => o.Countrycode.iso3 === country);
+    this.payDetails[modal] = obj.Countrycode.iso3;
+    this.payDetails['ccode'] = '+'+obj.Countrycode.phonecode;
 	  
   }
 

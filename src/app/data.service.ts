@@ -379,8 +379,8 @@ export class DataService {
               .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
-  getCountryCodes(key): Observable<any>{   
-    return this.http.get( this.domain + '/webservice/getCountryCode/'+key)
+  getCountryCodes(): Observable<any>{   
+    return this.http.get( this.domain + '/webservice/getCountryCodes')
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }

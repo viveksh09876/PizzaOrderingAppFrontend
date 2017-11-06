@@ -100,12 +100,12 @@
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                         <div class="form-group">
-                                            <input class="form-control" placeholder="Country Code" type="text" name="country_code" id="country_code" #country_code="ngModel" [(ngModel)]="payDetails.bill_country" (change)="getCountryCodes($event.target.value, 'bill')">
-                                            <ul class="autocomplete-list" *ngIf="showBillCountryList && countryList.length > 0">       
-												<ng-container *ngIf="countryList.length > 0">
-													<li *ngFor="let country of countryList"><a (click)="selectCountry(country, 'bill_country');">{{country.Countrycode.nicename}} - {{country.Countrycode.iso3}}</a></li>
-												</ng-container>
-											</ul>
+                                            <select class="form-control" name="country_code" id="country_code" [(ngModel)]="payDetails.bill_country" (change)="selectCountry($event.target.value, 'bill_country');">
+                                                <ng-container *ngFor="let ct of countryList">
+                                                    <option value="{{ct.Countrycode.iso3}}">{{ct.Countrycode.nicename}}</option>
+                                                </ng-container>
+                                            </select>
+
                                         </div>
                                     </div>
                                 <div class="col-md-6 col-sm-12">
@@ -152,8 +152,11 @@
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
-                                                    <input class="form-control" placeholder="Country Code" type="text" name="country_code" id="country_code" #country_code="ngModel" [(ngModel)]="payDetails.ship_country">
-                                                    
+                                                    <select class="form-control" name="country_code_ship" id="country_code_ship" [(ngModel)]="payDetails.ship_country" (change)="selectCountry($event.target.value, 'ship_country');">
+                                                            <ng-container *ngFor="let ct of countryList">
+                                                                <option value="{{ct.Countrycode.iso3}}">{{ct.Countrycode.nicename}}</option>
+                                                            </ng-container>
+                                                        </select>
                                                 </div>
                                             </div>
                                         
