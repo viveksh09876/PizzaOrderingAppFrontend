@@ -269,8 +269,7 @@ export class CheckoutComponent implements OnInit {
                             + this.payDetails.ship_address_txt.streetNo + ' ' 
                             + this.payDetails.ship_address_txt.street;   
                             
-                            
-                           
+                                                
 
       //delete this.payDetails.ship_address_txt;
       this.payDetails['ship_address'] = ship_address;
@@ -284,7 +283,7 @@ export class CheckoutComponent implements OnInit {
       }
 
       if (this.orderData.order_type == 'pickup') {
-        
+        this.payDetails['ship_address'] = 0;
         this.payDetails.ship_city = this.payDetails.bill_city;
         this.payDetails.ship_state = this.payDetails.bill_state;
         this.payDetails.ship_postal = this.payDetails.bill_postal;
