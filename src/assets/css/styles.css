@@ -88,9 +88,10 @@ a{cursor: pointer;}
   animation-delay: -0.9s;
 }
 
-button:disabled {
-    /*background: #ddd !important;
-	color: #999 !important;*/
+button:disabled,button.disabled {
+    background: #ddd !important;
+	color: #999 !important;
+	border-color: #ddd;
 }
 
 @-webkit-keyframes sk-cubemove {

@@ -449,7 +449,7 @@ export class OrderreviewComponent implements OnInit {
 
       }
     } else {
-      alert('Store is closed!');
+      alert('This store is currently closed. Why not order your awesome pizza for later?');
     }    
   }
 
