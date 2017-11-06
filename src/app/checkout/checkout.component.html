@@ -61,35 +61,47 @@
                         </div>
                         <div role="tabpanel" class="tab-pane fade in active" id="cd-cards">
                             
-                            <form #newRuleForm="ngForm" name="addressForm" novalidate (ngSubmit)="payOnline(newRuleForm.valid)">
+                            <form #newRuleForm="ngForm"   name="addressForm" novalidate (ngSubmit)="payOnline(newRuleForm.valid)">
                                 <div class="alert alert-danger" *ngIf="payError != '' && payError != null">{{payError}}</div>
                                 <h5>Billing Details</h5>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Appt#" type="text" name="apartmentBill" id="apartmentBill" #apartmentBill="ngModel" [(ngModel)]="payDetails.bill_address_txt.apartment">
+                                        <input class="form-control" placeholder="Appt#" type="text" name="apartmentBill" id="apartmentBill" #apartmentBill="ngModel" [(ngModel)]="payDetails.bill_address_txt.apartment" required>
+                                        <div *ngIf="apartmentBill.errors && (apartmentBill.dirty || apartmentBill.touched)" class="alert alert-danger">
+                                            <div [hidden]="!apartmentBill.errors.required">Apartment Name is required.</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Street#" type="text" name="streetNo" id="streetNo" #streetNo="ngModel" [(ngModel)]="payDetails.bill_address_txt.streetNo">
+                                        <input class="form-control" placeholder="Street#" type="text" name="streetNo" id="streetNo" #streetNo="ngModel" [(ngModel)]="payDetails.bill_address_txt.streetNo" required>
+                                        <div *ngIf="streetNo.errors && (streetNo.dirty || streetNo.touched)" class="alert alert-danger">
+                                            <div [hidden]="!streetNo.errors.required">Street No is required.</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Street / Building name" name="street" id="street" #street="ngModel" type="text" [(ngModel)]="payDetails.bill_address_txt.street">
-                                        
+                                        <input class="form-control" placeholder="Street / Building name" name="street" id="street" #street="ngModel" type="text" [(ngModel)]="payDetails.bill_address_txt.street" required>
+                                        <div *ngIf="street.errors && (street.dirty || street.touched)" class="alert alert-danger">
+                                            <div [hidden]="!street.errors.required">Street Name is required.</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="City" type="text" name="city" id="city" #city="ngModel" [(ngModel)]="payDetails.bill_city">
-                                        
+                                        <input class="form-control" placeholder="City" type="text" name="city" id="city" #city="ngModel" [(ngModel)]="payDetails.bill_city" required>
+                                        <div *ngIf="city.errors && (city.dirty || city.touched)" class="alert alert-danger">
+                                            <div [hidden]="!city.errors.required">City Name is required.</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="State" type="text" name="state" id="state" #state="ngModel" [(ngModel)]="payDetails.bill_state">
-                                        
+                                        <input class="form-control" placeholder="State" type="text" name="state" id="state" #state="ngModel" [(ngModel)]="payDetails.bill_state" required>
+                                        <div *ngIf="state.errors && (state.dirty || state.touched)" class="alert alert-danger">
+                                            <div [hidden]="!state.errors.required">State Name is required.</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
@@ -110,38 +122,56 @@
                                     </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <input class="form-control width20" placeholder="+971" name="ccode" type="text" [(ngModel)]="payDetails.ccode" id="ccode" #ccode="ngModel" maxlength="15" required autocomplete="off">
-                                        <input class="form-control" placeholder="05x xxx xxxx*" name="phone" type="text" [(ngModel)]="payDetails.phone" id="phone" #phone="ngModel" maxlength="15" required number autocomplete="off">
+                                        <input class="form-control width20" placeholder="+971" name="ccode" type="text" [(ngModel)]="payDetails.ccode" id="ccode" #ccode="ngModel" maxlength="15" required autocomplete="off" required>
+                                        <input class="form-control" placeholder="05x xxx xxxx*" name="phone" type="text" [(ngModel)]="payDetails.phone" id="phone" #phone="ngModel" maxlength="15" required number autocomplete="off" required>
+                                        <div *ngIf="phone.errors && (phone.dirty || phone.touched)" class="alert alert-danger">
+                                            <div [hidden]="!phone.errors.required">Phone is required.</div>
+                                        </div>
+                                        <div *ngIf="ccode.errors && (ccode.dirty || ccode.touched)" class="alert alert-danger">
+                                            <div [hidden]="!ccode.errors.required">Phone  Code is required.</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <ng-container *ngIf="orderData.order_type == 'delivery'">
                                     <h5>Delivery Details</h5>
                                     <div class="col-md-6 col-sm-12">
                                             <div class="form-group">
-                                                <input class="form-control" placeholder="Appt#" type="text" name="apartment" id="apartment" #apartment="ngModel" [(ngModel)]="payDetails.ship_address_txt.apartment">
+                                                <input class="form-control" placeholder="Appt#" type="text" name="apartment" id="apartment" #apartment="ngModel" [(ngModel)]="payDetails.ship_address_txt.apartment" required>
+                                                <div *ngIf="apartment.errors && (apartment.dirty || apartment.touched)" class="alert alert-danger">
+                                                    <div [hidden]="!apartment.errors.required">Apartment Name is required.</div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="form-group">
-                                                <input class="form-control" placeholder="Street#" type="text" name="streetNo" id="streetNo" #streetNo="ngModel" [(ngModel)]="payDetails.ship_address_txt.streetNo">
+                                                <input class="form-control" placeholder="Street#" type="text" name="streetNo" id="streetNo" #streetNo="ngModel" [(ngModel)]="payDetails.ship_address_txt.streetNo" required>
+                                                <div *ngIf="streetNo.errors && (streetNo.dirty || streetNo.touched)" class="alert alert-danger">
+                                                    <div [hidden]="!streetNo.errors.required">Street No is required.</div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="form-group">
-                                                <input class="form-control" placeholder="Street / Building name" name="street" id="street" #street="ngModel" type="text" [(ngModel)]="payDetails.ship_address_txt.street">
-                                                
+                                                <input class="form-control" placeholder="Street / Building name" name="street" id="street" #street="ngModel" type="text" [(ngModel)]="payDetails.ship_address_txt.street" required>
+                                                <div *ngIf="street.errors && (street.dirty || street.touched)" class="alert alert-danger">
+                                                    <div [hidden]="!street.errors.required">Street Name is required.</div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="form-group">
-                                                <input class="form-control" placeholder="City" type="text" name="city" id="city" #city="ngModel" [(ngModel)]="payDetails.ship_city">
-                                                
+                                                <input class="form-control" placeholder="City" type="text" name="city" id="city" #city="ngModel" [(ngModel)]="payDetails.ship_city" required>
+                                                <div *ngIf="city.errors && (city.dirty || city.touched)" class="alert alert-danger">
+                                                    <div [hidden]="!city.errors.required">City Name is required.</div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="form-group">
-                                                <input class="form-control" placeholder="State" type="text" name="state" id="state" #state="ngModel" [(ngModel)]="payDetails.ship_state">
-                                                
+                                                <input class="form-control" placeholder="State" type="text" name="state" id="state" #state="ngModel" [(ngModel)]="payDetails.ship_state" required>
+                                                <div *ngIf="state.errors && (state.dirty || state.touched)" class="alert alert-danger">
+                                                    <div [hidden]="!state.errors.required">State Name is required.</div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
@@ -162,8 +192,8 @@
                                         
                                 </ng-container>
                                 <div class="row col-md-12 submit">
-                                        <button *ngIf="showPlaceOrder" class="btn-red btn-block">Pay Now</button>
-                                    </div>
+                                    <button *ngIf="showPlaceOrder" [disabled]="!newRuleForm.form.valid" class="btn-red btn-block">Pay Now</button>
+                                </div>
                             </form>
                         </div>
                     </div>
