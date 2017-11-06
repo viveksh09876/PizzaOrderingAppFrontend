@@ -146,6 +146,7 @@ export class CheckoutComponent implements OnInit {
         }
 
         if (this.orderData.order_type == 'delivery') {
+
           this.payDetails.bill_address_txt.apartment = this.orderData.address.apartment;
           this.payDetails.bill_address_txt.streetNo = this.orderData.address.street_no;
           this.payDetails.bill_address_txt.street = this.orderData.address.street;
@@ -159,6 +160,18 @@ export class CheckoutComponent implements OnInit {
           this.payDetails.ship_city = this.orderData.address.city;
           this.payDetails.ship_state = this.orderData.address.state;
           this.payDetails.ship_postal = this.orderData.address.postal_code;
+
+        } else {
+          let orderNowDetails = JSON.parse(this.dataService.getLocalStorageData('order-now'));
+          
+          this.payDetails.bill_address_txt.street = orderNowDetails.address.street;
+          this.payDetails.bill_city = orderNowDetails.address.city;
+          this.payDetails.bill_state = orderNowDetails.selectedStore.Store.state;
+         
+          this.payDetails.ship_address_txt.street = orderNowDetails.address.street;
+          this.payDetails.ship_city = orderNowDetails.address.city;
+          this.payDetails.ship_state = orderNowDetails.selectedStore.Store.state;
+          
         }
         
         
@@ -220,6 +233,30 @@ export class CheckoutComponent implements OnInit {
     
     //if (isValid) {
       this.showLoading = true;
+
+      if (this.payDetails.bill_address_txt.apartment == null) {
+        this.payDetails.bill_address_txt.apartment = '';
+      }
+
+      if (this.payDetails.bill_address_txt.streetNo == null) {
+        this.payDetails.bill_address_txt.streetNo = '';
+      }
+
+      if (this.payDetails.bill_address_txt.street == null) {
+        this.payDetails.bill_address_txt.street = '';
+      }
+
+      if (this.payDetails.ship_address_txt.apartment == null) {
+        this.payDetails.ship_address_txt.apartment = '';
+      }
+
+      if (this.payDetails.ship_address_txt.streetNo == null) {
+        this.payDetails.ship_address_txt.streetNo = '';
+      }
+
+      if (this.payDetails.ship_address_txt.street == null) {
+        this.payDetails.ship_address_txt.street = '';
+      }
 
       let bill_address = this.payDetails.bill_address_txt.apartment + ' ' 
                             + this.payDetails.bill_address_txt.streetNo + ' ' 

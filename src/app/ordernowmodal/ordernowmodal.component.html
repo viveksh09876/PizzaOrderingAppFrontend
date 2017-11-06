@@ -63,10 +63,10 @@
                             <div class="col-md-12 col-sm-12">
                                 <p class="text-danger" *ngIf="showOutletError">Please select store / outlet {{storeList.length}}</p>
                                 <select class="form-control full" [(ngModel)]="selectedStore.val" (change)="setSelectedStore($event.target.value)">
-                                    <ng-container *ngIf="storeList.length == 0">
+                                    <ng-container *ngIf="storeList == undefined || storeList.length == 0">
                                         <option value="">Select Store / Outlet</option>
                                     </ng-container>
-                                    <ng-container *ngIf="storeList.length > 0">
+                                    <ng-container *ngIf="storeList != undefined && storeList.length > 0">
                                         <option *ngFor="let store of storeList" selected="selected" value="{{store.Store.id}}">{{store.Store.store_name}} ({{store.Store.store_address}})</option>
                                     </ng-container>
                                 </select>

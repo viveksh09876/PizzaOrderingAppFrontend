@@ -164,8 +164,11 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
             .subscribe(data => {
                 this.areaList = data;
                 this.showAreaList = true;
-                this.order['delivery_state'] = this.areaList.areas[0].country;
-                this.getAreaStreets(this.areaList.areas[0].city);
+                if (this.areaList.areas[0] != undefined) {
+                  this.order['delivery_state'] = this.areaList.areas[0].country;
+                  this.getAreaStreets(this.areaList.areas[0].city);
+                }
+                
             });
     }
   }
@@ -241,20 +244,23 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
          if(stores[i].Store.id == id) {
            this.selectedStore.info = stores[i];
 
-           for (var j=0; j < stores[i].StoreTime.length; j++) {
-              if (stores[i].StoreTime[j].from_day == cDay) {
-                storeTime = stores[i].StoreTime[j];
-              }
-           } 
+           if (stores[i].StoreTime != undefined) {
+              for (var j=0; j < stores[i].StoreTime.length; j++) {
+                  if (stores[i].StoreTime[j].from_day == cDay) {
+                    storeTime = stores[i].StoreTime[j];
+                  }
+              } 
 
-           storeFromTime = storeTime.from_time + ":" + storeTime.from_minutes;
-           storeFromTime = moment(storeFromTime, 'HH:mm').format('hh:mm a');
+              storeFromTime = storeTime.from_time + ":" + storeTime.from_minutes;
+              storeFromTime = moment(storeFromTime, 'HH:mm').format('hh:mm a');
 
-           storeToTime = storeTime.to_time + ":" + storeTime.to_minutes;
-           storeToTime = moment(storeToTime, 'HH:mm').format('hh:mm a');
+              storeToTime = storeTime.to_time + ":" + storeTime.to_minutes;
+              storeToTime = moment(storeToTime, 'HH:mm').format('hh:mm a');
+              
+              this.storeTimeObj.fromTime = storeFromTime;
+              this.storeTimeObj.toTime = storeToTime;
+           }
            
-           this.storeTimeObj.fromTime = storeFromTime;
-           this.storeTimeObj.toTime = storeToTime;
 
            //inTimeRange = this.utilService.inTimeRange(cTime, storeFromTime, storeToTime);
 
@@ -294,7 +300,12 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
       let cTime = moment(this.delivery_time, 'YYYY-MM-DD HH:mm A').format('hh:mm a');
       
       //let cTime = moment().format('hh:mm a');
-      let inTimeRange = this.utilService.inTimeRange(cTime, this.storeTimeObj.fromTime, this.storeTimeObj.toTime);
+      let inTimeRange = true;
+
+      if (this.storeTimeObj.fromTime != undefined && this.storeTimeObj.toTime != undefined) {
+          inTimeRange = this.utilService.inTimeRange(cTime, this.storeTimeObj.fromTime, this.storeTimeObj.toTime);
+      }
+      
 
       if (inTimeRange) {
         

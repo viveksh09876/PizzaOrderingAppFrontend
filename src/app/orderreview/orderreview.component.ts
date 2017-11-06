@@ -155,20 +155,23 @@ export class OrderreviewComponent implements OnInit {
         let storeFromTime = null;
         let storeToTime = null; 
 
-        for (var j=0; j < orderDetails.selectedStore.StoreTime.length; j++) {
-            if (orderDetails.selectedStore.StoreTime[j].from_day == cDay) {
-              storeTime = orderDetails.selectedStore.StoreTime[j];
-            }
-        } 
+        if (orderDetails.selectedStore.StoreTime != undefined) {
+          for (var j=0; j < orderDetails.selectedStore.StoreTime.length; j++) {
+              if (orderDetails.selectedStore.StoreTime[j].from_day == cDay) {
+                storeTime = orderDetails.selectedStore.StoreTime[j];
+              }
+          } 
 
-        storeFromTime = storeTime.from_time + ":" + storeTime.from_minutes;
-        storeFromTime = moment(storeFromTime, 'HH:mm').format('hh:mm a');
+          storeFromTime = storeTime.from_time + ":" + storeTime.from_minutes;
+          storeFromTime = moment(storeFromTime, 'HH:mm').format('hh:mm a');
 
-        storeToTime = storeTime.to_time + ":" + storeTime.to_minutes;
-        storeToTime = moment(storeToTime, 'HH:mm').format('hh:mm a');
+          storeToTime = storeTime.to_time + ":" + storeTime.to_minutes;
+          storeToTime = moment(storeToTime, 'HH:mm').format('hh:mm a');
+          
+          this.storeTimeObj.fromTime = storeFromTime;
+          this.storeTimeObj.toTime = storeToTime;
+        }
         
-        this.storeTimeObj.fromTime = storeFromTime;
-        this.storeTimeObj.toTime = storeToTime;
         
         if (orderDetails.selectedStore != undefined && orderDetails.selectedStore.Store.id != undefined) {
           this.order.storeId = orderDetails.selectedStore.Store.store_id;
@@ -387,7 +390,11 @@ export class OrderreviewComponent implements OnInit {
     this.dataService.setLocalStorageData('allItems', JSON.stringify(this.items));
     let cTime = moment(tVal, 'YYYY-MM-DD HH:mm A').format('hh:mm a');
     
-    let inTimeRange = this.utilService.inTimeRange(cTime, this.storeTimeObj.fromTime, this.storeTimeObj.toTime);
+    let inTimeRange = true;
+    if (this.storeTimeObj.fromTime != undefined && this.storeTimeObj.toTime != undefined) {
+        inTimeRange = this.utilService.inTimeRange(cTime, this.storeTimeObj.fromTime, this.storeTimeObj.toTime);
+    }
+    
 
     if (inTimeRange) {
 
