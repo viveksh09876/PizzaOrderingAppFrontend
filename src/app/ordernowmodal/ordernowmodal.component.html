@@ -203,7 +203,7 @@
                             <div class="col-md-6">
                                 <button class="btn btn-danger btn-block continue-btn" [ngClass]="{'disabled': isInTimeRange == false}"  (click)="goToMenu(1)">Start Ordering</button>  
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" *ngIf="!isInTimeRange">
                                 <button class="btn btn-danger btn-block continue-btn" (click)="goToMenu(0)">Browse our menu</button>  
                             </div>
                         </div>
