@@ -278,11 +278,12 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   }
 
 
-  checkTimeRange() {
+  checkTimeRange(delivery_time) {
     
       let inTimeRange = true;
-      let cTime = moment(this.delivery_time, 'YYYY-MM-DD HH:mm A').format('hh:mm a');
-
+      
+      let cTime = moment(delivery_time, 'YYYY-MM-DD HH:mm A').format('hh:mm a');
+      
       if (this.storeTimeObj.fromTime != undefined && this.storeTimeObj.toTime != undefined) {
           inTimeRange = this.utilService.inTimeRange(cTime, this.storeTimeObj.fromTime, this.storeTimeObj.toTime);
           this.isInTimeRange = inTimeRange;
@@ -292,13 +293,24 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
   }
 
 
+  updateTime() {
+    var self = this;
+    setTimeout(function() {
+      this.delivery_time = $('#DateTimeDel').val(); 
+      this.isInTimeRange = self.checkTimeRange(this.delivery_time);
+      
+    }, 800);
+    
+  }
+
+
   goTotimeModal() {
     //this.getCurrentDateTime();
     if(this.selectedStore.val == '') {
       this.showOutletError = true;
     }else{
       
-      this.isInTimeRange = this.checkTimeRange();
+      this.isInTimeRange = this.checkTimeRange(this.delivery_time);
       this.order.selectedStore = this.selectedStore.info;
       this.showContent = 'delivery-time';
 
@@ -310,9 +322,9 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, null>
     this.showOutletError = false;
     this.time.hour = '01';
 
-    if (type == 'defer') {
-      this.isInTimeRange = true;
-    }
+    
+    this.isInTimeRange = this.checkTimeRange(this.delivery_time);
+    
   }
 
   goToMenu(checkValidation) {
