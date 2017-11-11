@@ -20,6 +20,14 @@ iframe[name='google_conversion_frame'] {
     float: left;
 }
 
+@media (min-width: 768px){
+#pickupdeliveryModal .modal-sm {
+    width: 380px;
+}
+#pickupdeliveryModal .btn-row .col-md-6{width: 100%;}
+#pickupdeliveryModal .btn-row .col-md-6 + .col-md-6{width: 50%;}
+#pickupdeliveryModal.modal-dialog .calendar:before{right: 15px; top: 22px}
+}
 .daterangepicker.dropdown-menu{z-index: 99999 !important;}
 a{cursor: pointer;}
 .modal-dialog .calendar{display: block; position: relative;}

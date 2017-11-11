@@ -1,5 +1,5 @@
 <div id="pickupdeliveryModal">
-  <div class="modal-dialog fancypopup" [ngClass]="{'modal-lg': showContent == 'pickup-delivery'}" id="pickupdeliveryModal" role="document">
+  <div class="modal-dialog fancypopup" [ngClass]="{'modal-lg': showContent == 'pickup-delivery','modal-sm': showContent == 'delivery-time'}" id="pickupdeliveryModal" role="document">
     <div class="modal-content">
     <button type="button" class="close" (click)="close()"><span class="icon icon-close" ></span></button>
       <div class="modal-body white" *ngIf="showContent == 'pickup-delivery'">
@@ -168,17 +168,17 @@
                   </div>
                 </div>
                 <form>
-                  <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="checkbox-inline control--checkbox" [ngClass]="{'active': order.delivery_time_type == 'asap'}"><a (click)="updateDeliveryTimeType('asap');">asap <input type="radio" name="delivery_time_type" [checked]="order.delivery_time_type == 'asap'">
+                  <ul class="nav nav-tabs row" role="tablist">
+                    <li role="presentation" class="checkbox-inline control--checkbox col-md-6" [ngClass]="{'active': order.delivery_time_type == 'asap'}"><a (click)="updateDeliveryTimeType('asap');">asap <input type="radio" name="delivery_time_type" [checked]="order.delivery_time_type == 'asap'">
                   <div class="control__indicator"></div></a></li>
-                    <li role="presentation" class="checkbox-inline control--checkbox" [ngClass]="{'active': order.delivery_time_type == 'defer'}"><a (click)="updateDeliveryTimeType('defer');">later <input type="radio" name="delivery_time_type" [checked]="order.delivery_time_type == 'defer'">
+                    <li role="presentation" class="checkbox-inline control--checkbox col-md-6" [ngClass]="{'active': order.delivery_time_type == 'defer'}"><a (click)="updateDeliveryTimeType('defer');">later <input type="radio" name="delivery_time_type" [checked]="order.delivery_time_type == 'defer'">
                   <div class="control__indicator"></div></a></li>
                   </ul>
                 </form>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="asap">
                         <div class="row form_sec">
-                            <div class="col-md-6 col-sm-6 calendar">
+                            <div class="col-md-12 col-sm-12 calendar">
                                 
                                 <input appDateRangePick
                                         *ngIf="order.delivery_time_type == 'defer'"
@@ -199,7 +199,7 @@
                                                                                                                       
                         </div>
                         <p class="text-danger" *ngIf="!isInTimeRange">This store is currently closed. Why not order your awesome pizza for later?</p>  
-                        <div class="row">
+                        <div class="row btn-row">
                             <div class="col-md-6">
                                 <button class="btn btn-danger btn-block continue-btn" [ngClass]="{'disabled': isInTimeRange == false}"  (click)="goToMenu(1)">Start Ordering</button>  
                             </div>
