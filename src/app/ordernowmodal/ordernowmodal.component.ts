@@ -92,7 +92,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
     this.userCountryName = this.dataService.getLocalStorageData('userCountry');
     this.userCountryCode = this.dataService.getLocalStorageData('userCountryCode');
     if (this.userCountryName != undefined && this.userCountryName != null && this.userCountryName != '') {
-      this.userCountryName = 'uae';  //hardcode for testing
+     // this.userCountryName = 'uae';  //hardcode for testing
       if (this.userCountryName.toLowerCase() == 'uae' || this.userCountryName.toLowerCase() == 'united arab emirates') {
         this.useStreetDb = true;
         this.order['delivery_state'] = 'UAE';
