@@ -1,13 +1,13 @@
 <?php
 App::uses('AppController', 'Controller');
 class WebserviceController extends AppController {
-    public $uses = array('Country','Category','Question','Content','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog','Location','LocationStreet','Countrycode');
+    public $uses = array('Country','Category','Question','Content','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog','Location','LocationStreet','Countrycode','Log');
     public $components=array('Core','Email');
 
     function beforeFilter(){
         parent::beforeFilter();
 		// Configure::write('debug', 2);
-        $this->Auth->allow(array('get_countries','get_categories','getPageInfo','getip','sendApplyInfo','get_languages','get_slides','get_slides_app','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','get_all_categories_data_app','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getCitiesSuggestionApp','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl', 'getStoreDetailsByStoreId','forgot_password','reset_password','getReOrderData','sendAckEmail','uploadAttachment', 'sendPaymentData', 'getCountryCodes'));
+        $this->Auth->allow(array('get_countries','get_categories','getPageInfo','getip','sendApplyInfo','get_languages','get_slides','get_slides_app','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','get_all_categories_data_app','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getCitiesSuggestionApp','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl', 'getStoreDetailsByStoreId','forgot_password','reset_password','getReOrderData','sendAckEmail','uploadAttachment', 'sendPaymentData', 'getCountryCodes','doLogEntry'));
     }
 
 	public function get_countries(){
@@ -2544,6 +2544,26 @@ function sendCareerInfo(){
 			$code = $this->Countrycode->find('all');
 			echo json_encode($code); die;
 		
+	}
+
+
+	public function doLogEntry() {
+		$logData = $this->request->input ( 'json_decode', true);
+		if (!empty($logData)) {
+
+			$data = array(
+				'unique_id' => $logData['orderLogId'],
+				'step' => $logData['step'],
+				'data' => json_encode($logData),
+				'created' => date('Y-m-d H:i:s')
+			);
+
+			$this->Log->create();
+			$this->Log->save($data);
+			echo json_encode(array('status' => 'success')); die;
+		}
+
+		die;
 	}
 
 }

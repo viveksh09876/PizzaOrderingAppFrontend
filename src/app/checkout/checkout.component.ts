@@ -43,6 +43,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   uniqueId = this.utilService.generateUniqueId();
+  orderLogId = null;
 
   payDetails = {
     uuid: null,
@@ -77,6 +78,7 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
     
     this.currencyCode = this.utilService.currencyCode;
+    this.orderLogId = this.dataService.getLocalStorageData('orderLogId');
     this.getItems();
     this.getCountryCodes();
 
@@ -203,30 +205,44 @@ export class CheckoutComponent implements OnInit {
   placeOrder() {
       this.showLoading = true;
         this.showPlaceOrder = false;
-        this.dataService.placeOrder(this.orderData).subscribe(data => {
-             // console.log(JSON.parse(data.response));
-              let resp = JSON.parse(data.response);
 
-              if(resp.Status == 'Error') {
-                this.showPlaceOrder = true;
-                alert(resp.Message);
-              /*
-                this.dialogService.addDialog(MessageComponent, { title: 'Oops!', message: resp.message, buttonText: 'Close', doReload: false }, { closeByClickingOutside:true });
-                this.router.navigate(['/order-review']); 
-                */  
-              }else{
-                this.dataService.setLocalStorageData('allItems', null); 
-                this.dataService.setLocalStorageData('confirmationItems', JSON.stringify(this.items));
-                this.dataService.setLocalStorageData('finalOrder', null);                             
-                //alert('Order Placed');
-                this.dataService.setLocalStorageData('confirmationOrderId', resp.OrderId); 
-                this.dataService.setLocalStorageData('confirmationFinalOrder', JSON.stringify(this.orderData));                
-                this.showLoading = false;
-                this.router.navigate(['/confirmation']);
-              }
-              this.showLoading = false;
-            });
-  }
+        
+        let logArr = {
+          'orderLogId': this.orderLogId,
+          'step': 'post-payment-gateway',
+          'data': JSON.stringify(this.orderData) 
+        };
+  
+        this.dataService.doLogEntry(logArr).subscribe(resp => {
+
+          this.dataService.placeOrder(this.orderData).subscribe(data => {
+            // console.log(JSON.parse(data.response));
+             let resp = JSON.parse(data.response);
+
+             if(resp.Status == 'Error') {
+               this.showPlaceOrder = true;
+               alert(resp.Message);
+             /*
+               this.dialogService.addDialog(MessageComponent, { title: 'Oops!', message: resp.message, buttonText: 'Close', doReload: false }, { closeByClickingOutside:true });
+               this.router.navigate(['/order-review']); 
+               */  
+             }else{
+               this.dataService.setLocalStorageData('allItems', null); 
+               this.dataService.setLocalStorageData('confirmationItems', JSON.stringify(this.items));
+               this.dataService.setLocalStorageData('finalOrder', null);                             
+               //alert('Order Placed');
+               this.dataService.setLocalStorageData('confirmationOrderId', resp.OrderId); 
+               this.dataService.setLocalStorageData('confirmationFinalOrder', JSON.stringify(this.orderData));                
+               this.showLoading = false;
+               this.router.navigate(['/confirmation']);
+             }
+             this.showLoading = false;
+           });
+          
+        });
+
+  
+    }
 
 
   payOnline(isValid) {
@@ -293,21 +309,40 @@ export class CheckoutComponent implements OnInit {
       this.payDetails.uuid = this.uniqueId;
       this.dataService.setLocalStorageData('uuid', this.payDetails.uuid);
 
-      this.dataService.sendPaymentData(this.payDetails)
-      .subscribe(data => {
-        
-        if (data.Status == 'Error') {
-          
-          this.showLoading = false;
-          this.payError = data.Message;
-          
-        } else if (data.Status == 'OK') {
-          this.showLoading = false;
-          
-          window.location.href = data.payment_url;
-          
-        }
+      let overAllData = {
+        'paymentData': this.payDetails,
+        'orderData': this.orderData
+      };
+
+      let logArr = {
+        'orderLogId': this.orderLogId,
+        'step': 'pre-payment-gateway',
+        'data': JSON.stringify(overAllData) 
+      };
+
+      this.dataService.doLogEntry(logArr).subscribe(resp => {
+
+          this.dataService.sendPaymentData(this.payDetails)
+          .subscribe(data => {
+            
+            if (data.Status == 'Error') {
+              
+              this.showLoading = false;
+              this.payError = data.Message;
+              
+            } else if (data.Status == 'OK') {
+              this.showLoading = false;
+              
+              window.location.href = data.payment_url;
+              
+            }
+          });
+
       });
+
+
+
+      
    // }
   }
         

@@ -51,7 +51,7 @@ export class OrderreviewComponent implements OnInit {
               street_no: '',
               street: '',
               city: '',
-              state: '',
+              state: 'UAE',
               postal_code: ''
             },
             order_details: []
@@ -81,6 +81,7 @@ export class OrderreviewComponent implements OnInit {
 
     hours = [];
     minutes = this.utilService.getMinutes();
+    orderLogId = this.utilService.generateUniqueId();
     
     pickerOptions = {
         showDropdowns: true,
@@ -109,6 +110,11 @@ export class OrderreviewComponent implements OnInit {
     this.updateUserDetails();
     this.order.storeId = '1';
     
+    let savedOrderLogId = this.dataService.getLocalStorageData('orderLogId');
+    if (savedOrderLogId != null && savedOrderLogId != undefined && savedOrderLogId != 'null') {
+      this.orderLogId = savedOrderLogId;
+    }
+
     let uCountry = this.dataService.getLocalStorageData('userCountry');
     if (uCountry != undefined && uCountry != null && uCountry != '') {
       if (uCountry.toLowerCase() == 'uae' || uCountry.toLowerCase() == 'united arab emirates') {
@@ -148,6 +154,10 @@ export class OrderreviewComponent implements OnInit {
         this.order.delivery_time_type = orderDetails.delivery_time_type;
         this.pickerOptions.startDate = new Date(this.order.delivery_time);
         this.order.address = orderDetails.address;
+
+        if (this.order.address.state == '' || this.order.address.state == null) {
+          this.order.address.state = 'UAE';
+        }
 
         let cDate = new Date();
         let cDay = cDate.getDay();
@@ -441,9 +451,21 @@ export class OrderreviewComponent implements OnInit {
               this.order.order_details = this.prepareFinalOrderData(this.items);
               this.order['latlong'] = this.dataService.getLocalStorageData('latlong');
               this.dataService.setLocalStorageData('finalOrder', JSON.stringify(orderData));
+              this.dataService.setLocalStorageData('orderLogId', this.orderLogId);
+              
+              let logArr = {
+                'orderLogId': this.orderLogId,
+                'step': 'order-review',
+                'data': JSON.stringify(orderData) 
+              };
+
+              this.dataService.doLogEntry(logArr).subscribe(resp => {
+                this.showLoading = false;
+                this.router.navigate(['/checkout']);
+              });
+
               //console.log('order', this.order.order_details);
-              this.showLoading = false;
-              this.router.navigate(['/checkout']);
+
 
             }
 

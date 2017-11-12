@@ -26,6 +26,7 @@ export class ConfirmationComponent implements OnInit {
   orderId = null;
 
   ngOnInit() {
+    this.dataService.setLocalStorageData('orderLogId', null);
     this.currencyCode = this.utilService.currencyCode;
     this.getItems(); 
     this.getStoreDetails();  

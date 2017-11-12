@@ -385,6 +385,13 @@ export class DataService {
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
+  doLogEntry(logData): Observable<any>{
+     
+    return this.http.post( this.domain + '/webservice/doLogEntry', logData)
+              .map((res: Response) => res.json())
+              .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  } 
+
 
 }
 
