@@ -52,15 +52,17 @@ export class DataService {
   }
 
   setLocalStorageData(key, data) {
-    localStorage.setItem(key, data);
+    let prefix = 'uae_';
+    sessionStorage.setItem(prefix + key, data);
   }
  
   getLocalStorageData(key) {
-    return localStorage.getItem(key);
+    let prefix = 'uae_';
+    return sessionStorage.getItem(prefix + key);
   }
 
   clearLocalStorageData() {
-    localStorage.clear();
+    sessionStorage.clear();
     return;
   }
 
