@@ -469,5 +469,5 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
 }
 
 export interface OrdernowModal {
-  fromObj: object;
+
 }
