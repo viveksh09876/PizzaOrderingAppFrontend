@@ -86,13 +86,21 @@ export class CheckoutComponent implements OnInit {
       if (params['payment_reference'] != undefined) {
         this.paymentReference = params['payment_reference'];
 
-        if (this.paymentReference == 0) {
-          this.payError = 'Payment rejected. Please contact administartor.';
-        } else {
-          this.orderData['uuid'] = this.dataService.getLocalStorageData('uuid');
-          this.orderData['pref'] = this.paymentReference;
-          this.placeOrder();
-        }
+        let logArr = {
+          'orderLogId': this.orderLogId,
+          'step': 'redirect-payment-gateway',
+          'data': params['payment_reference'] 
+        };
+  
+        this.dataService.doLogEntry(logArr).subscribe(resp => {
+          if (this.paymentReference == 0) {
+            this.payError = 'Payment rejected. Please contact administartor.';
+          } else {
+            this.orderData['uuid'] = this.dataService.getLocalStorageData('uuid');
+            this.orderData['pref'] = this.paymentReference;
+            this.placeOrder();
+          }
+        });
 
       } else {
         
@@ -102,8 +110,6 @@ export class CheckoutComponent implements OnInit {
         this.dataService.setLocalStorageData('confirmationFinalOrder', null);
       }
     });
-	  
-	  
 	  
     
   }
@@ -176,18 +182,28 @@ export class CheckoutComponent implements OnInit {
           
         }
         
-        
-        let favData = null;
-        let favOrdArr = [];
-        for(var i=0; i < this.items.length; i++) {
-          let favObj = this.utilService.formatFavData(this.items[i]);
-          let favDataObj = {
-            userId: userId,
-            data: favObj
+
+        let logArr = {
+          'orderLogId': this.orderLogId,
+          'step': 'get-items',
+          'data': JSON.stringify(this.payDetails)
+        };
+  
+        this.dataService.doLogEntry(logArr).subscribe(resp => {
+          let favData = null;
+          let favOrdArr = [];
+          for(var i=0; i < this.items.length; i++) {
+            let favObj = this.utilService.formatFavData(this.items[i]);
+            let favDataObj = {
+              userId: userId,
+              data: favObj
+            }
+            favOrdArr.push(favDataObj);
           }
-          favOrdArr.push(favDataObj);
-        }
-        this.orderData['customData'] = favOrdArr;
+
+          this.orderData['customData'] = favOrdArr;
+        });
+        
 
     } else {
         window.location.href = '/';
