@@ -79,37 +79,51 @@ export class CheckoutComponent implements OnInit {
     
     this.currencyCode = this.utilService.currencyCode;
     this.orderLogId = this.dataService.getLocalStorageData('orderLogId');
-    this.getItems();
-    this.getCountryCodes();
 
-    this.route.queryParams.subscribe(params => {
-      if (params['payment_reference'] != undefined) {
-        this.paymentReference = params['payment_reference'];
+    let logArr = {
+      'orderLogId': this.orderLogId,
+      'step': 'on-init',
+      'data': window.location.href 
+    };
 
-        let logArr = {
-          'orderLogId': this.orderLogId,
-          'step': 'redirect-payment-gateway',
-          'data': params['payment_reference'] 
-        };
+    this.dataService.doLogEntry(logArr).subscribe(resp => {
+    
+      this.getItems();
+      this.getCountryCodes();
   
-        this.dataService.doLogEntry(logArr).subscribe(resp => {
-          if (this.paymentReference == 0) {
-            this.payError = 'Payment rejected. Please contact administartor.';
-          } else {
-            this.orderData['uuid'] = this.dataService.getLocalStorageData('uuid');
-            this.orderData['pref'] = this.paymentReference;
-            this.placeOrder();
-          }
-        });
-
-      } else {
-        
-        this.dataService.setLocalStorageData('favItemFetched', null);
-        this.dataService.setLocalStorageData('favOrdersFetched', null); 
-        this.dataService.setLocalStorageData('confirmationItems', null); 
-        this.dataService.setLocalStorageData('confirmationFinalOrder', null);
-      }
+      this.route.queryParams.subscribe(params => {
+        if (params['payment_reference'] != undefined) {
+          this.paymentReference = params['payment_reference'];
+  
+          let logArr1 = {
+            'orderLogId': this.orderLogId,
+            'step': 'redirect-payment-gateway',
+            'data': params['payment_reference'] 
+          };
+    
+          this.dataService.doLogEntry(logArr1).subscribe(resp1 => {
+            if (this.paymentReference == 0) {
+              this.payError = 'Payment rejected. Please contact administartor.';
+            } else {
+              this.orderData['uuid'] = this.dataService.getLocalStorageData('uuid');
+              this.orderData['pref'] = this.paymentReference;
+              this.placeOrder();
+            }
+          });
+  
+        } else {
+          
+          this.dataService.setLocalStorageData('favItemFetched', null);
+          this.dataService.setLocalStorageData('favOrdersFetched', null); 
+          this.dataService.setLocalStorageData('confirmationItems', null); 
+          this.dataService.setLocalStorageData('confirmationFinalOrder', null);
+        }
+      });
+    
     });
+
+
+    
 	  
     
   }
@@ -119,90 +133,119 @@ export class CheckoutComponent implements OnInit {
     if(this.dataService.getLocalStorageData('allItems') != null 
             && this.dataService.getLocalStorageData('allItems') != undefined) {
         
-        this.items = JSON.parse(this.dataService.getLocalStorageData('allItems'));
-        this.orderData = JSON.parse(this.dataService.getLocalStorageData('finalOrder'));
-
-        let tCost = this.utilService.calculateOverAllCost(this.items);
-        this.totalCost = tCost
-        this.netCost = tCost;  
-        if(this.orderData.couponDiscount != 0 && !isNaN(this.orderData.couponDiscount)) {
-          this.couponDiscount = this.orderData.couponDiscount;
-          this.totalCost = this.totalCost - this.orderData.couponDiscount;
-        }
-        if(this.orderData.order_type == 'delivery') {
-            this.totalCost += 6;
-        } 
-
-        if(this.orderData.payment_type == undefined) { 
-          this.orderData['payment_type'] = 'Online';
-        }
-
-        let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
-        let userId = '';
-        if (userDetails != '' && userDetails != null) {
-          userId = userDetails.id;
-        }
-
-        //set paytab api payment details
-        this.payDetails.fname = this.orderData.user.first_name;
-        this.payDetails.lname = this.orderData.user.last_name;
-        this.payDetails.email = this.orderData.user.email;
-        this.payDetails.phone = this.orderData.user.phone;
-        this.payDetails.amount = this.totalCost;
-        if (userId != '') {
-          this.payDetails.userid = userId;
-        }
-
-        if (this.orderData.order_type == 'delivery') {
-
-          this.payDetails.bill_address_txt.apartment = this.orderData.address.apartment;
-          this.payDetails.bill_address_txt.streetNo = this.orderData.address.street_no;
-          this.payDetails.bill_address_txt.street = this.orderData.address.street;
-          this.payDetails.bill_city = this.orderData.address.city;
-          this.payDetails.bill_state = this.orderData.address.state;
-          this.payDetails.bill_postal = this.orderData.address.postal_code;
-
-          this.payDetails.ship_address_txt.apartment = this.orderData.address.apartment;
-          this.payDetails.ship_address_txt.streetNo = this.orderData.address.street_no;
-          this.payDetails.ship_address_txt.street = this.orderData.address.street;
-          this.payDetails.ship_city = this.orderData.address.city;
-          this.payDetails.ship_state = this.orderData.address.state;
-          this.payDetails.ship_postal = this.orderData.address.postal_code;
-
-        } else {
-          let orderNowDetails = JSON.parse(this.dataService.getLocalStorageData('order-now'));
-          
-          this.payDetails.bill_address_txt.street = orderNowDetails.address.street;
-          this.payDetails.bill_city = orderNowDetails.address.city;
-          this.payDetails.bill_state = orderNowDetails.selectedStore.Store.state;
-         
-          this.payDetails.ship_address_txt.street = orderNowDetails.address.street;
-          this.payDetails.ship_city = orderNowDetails.address.city;
-          this.payDetails.ship_state = orderNowDetails.selectedStore.Store.state;
-          
-        }
-        
-
-        let logArr = {
+        let logArr1 = {
           'orderLogId': this.orderLogId,
-          'step': 'get-items',
-          'data': JSON.stringify(this.payDetails)
+          'step': 'inside-get-items',
+          'data': ''
         };
+    
+        this.dataService.doLogEntry(logArr1).subscribe(resp1 => {
+
+          this.items = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+          this.orderData = JSON.parse(this.dataService.getLocalStorageData('finalOrder'));
+          
+          let tCost = this.utilService.calculateOverAllCost(this.items);
+          this.totalCost = tCost
+          this.netCost = tCost;  
+          if(this.orderData.couponDiscount != 0 && !isNaN(this.orderData.couponDiscount)) {
+            this.couponDiscount = this.orderData.couponDiscount;
+            this.totalCost = this.totalCost - this.orderData.couponDiscount;
+          }
+          if(this.orderData.order_type == 'delivery') {
+              this.totalCost += 6;
+          } 
   
-        this.dataService.doLogEntry(logArr).subscribe(resp => {
-          let favData = null;
-          let favOrdArr = [];
-          for(var i=0; i < this.items.length; i++) {
-            let favObj = this.utilService.formatFavData(this.items[i]);
-            let favDataObj = {
-              userId: userId,
-              data: favObj
-            }
-            favOrdArr.push(favDataObj);
+          if(this.orderData.payment_type == undefined) { 
+            this.orderData['payment_type'] = 'Online';
+          }
+  
+          let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
+          let userId = '';
+          if (userDetails != '' && userDetails != null) {
+            userId = userDetails.id;
+          }
+          
+
+          let tempObj = {
+            items: this.items,
+            orderData: this.orderData,
+            totalCost: this.totalCost,
+            userDetails: userDetails
           }
 
-          this.orderData['customData'] = favOrdArr;
+          let logArr2 = {
+            'orderLogId': this.orderLogId,
+            'step': 'initialized-get-items',
+            'data': JSON.stringify(tempObj)
+          };
+      
+          this.dataService.doLogEntry(logArr2).subscribe(resp2 => {
+              //set paytab api payment details
+              this.payDetails.fname = this.orderData.user.first_name;
+              this.payDetails.lname = this.orderData.user.last_name;
+              this.payDetails.email = this.orderData.user.email;
+              this.payDetails.phone = this.orderData.user.phone;
+              this.payDetails.amount = this.totalCost;
+              if (userId != '') {
+                this.payDetails.userid = userId;
+              }
+      
+              if (this.orderData.order_type == 'delivery') {
+      
+                this.payDetails.bill_address_txt.apartment = this.orderData.address.apartment;
+                this.payDetails.bill_address_txt.streetNo = this.orderData.address.street_no;
+                this.payDetails.bill_address_txt.street = this.orderData.address.street;
+                this.payDetails.bill_city = this.orderData.address.city;
+                this.payDetails.bill_state = this.orderData.address.state;
+                this.payDetails.bill_postal = this.orderData.address.postal_code;
+      
+                this.payDetails.ship_address_txt.apartment = this.orderData.address.apartment;
+                this.payDetails.ship_address_txt.streetNo = this.orderData.address.street_no;
+                this.payDetails.ship_address_txt.street = this.orderData.address.street;
+                this.payDetails.ship_city = this.orderData.address.city;
+                this.payDetails.ship_state = this.orderData.address.state;
+                this.payDetails.ship_postal = this.orderData.address.postal_code;
+      
+              } else {
+                let orderNowDetails = JSON.parse(this.dataService.getLocalStorageData('order-now'));
+                
+                this.payDetails.bill_address_txt.street = orderNowDetails.address.street;
+                this.payDetails.bill_city = orderNowDetails.address.city;
+                this.payDetails.bill_state = orderNowDetails.selectedStore.Store.state;
+              
+                this.payDetails.ship_address_txt.street = orderNowDetails.address.street;
+                this.payDetails.ship_city = orderNowDetails.address.city;
+                this.payDetails.ship_state = orderNowDetails.selectedStore.Store.state;
+                
+              }
+          });
+  
+          
+          
+  
+          let logArr = {
+            'orderLogId': this.orderLogId,
+            'step': 'get-items',
+            'data': JSON.stringify(this.payDetails)
+          };
+    
+          this.dataService.doLogEntry(logArr).subscribe(resp => {
+            let favData = null;
+            let favOrdArr = [];
+            for(var i=0; i < this.items.length; i++) {
+              let favObj = this.utilService.formatFavData(this.items[i]);
+              let favDataObj = {
+                userId: userId,
+                data: favObj
+              }
+              favOrdArr.push(favDataObj);
+            }
+  
+            this.orderData['customData'] = favOrdArr;
+          });
         });
+        
+        
         
 
     } else {
