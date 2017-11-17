@@ -32,12 +32,12 @@
                         <li>Coupon discount<span>{{couponDiscount}}</span></li>
                         <li>Sub total<span>{{netCost}}</span></li>
                         <li>VAT included<span>00.00</span></li>
-                        <li *ngIf="orderData.order_type=='delivery'">Delivery charge<span>0.00</span></li>
+                        <li *ngIf="orderData != null && orderData.order_type=='delivery'">Delivery charge<span>6.00</span></li>
                     </ul>
                     <div class="grand-total">
                         Grand total <span>{{currencyCode}} {{totalCost}}</span>
                     </div>
-                    <address class="delivery_addrs" *ngIf="orderData.order_type == 'delivery'">
+                    <address class="delivery_addrs" *ngIf="orderData != null && orderData.order_type == 'delivery'">
                         <h4>delivery address</h4>
                         <p><strong>{{orderData.user.first_name}} {{orderData.user.last_name}}<br></strong>
                         {{orderData.address.apartment}}, <br>
@@ -128,7 +128,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <ng-container *ngIf="orderData.order_type == 'delivery'">
+                                <ng-container *ngIf="orderData != null && orderData.order_type == 'delivery'">
                                     <h5>Delivery Details</h5>
                                     <div class="col-md-6 col-sm-12">
                                             <div class="form-group">

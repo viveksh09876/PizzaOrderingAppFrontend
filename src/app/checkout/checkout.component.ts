@@ -130,8 +130,18 @@ export class CheckoutComponent implements OnInit {
 
 
   getItems() {
-    if(this.dataService.getLocalStorageData('allItems') != null 
-            && this.dataService.getLocalStorageData('allItems') != undefined) {
+
+    let aItems = this.dataService.getLocalStorageData('allItems');
+
+    let logArr3 = {
+      'orderLogId': this.orderLogId,
+      'step': 'start-get-items',
+      'data': aItems
+    };
+
+    this.dataService.doLogEntry(logArr3).subscribe(resp1 => {
+
+      if(aItems != null && aItems != undefined && aItems != '') {
         
         let logArr1 = {
           'orderLogId': this.orderLogId,
@@ -145,7 +155,7 @@ export class CheckoutComponent implements OnInit {
           this.orderData = JSON.parse(this.dataService.getLocalStorageData('finalOrder'));
           
           let tCost = this.utilService.calculateOverAllCost(this.items);
-          this.totalCost = tCost
+          this.totalCost = tCost;
           this.netCost = tCost;  
           if(this.orderData.couponDiscount != 0 && !isNaN(this.orderData.couponDiscount)) {
             this.couponDiscount = this.orderData.couponDiscount;
@@ -166,20 +176,20 @@ export class CheckoutComponent implements OnInit {
           }
           
 
-          let tempObj = {
-            items: this.items,
-            orderData: this.orderData,
-            totalCost: this.totalCost,
-            userDetails: userDetails
-          }
+          // let tempObj = {
+          //   items: this.items,
+          //   orderData: this.orderData,
+          //   totalCost: this.totalCost,
+          //   userDetails: userDetails
+          // }
 
-          let logArr2 = {
-            'orderLogId': this.orderLogId,
-            'step': 'initialized-get-items',
-            'data': JSON.stringify(tempObj)
-          };
+          // let logArr2 = {
+          //   'orderLogId': this.orderLogId,
+          //   'step': 'initialized-get-items',
+          //   'data': JSON.stringify(tempObj)
+          // };
       
-          this.dataService.doLogEntry(logArr2).subscribe(resp2 => {
+          // this.dataService.doLogEntry(logArr2).subscribe(resp2 => {
               //set paytab api payment details
               this.payDetails.fname = this.orderData.user.first_name;
               this.payDetails.lname = this.orderData.user.last_name;
@@ -218,7 +228,7 @@ export class CheckoutComponent implements OnInit {
                 this.payDetails.ship_state = orderNowDetails.selectedStore.Store.state;
                 
               }
-          });
+          //});
   
           
           
@@ -253,6 +263,10 @@ export class CheckoutComponent implements OnInit {
     }
     
     this.showLoading = false;
+
+    });
+
+    
   }
 
 

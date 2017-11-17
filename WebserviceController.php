@@ -7,7 +7,7 @@ class WebserviceController extends AppController {
     function beforeFilter(){
         parent::beforeFilter();
 		// Configure::write('debug', 2);
-        $this->Auth->allow(array('get_countries','get_categories','getPageInfo','getip','sendApplyInfo','get_languages','get_slides','get_slides_app','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','get_all_categories_data_app','getItemData','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getCitiesSuggestionApp','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl', 'getStoreDetailsByStoreId','forgot_password','reset_password','getReOrderData','sendAckEmail','uploadAttachment', 'sendPaymentData', 'getCountryCodes','doLogEntry'));
+        $this->Auth->allow(array('get_countries','get_categories','getPageInfo','getip','sendApplyInfo','get_languages','get_slides','get_slides_app','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','get_all_categories_data_app','getItemData','getItemDataApp','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getCitiesSuggestionApp','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl', 'getStoreDetailsByStoreId','forgot_password','reset_password','getReOrderData','sendAckEmail','uploadAttachment', 'sendPaymentData', 'getCountryCodes','doLogEntry'));
     }
 
 	public function get_countries(){
@@ -515,6 +515,9 @@ class WebserviceController extends AppController {
 							
 							$count[$sName['name']] +=1;
 						}else{
+							if(empty($prod['SubCategory'])){
+								$prod['SubCategory'] =  null;
+							}
 							$cats[$i]['products'][] = $prod;
 						}
 						
@@ -539,6 +542,16 @@ class WebserviceController extends AppController {
 		if($slug != '') {
 			
 			$item = $this->getFormattedItemData($slug, $menuCountry);
+			//echo '<pre>'; print_r($item); die;
+			echo json_encode($item); die;
+		}
+	}
+	
+	public function getItemDataApp($slug = '', $menuCountry = 'UAE') {
+		//Configure::write('debug', 2);
+		if($slug != '') {
+			
+			$item = $this->getFormattedItemDataApp($slug, $menuCountry);
 			//echo '<pre>'; print_r($item); die;
 			echo json_encode($item); die;
 		}
@@ -912,6 +925,384 @@ class WebserviceController extends AppController {
 			//unset($item['ProductIncludedModifier']);
 			return $item;
 	}
+	
+	public function getFormattedItemDataApp($slug, $menuCountry = 'UAE') {
+		$this->Product->recursive = 6;
+			
+			$this->OptionSuboption->bindModel(array(
+								'belongsTo' => array(
+									'SubOption' => array(
+										'className' => 'SubOption',
+										'foreignKey' => 'suboption_id'
+									)
+								)
+							));
+			
+			$this->ModiferOption->bindModel(array(
+								'belongsTo' => array(
+									'Option' => array(
+										'className' => 'Option',
+										'foreignKey' => 'option_id',
+										'conditions' => array('Option.status' => 1),
+										'fields' => array(
+												'Option.id','Option.lang_id','Option.store_id','Option.name','Option.plu_code','Option.image','Option.sort_order','Option.dependent_modifier_id','Option.dependent_modifier_option_id','Option.dependent_modifier_count'
+											
+										),
+										'order' => array('Option.sort_order' => 'asc', 'Option.no_modifier' => 'asc')
+									)
+								)
+							));
+			
+			$this->Modifier->bindModel(array(
+								'hasMany' => array(
+									'ModifierOption' => array(
+										'className' => 'ModifierOption',
+										'foreignKey' => 'modifier_id',
+										'fields' => array(
+												'ModifierOption.id', 'ModifierOption.modifier_id', 'ModifierOption.option_id'
+										)
+									)
+								)
+							));
+			
+			$this->ProductModifier->bindModel(array(
+								'belongsTo' => array(
+										'Modifier' => array(
+											'className' => 'Modifier',
+											'foreignKey' => 'modifier_id',
+											'conditions' => array('Modifier.status' => 1),
+											'fields' => array(
+													'Modifier.id','Modifier.lang_id','Modifier.store_id','Modifier.title','Modifier.image','Modifier.short_description','Modifier.sort_order','Modifier.status'											
+											 ),
+											 'order' => array('Modifier.sort_order' => 'asc')
+										)
+								)
+							));
+			
+			$this->ProductIncludedModifier->bindModel(array(
+								'belongsTo' => array(
+									'ModifierOption' => array(
+										'className' => 'ModifierOption',
+										'foreignKey' => 'modifier_option_id'
+									)
+								)							
+							));
+			
+			$this->Product->bindModel(array(
+								'hasMany' => array(
+											'ProductModifier' => array(
+												'className' => 'ProductModifier',
+												'foreignKey' => 'product_id',
+												'fields' => array(
+														'ProductModifier.id','ProductModifier.product_id','ProductModifier.modifier_id','ProductModifier.default_option_id','ProductModifier.store_id','ProductModifier.lang_id','ProductModifier.is_required','ProductModifier.choice','ProductModifier.min_choice','ProductModifier.max_choice','ProductModifier.max_choice',
+														'ProductModifier.free'
+													),
+												'order' => 'ProductModifier.sort_order ASC'	
+											),
+											'ProductIncludedModifier' => array(
+												'className' => 'ProductIncludedModifier',
+												'foreignKey' => 'product_id'
+											)
+										)
+							));
+			$item = $this->Product->find('first', array(
+											'conditions' => array('Product.slug' => $slug),
+											'fields' => array(
+												'Product.id', 'Product.lang_id','Product.category_id',
+												'Product.sub_category_id', 'Product.short_description', 'Product.plu_code', 'Product.title', 'Product.price_title', 'Product.slug','Product.price','Product.image',
+												'Product.thumb_image','Product.sort_order'
+											)
+										));
+			
+			//$plu_json = $this->curlGetRequest('https://nkdpizza.com/beta/pos/index.php/menu/'.$menuCountry);
+			$plu_json = $this->curlGetRequest(APIURL.'/index.php/menu/UAE');
+			$plu_json = json_decode($plu_json, true);
+			
+			
+			if(!empty($item)) {
+				
+				$item['Product']['price'] = 0;
+				
+				//map price of product
+				foreach($plu_json['item'] as $plu_item) {	
+					foreach($plu_item as $pt) {	
+						//echo '<pre>'; print_r($pt); die;						
+						if($item['Product']['category_id'] == 1) {							
+							foreach($pt as $pti) {
+								if(isset($pti['PLU']) && ($pti['PLU'] == $item['Product']['plu_code'])) {
+									if(isset($pti['Price'])) {
+										$item['Product']['price'] = $pti['Price'];
+									}else if(isset($pti['PriceSm'])) {
+										$item['Product']['price'] = array(
+															'small' => $pti['PriceSm'],
+															'medium' => $pti['PriceMed'],
+															'large' => $pti['PriceLg']	
+														);
+									}	
+								}
+							}								
+							
+						}else{
+							if(isset($pt['PLU']) && ($pt['PLU'] == $item['Product']['plu_code'])) {
+									$item['Product']['price'] = $pt['Price'];
+							}
+						}					
+					}								
+				}  
+				
+				
+				
+				$item['Product']['qty'] = 1;	
+				
+				
+				if(!empty($item['ProductIncludedModifier'])) {					
+					$i = 0;
+					$includedArr = array();					
+					foreach($item['ProductIncludedModifier'] as $pim) {						
+						if(!empty($pim['ModifierOption'])) {
+							$includedArr[$pim['ModifierOption']['modifier_id']]['title'] = $pim['ModifierOption']['Modifier']['title'];
+							$includedArr[$pim['ModifierOption']['modifier_id']]['option'][] = $pim['ModifierOption']['Option'];	
+							$i++;	
+						}						
+					}
+					
+					//map prices of included modifier using plu
+					if(!empty($includedArr)) {
+						foreach($includedArr as $key => $ia) {
+							$i = 0;
+							foreach($ia['option'] as $opt) {
+								if(empty($includedArr[$key]['option'][$i]['OptionSuboption'])){
+									$includedArr[$key]['option'][$i]['OptionSuboption'] = null;
+								}
+								foreach($plu_json['modifier'] as $plu_mod) {
+									foreach($plu_mod as $pl_m) {
+										if($pl_m['PLU'] == $opt['plu_code']) {
+											if(isset($pl_m['Price'])) {
+												
+												if (isset($pl_m['PriceSalad']) && intval($pl_m['PriceSalad']) > 0) {
+													$price = $pl_m['PriceSalad'];
+												} else {
+													$price = $pl_m['Price'];	
+												}
+												
+											}else if(isset($pl_m['PriceSm'])){
+												if (isset($pl_m['PriceSalad']) && intval($pl_m['PriceSalad']) > 0) {
+													$price = $pl_m['PriceSalad'];
+												} else {
+													$price = array(
+														'small' => $pl_m['PriceSm'],
+														'medium' => $pl_m['PriceMed'],
+														'large' => $pl_m['PriceLg']
+													);
+												}												
+											}	
+											$includedArr[$key]['option'][$i]['price'] = $price;
+											$includedArr[$key]['option'][$i]['send_code'] = '';
+											$includedArr[$key]['option'][$i]['add_extra'] = false;
+											$includedArr[$key]['option'][$i]['default_checked'] = true;
+											$includedArr[$key]['option'][$i]['is_checked'] = true;
+											$i++;
+										}
+									}
+								}								
+							}						
+						}						
+					}
+					
+					$iArr = array();
+					if(!empty($includedArr)) {
+						$i = 0;
+						foreach($includedArr as $arr) {
+							$iArr[$i] = $arr;
+							$i++;
+						}
+					}
+					
+					$item['ProductIncludedModifier'] = $iArr;
+				}
+				
+				//map modifier price				
+				if(!empty($item['ProductModifier'])) {	
+					$i = 0;
+					foreach($item['ProductModifier'] as $pm) {
+						$j = 0;
+						foreach($pm['Modifier']['ModifierOption'] as $mo) {
+							
+							unset($mo['Modifier']['ModifierOption']);
+							unset($item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Modifier']['ModifierOption']);
+							
+							$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_checked'] = false;
+							
+							$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['default_checked'] = false;
+							
+							$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['send_code'] = '';
+							
+							$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['add_extra'] = false;
+							
+							$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['quantity'] = 1;
+							
+							$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_included_mod'] = false;
+							
+							$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['send_code_permanent'] = false;
+							
+							if($item['Product']['category_id'] == 1) {
+								$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['subop_name'] = 'Full';
+							}
+							
+							//add param if it is included modifier
+							if(!empty($item['ProductIncludedModifier'])) {
+								foreach($item['ProductIncludedModifier'] as $includedPm) {
+									foreach($includedPm['option'] as $ipmOP) {
+									
+										if($ipmOP['plu_code'] == $mo['Option']['plu_code']) {
+											$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_checked'] = true;								
+											$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['default_checked'] = true;								
+											$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_included_mod'] = true;
+										}
+									}
+								}
+							}
+							
+							if(!empty($mo['Option']['OptionSuboption'])) {
+								$n = 0;
+								foreach($mo['Option']['OptionSuboption'] as $sop) {
+									if($item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['OptionSuboption'][$n]['SubOption']['name'] == 'Full') {
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['OptionSuboption'][$n]['SubOption']['is_active'] = true;	
+									}else{
+										$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['OptionSuboption'][$n]['SubOption']['is_active'] = false;
+									}									
+									$n++;
+								}
+							}
+							
+							if($item['Product']['category_id'] == 1) {
+								
+								$loopArr = $plu_json['modifier'];
+								if($item['Product']['plu_code'] == 999999) {
+									$loopArr = $plu_json['item'];	
+								}
+								
+								
+								foreach($loopArr as $plu_mod) {
+									foreach($plu_mod as $pl_m) {
+										if($item['Product']['plu_code'] == 999999) {
+											foreach($pl_m as $cyo) {
+												if(isset($cyo['PLU'])) {
+													if($cyo['PLU'] == $mo['Option']['plu_code']) {
+																							
+														if(isset($cyo['Price'])) {
+															$price = $cyo['Price'];
+															$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = $price;
+														}else if(isset($cyo['PriceSm'])){
+															$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = array(
+																'small' => $cyo['PriceSm'],
+																'medium' => $cyo['PriceMed'],
+																'large' => $cyo['PriceLg']
+															);
+														}												
+													}
+												}
+												
+											}
+											
+											//echo '<pre>'; print_r(); die;
+											
+										}else{	
+																											
+											if($pl_m['PLU'] == $mo['Option']['plu_code']) {
+																							
+												if(isset($pl_m['Price'])) {
+													$price = $pl_m['Price'];
+													$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = $price;
+												}else if(isset($pl_m['PriceSm'])){
+													$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = array(
+														'small' => $pl_m['PriceSm'],
+														'medium' => $pl_m['PriceMed'],
+														'large' => $pl_m['PriceLg']
+													);
+												}	
+												
+												//$mo['price'] = $pl_m['Price'];
+											}
+										}
+									}
+								}	
+								
+								
+								//loop to get values of crust for pizza other than cyo
+								foreach($plu_json['item'] as $plu_mod) {
+									foreach($plu_mod as $pl_m) {
+																								
+										foreach($pl_m as $cyo) {	
+											if(empty($item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['OptionSuboption'])){
+															$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['OptionSuboption'] = null;
+													}
+											if(isset($cyo['PLU'])) {
+												if($cyo['PLU'] == $mo['Option']['plu_code']) {
+												
+													if(isset($cyo['Price'])) {
+														$price = $cyo['Price'];
+														$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = $price;
+													}else if(isset($cyo['PriceSm'])){
+														$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = array(
+															'small' => $cyo['PriceSm'],
+															'medium' => $cyo['PriceMed'],
+															'large' => $cyo['PriceLg']
+														);
+													}												
+												}	
+											}	
+											
+										}
+										
+									}
+								}
+							}
+										
+							
+							foreach($plu_json['modifier'] as $plu_mod) {
+								foreach($plu_mod as $pl_m) {
+																			
+										if($pl_m['PLU'] == $mo['Option']['plu_code']) {
+										
+											if(isset($pl_m['Price'])) {
+												if (isset($pl_m['PriceSalad']) && intval($pl_m['PriceSalad']) > 0) {
+													$price = $pl_m['PriceSalad'];
+												} else {
+													$price = $pl_m['Price'];
+												}
+											}else if(isset($pl_m['PriceSm'])){
+												if (isset($pl_m['PriceSalad']) && intval($pl_m['PriceSalad']) > 0) {
+													$price = $pl_m['PriceSalad'];
+												} else {
+													$price = array(
+														'small' => $pl_m['PriceSm'],
+														'medium' => $pl_m['PriceMed'],
+														'large' => $pl_m['PriceLg']
+													);
+												}
+											}	
+											if(empty($item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['OptionSuboption'])){
+												$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['OptionSuboption'] = null;
+											}
+											$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = ($price!='0.00')?$price:null;
+											$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['is_topping'] = true;
+											//$mo['price'] = $pl_m['Price'];
+										}	
+								}
+							}
+							$j++;			
+						}
+						$i++;	
+					}
+				}				
+			}
+			
+			$item['ProductIncludedModifier'] = array();
+			//unset($item['ProductIncludedModifier']);
+			return $item;
+	}
+	
 	
 	
 	public function placeOrder() {
@@ -2548,6 +2939,7 @@ function sendCareerInfo(){
 
 
 	public function doLogEntry() {
+		Configure::write('debug', 2);
 		$logData = $this->request->input ( 'json_decode', true);
 		if (!empty($logData)) {
 
