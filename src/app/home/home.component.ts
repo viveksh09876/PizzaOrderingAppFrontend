@@ -222,7 +222,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
               }
 
               this.slideArr = slides; 
-                                          
+               
               setTimeout(function(){
                   jQuery("#home-slider").slick({
                     infinite: true,
@@ -231,14 +231,19 @@ export class HomeComponent implements OnInit, AfterContentInit {
                     prevArrow: false,
                     nextArrow: false
                   });
-              }, 2000);
+                  setTimeout(function(){
+                    if(jQuery(window).width() > 767){
+                      jQuery(".slider-wrapper").css({'height':(jQuery('.img-responsive.desk-banner').height()+'px')});
+                    }
+                    if(jQuery(window).width() < 767){
+                      jQuery(".slider-wrapper").css({'height':(jQuery('.img-responsive.mobile-banner').height()+'px')});
+                    }
+                },500);
+              }, 1000);
                
           });
   }
 
-
-
-  
 
 
 }
