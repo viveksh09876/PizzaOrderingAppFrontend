@@ -79,14 +79,6 @@ export class CheckoutComponent implements OnInit {
     
     this.currencyCode = this.utilService.currencyCode;
     this.orderLogId = this.dataService.getLocalStorageData('orderLogId');
-
-    let logArr = {
-      'orderLogId': this.orderLogId,
-      'step': 'on-init',
-      'data': window.location.href 
-    };
-
-    this.dataService.doLogEntry(logArr).subscribe(resp => {
     
       this.getItems();
       this.getCountryCodes();
@@ -95,13 +87,6 @@ export class CheckoutComponent implements OnInit {
         if (params['payment_reference'] != undefined) {
           this.paymentReference = params['payment_reference'];
   
-          let logArr1 = {
-            'orderLogId': this.orderLogId,
-            'step': 'redirect-payment-gateway',
-            'data': params['payment_reference'] 
-          };
-    
-          this.dataService.doLogEntry(logArr1).subscribe(resp1 => {
             if (this.paymentReference == 0) {
               this.payError = 'Payment rejected. Please contact administartor.';
             } else {
@@ -109,7 +94,7 @@ export class CheckoutComponent implements OnInit {
               this.orderData['pref'] = this.paymentReference;
               this.placeOrder();
             }
-          });
+          
   
         } else {
           
@@ -119,44 +104,28 @@ export class CheckoutComponent implements OnInit {
           this.dataService.setLocalStorageData('confirmationFinalOrder', null);
         }
       });
-    
-    });
-
-
-    
-	  
+   	  
     
   }
 
 
   getItems() {
-
-    let aItems = this.dataService.getLocalStorageData('allItems');
-
-    let logArr3 = {
-      'orderLogId': this.orderLogId,
-      'step': 'start-get-items',
-      'data': aItems
-    };
-
-    this.dataService.doLogEntry(logArr3).subscribe(resp1 => {
-
-      if(aItems != null && aItems != undefined && aItems != '') {
+    if(this.dataService.getLocalStorageData('allItems') != null 
+            && this.dataService.getLocalStorageData('allItems') != undefined) {
         
-        let logArr1 = {
-          'orderLogId': this.orderLogId,
-          'step': 'inside-get-items',
-          'data': ''
-        };
-    
-        this.dataService.doLogEntry(logArr1).subscribe(resp1 => {
+        this.items = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+        this.orderData = JSON.parse(this.dataService.getLocalStorageData('finalOrder'));
+        
+        
 
-          this.items = JSON.parse(this.dataService.getLocalStorageData('allItems'));
-          this.orderData = JSON.parse(this.dataService.getLocalStorageData('finalOrder'));
-          
-          let tCost = this.utilService.calculateOverAllCost(this.items);
-          this.totalCost = tCost;
-          this.netCost = tCost;  
+          let formattedItemsData = this.dataService.formatCartData(this.items, 'checkout');
+            
+        this.formattedItems = formattedItemsData;
+        
+            
+            this.netCost =  formattedItemsData.totalPrice;
+            this.totalCost = this.netCost;
+    
           if(this.orderData.couponDiscount != 0 && !isNaN(this.orderData.couponDiscount)) {
             this.couponDiscount = this.orderData.couponDiscount;
             this.totalCost = this.totalCost - this.orderData.couponDiscount;
@@ -175,21 +144,6 @@ export class CheckoutComponent implements OnInit {
             userId = userDetails.id;
           }
           
-
-          // let tempObj = {
-          //   items: this.items,
-          //   orderData: this.orderData,
-          //   totalCost: this.totalCost,
-          //   userDetails: userDetails
-          // }
-
-          // let logArr2 = {
-          //   'orderLogId': this.orderLogId,
-          //   'step': 'initialized-get-items',
-          //   'data': JSON.stringify(tempObj)
-          // };
-      
-          // this.dataService.doLogEntry(logArr2).subscribe(resp2 => {
               //set paytab api payment details
               this.payDetails.fname = this.orderData.user.first_name;
               this.payDetails.lname = this.orderData.user.last_name;
@@ -228,18 +182,7 @@ export class CheckoutComponent implements OnInit {
                 this.payDetails.ship_state = orderNowDetails.selectedStore.Store.state;
                 
               }
-          //});
-  
           
-          
-  
-          let logArr = {
-            'orderLogId': this.orderLogId,
-            'step': 'get-items',
-            'data': JSON.stringify(this.payDetails)
-          };
-    
-          this.dataService.doLogEntry(logArr).subscribe(resp => {
             let favData = null;
             let favOrdArr = [];
             for(var i=0; i < this.items.length; i++) {
@@ -252,19 +195,13 @@ export class CheckoutComponent implements OnInit {
             }
   
             this.orderData['customData'] = favOrdArr;
-          });
-        });
-        
-        
-        
-
+          
+       
     } else {
         window.location.href = '/';
     }
     
     this.showLoading = false;
-
-    });
 
     
   }
@@ -278,15 +215,6 @@ export class CheckoutComponent implements OnInit {
   placeOrder() {
       this.showLoading = true;
         this.showPlaceOrder = false;
-
-        
-        let logArr = {
-          'orderLogId': this.orderLogId,
-          'step': 'post-payment-gateway',
-          'data': JSON.stringify(this.orderData) 
-        };
-  
-        this.dataService.doLogEntry(logArr).subscribe(resp => {
 
           this.dataService.placeOrder(this.orderData).subscribe(data => {
             // console.log(JSON.parse(data.response));
@@ -312,9 +240,6 @@ export class CheckoutComponent implements OnInit {
              this.showLoading = false;
            });
           
-        });
-
-  
     }
 
 
@@ -382,19 +307,6 @@ export class CheckoutComponent implements OnInit {
       this.payDetails.uuid = this.uniqueId;
       this.dataService.setLocalStorageData('uuid', this.payDetails.uuid);
 
-      let overAllData = {
-        'paymentData': this.payDetails,
-        'orderData': this.orderData
-      };
-
-      let logArr = {
-        'orderLogId': this.orderLogId,
-        'step': 'pre-payment-gateway',
-        'data': JSON.stringify(overAllData) 
-      };
-
-      this.dataService.doLogEntry(logArr).subscribe(resp => {
-
           this.dataService.sendPaymentData(this.payDetails)
           .subscribe(data => {
             
@@ -411,11 +323,6 @@ export class CheckoutComponent implements OnInit {
             }
           });
 
-      });
-
-
-
-      
    // }
   }
         

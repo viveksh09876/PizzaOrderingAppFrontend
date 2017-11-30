@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
 import { OrdernowmodalComponent } from '../ordernowmodal/ordernowmodal.component';
 import { SuggestionmodalComponent } from '../suggestionmodal/suggestionmodal.component';
+import { MessageComponent } from '../message/message.component';
 import { DataService } from '../data.service';
 import { UtilService } from '../util.service';
 
@@ -49,8 +50,10 @@ export class MenuComponent implements OnInit {
     this.dataService.setLocalStorageData('confirmationFinalOrder', null);
 
     this.currencyCode = this.utilService.currencyCode;
-    this.getAllCategories();
-    this.getCartItems();        
+    this.getAllCategories(() => {
+      this.getCartItems();        
+    });
+    
     
   }
 
@@ -62,10 +65,25 @@ export class MenuComponent implements OnInit {
       
       if(items != 'null' && items != null) {
         this.items = JSON.parse(items);
-        this.totalCost = this.utilService.calculateOverAllCost(this.items);
-        this.netCost = this.totalCost;
+        console.log('deals', JSON.parse(this.dataService.getLocalStorageData('allDealsData')));
+		    let formattedItemsData = this.dataService.formatCartData(this.items, 'menu');
+            this.formattedItems = formattedItemsData;
+            console.log('formatted', this.formattedItems);
+            //let getTCost = Number(this.utilService.calculateOverAllCost(this.items).toFixed(2));
+            this.totalCost =  formattedItemsData.totalPrice;
+            
+            this.netCost = this.totalCost;
+        
+            if (isNaN(this.netCost)) {
+              this.netCost = 0;
+            }
+
+            this.showViewCart = true;  
+             
+        //});
+
       }      
-      this.showViewCart = true;
+      
     }
   }
 
@@ -83,7 +101,9 @@ export class MenuComponent implements OnInit {
     //this.prepareSuggestions(this.addedCategories);
   }
 
-  getAllCategories(){
+
+
+  getAllCategories(callback){
 
       let storeId = 1;
       let menuCountry = 'UAE';
@@ -107,7 +127,19 @@ export class MenuComponent implements OnInit {
               this.selectedMenuCat = params['slug'];
               this.dataService.setLocalStorageData('selectedMenuCat', this.selectedMenuCat);
             }
-          });          
+          });    
+          
+          this.dataService.getAllDeals().subscribe(data => {
+            this.dataService.setAllDealsData(data);
+            for (var i=0; i<this.menuData.length; i++) {
+              if (this.menuData[i].type == 'deal') {
+                  this.menuData[i].products = data;
+              }
+            }
+            
+            callback();
+          });
+
       }); 
 
       
@@ -213,9 +245,12 @@ export class MenuComponent implements OnInit {
       }
     }
 
-    this.totalCost =  this.utilService.calculateOverAllCost(this.items);
-    this.netCost = this.totalCost;
-   // console.log(type, this.totalCost, this.items.Product.qty);
+    let formattedItemsData = this.dataService.formatCartData(this.items, 'menu');
+      this.formattedItems = formattedItemsData;
+      this.totalCost =  formattedItemsData.totalPrice;
+      this.netCost = this.totalCost;
+    //});    
+    
   }
 
 
@@ -232,8 +267,13 @@ export class MenuComponent implements OnInit {
             
             this.items = allItems;
             this.dataService.setLocalStorageData('allItems', JSON.stringify(this.items));
-            this.totalCost = this.utilService.calculateOverAllCost(allItems);
-            this.netCost = this.totalCost; 
+            
+            let formattedItemsData = this.dataService.formatCartData(this.items, 'menu');
+              this.formattedItems = formattedItemsData;
+              this.totalCost =  formattedItemsData.totalPrice;
+              this.netCost = this.totalCost;
+            //});    
+            
 
           }else{
             this.items = [];
@@ -241,7 +281,39 @@ export class MenuComponent implements OnInit {
             alert('No items remaining in your cart!');
           }
          
-      }      
+      }  
+      
+  }
+
+
+  deleteDealItem(dealId, comboUniqueId) {
+    var y = confirm('Are you sure, you want to delete this deal from order?');
+    if(y) {
+      let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
+      
+      let remainingItems = [];
+
+      for (var i=0; i<allItems.length; i++) {
+        if (allItems[i].Product.dealId == undefined || (allItems[i].Product.dealId != dealId && allItems[i].Product.comboUniqueId != comboUniqueId)) {
+          remainingItems.push(allItems[i]);
+        }
+      }
+
+      if(remainingItems.length > 0) {
+        this.items = remainingItems;    
+        this.dataService.setLocalStorageData('allItems', JSON.stringify(this.items));
+        let formattedItemsData = this.dataService.formatCartData(this.items, 'menu');
+          this.formattedItems = formattedItemsData;
+          this.totalCost =  formattedItemsData.totalPrice;
+          this.netCost = this.totalCost;
+        //});    
+        
+      } else {
+        this.items = [];
+        this.dataService.setLocalStorageData('allItems', 'null');
+        alert('No items remaining in your cart!');
+      }
+    }
 
   }
 
@@ -359,6 +431,18 @@ export class MenuComponent implements OnInit {
   }
 
 
+  goToDeal(dealId) {
+	let comboUniqueId = this.utilService.generateUniqueId();   
+    this.router.navigate(['/deals', dealId, comboUniqueId]);
+  }
+  
+  clearCart() {
+	  this.dataService.clearCart();
+	  this.items = [];
+	  this.showViewCart = false;
+	  this.formattedItems.deals = [];
+	  this.formattedItems.otherItems = [];
+  }
 
 
 }

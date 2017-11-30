@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Jsonp  } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 import { environment } from '../environments/environment';
+import { UtilService } from './util.service';
 import { Observable } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/map';
@@ -10,7 +11,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class DataService {
 
-  constructor(private http: Http, private jsonp:Jsonp) { }
+  constructor(private http: Http, private jsonp:Jsonp, private utilService: UtilService) { }
 
   domain = environment.cmsApiPath;
   selectedFavItemData = null;
@@ -25,7 +26,7 @@ export class DataService {
   
   getMenuData(storeId, country): Observable<any>{
 
-    return this.http.get( this.domain + '/webservice/get_all_categories_data/'+storeId+ '/'+country)
+    return this.http.get( this.domain + '/temp/get_all_categories_data/'+storeId+ '/'+country)
                     .map( (res: Response) => res.json() )
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
@@ -387,13 +388,292 @@ export class DataService {
                     .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
   }
 
-  doLogEntry(logData): Observable<any>{
-     
-    return this.http.post( this.domain + '/webservice/doLogEntry', logData)
-              .map((res: Response) => res.json())
-              .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
-  } 
+  getDealData(dealId): Observable<any>{
 
+    return this.http.get( this.domain + '/webservice/getDealData/' + dealId)
+                      .map( (res: Response) => res.json() )
+                        .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+
+  }
+
+
+  getDealTypeData(id) {
+    let allDealsData = JSON.parse(this.getLocalStorageData('allDealsData'));
+    if (allDealsData != null) {
+      for (var i=0; i<allDealsData.length; i++) {
+          if (allDealsData[i]['id'] == id) {
+            return allDealsData[i];
+          }
+       }
+    }
+
+  }
+  
+  getAllDeals() {
+    
+    return this.http.get( this.domain + '/webservice/getDealItemList')
+    .map( (res: Response) => res.json() )
+    .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+    
+  }
+
+  setAllDealsData(data) {
+    this.setLocalStorageData('allDealsData', JSON.stringify(data));
+  }
+  
+  formatCartData(allItems, page) {
+	  
+	  let deals = {};
+	  let otherItems = [];
+	  
+	  //separate deal and other items
+	  for (var i=0; i<allItems.length; i++) {
+      
+		  if (allItems[i].Product.dealId != undefined) {
+			  if (deals[allItems[i].Product.comboUniqueId] == undefined) {
+				  deals[allItems[i].Product.comboUniqueId] = [];
+			  }
+			  deals[allItems[i].Product.comboUniqueId].push(allItems[i]);
+		  } else {
+			  otherItems.push(allItems[i]);
+		  }
+	  }
+	  let totPrice = 0;
+	  let dealsArr = [];
+    
+    if (Object.keys(deals).length > 0) {
+
+        //validate deal items
+        for (var key in deals) {
+          if (deals.hasOwnProperty(key)) {
+
+              let dId = deals[key][0].Product.dealId;
+              
+              if (isNaN(dId)) {
+                 dId = this.getDealIdFromCode(dId);
+                 
+                  let valid = this.validateDealItems(deals[key], dId, deals[key][0].Product.comboUniqueId);
+                   
+                    if (!valid) {
+                      for (var i=0; i<deals[key].length; i++) {
+                        let dObj = deals[key][i];
+                        if (page != 'deal') {
+                          delete dObj.dealPrice;
+                          delete dObj.Product.dealId;
+                          delete dObj.Product.comboUniqueId;
+                          delete dObj.Product.position;
+                        }
+                        
+                        otherItems.push(dObj);
+                      }
+                      
+                      delete deals[key];
+                    } else {
+                      totPrice += deals[key][0].dealPrice;
+                      
+                      let titleText = this.getDealTitle(dId);
+                        let dealObject = {
+                          title: titleText,
+                          totalCostPrice: Number(totPrice.toFixed(2)),
+                          dealData: deals[key]
+                        }
+                        
+                        dealsArr.push(dealObject);
+                      
+                      
+                    }
+
+
+                    let otherItemsPrice = Number(this.utilService.calculateOverAllCost(otherItems).toFixed(2));
+                    let returnObj = {
+                      deals: dealsArr,
+                      otherItems: otherItems,
+                      totalPrice: Number((totPrice + otherItemsPrice).toFixed(2))
+                    }
+
+                    return returnObj;
+
+              } else {
+                  
+                  let valid = this.validateDealItems(deals[key], dId, deals[key][0].Product.comboUniqueId);
+                  
+                    if (!valid) {
+                      for (var i=0; i<deals[key].length; i++) {
+                        let dObj = deals[key][i];
+                        if (page != 'deal') {
+                          delete dObj.dealPrice;
+                          delete dObj.Product.dealId;
+                          delete dObj.Product.comboUniqueId;
+                          delete dObj.Product.position;
+                        }
+                        
+                        otherItems.push(dObj);
+                      }
+                      
+                      delete deals[key];
+                    } else {
+                      totPrice += deals[key][0].dealPrice;
+                      
+                      let titleText = this.getDealTitle(dId);
+                        let dealObject = {
+                          title: titleText,
+                          totalCostPrice: Number(totPrice.toFixed(2)),
+                          dealData: deals[key]
+                        }
+                        
+                        dealsArr.push(dealObject);
+                    
+                      
+                    }
+
+                    let otherItemsPrice = Number(this.utilService.calculateOverAllCost(otherItems).toFixed(2));
+                    let returnObj = {
+                      deals: dealsArr,
+                      otherItems: otherItems,
+                      totalPrice: Number((totPrice + otherItemsPrice).toFixed(2))
+                    }
+
+                    return returnObj;
+
+                  
+              }
+
+          
+          }
+          
+          
+        }
+
+    } else {
+      let otherItemsPrice = Number(this.utilService.calculateOverAllCost(otherItems).toFixed(2));
+      
+      let returnObj = {
+        deals: dealsArr,
+        otherItems: otherItems,
+        totalPrice: Number((totPrice + otherItemsPrice).toFixed(2))
+      }
+
+      return returnObj;
+     
+    }
+ 
+  }
+  
+  
+	validateDealItems(allItems, dealCode, comboUniqueId) {
+		  let type = dealCode;
+		
+        let dealData = this.getDealTypeData(type);
+
+        let categoriesArr = dealData['categories'];
+        let keepCats = [];      //cats for which products added
+        let atLeastoneEnable = false;
+        let isExistArr = [];
+           
+  
+        let count = 0;
+        for (var i=0; i<categoriesArr.length; i++) {
+          
+          for (var j=0; j<allItems.length; j++) {
+            
+            if (allItems[j].Product.dealId != undefined) {
+              
+              if (allItems[j].Product.position == +categoriesArr[i].pos && allItems[j].Product.comboUniqueId == comboUniqueId) {
+               
+                count++;
+              }
+              
+              
+              let itemCatId = allItems[j].Product.category_id;
+              
+              if (categoriesArr[i].qty == count && allItems[j].Product.comboUniqueId == comboUniqueId) {         
+                keepCats.push(categoriesArr[i].pos);
+                count = 0;
+              }
+              
+            }
+          }
+        }
+        
+        for (var i=0; i<categoriesArr.length; i++) {
+         
+          if (keepCats.indexOf(categoriesArr[i].pos.toString()) < 0) {
+            categoriesArr[i].isEnable = true;
+          } else {
+            categoriesArr[i].isEnable = false;
+          }
+        }
+      
+        for(var i=0; i<categoriesArr.length; i++) {
+          if (categoriesArr[i].isEnable) {
+            
+            atLeastoneEnable = true;
+            break;
+          }
+        }
+
+        let resp = false;
+      
+        if (!atLeastoneEnable) {
+          resp = true;
+        }         
+        
+
+        return resp;
+    
+		  
+	}
+	
+	
+	getDealTitle(dealCode) {
+		let type = dealCode;
+		
+      let deal = this.getDealTypeData(type);
+
+      return deal['title'];
+   
+  }
+  
+  getDealCode(dealId) {
+	  let type = dealId;
+	
+
+    let deal = this.getDealTypeData(type);
+    return deal['code'];
+  }
+  
+  getDealIdFromCode(code) {
+
+    let dealData = JSON.parse(this.getLocalStorageData('allDealsData'));
+
+    if (dealData != null) {
+      for (var i=0; i<dealData.length; i++) {
+        if (dealData[i]['code'] == code) {
+          return dealData[i]['id'];
+        }
+      }
+    }
+    
+  }
+  
+
+  getVoucherBalance(code) {
+      return this.http.get( this.domain + '/webservice/getVoucherBalance/'+code)
+      .map( (res: Response) => res.json() )
+      .catch( (error: any) => Observable.throw(error.json().error || 'server error') );
+  }
+
+  
+	clearCart(): Observable<any> {
+		this.setLocalStorageData('allItems', null);
+		this.setLocalStorageData('order-now', null);
+		this.setLocalStorageData('finalOrder', null);
+		this.setLocalStorageData('favItemFetched', null);
+		this.setLocalStorageData('favOrdersFetched', null); 
+		this.setLocalStorageData('confirmationItems', null); 
+		this.setLocalStorageData('confirmationFinalOrder', null);
+		return;
+	}
 
 }
 

@@ -42,6 +42,7 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { ResetComponent } from './reset/reset.component';
 import { SuggestionmodalComponent } from './suggestionmodal/suggestionmodal.component';
+import { DealsComponent } from './deals/deals.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { SuggestionmodalComponent } from './suggestionmodal/suggestionmodal.comp
     PrivacyComponent,
     ForgotComponent,
     ResetComponent,
-    SuggestionmodalComponent
+    SuggestionmodalComponent,
+    DealsComponent
   ],
   imports: [
     BrowserModule,

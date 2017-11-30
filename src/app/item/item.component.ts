@@ -27,6 +27,13 @@ export class ItemComponent implements OnInit {
   currencyCode = null;
   isEdit = false;
   itemPos: 0;
+  dealId = null;
+  isDeal = false;
+  comboUniqueId = null;
+  dealCode = null;
+  dealData = null;
+  dealItem = null;
+  position = null;
 
   constructor(private dialogService:DialogService,
               private dataService: DataService, 
@@ -50,7 +57,27 @@ export class ItemComponent implements OnInit {
         
         if(params['slug'] && params['slug']!= '') {
 
-          if(params['slug'] != 'favorite') {
+          if (params['dealId'] && params['dealId'] != '') {
+            this.isDeal = true;
+            this.dealId = params['dealId'];
+
+            //this.dataService.getDealTypeData(this.dealId).subscribe(data => {
+              let data = this.dataService.getDealTypeData(this.dealId);
+              this.dealData = data;
+              this.dealCode = data['code'];
+            //});
+            
+          }
+
+          if (params['comboUniqueId'] && params['comboUniqueId'] != '') {
+            this.comboUniqueId = params['comboUniqueId'];
+          }
+
+          if (params['position'] && params['position'] != '') {
+            this.position = params['position'];
+          }
+
+          if(params['slug'] != 'favourite') {
             this.getItemData(params['slug']);
             if(this.dataService.getLocalStorageData('allItems') != null
                   && this.dataService.getLocalStorageData('allItems') != 'null') {
@@ -113,10 +140,97 @@ export class ItemComponent implements OnInit {
              
             }else{
                 this.item = data;
+                if (this.isDeal) {
+                  this.updateItemForDeal();
+                }
                 this.getTotalCost();
              }
             
           });
+  }
+
+
+  updateItemForDeal() {
+    
+
+    let dealData = this.dealData.categories[this.position];
+    let modifiersArr = null;
+    
+    if (dealData != null && dealData.modifiers != null && dealData.modifiers.length > 0) {
+      if (dealData.products != null && dealData.products.length > 0) {
+        for(var i=0; i<dealData.products.length; i++) {
+          if (dealData.products[i].id == this.item.Product.id) {
+            modifiersArr = dealData.modifiers[i];
+          }
+        }
+      } else {
+        modifiersArr = dealData.modifiers;
+      }
+	  
+	  ////console.log('modifiersArr', modifiersArr);
+  
+      var temp = this.item.ProductModifier;
+      var prodMods = this.item.ProductModifier;
+      
+      
+	  for (var i=0; i<prodMods.length; i++) {
+		 
+		 let modOption = prodMods[i].Modifier.ModifierOption;
+		 let isOneChecked = false;
+		 let modId = null;
+		 
+		 for (var j=0; j<modOption.length; j++) {
+			for (var k=0; k<modifiersArr.length; k++) {
+				if (modOption[j].modifier_id == modifiersArr[k].modifierId) {
+					
+					modId = modifiersArr[k].modifierId;
+					let index = modifiersArr.findIndex(obj => obj.modOptionPlu == modOption[j].Option.plu_code);
+					//////console.log('index', index, modOption[j].Option.plu_code);
+					if (index < 0) {
+						prodMods[i].Modifier.ModifierOption[j]['isRemove'] = true;
+						prodMods[i].Modifier.ModifierOption[j].Option.default_checked = false;
+						prodMods[i].Modifier.ModifierOption[j].Option.is_checked = false;
+						prodMods[i].Modifier.ModifierOption[j].Option.send_code = false;
+						prodMods[i].Modifier.ModifierOption[j].Option.send_code_permanent = false;
+					} else {
+						if (prodMods[i].Modifier.ModifierOption[j].Option.default_checked) {
+							isOneChecked = true;
+						}
+					}
+				}
+			}
+		 }
+		 
+		 if (!isOneChecked) {
+			for (var p=0; p<modOption.length; p++) {
+				if (modId == prodMods[i].Modifier.ModifierOption[p].modifier_id && prodMods[i].Modifier.ModifierOption[p].isRemove == undefined) {
+					prodMods[i].Modifier.ModifierOption[p].Option.default_checked = true;
+					prodMods[i].Modifier.ModifierOption[p].Option.is_checked = true;
+					prodMods[i].Modifier.ModifierOption[p].Option.send_code = true;
+					prodMods[i].Modifier.ModifierOption[p].Option.send_code_permanent = true;
+					break;
+				}				
+			}
+		 }
+		 
+		 
+	  }
+	  	
+	
+      for (var i=0; i<prodMods.length; i++) {
+        for(var j=0; j<prodMods[i].Modifier.ModifierOption.length; j++) {
+  
+          let pArr = prodMods[i].Modifier.ModifierOption.filter(val => val);
+          prodMods[i].Modifier.ModifierOption = pArr;
+          
+        }
+      }
+      
+      ////console.log(prodMods);
+      this.item.ProductModifier = prodMods;
+  
+    }
+    
   }
 
 
@@ -795,6 +909,13 @@ export class ItemComponent implements OnInit {
       this.dataService.setLocalStorageData('allItems', JSON.stringify(allItems));
       
     } else {
+
+      if (this.isDeal) {
+        this.item.Product['dealId'] = this.dealId;
+        this.item.Product['comboUniqueId'] = this.comboUniqueId;
+        this.item.Product['position'] = this.position;
+      }
+
       if(this.dataService.getLocalStorageData('allItems') != null
           && this.dataService.getLocalStorageData('allItems') != 'null') {
         let allItems = JSON.parse(this.dataService.getLocalStorageData('allItems'));
@@ -810,10 +931,14 @@ export class ItemComponent implements OnInit {
     this.dataService.setLocalStorageData('totalCost', this.totalCost);
     let selectedMenuCat = this.dataService.getLocalStorageData('selectedMenuCat');
 
-    if (selectedMenuCat != null) {
-      this.router.navigate(['/menu', selectedMenuCat]);   
+    if (this.isDeal) {
+      this.router.navigate(['/deals', this.dealId, this.comboUniqueId]);
     } else {
-      this.router.navigate(['/menu']);
+      if (selectedMenuCat != null) {
+        this.router.navigate(['/menu', selectedMenuCat]);   
+      } else {
+        this.router.navigate(['/menu']);
+      }
     }
       
   }
@@ -838,6 +963,11 @@ export class ItemComponent implements OnInit {
         this.dialogService.addDialog(FavmodalComponent, { item: this.item, type: 'item'  }, { closeByClickingOutside:true });
       }
     }
+  }
+
+
+  backToDealPage() {
+    this.router.navigate(['/deals', this.dealId,this.dealCode]); 
   }
 
 

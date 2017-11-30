@@ -1,13 +1,14 @@
 <?php
 App::uses('AppController', 'Controller');
 class WebserviceController extends AppController {
-    public $uses = array('Country','Category','Question','Content','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog','Location','LocationStreet','Countrycode','Log');
+    public $uses = array('Country','Category','Question','Content','Language','Slide','SubCategory','Product','ProductModifier','Modifier','Option','SubOption','ModiferOption','ProductIncludedModifier','Store','OptionSuboption','Orderlog','EmailTemplate','Couponlog','Location','LocationStreet','Countrycode','Log','Deal','DealItem');
     public $components=array('Core','Email');
 
     function beforeFilter(){
         parent::beforeFilter();
 		// Configure::write('debug', 2);
-        $this->Auth->allow(array('get_countries','get_categories','getPageInfo','getip','sendApplyInfo','get_languages','get_slides','get_slides_app','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','get_all_categories_data_app','getItemData','getItemDataApp','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getCitiesSuggestionApp','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl', 'getStoreDetailsByStoreId','forgot_password','reset_password','getReOrderData','sendAckEmail','uploadAttachment', 'sendPaymentData', 'getCountryCodes','doLogEntry'));
+	header("Access-Control-Allow-Origin: http://piecechicago.raam360.com");
+        $this->Auth->allow(array('get_countries','get_categories','getPageInfo','getip','sendApplyInfo','get_languages','get_slides','get_slides_app','get_sub_categories','get_products','get_modifiers','get_options','get_suboptions','getImagePath','get_all_categories_data','get_all_categories_data_app','getItemData','getItemDataApp','placeOrder','getStoreList','getStoresFromPostalCode', 'getStoresFromLatLong','getStoreDetails','login','getTwitterFeeds','getInstagramPost','getCountryStores','saveFavItem','getCitiesSuggestion','getCitiesSuggestionApp','getFBFeed','getIGFeed','getPrefrences','signUp', 'getFav', 'getFavItemData','applyCoupon','getFavOrderData','getProfile','sendCateringInfo','sendContactInfo','sendCareerInfo','getOrderHistory','updateProfile','getProductNameByPlu','getModifierName','updatePrefrence','addAddress','deleteAddress','editAddress','setAsDefault','getUserPrefreces','getAreaSuggestion','testUrl', 'getStoreDetailsByStoreId','forgot_password','reset_password','getReOrderData','sendAckEmail','uploadAttachment', 'sendPaymentData', 'getCountryCodes','doLogEntry','getDealItemList','getDealIdFromCode'));
     }
 
 	public function get_countries(){
@@ -465,7 +466,8 @@ class WebserviceController extends AppController {
 															$prod['price'] = array(
 																'small' => $pz['PriceSm'],
 																'medium' => $pz['PriceMed'],
-																'large' => $pz['PriceLg']
+																'large' => $pz['PriceLg'],
+																'freeSize' =>null
 															);
 														}	
 													}
@@ -479,7 +481,12 @@ class WebserviceController extends AppController {
 										if(isset($pdat['PLU'])) {
 											if($prod['plu_code'] == $pdat['PLU']) {
 												$prod['is_price_mapped'] = 1;
-												$prod['price'] = $pdat['Price']. ' DHS';
+												$prod['price'] = array(
+																		'small' => null,
+																		'medium' => null,
+																		'large' => null,
+																		'freeSize' =>$pdat['Price']
+																	);
 											}	
 										}
 									}									
@@ -1031,12 +1038,18 @@ class WebserviceController extends AppController {
 							foreach($pt as $pti) {
 								if(isset($pti['PLU']) && ($pti['PLU'] == $item['Product']['plu_code'])) {
 									if(isset($pti['Price'])) {
-										$item['Product']['price'] = $pti['Price'];
+										$item['Product']['price'] = array(
+															'small' => null,
+															'medium' => null,
+															'large' => null,
+															'freeSize' => $pti['Price']
+														);
 									}else if(isset($pti['PriceSm'])) {
 										$item['Product']['price'] = array(
 															'small' => $pti['PriceSm'],
 															'medium' => $pti['PriceMed'],
-															'large' => $pti['PriceLg']	
+															'large' => $pti['PriceLg'],
+															'freeSize' => null
 														);
 									}	
 								}
@@ -1044,7 +1057,12 @@ class WebserviceController extends AppController {
 							
 						}else{
 							if(isset($pt['PLU']) && ($pt['PLU'] == $item['Product']['plu_code'])) {
-									$item['Product']['price'] = $pt['Price'];
+									$item['Product']['price'] = array(
+															'small' => null,
+															'medium' => null,
+															'large' => null,
+															'freeSize' => $pt['Price']
+														);
 							}
 						}					
 					}								
@@ -1080,19 +1098,35 @@ class WebserviceController extends AppController {
 											if(isset($pl_m['Price'])) {
 												
 												if (isset($pl_m['PriceSalad']) && intval($pl_m['PriceSalad']) > 0) {
-													$price = $pl_m['PriceSalad'];
+													$price = array(
+																'small' => null,
+																'medium' => null,
+																'large' => null,
+																'freeSize' => $pl_m['PriceSalad']
+															);
 												} else {
-													$price = $pl_m['Price'];	
+													$price = array(
+																'small' => null,
+																'medium' => null,
+																'large' => null,
+																'freeSize' => $pl_m['Price']
+															);
 												}
 												
 											}else if(isset($pl_m['PriceSm'])){
 												if (isset($pl_m['PriceSalad']) && intval($pl_m['PriceSalad']) > 0) {
-													$price = $pl_m['PriceSalad'];
+													$price = array(
+																'small' => null,
+																'medium' => null,
+																'large' => null,
+																'freeSize' => $pl_m['PriceSalad']
+															);
 												} else {
 													$price = array(
 														'small' => $pl_m['PriceSm'],
 														'medium' => $pl_m['PriceMed'],
-														'large' => $pl_m['PriceLg']
+														'large' => $pl_m['PriceLg'],
+														'freeSize' => null
 													);
 												}												
 											}	
@@ -1191,13 +1225,19 @@ class WebserviceController extends AppController {
 													if($cyo['PLU'] == $mo['Option']['plu_code']) {
 																							
 														if(isset($cyo['Price'])) {
-															$price = $cyo['Price'];
+															$price = array(
+																		'small' => null,
+																		'medium' => null,
+																		'large' => null,
+																		'freeSize' => $cyo['Price']
+																	);
 															$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = $price;
 														}else if(isset($cyo['PriceSm'])){
 															$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = array(
 																'small' => $cyo['PriceSm'],
 																'medium' => $cyo['PriceMed'],
-																'large' => $cyo['PriceLg']
+																'large' => $cyo['PriceLg'],
+																'freeSize' => null
 															);
 														}												
 													}
@@ -1212,13 +1252,20 @@ class WebserviceController extends AppController {
 											if($pl_m['PLU'] == $mo['Option']['plu_code']) {
 																							
 												if(isset($pl_m['Price'])) {
-													$price = $pl_m['Price'];
+													$price = array(
+																'small' => null,
+																'medium' => null,
+																'large' => null,
+																'freeSize' => $pl_m['Price']
+															);
 													$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = $price;
 												}else if(isset($pl_m['PriceSm'])){
 													$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = array(
 														'small' => $pl_m['PriceSm'],
 														'medium' => $pl_m['PriceMed'],
-														'large' => $pl_m['PriceLg']
+														'large' => $pl_m['PriceLg'],
+														'freeSize' => null
+														
 													);
 												}	
 												
@@ -1241,13 +1288,19 @@ class WebserviceController extends AppController {
 												if($cyo['PLU'] == $mo['Option']['plu_code']) {
 												
 													if(isset($cyo['Price'])) {
-														$price = $cyo['Price'];
+														$price = array(
+																	'small' => null,
+																	'medium' => null,
+																	'large' => null,
+																	'freeSize' => $cyo['Price']
+																);
 														$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = $price;
 													}else if(isset($cyo['PriceSm'])){
 														$item['ProductModifier'][$i]['Modifier']['ModifierOption'][$j]['Option']['price'] = array(
 															'small' => $cyo['PriceSm'],
 															'medium' => $cyo['PriceMed'],
-															'large' => $cyo['PriceLg']
+															'large' => $cyo['PriceLg'],
+															'freeSize' => null
 														);
 													}												
 												}	
@@ -1267,18 +1320,34 @@ class WebserviceController extends AppController {
 										
 											if(isset($pl_m['Price'])) {
 												if (isset($pl_m['PriceSalad']) && intval($pl_m['PriceSalad']) > 0) {
-													$price = $pl_m['PriceSalad'];
+													$price = array(
+																'small' => null,
+																'medium' => null,
+																'large' => null,
+																'freeSize' => $pl_m['PriceSalad']
+															);
 												} else {
-													$price = $pl_m['Price'];
+													$price = array(
+																'small' => null,
+																'medium' => null,
+																'large' => null,
+																'freeSize' => $pl_m['Price']
+															);
 												}
 											}else if(isset($pl_m['PriceSm'])){
 												if (isset($pl_m['PriceSalad']) && intval($pl_m['PriceSalad']) > 0) {
-													$price = $pl_m['PriceSalad'];
+													$price = array(
+																'small' => null,
+																'medium' => null,
+																'large' => null,
+																'freeSize' => $pl_m['PriceSalad']
+															);
 												} else {
 													$price = array(
 														'small' => $pl_m['PriceSm'],
 														'medium' => $pl_m['PriceMed'],
-														'large' => $pl_m['PriceLg']
+														'large' => $pl_m['PriceLg'],
+														'freeSize' => null
 													);
 												}
 											}	
@@ -2957,5 +3026,72 @@ function sendCareerInfo(){
 
 		die;
 	}
+
+
+	
+	function getDealItemList($id = ''){
+		Configure::write('debug', 2);
+        $this->autoRender = false;
+        $dealArr = array();
+		$this->Deal->bindModel(array('hasMany'=>array('DealItem')));
+		
+		if (empty($id)) {
+			$conditions = array(
+				'Deal.status' => 1
+			);
+		} else {
+			$conditions = array(
+				'Deal.status' => 1,
+				'Deal.id' => $id
+			);
+		}
+		$deals = $this->Deal->find('all',array('conditions' => $conditions));
+		$i=0;
+
+        foreach ($deals as $key => $value) {
+            $itemArr = array();
+            $dealArr[$i]['id'] = $value['Deal']['id'];
+            $dealArr[$i]['title'] = $value['Deal']['title'];
+            $dealArr[$i]['imageText'] = $value['Deal']['image_text'];
+            $dealArr[$i]['description'] = $value['Deal']['description'];
+            $dealArr[$i]['code'] = $value['Deal']['code'];
+            $dealArr[$i]['overallPrice'] = $value['Deal']['price'];
+            $dealArr[$i]['listImage'] = 'img/admin/products/deals/'.$value['Deal']['thumbnail'];
+            $dealArr[$i]['detailImage'] = 'img/admin/products/deals/'.$value['Deal']['image'];
+
+            foreach ($value['DealItem'] as $k => $item) {
+                $itemArr[$k]['id'] = $item['cat_id'];
+                $itemArr[$k]['qty'] = $item['item_count'];
+                $itemArr[$k]['isEnable'] = ($item['status'])?'true':'false';
+                $itemArr[$k]['name'] = $this->getCategoryData($item['cat_id'],'name');
+                $itemArr[$k]['slug'] = $this->getCategoryData($item['cat_id'],'slug');
+                $itemArr[$k]['catText'] = $item['cat_text'];
+                $itemArr[$k]['products'] = (!empty($item['products'])?(explode(',', $item['products'])):null);
+                $itemArr[$k]['modifiers'] = ($item['modifiers']=="[]")?null:json_decode($item['modifiers']);
+                $itemArr[$k]['itemCount'] = $item['item_count'];
+                $itemArr[$k]['itemCondition'] = (!empty($item['item_condition'])?$item['item_condition']:null);
+                $itemArr[$k]['pos'] = $item['pos'];
+            }    
+			$dealArr[$i]['categories']  = $itemArr;
+			$i++;
+        }
+        echo json_encode($dealArr);
+	}
+	
+	public function getDealIdFromCode($code) {
+		if (!empty($code)) {
+
+			$deal = $this->Deal->findByCode($code);
+			echo $deal['Deal']['id']; die;
+
+
+		}
+	}
+
+	function getCategoryData($catId,$field){
+        $this->autoRender = false;
+        return $this->Category->field($field,array('Category.id'=>$catId));
+	}
+
 
 }
