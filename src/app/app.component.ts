@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
             });
             
 
-            if(urlArr.indexOf('menu') > -1 || urlArr.indexOf('item') > -1) {
+            if(urlArr.indexOf('menu') > -1 || urlArr.indexOf('item') > -1 || urlArr.indexOf('deals') > -1)  {
               this.showFooter = false;
             }else{
               this.showFooter = true;

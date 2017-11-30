@@ -188,6 +188,14 @@ body {
 	width: 1480px
 }
 }
+@media (min-width: 992px) {
+.inside-column-container.thirdCol.customize-uk .col-md-6{
+	min-height: 330px;
+}
+.three-column-wrapper .inside-column-container.thirdCol .content-wrapper {
+    min-height: 216px;
+}
+}
 h3 {
 	font-family: "bureaueaglebookregular";
 	font-size: 3.125em;
@@ -632,11 +640,11 @@ header.navigation .logo {
 }
 .slider-wrapper .slides .slide.slick-active .slide-content {
 	display: block;
-	-moz-animation-delay: .5s;
 	height:100%;
+	/*-moz-animation-delay: .5s;
 	-o-animation-delay: .5s;
 	-webkit-animation-delay: .5s;
-	animation-delay: .5s
+	animation-delay: .5s*/
 }
 .slider-wrapper .slides .slick-list, .slider-wrapper .slides .slick-track {
 	width: 100%;
@@ -1208,6 +1216,15 @@ header.navigation{z-index: 9999;}
 }
 
 @media (max-width: 540px) {
+	.deal-bar a {
+        font-size: 14px !important;
+    padding: 0px;
+    vertical-align: middle;
+    border-right: 0px !important;
+    min-width: 84px !important;
+}
+.deal-bar p.hidden540{display: none;}
+.deal-bar p.visible540{display: block !important;}
 	.mapboxgl-popup{max-width: 200px !important;}
 	.inside-column-container.thirdCol .control-group .control.checkbox{padding-right: 95px;}
 .banner-wrapper .leftButtons.buttons {
@@ -1286,7 +1303,10 @@ header.navigation{z-index: 9999;}
     font-family: 'proxima_nova_ltsemibold';}
 .slider-wrapper{margin-top: 60px;}
 }
-
+.banner-wrapper {
+	padding: 0px 0px;
+	margin-bottom: 165px;
+}
 @media (max-width: 2560px) {
 .banner-wrapper.franchising{margin-bottom: 30px; position: relative; z-index: 999;
     padding: 0 20px;}
@@ -1879,11 +1899,12 @@ button.close:hover,button.close:focus{opacity: 1;}
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper a {
 	text-decoration: none
 }
+.two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper .media .description .rightSection a.addBtn{margin: 0 0 0 10px;}
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper .media {
 	padding: 1.5em;
 	border-spacing: 0
 }
-
+.two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper .media .media-left{text-align: center; padding-right: 20px;}
 @media (max-width: 767px) {
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper .media {
 	padding: 15px
@@ -1893,12 +1914,18 @@ button.close:hover,button.close:focus{opacity: 1;}
 	height: 10.55em;
 	width: 10.55em;
 	overflow: hidden;
-	margin-right: 0.80em;
+/*	margin-right: 0.80em;*/
 	border-radius: 50%;
 	background-size: cover;
 	background-position: center
 }
-
+.two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper.deals .media .media-left{display: flex; padding: 0px; margin: -1.5em -1.5em 20px -1.5em;}
+.two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper.deals .media .img-Wrapper {
+height: auto; width:100%; border-radius: 0; margin: 0px; overflow: visible;
+}
+.two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper.deals .media .img-Wrapper img{max-width: 100%; width: 100%;}
+.two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper.deals .media .img-Wrapper span{display: table-cell; height: 100%;
+width:100%; vertical-align: middle; color: #fff; font: 1.625em "bureaueaglebookregular"; line-height: 1;}
 @media (max-width: 1199px) {
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper .media .img-Wrapper {
 	height: 8em;
@@ -1945,12 +1972,13 @@ button.close:hover,button.close:focus{opacity: 1;}
 	display: block;
 	width: 100%
 }
-.two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper .media .description .rightSection a.cta-btn {
+.two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper .media .description .rightSection a.addBtn{margin: 10px 0 0 0;}
+/*.two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper .media .description .rightSection a.cta-btn {
 	margin-top: 15px;
 	height: 2.25em;
     width: 2.25em;
     padding: 10px 0;
-}
+}*/
 }
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper .media .description h4 {
 	font: 1.625em "bureaueaglebookregular";
@@ -1991,14 +2019,17 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 
 @media (max-width: 767px) {
+	.two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper{min-height: 0px !important;}
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection h5 {
 	font-size: 2em
 }
+.two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper .media .description .rightSection{width: 17%;}
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper .media .description .rightSection a.addBtn {float: left;}
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper .media .description .rightSection a.cta-btn{float: left;}
 }
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper {
 	margin: 0 0 1.5em;
+	min-height: 240px;
 }
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .favSection .createWrapper .media .description .leftSection {
 	padding-right: 1em
@@ -2030,6 +2061,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 
 @media (max-width: 1199px) {
+	.leftContent .tab-content{margin: 20px 0 0 0 !important;}
 .two-column-wrapper .inside-column-container.aside-wrapper {
 	width: 100%
 }
@@ -2093,8 +2125,9 @@ button.close:hover,button.close:focus{opacity: 1;}
 .two-column-wrapper .inside-column-container.aside-wrapper.orderProcessIns {
 	margin-top: 2em;
 }
-.leftContent .nav-tabs.orderTabs{width: 100% !important; right:0px;}
-.leftContent .nav-tabs.orderTabs.full{width: 100% !important; left:0px;}
+/*.leftContent .tab-content.deals-sub-menu{margin: 116px 0 0 0 !important;}*/
+.leftContent .tab-content.deals-sub-menu .sub-deal-list,.leftContent .tab-content.deals-sub-menu .sub-cat-section{margin: 0px !important;}
+.leftContent .nav-tabs.orderTabs,.deal-bar{width: 100% !important; right:0px; position: static !important; padding: 0px !important;}
 }
 .two-column-wrapper .inside-column-container.aside-wrapper.orderProcessIns .content-wrapper .cart_img {
 	text-align: center
@@ -2106,6 +2139,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 
 @media (max-width: 991px) {
+	.leftContent .tab-content.deals-sub-menu{margin: 10px 0 0 0 !important;}
 .two-column-wrapper {
 	display: block
 }
@@ -2132,25 +2166,30 @@ button.close:hover,button.close:focus{opacity: 1;}
 	margin-bottom: 60px;
 	border-spacing: 0
 }
-.nav-tabs>li, .nav-tabs>li.active {
+.nav-tabs>li,.nav-tabs>li.active,.deals-sub-menu .nav-tabs>li.active{
 	display: table-cell;
 	margin: 0;
 	float: none;
 	background-color: #789c48;
 	position: relative
 }
-.nav-tabs>li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover, .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+.deals-sub-menu .nav-tabs>li,.deals-sub-menu .nav-tabs>li>span{background: #bbb; cursor: default;}
+.deals-sub-menu .nav-tabs>li.active{cursor: pointer;}
+.nav-tabs>li>a,.nav-tabs>li>span,.nav-tabs>li>span:focus,.nav-tabs>li.active>span,.nav-tabs>li.active>span:hover, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover, .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
 	font-family: "bureaueaglebookregular";
-	font-size: 1.500em;
+	font-size: 1.48em;
 	color: #fff;
 	border: none;
 	border-radius: 0;
 	margin: 0;
 	text-align: center;
 	background: none;
-	display: block
+	display: block;
+	cursor: pointer;
 }
-.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+.deals-sub-menu .nav-tabs>li>a,.deals-sub-menu .nav-tabs>li>span,.deals-sub-menu .nav-tabs>li>span:focus,.deals-sub-menu .nav-tabs>li.active>span,.deals-sub-menu .nav-tabs>li.active>span:hover,.deals-sub-menu .nav-tab>li>a:focus,.deals-sub-menu .nav-tabs>li>a:hover,.deals-sub-menu .nav-tabs>li.active>a,.deals-sub-menu .nav-tabs>li.active>a:focus,.deals-sub-menu .nav-tabs>li.active>a:hover{font-size: 1em !important;}
+.deals-sub-menu .nav-tabs>li.active>a{opacity: 1 !important;}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover,.nav-tabs>li>span,.nav-tabs>li>span:focus,.nav-tabs>li.active>span,.nav-tabs>li.active>span:hover {
 	opacity: .4
 }
 .nav-tabs>li.active:after {
@@ -2185,9 +2224,39 @@ button.close:hover,button.close:focus{opacity: 1;}
 	font-family: "bureaueaglebookregular";
 	font-size: 1.500em;
 	color: #fff;
-	padding: 5px 25px;
+	padding: 5px 10px;
+    width: 100%;
 	margin: 25px auto
 }
+.deals-sub-menu .custom-select {margin: 0 15px 15px;
+    float: left;
+    -webkit-appearance: none;
+    pointer-events: none;
+    text-align: center;
+    font-size: 18px;
+    white-space: inherit;}
+.deal-bar.full{width: 95.5%;}
+.deal-bar{padding: 0px 0 22px 0; background: #fff; display: table; margin: 0px; position: fixed; width:64.3%; z-index: 98;}
+.deal-bar a{     background: #911c27;
+    color: #ffffff;
+    display: table-cell;
+    font-family: "proxima_nova_ltsemibold";
+    font-size: 18px;
+    border-right: 10px solid #fff;
+    text-align: center; min-width: 146px;}
+.deal-bar p{background: #f4f4f4;
+    display: table-cell;
+    text-align: center;
+    color: #fff;font-family: "bureaueaglebookregular";
+	font-size: 1.500em;}
+	.deal-bar p.visible540{display: none;}
+.deal-bar p img{max-width: 100%; max-height: 64px; min-height: 32px;}
+
+.customize-uk .deal-bar{position: static; padding: 0px; width: 100%; margin: 0 0 10px 0;}
+.customize-uk .deal-bar a{border:none;}
+
+
+
 .footer-wrapper {
 	background-color: #5b5a56;
 	padding: 2.813em 0;
@@ -2223,6 +2292,7 @@ button.close:hover,button.close:focus{opacity: 1;}
 }
 
 @media (max-width: 767px) {
+	.deal-bar{margin: 25px 0 0 0;}
 .footer-wrapper ul.nav-links {
 	padding: 0
 }
@@ -2595,9 +2665,9 @@ color:#fff
     line-height: 18px;
     border: none;
     font-family: "proxima_nova_rgregular";}
-.three-column-wrapper .inside-column-container .item-qty-price .quantity{text-align:center; color:#911c27;}	
-.three-column-wrapper .inside-column-container .item-qty-price .quantity a{ border: 1px solid #911c27;; color: #911c27;; width: 30px; height: 30px; line-height: 30px; display: inline-block;  text-decoration:none;float:left}
-.three-column-wrapper .inside-column-container .item-qty-price .quantity .num{ border-left: 0; border-right: 0; background: #911c27; color: #fff;  display: inline-block;  width: 30px; height: 30px; vertical-align: top;float:left; line-height: 30px;}
+.three-column-wrapper .inside-column-container .item-qty-price .quantity{color:#911c27;}	
+.three-column-wrapper .inside-column-container .item-qty-price .quantity a{text-align:center; border: 1px solid #911c27;; color: #911c27;; width: 30px; height: 30px; line-height: 30px; display: inline-block;  text-decoration:none;float:left}
+.three-column-wrapper .inside-column-container .item-qty-price .quantity .num{text-align:center; border-left: 0; border-right: 0; background: #911c27; color: #fff;  display: inline-block;  width: 30px; height: 30px; vertical-align: top;float:left; line-height: 30px;}
 .three-column-wrapper .inside-column-container .item-qty-price .quantity a:first-child{ border-radius: 2px 0 0 2px;}
 .three-column-wrapper .inside-column-container .item-qty-price .quantity .num+a{ border-radius:0 2px 2px 0; margin:0 10px 0 0;}
 .three-column-wrapper .inside-column-container .item-qty-price .quantity span.cost{font: 1.8em "proxima_nova_ltsemibold";
@@ -2835,7 +2905,7 @@ color:#fff
 	color: #fff;
 	display: block;
 	height: 100%;
-	width: 25%;
+	width: 20%;
 	text-decoration: none;
 	text-align: center;
 	font: 15px "proxima_nova_rgbold";
@@ -2972,8 +3042,12 @@ color:#fff
 }
 .three-column-wrapper .inside-column-container.thirdCol .col-md-6{padding: 0px;}
 .leftContent .tab-content{margin-top:30px !important;}
+.leftContent .tab-content.deals-sub-menu{margin: 0px !important;}
 }
 /*# sourceMappingURL=styles.css.map */
+/*.leftContent .tab-content.deals-sub-menu{margin-top:142px;}*/
+.leftContent .tab-content.deals-sub-menu .sub-deal-list{margin: 58px 0 0 0;}
+.leftContent .tab-content.deals-sub-menu .sub-cat-section{margin-top:58px;}
 .leftContent .tab-content{margin-top:70px;}
 .tab-content{margin-bottom: 20px;
     min-height: 65px;;}
@@ -3034,8 +3108,11 @@ color:#fff
 .stepboxes .green-title{background: #789c48; color: #ffffff; font-size: 22px; line-height: 30px; font-family: 'proxima_nova_rgbold'; padding: 10px 20px;}
 .stepboxes .green-title.gray{ color: #5b5a56; background: #f4f4f4;}
 
+.stepboxes .green-title .clear-cart { float: right;  color: #fff;  background: #911c28; text-align: center; font-weight: 300;  border-radius: 5px;
+    padding: 5px 10px;  font-size: 14px; text-transform: initial; line-height: 18px;  border: none;  font-family: "proxima_nova_rgregular";}
+
 .stepboxes .gray_box{ background: #f4f4f4; padding: 10px 20px;}
-.stepboxes .gray_box .scroller{height: 200px; overflow: auto;}
+.stepboxes .gray_box .scroller{height: 304px; overflow: auto;}
 .stepboxes .gray_box .item_info { float: left; font-family: "proxima_nova_rgregular"; width: 60%;}
 .cartbox .item_pic img{display: none;}
 .cartbox .item_pic .img-control{width:100%; text-align:center;}
@@ -3100,9 +3177,16 @@ color:#fff
 
 .payment_method .tab-content{ float: right; width: 75%; padding: 20px 0 0 5%; min-height: 310px; position: relative}
 .payment_method .tab-content:after{ position: absolute; left: -4px; top: 0; width: 4px; height: 100%; content: ''; background: #cfcfcf;}
-.payment_method .tab-content h5{clear: both; color: #5b5a56; font-size: 18px; line-height: 22px; font-family: 'proxima_nova_rgbold'; margin: 0 0 15px;}
+.payment_method .tab-content h5{ color: #5b5a56; font-size: 18px; line-height: 22px; font-family: 'proxima_nova_rgbold'; margin: 0 0 15px;}
 .payment_method .tab-content p{ color: #5b5a56; font-size: 18px; line-height: 22px; font-family: 'proxima_nova_ltlight'; margin: 0 0 20px;}
-.payment_method .tab-content .btn-red{ padding: 10px; background: #911c27; color: #fff; font-size: 20px; line-height: 27px; text-align: center;  font-family: 'proxima_nova_rgbold'; border-bottom: 2px solid #4f050c; border-radius: 3px;}
+.payment_method .tab-content .btn-red{ padding: 10px 0; background: #911c27; color: #fff; font-size: 20px; line-height: 27px; text-align: center;  font-family: 'proxima_nova_rgbold'; border-bottom: 2px solid #4f050c; border-radius: 3px; display: inline-block; width: 100%;}
+
+
+
+
+
+
+
 
 .payment_method .tab-content.three-column-wrapper .fade{display: none;}
 .payment_method .tab-content.three-column-wrapper .fade.active{display: block;}
@@ -3328,6 +3412,10 @@ color:#fff
 .accountmain_sec .form-horizontal .buttons{ position: absolute; bottom: 0; left: 0; width: 100%; margin: 0; background: #f4f4f4; border-top: 1px solid #e1e1e1; padding: 15px 20px;}
 .accountmain_sec .form-horizontal .buttons button{ font-size: 16px; color: #fff; font-family: 'proxima_nova_ltlight'; background: #911c27; border: 0; border-radius: 2px; border-bottom: 2px solid #4f050c; line-height: 34px; padding: 0 25px;}
 
+.accountmain_sec .checkbox input[type="radio"]{
+    margin-left: -20px;
+    position: absolute;
+}
 .address_box{ border: 1px solid #e1e1e1; min-height: 215px; margin-bottom: 30px;}
 .address_box h5{ font-size: 15px; color: #5b5a56; line-height: 22px; padding: 5px 10px; background: #fafafa; border-bottom: 1px solid #e1e1e1; margin: 0; font-family: 'proxima_nova_ltlight';}
 .address_box h5 span{ color: #789c48; float: right}
