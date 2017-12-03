@@ -135,7 +135,7 @@ export class CheckoutComponent implements OnInit {
           } 
   
           if(this.orderData.payment_type == undefined) { 
-            this.orderData['payment_type'] = 'Online';
+            this.orderData['payment_type'] = 'Cash';
           }
   
           let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
