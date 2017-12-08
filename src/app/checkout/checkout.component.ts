@@ -82,13 +82,12 @@ export class CheckoutComponent implements OnInit {
     
       this.getItems();
       this.getCountryCodes();
-  
+ 
       this.route.queryParams.subscribe(params => {
         if (params['order_id'] != undefined) {
           this.paymentReference = params['order_id'];
-  
             if (this.paymentReference == 0) {
-              this.payError = 'Payment rejected. Please contact administartor.';
+              this.payError = decodeURIComponent(params['message'].replace(/\+/g,  " "));//'Payment rejected. Please contact administartor.';
             } else {
               this.orderData['uuid'] = this.dataService.getLocalStorageData('uuid');
               this.orderData['pref'] = this.paymentReference;
@@ -135,7 +134,7 @@ export class CheckoutComponent implements OnInit {
           } 
   
           if(this.orderData.payment_type == undefined) { 
-            this.orderData['payment_type'] = 'Cash';
+            this.orderData['payment_type'] = 'online';
           }
   
           let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
