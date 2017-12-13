@@ -51,15 +51,15 @@
                 <h3 class="green-title">choose how to pay</h3>
                 <div class="payment_method">
                     <ul class="nav nav-tabs" role="tablist">
-                        <!-- <li role="presentation" class="active"> <a href="#cd-cards" (click)="updatePaymentType('Online')" aria-controls="cd-cards" role="tab" data-toggle="tab">Pay by card</a> </li> -->
-                        <li role="presentation" class="active"> <a href="#cod" (click)="updatePaymentType('Cash')" aria-controls="cod" role="tab" data-toggle="tab">Pay by cash</a> </li>
+                        <li role="presentation" class="active"> <a href="#cd-cards" (click)="updatePaymentType('Online')" aria-controls="cd-cards" role="tab" data-toggle="tab">Pay by card</a> </li> 
+                        <li role="presentation" > <a href="#cod" (click)="updatePaymentType('Cash')" aria-controls="cod" role="tab" data-toggle="tab">Pay by cash</a> </li>
 
                     </ul>
                     <div class="tab-content three-column-wrapper">
-                        <div role="tabpanel" class="tab-pane fade in inside-column-container active" id="cod">
-                            <a *ngIf="showPlaceOrder" class="btn-red btn-block" (click)="placeOrder()">Continue</a>
+                        <div role="tabpanel" class="tab-pane fade in inside-column-container" id="cod">
+                            <a *ngIf="showPlaceOrder" class="btn-red btn-block" (click)="placeOrderOld()">Continue</a>
                         </div>
-                        <div role="tabpanel" class="tab-pane fade in" id="cd-cards">
+                        <div role="tabpanel" class="tab-pane fade in active" id="cd-cards">
                             
                             <form #newRuleForm="ngForm"   name="addressForm" novalidate (ngSubmit)="payOnline(newRuleForm.valid)">
                                 <div class="alert alert-danger" *ngIf="payError != '' && payError != null">{{payError}}</div>

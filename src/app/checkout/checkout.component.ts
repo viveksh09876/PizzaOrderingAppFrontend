@@ -82,13 +82,12 @@ export class CheckoutComponent implements OnInit {
     
       this.getItems();
       this.getCountryCodes();
-  
+ 
       this.route.queryParams.subscribe(params => {
-        if (params['payment_reference'] != undefined) {
-          this.paymentReference = params['payment_reference'];
-  
+        if (params['order_id'] != undefined) {
+          this.paymentReference = params['order_id'];
             if (this.paymentReference == 0) {
-              this.payError = 'Payment rejected. Please contact administartor.';
+              this.payError = decodeURIComponent(params['message'].replace(/\+/g,  " "));//'Payment rejected. Please contact administartor.';
             } else {
               this.orderData['uuid'] = this.dataService.getLocalStorageData('uuid');
               this.orderData['pref'] = this.paymentReference;
@@ -135,7 +134,7 @@ export class CheckoutComponent implements OnInit {
           } 
   
           if(this.orderData.payment_type == undefined) { 
-            this.orderData['payment_type'] = 'Cash';
+            this.orderData['payment_type'] = 'online';
           }
   
           let userDetails = JSON.parse(this.dataService.getLocalStorageData('user-details'));
@@ -212,12 +211,11 @@ export class CheckoutComponent implements OnInit {
   }
 
 
-  placeOrder() {
+  placeOrderOld() {
       this.showLoading = true;
         this.showPlaceOrder = false;
 
           this.dataService.placeOrder(this.orderData).subscribe(data => {
-            // console.log(JSON.parse(data.response));
              let resp = JSON.parse(data.response);
 
              if(resp.Status == 'Error') {
@@ -239,6 +237,21 @@ export class CheckoutComponent implements OnInit {
              }
              this.showLoading = false;
            });
+          
+    }
+
+    placeOrder() {
+              this.showLoading = true;
+              this.showPlaceOrder = false;
+              this.dataService.setLocalStorageData('allItems', null); 
+               this.dataService.setLocalStorageData('confirmationItems', JSON.stringify(this.items));
+               this.dataService.setLocalStorageData('finalOrder', null);                             
+               //alert('Order Placed');resp.OrderId
+               this.dataService.setLocalStorageData('confirmationOrderId', this.paymentReference); 
+               this.dataService.setLocalStorageData('confirmationFinalOrder', JSON.stringify(this.orderData));                
+               this.showLoading = false;
+               this.router.navigate(['/confirmation']);
+           
           
     }
 
@@ -306,19 +319,24 @@ export class CheckoutComponent implements OnInit {
 
       this.payDetails.uuid = this.uniqueId;
       this.dataService.setLocalStorageData('uuid', this.payDetails.uuid);
+       
+         //code for merge payment details and place order data for payment gatway
+        for (var key in this.orderData) {
+          this.payDetails[key]=this.orderData[key];
+        }
+           ////End merge code
 
           this.dataService.sendPaymentData(this.payDetails)
           .subscribe(data => {
             
             if (data.Status == 'Error') {
-              
               this.showLoading = false;
               this.payError = data.Message;
               
             } else if (data.Status == 'OK') {
-              this.showLoading = false;
-              
-              window.location.href = data.payment_url;
+           
+            this.showLoading = false;
+            window.location.href = data.payment_url;
               
             }
           });
