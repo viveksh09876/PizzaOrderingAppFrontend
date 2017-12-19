@@ -99,7 +99,7 @@ export class OrderreviewComponent implements OnInit {
                 'cancelLabel': 'Close'
             }
       };
-
+      StoreTime=[];
   constructor(private dataService: DataService,
                private dialogService:DialogService,
                 private utilService: UtilService, 
@@ -160,8 +160,10 @@ export class OrderreviewComponent implements OnInit {
         if (this.order.address.state == '' || this.order.address.state == null) {
           this.order.address.state = 'UAE';
         }
-
-        let cDate = new Date();
+        if (orderDetails.selectedStore.StoreTime != undefined) {
+         this.StoreTime=orderDetails.selectedStore.StoreTime;
+        }
+      /*  let cDate = new Date();
         let cDay = cDate.getDay();
         let storeTime = null;
         let storeFromTime = null;
@@ -183,7 +185,7 @@ export class OrderreviewComponent implements OnInit {
           this.storeTimeObj.fromTime = storeFromTime;
           this.storeTimeObj.toTime = storeToTime;
         }
-        
+        */
         
         if (orderDetails.selectedStore != undefined && orderDetails.selectedStore.Store.id != undefined) {
           this.order.storeId = orderDetails.selectedStore.Store.store_id;
@@ -445,17 +447,19 @@ export class OrderreviewComponent implements OnInit {
     let goFlag = true;
     let tVal = null;
     this.order.delivery_time = $("#DateTimeDel").val();
-
-    tVal = this.order.delivery_time
     this.dataService.setLocalStorageData('allItems', JSON.stringify(this.items));
+    
+    /*tVal = this.order.delivery_time
+    
     let cTime = moment(tVal, 'YYYY-MM-DD HH:mm A').format('hh:mm a');
     
     let inTimeRange = true;
     if (this.storeTimeObj.fromTime != undefined && this.storeTimeObj.toTime != undefined) {
         inTimeRange = this.utilService.inTimeRange(cTime, this.storeTimeObj.fromTime, this.storeTimeObj.toTime);
-    }
-    
+    }*/
 
+    
+    let inTimeRange=this.utilService.getAllDateRange(this.StoreTime,this.order.delivery_time);
     if (inTimeRange) {
 
       if (goFlag) {

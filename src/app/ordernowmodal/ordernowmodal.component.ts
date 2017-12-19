@@ -250,7 +250,8 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
          if(stores[i].Store.id == id) {
            this.selectedStore.info = stores[i];
 
-           if (stores[i].StoreTime != undefined) {
+          /* if (stores[i].StoreTime != undefined) {
+
               for (var j=0; j < stores[i].StoreTime.length; j++) {
                   if (stores[i].StoreTime[j].from_day == cDay) {
                     storeTime = stores[i].StoreTime[j];
@@ -265,7 +266,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
               
               this.storeTimeObj.fromTime = storeFromTime;
               this.storeTimeObj.toTime = storeToTime;
-           }
+           }*/
            
 
            //inTimeRange = this.utilService.inTimeRange(cTime, storeFromTime, storeToTime);
@@ -285,16 +286,16 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
 
   checkTimeRange(delivery_time) {
     
-      let inTimeRange = true;
+     /* let inTimeRange = true;
       
       let cTime = moment(delivery_time, 'YYYY-MM-DD HH:mm A').format('hh:mm a');
       
       if (this.storeTimeObj.fromTime != undefined && this.storeTimeObj.toTime != undefined) {
           inTimeRange = this.utilService.inTimeRange(cTime, this.storeTimeObj.fromTime, this.storeTimeObj.toTime);
           this.isInTimeRange = inTimeRange;
-      }
-
-      return inTimeRange;
+      }*/
+      this.isInTimeRange=this.utilService.getAllDateRange(this.selectedStore.info.StoreTime,delivery_time);
+      return this.isInTimeRange;
   }
 
 
