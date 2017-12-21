@@ -185,7 +185,7 @@ $(document).ready(function(){
                                   .setPopup(popup)
                                   .addTo(mapCanvas);
 
-                          p++;              
+                         // p++;              
                       }
 
                       if(stData.length > 1) {
