@@ -59,7 +59,7 @@
 
                             <div class="sub-cat-section" *ngIf="data.subCatsName.length > 0">
                               
-                              <div class="col-md-6" *ngFor="let subCt of data.subCats | keysPipe; let r=index;">
+                              <div class="col-md-4" *ngFor="let subCt of data.subCats | keysPipe; let r=index;">
                                 <h3 class="sub-head">{{subCt.key}}<br/>
                                 <small>{{data.subCatsPrice[r]}}</small></h3>
                                 <div class="row">
@@ -69,7 +69,7 @@
                                   <ng-container *ngIf="subProd.is_price_mapped == 1">
                                   <div class="createWrapper">
                                     <div class="media">
-                                      <div class="media-left">
+                                      <div class="media-left" [ngClass]="{'inlineStyle': (showViewCart==true)}" >
                                         <div class="img-Wrapper" *ngIf="subProd.thumb_image == null" style="background-image:url(assets/images/pizza-images/2.jpg)"> </div>
                                         <div class="img-Wrapper" *ngIf="subProd.thumb_image != null" [ngStyle]="{'background-image': 'url(' + cmsApiPath + '/' + subProd.thumb_image + ')'}"> </div>
                                       </div>

@@ -77,6 +77,8 @@ export class ConfirmationComponent implements OnInit {
           }); 
   }
 
-
+  getTaxes(amount){
+    return this.utilService.getTax(amount);
+  }
 
 }

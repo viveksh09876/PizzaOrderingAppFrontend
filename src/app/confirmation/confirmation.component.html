@@ -75,9 +75,9 @@
                             <td>{{netCost}}</td>
                         </tr>
                         <tr>
-                            <td>Taxes</td>
+                            <td>VAT included 5%</td>
                             <td></td>
-                            <td>0.00</td>
+                            <td>{{getTaxes(totalCost)}}</td>
                         </tr>
                         <tr *ngIf="orderData.order_type == 'delivery'">
                             <td>Delivery Charge</td>

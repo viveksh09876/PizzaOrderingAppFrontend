@@ -21,7 +21,8 @@ export class CheckoutComponent implements OnInit {
                   }
   
   totalCost = 0;
-  netCost = 0;    
+  netCost = 0;   
+  taxes=0; 
   items = []; 
   orderData = null;
   showPlaceOrder = true; 
@@ -124,7 +125,6 @@ export class CheckoutComponent implements OnInit {
             
             this.netCost =  formattedItemsData.totalPrice;
             this.totalCost = this.netCost;
-    
           if(this.orderData.couponDiscount != 0 && !isNaN(this.orderData.couponDiscount)) {
             this.couponDiscount = this.orderData.couponDiscount;
             this.totalCost = this.totalCost - this.orderData.couponDiscount;
@@ -132,7 +132,7 @@ export class CheckoutComponent implements OnInit {
           if(this.orderData.order_type == 'delivery') {
               this.totalCost += 6;
           } 
-  
+          this.taxes=this.utilService.getTax(this.totalCost);
           if(this.orderData.payment_type == undefined) { 
             this.orderData['payment_type'] = 'online';
           }

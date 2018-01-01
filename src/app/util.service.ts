@@ -368,5 +368,11 @@ export class UtilService {
     
   }
 
+  getTax(totalCost){
+        var tax= 21; // (100*tax)/(100+tax)
+        totalCost=Number(totalCost)/tax;
+        return Number(totalCost.toFixed(2));
+      }
+    
 
 }

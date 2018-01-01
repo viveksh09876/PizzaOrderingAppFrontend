@@ -741,6 +741,7 @@ export class OrderreviewComponent implements OnInit {
       this.order.coupon = '';
       this.isDiscountApply = false;
       this.totalCost = this.totalCost + this.couponDiscount;
+      this.order.couponDiscount= this.couponDiscount=0;
       this.couponMsg = 'Coupon removed successfully.';
       setTimeout(function(){
         this.couponMsg = '';
@@ -752,5 +753,8 @@ export class OrderreviewComponent implements OnInit {
       this.router.navigate(['/item/edit', index]);
     }
 
+    getTaxes(amount){
+      return this.utilService.getTax(amount);
+    }
 
 }
