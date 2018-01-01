@@ -20,6 +20,10 @@ iframe[name='google_conversion_frame'] {
     float: left;
 }
 
+.inlineStyle{
+	display: inline-block;
+}
+
 @media (min-width: 768px){
 #pickupdeliveryModal .modal-sm {
     width: 450px;
@@ -1917,7 +1921,8 @@ button.close:hover,button.close:focus{opacity: 1;}
 /*	margin-right: 0.80em;*/
 	border-radius: 50%;
 	background-size: cover;
-	background-position: center
+	background-position: center;
+	margin-bottom: 10px;
 }
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper.deals .media .media-left{display: flex; padding: 0px; margin: -1.5em -1.5em 20px -1.5em;}
 .two-column-wrapper .inside-column-container .content-wrapper .content-container .createWrapper.deals .media .img-Wrapper {
