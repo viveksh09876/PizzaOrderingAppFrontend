@@ -43,6 +43,7 @@ import { ForgotComponent } from './forgot/forgot.component';
 import { ResetComponent } from './reset/reset.component';
 import { SuggestionmodalComponent } from './suggestionmodal/suggestionmodal.component';
 import { DealsComponent } from './deals/deals.component';
+import { LocationsComponent } from './locations/locations.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { DealsComponent } from './deals/deals.component';
     ForgotComponent,
     ResetComponent,
     SuggestionmodalComponent,
-    DealsComponent
+    DealsComponent,
+    LocationsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,68 @@
+<div class="col-md-12 col-sm-12 col-lg-12">
+    <div class="row locationpage">
+	<div id="mapcanvas" class="map-canvas">
+	</div>
+	
+        <div class="left_panel">
+             <div class="tabsbox">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" (click)="cur_store();"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">current</a></li>
+                    <li role="presentation"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">upcoming</a></li>
+                    <li role="presentation" class="active" (click)="allStoresGmap();"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">all</a></li>
+                 </ul>
+              </div>
+              <div class="tab-content locationtab_content">
+                <div role="tabpanel" class="tab-pane" id="current">
+                    
+                </div>
+                <div role="tabpanel" class="tab-pane" id="upcoming">
+                	
+                </div>
+                <div role="tabpanel" class="tab-pane active" id="all">
+                	<div class="country_box">
+                        <label>select country</label>
+                        <select class="form-control" [(ngModel)]="selectedCountry" (ngModelChange)="changeCountry($event)">
+							<option [ngValue]="''">Select country</option>
+                            <option [ngValue]="'UAE'">Dubai</option>
+                            <option [ngValue]="'uk'">UK</option>
+                        </select>
+                    </div>
+                    <div class="search_location">
+                        <h4>find your local store in {{countryName|lowercase}}</h4>
+                        <input type="text" placeholder="Enter your area name / postal code" [(ngModel)]="searchTxt">
+                        <input type="submit" value="find store" (click)="storeSearch();">
+                    </div>
+                	<div class="city_locations">
+                    	<h4>{{countryName}} locations</h4>
+                        <div class="locationlist" *ngIf="storeList">
+                            <div class="box" *ngFor=" let store of storeList;">
+                                <ul>
+                                    <li (click)="storeLoc(store);" style="cursor:pointer;">
+                                        <img src="assets/images/map-marker.png" alt="">
+                                        <span>NKD Pizza {{store.Store.store_name}} <br>
+                                        {{store.Store.store_address}}, {{store.Store.city}}, {{store.Store.country}}</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-phone"></i>
+                                        <span>{{store.Store.store_phone}}</span>
+                                    </li>
+									<li>
+                                        <i class="fa fa-envelope-o"></i>
+                                        <span>{{store.Store.store_email}}</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-clock-o"></i>
+                                        <span>Open now:  10:30AM–2AM</span>
+                                    </li>
+                                </ul>
+                                <a href="/#menu" class="menu-btn" >Check Menu</a>
+                            </div>
+                        </div>
+						<div *ngIf="storeList==''">No Store in Current Location.</div>
+                    </div>
+                </div>
+              </div>
+
+        </div>
+    </div>
+</div>
