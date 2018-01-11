@@ -59,8 +59,8 @@ export class MenuComponent implements OnInit {
     this.orderNowDetails = JSON.parse(this.dataService.getLocalStorageData('order-now')); 
     if(this.orderNowDetails == null || this.orderNowDetails == 'null') {
       this.updateStoreAndTime('location');
-     }
-    
+    }
+     console.log(this.orderNowDetails);
     
     
   }
@@ -154,11 +154,10 @@ export class MenuComponent implements OnInit {
   }
 
 
-  goToCustomize(slug, modCount,cType,modifer_selected) {
+  goToCustomize(slug, modCount,cType,modifer_selected,all_options) {
 
     // this.dialogService.addDialog(MessageComponent, { title: 'block', message: 'In Store pickup only. Online ordering will be active from October 2nd onwards.', buttonText: 'OK', doReload: false }, { closeByClickingOutside:true }); 
     
-
     let orderNow = this.dataService.getLocalStorageData('order-now');
     let menuCountry = this.dataService.getLocalStorageData('menuCountry');
 
@@ -182,7 +181,7 @@ export class MenuComponent implements OnInit {
     } else {
       if (modCount > 0) { 
         if(cType){
-         this.addToCartCustomizeItem(slug,menuCountry,cType,modifer_selected);
+         this.addToCartCustomizeItem(slug,menuCountry,cType,modifer_selected,all_options);
         }else{
         //navigate to customize page
         this.router.navigate(['/item', slug]);      
@@ -497,12 +496,13 @@ export class MenuComponent implements OnInit {
 }
 
 
-  addToCartCustomizeItem(slug,menuCountry,cType,modifer_selected){
+  addToCartCustomizeItem(slug,menuCountry,cType,modifer_selected,all_option){
     //selected_modifier=selected_modifier?selected_modifier:262;
-    console.log(modifer_selected);
     let list=modifer_selected.split('-');
     //these are like a radio for pizza 
     let Pizzalist=['999991','999992','999993','I100','I101','217'];
+    // for keep default other modifers except selected dropdown
+    let otherproductPLU=this.utilService.filterPlucode(all_option);
     //console.log(list);
     this.dataService.getItemData(slug, menuCountry)
          .subscribe(data => { 
@@ -514,7 +514,7 @@ export class MenuComponent implements OnInit {
                      if(list.indexOf(ModifierOption[j]['Option']['plu_code']) !== -1){
                        ModifierOption[j]['Option']['is_checked']=true;
                        ModifierOption[j]['Option']['send_code']=1;
-                       }else if(cType!='pizza' || Pizzalist.indexOf(ModifierOption[j]['Option']['plu_code']) !== -1){
+                       }else if(otherproductPLU.indexOf(ModifierOption[j]['Option']['plu_code']) !== -1 || Pizzalist.indexOf(ModifierOption[j]['Option']['plu_code']) !== -1){
                        ModifierOption[j]['Option']['is_checked']=false;
                        ModifierOption[j]['Option']['send_code']=0;
                       }

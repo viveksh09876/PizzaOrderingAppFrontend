@@ -33,14 +33,14 @@
           </a>
         </li>
         <li>
-          <a (click)="updateStoreAndTime('pincode')">postcode
-            <span>{{ orderNowDetails?orderNowDetails.address.postal_code:'Select Postcode'}}</span>
+          <a (click)="updateStoreAndTime('city')">Area Name
+            <span>{{ orderNowDetails?orderNowDetails.address.city:'Select Area'}}</span>
           </a>
         </li>
         <li class="checkout" *ngIf="netCost != 0 && showViewCart">
           <a (click)="checkout()">
             <strong>checkout</strong>
-            <small>{{currencyCode}}{{netCost}}</small>
+            <small>{{netCost}} {{currencyCode}}</small>
           </a>
         </li>
       </ul>
@@ -160,7 +160,7 @@
                                     <a *ngIf="prod.mod_count > 0" (click)="addToCart(prod.slug, prod.mod_count)" class="btn btn-red">Customise</a>
                                   </div>
                                   <div class="col-md-6 col-xs-6">
-                                    <a (click)="addToCart(prod.slug, prod.mod_count,'others' ,prod.dd_default_selection)" class="btn btn-green">Add to Cart</a>
+                                    <a (click)="addToCart(prod.slug, prod.mod_count,'others' ,prod.dd_default_selection,prod.dipping_sauce_data)" class="btn btn-green">Add to Cart</a>
                                   </div>
                                 </div>
                                 <div class="row" *ngIf="prod.plu_code == 999999">
@@ -170,7 +170,7 @@
                                 </div>
                                 <div class="row" *ngIf="prod.mod_count==0 || (prod.mod_count==1 && prod.dipping_sauce_data)">
                                   <div class="col-md-12 col-xs-12">
-                                    <a (click)="addToCart(prod.slug, prod.mod_count,'others' ,prod.dd_default_selection)" class="btn btn-green">Add to Cart</a>
+                                    <a (click)="addToCart(prod.slug, prod.mod_count,'others' ,prod.dd_default_selection,prod.dipping_sauce_data)" class="btn btn-green">Add to Cart</a>
                                   </div>
                                 </div>
                                 <div class="row" *ngIf="prod.mod_count>1 && prod.dipping_sauce_data">
@@ -178,7 +178,7 @@
                                     <a *ngIf="prod.mod_count > 0" (click)="addToCart(prod.slug, prod.mod_count)" class="btn btn-red">Customise</a>
                                   </div>
                                   <div class="col-md-6 col-xs-6">
-                                    <a (click)="addToCart(prod.slug, prod.mod_count,'others' ,prod.dd_default_selection)" class="btn btn-green">Add to Cart</a>
+                                    <a (click)="addToCart(prod.slug, prod.mod_count,'others' ,prod.dd_default_selection,prod.dipping_sauce_data)" class="btn btn-green">Add to Cart</a>
                                   </div>
                                 </div>
                                 
@@ -373,7 +373,7 @@
                             <span class="num">{{item.Product.qty}}</span>
                             <a (click)="updateQuantity(1, item.Product.plu_code, i)">+</a>
                           </div>
-                          <div class="price">{{currencyCode}}{{item.totalItemCost }}</div>
+                          <div class="price">{{item.totalItemCost }} {{currencyCode}}</div>
                         </div>
                       </div>
 

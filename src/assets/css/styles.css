@@ -31,7 +31,7 @@ input{overflow: hidden;}
 a{cursor: pointer;}
 .modal-dialog .calendar{display: block; position: relative;}
 .modal-dialog .col-md-6.calendar:before{right: 24px}
-.modal-dialog .calendar:before{content:"\f073"; position: absolute; right: 7px; top: 12px; color: #454545;
+.modal-dialog .calendar:before{content:"\f073"; position: absolute; right: 27px; top: 16px; color: #454545;
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
@@ -732,9 +732,16 @@ header.navigation .logo {
 .how-are-we-different-wrapper .section-wrapper .section-container:hover .img-box  .overlap-text{opacity: 1;}
 
 @media (min-width: 768px) {
-.how-are-we-different-wrapper .section-wrapper .section-container {
+.how-are-we-different-wrapper .section-wrapper .section-container{
 	border-bottom: none;
 	max-width: 100%
+	}
+	#pickupdeliveryModal .modal-sm {
+    width: 450px;
+	}
+	#pickupdeliveryModal.modal-dialog .calendar:before {
+    right: 22px;
+    top: 15px;
 }
 }
 @media (min-width: 991px) {
@@ -1369,7 +1376,7 @@ header.navigation{z-index: 9999;}
 	display: table-cell;
 	vertical-align: top;
 	overflow: hidden;
-	padding: 0 15px; width: 68%;
+	padding: 0 0px; width: 68%;
 }
 
 @media (max-width: 1199px) {
@@ -1812,14 +1819,14 @@ button.close:hover,button.close:focus{opacity: 1;}
 .aside-wrapper .right-padd{ padding: 10px 0px;}
 .aside-wrapper .scroller{ max-height: 62vh; overflow: auto}
 .aside-wrapper .item_info{ font-family: "proxima_nova_rgregular"; float: left; width: 60%; padding-left: 1em;}
-.cartbox .item_info h4{ color: #5b5a56; font-size: 18px; line-height: 22px; margin: 0 0 5px; font-family: 'proxima_nova_ltsemibold';}
+.cartbox .item_info h4{ color: #5b5a56; font-size: 18px; line-height: 22px; margin: 0 0 5px 2px; font-family: 'proxima_nova_ltsemibold';}
 .cartbox .item_info h5.space{ margin-top: 10px;}
 .cartbox .item_info h5{ font-family: 'proxima_nova_ltsemibold'; font-size: 15px; line-height: 20px; color: #5b5a56; margin: 0;}
 .cartbox .item_info h5 span{font-family: "proxima_nova_rgregular";}
 .cartbox .item_info ul{ list-style: none; padding: 0; margin:0px; color: #5b5a56;}
-.cartbox .item_info ul li{ font-size: 14px; line-height: 20px; font-family: 'proxima_nova_ltlight';}
+.cartbox .item_info ul li{ font-size: 14px; line-height: 20px; font-family: 'proxima_nova_ltlight'; margin-left:1px;}
 
-.cartbox .item_pic{ float: right; width: 40%; padding:0 10px 0 0px;}
+.cartbox .item_pic{ float: right; width: 40%; padding:0 15px 0 0px;}
 .cartbox .item_pic .item{ min-width: 113px;
     margin: 10px 0;
     border-radius: 100%;
@@ -2116,7 +2123,7 @@ width:100%; vertical-align: middle; color: #fff; font: 1.625em "bureaueaglebookr
 	font-size: 1.8em;
     text-transform: lowercase;
     color: #646569;
-    padding: 0.6rem .5em;
+    padding: 0.3em 0.6em;
     border-bottom: 1px solid #d8d8d8;
     background: transparent;
 }
@@ -2535,7 +2542,7 @@ color:#fff
 
 .added-exclass.delry > .col-md-8{ width: 100%;}
 .added-exclass.delry > .col-md-4{  display: none;}
-#pickup.tab-pane .optional .form-control{ display: inline-block; /*width: 80%;*/ margin-bottom: 30px;}
+#pickup.tab-pane .optional .form-control{ display: inline-block; width: 80%; margin-bottom: 30px;}
 #pickup.tab-pane .use-location{font-family: "proxima_nova_rgregular"; font-size: 16px; line-height: 20px; color: #911c27; text-transform: uppercase; display: inline-block;}
 .modal-dialog .modal-content .modal-body.white h5 {
 	font: normal 18px "proxima_nova_rgregular";
@@ -3748,7 +3755,7 @@ color:#fff
 
 .menulist-items .tab-content .menuTabdetails{margin-top: 46px;}
 
-.menu_innertabs {list-style: none; border-bottom: 1px solid #d8d8d8;padding: 0;width: 71.2%;
+.menu_innertabs {list-style: none; border-bottom: 1px solid #d8d8d8;padding: 0;width: 70.2%;
     background: #fff; position: fixed; z-index: 9;}
 .fullview .menu_innertabs{width: 95.6%;}
 .menu_innertabs li{ display: inline-block; font-size: 20px; line-height: 35px;}
@@ -3790,7 +3797,7 @@ color:#fff
 .menulist-items .proinfo span a{ width: 30px; color: #911c27; font-size: 25px; float: left; text-align: center; border: 1px solid #911c27; border-radius:3px;}
 .menulist-items .proinfo span a:nth-child(2){ font-size: 17px; background: #fff; color: #911c27;border: 0px;}
 
-.menulist-items .btn{ color: #fff; display: block; text-align: center; border-bottom: 2px solid #5a3e41; font-size: 14px; line-height: 22px; padding: 5px; font-family: 'bureaueaglebookregular';}
+.menulist-items .btn{ color: #fff; display:in-block; text-align: center; border-bottom: 2px solid #5a3e41; font-size: 16px; padding: 5px; font-family: 'bureaueaglebookregular'; text-transform: lowercase; width: 100%;}
 .menulist-items .btn.btn-green{ background: #7a9c49;}
 .menulist-items .btn.btn-red{ background: #911c28;}
 .menulist-items .btn.btn-red.disableDeal{background: #969694; pointer-events: none; cursor: not-allowed;}
@@ -3866,7 +3873,7 @@ header.navigation ul.links.mobile li a img {width: 25px;margin-right: 5px;}
 	.two-column-wrapper.ourmenu{ margin: 54px -15px 0; width: auto;}
 	.secondary_menu .menutabs ul{ padding: 0; margin: 15px 0 -1px;}
 	.menulist-items .btn{line-height: 20px;}
-	.menulist-items .columnsdivider .col-lg-4{ margin-bottom: 25px;}
+	.menulist-items .columnsdivider .col-lg-4{ margin-bottom: 100px;}
 	.menulist-items .tab-content .menuTabdetails{margin: 0px;}
 	.menulist-items h2{ font-size: 25px; line-height: 30px; margin: 5px 0;}
 	.menulist-items h4{ font-size: 20px; line-height: 25px; margin: 5px 0; min-height: 0px;}

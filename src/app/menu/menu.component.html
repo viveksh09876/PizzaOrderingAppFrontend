@@ -15,8 +15,8 @@
                 <li>
                     <a (click)="updateStoreAndTime('time')">Order time <span>{{ orderNowDetails?orderNowDetails.delivery_time:'Select Time'}}</span></a>
                 </li>
-                <li><a (click)="updateStoreAndTime('postcode')">postcode <span>{{ orderNowDetails?orderNowDetails.address.postal_code:'Select Postcode'}}</span></a></li>
-                <li class="checkout" *ngIf="netCost != 0"><a (click)="checkout()"><strong>checkout</strong> <small>{{currencyCode}}{{netCost}}</small></a></li>
+                <li><a (click)="updateStoreAndTime('city')">Area name <span>{{ orderNowDetails?orderNowDetails.address.city:'Select Area'}}</span></a></li>
+                <li class="checkout" *ngIf="netCost != 0"><a (click)="checkout()"><strong>checkout</strong> <small>{{netCost}} {{currencyCode}}</small></a></li>
             </ul>
         </div>
         <div class="visible-xs mobileallergens">
@@ -113,7 +113,7 @@
                                         </div>
                                         <div class="row" *ngIf="prod.mod_count==0 || (prod.mod_count==1 && prod.dipping_sauce_data)">
                                             <div class="col-md-12 col-xs-12">
-                                                 <a  (click)="goToCustomize(prod.slug, prod.mod_count,'others' ,prod.dd_default_selection)" class="btn btn-green">Add to Cart</a>
+                                                 <a  (click)="goToCustomize(prod.slug, prod.mod_count,'others' ,prod.dd_default_selection,prod.dipping_sauce_data)" class="btn btn-green">Add to Cart</a>
                                             </div>
                                         </div>
                                         <div class="row" *ngIf="prod.mod_count>1 && prod.dipping_sauce_data">
@@ -121,7 +121,7 @@
                                                 <a *ngIf="prod.mod_count > 0" (click)="goToCustomize(prod.slug, prod.mod_count)" class="btn btn-red">Customise</a>
                                             </div>
                                             <div class="col-md-6 col-xs-6">
-                                                <a  (click)="goToCustomize(prod.slug, prod.mod_count,'others' ,prod.dd_default_selection)" class="btn btn-green">Add to Cart</a>
+                                                <a  (click)="goToCustomize(prod.slug, prod.mod_count,'others' ,prod.dd_default_selection,prod.dipping_sauce_data)" class="btn btn-green">Add to Cart</a>
                                             </div>
                                         </div>
                                     </div>
@@ -312,7 +312,7 @@
                                             <div class="item-action">
                                                 <div class="col-md-12">
                                                 <div class="quantity"><a (click)="updateQuantity(0, item.Product.plu_code, i)">-</a><span class="num">{{item.Product.qty}}</span><a (click)="updateQuantity(1, item.Product.plu_code, i)">+</a></div> 
-                                                <div class="price">{{currencyCode}}{{item.totalItemCost }}</div>
+                                                <div class="price">{{item.totalItemCost }} {{currencyCode}}</div>
                                             </div>
                                             </div>
                                         </div>

@@ -86,6 +86,7 @@ export class DealsComponent implements OnInit {
    // console.log('deallllllll',data);
     this.dealData = data;
     this.dealCode = data['code'];
+    console.log(this.dealData);
     this.getAllCategories();
     this.filterDealmodifier();
     //}); 
@@ -106,8 +107,6 @@ export class DealsComponent implements OnInit {
 
         for (var j = 0; j < allItems.length; j++) {
           if (allItems[j].Product.dealId != undefined) {
-
-
 
             if (allItems[j].Product.position == categoriesArr[i].pos && allItems[j].Product.comboUniqueId == this.comboUniqueId) {
               count++;
@@ -515,7 +514,7 @@ export class DealsComponent implements OnInit {
   getAllCategories() {
 
     let storeId = 1;
-    let menuCountry = 'UK';
+    let menuCountry = 'UAE';
     if (this.dataService.getLocalStorageData('nearByStore') != undefined &&
       this.dataService.getLocalStorageData('nearByStore') != '') {
 
@@ -557,7 +556,7 @@ export class DealsComponent implements OnInit {
     this.selectedDealMenuCatId = catId;
   }
 
-  addToCart(slug, modCount, cType, modifer_selected) {
+  addToCart(slug, modCount, cType, modifer_selected,all_option) {
 
     let orderNow = this.dataService.getLocalStorageData('order-now');
     let menuCountry = this.dataService.getLocalStorageData('menuCountry');
@@ -589,7 +588,7 @@ export class DealsComponent implements OnInit {
     } else {
       if (modCount > 0 && slug != 'chicken-tenders-2-2-2') {
         if (modifer_selected) {
-          this.addToCartCustomizeItem(slug, menuCountry, cType, modifer_selected);
+          this.addToCartCustomizeItem(slug, menuCountry, cType, modifer_selected,all_option);
           //navigate to customize page
           // this.add_to_cart_dipping_sauce_data(slug,menuCountry,selected_modifier);
         } else { this.router.navigate(['/item/deal/', this.dealId, this.comboUniqueId, this.selectedDealMenuCatIndex, slug]); }
@@ -845,11 +844,12 @@ export class DealsComponent implements OnInit {
   }
 
 
-  addToCartCustomizeItem(slug, menuCountry, cType, modifer_selected) {
+  addToCartCustomizeItem(slug, menuCountry, cType, modifer_selected,all_option) {
     //selected_modifier=selected_modifier?selected_modifier:262;
     let list = modifer_selected.split('-');
     //these are like a radio for pizza 
     let Pizzalist = ['999991', '999992', '999993', 'I100', 'I101', '217'];
+    let otherproductPLU=this.utilService.filterPlucode(all_option);
     this.dataService.getItemData(slug, menuCountry)
       .subscribe(data => {
         // code for set modifier values
@@ -860,7 +860,7 @@ export class DealsComponent implements OnInit {
               if (list.indexOf(ModifierOption[j]['Option']['plu_code']) !== -1) {
                 ModifierOption[j]['Option']['is_checked'] = true;
                 ModifierOption[j]['Option']['send_code'] = 1;
-              } else if (cType != 'pizza' || Pizzalist.indexOf(ModifierOption[j]['Option']['plu_code']) !== -1) {
+              } else if (otherproductPLU.indexOf(ModifierOption[j]['Option']['plu_code']) !== -1 || Pizzalist.indexOf(ModifierOption[j]['Option']['plu_code']) !== -1) {
                 ModifierOption[j]['Option']['is_checked'] = false;
                 ModifierOption[j]['Option']['send_code'] = 0;
               }

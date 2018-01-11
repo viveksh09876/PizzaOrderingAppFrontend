@@ -118,7 +118,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
     let orderNowDetails = JSON.parse(this.dataService.getLocalStorageData('order-now')); 
     //console.log('odert',orderNowDetails);
     if(orderNowDetails!=null && orderNowDetails!='null'){
-      this.postalCode=orderNowDetails.address.city;
+      this.cityVal=orderNowDetails.address.city;
       this.storeList = JSON.parse(this.dataService.getLocalStorageData('storeList')); 
       if(this.storeList==null){
         this.getStores(this.areaVal);

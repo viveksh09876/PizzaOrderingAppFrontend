@@ -814,7 +814,14 @@ export class UtilService {
     
       }
   
-  
-
+  filterPlucode(modifer){
+    let plu = [];
+    if(modifer.length){
+    for(var i = 0; i < modifer.length; i++){
+      plu.push(modifer[i].PLU);
+      }
+    }
+    return plu;
+  }
 
 }
