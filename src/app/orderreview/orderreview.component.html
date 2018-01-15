@@ -238,7 +238,7 @@
                         <a (click)="removeCoupon()">Remove</a>
                     </ng-container><span>{{couponDiscount}}</span></li> 
                 <li>Sub Total<span>{{netCost}}</span></li> 
-                <li>Taxes<span>0.00</span></li> 
+                <li>VAT included 5%<span>{{getTaxes(totalCost)}}</span></li> 
                 <li *ngIf="order.order_type=='delivery'">Delivery Charges <span>6.0</span></li> 
             </ul>
              <div class="grand-total">

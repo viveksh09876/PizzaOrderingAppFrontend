@@ -191,7 +191,7 @@ body {
 }
 @media (min-width: 1400px) {
 .leftContent .tab-content.deals-sub-menu{width: 99%;}
-.deal-content{margin: 85px 1%; width: 97% !important;}
+.deal-content{margin: 85px 0%; width: 99.5% !important;}
 .menutabcontent{width: 98% !important;}
 .secondary_menu:before{bottom: -21px;}
 }
@@ -1373,7 +1373,7 @@ header.navigation{z-index: 9999;}
 	border-spacing: 0
 }
 .two-column-wrapper .viewcart_sec .inside-column-container,.two-column-wrapper .inside-column-container {
-	display: table-cell;
+	display: inline;
 	vertical-align: top;
 	overflow: hidden;
 	padding: 0 0px; width: 68%;
@@ -3723,7 +3723,7 @@ color:#fff
 .secondary_menu .dropdown_rightmenu li{ display: inline-block; position: relative; vertical-align: middle; margin: 0 -2px;}
 .secondary_menu .dropdown_rightmenu li a{ padding: 17px 60px 17px 20px; border-right: 1px solid #d8d8d8; color: #646569; font-size: 15px; line-height: 18px; display: inline-block; font-family: 'proxima_nova_rgbold'; background: url(../images/arrow-down2.png) no-repeat 92% center}
 .secondary_menu .dropdown_rightmenu li a:focus{ outline: none; text-decoration: none;}
-.secondary_menu .dropdown_rightmenu li a span{ display: block; font-family: 'proxima_nova_ltlight';}
+.secondary_menu .dropdown_rightmenu li a span{ display: block; font-family: 'proxima_nova_ltlight'; text-transform: capitalize;}
 .secondary_menu .dropdown_rightmenu li ul{ position: absolute; left: 0; top: 82px; width: 100%; background: #fff; border: 1px solid #ccc; border-bottom: 0; display: none; min-width: 130px; z-index: 9; transition: .5s;}
 .secondary_menu .dropdown_rightmenu li ul.now{ top: 85px; }
 .secondary_menu .dropdown_rightmenu li ul:after{ position: absolute; left: 50%; top: -10px; content: ''; border-bottom: 10px solid #fff; border-left: 10px solid rgba(0,0,0,0); border-right: 10px solid rgba(0,0,0,0); margin-left: -10px;}
@@ -3786,7 +3786,7 @@ color:#fff
 
 .menulist-items .dealtabcontent .col-md-4{margin-bottom: 20px;}
 .menulist-items .dealtabcontent .desc-box{display: table; width: 100%; background: #789c48; margin-bottom: 10px; min-height: 154px;}
-.menulist-items .dealtabcontent h4{display: table-cell; background: #5b5a56; color: #fff; width: 40%; font-size: 1.5em; line-height: normal; vertical-align: top; padding: 10px;}
+.menulist-items .dealtabcontent h4{display: table-cell; background: #5b5a56; color: #fff; width: 40%; font-size: 1.5em; line-height: normal; vertical-align: top; padding: 10px; text-transform: lowercase;}
 .menulist-items .dealtabcontent p{display: table-cell; color: #fff !important;  font-size: 1em !important; vertical-align: top; line-height: normal !important; padding: 10px;}
 
 .menulist-items .proinfo{ margin: 0 0 12px; display: inline-block; vertical-align: top;  width: 100%; min-height: 28px;}
@@ -3873,7 +3873,8 @@ header.navigation ul.links.mobile li a img {width: 25px;margin-right: 5px;}
 	.two-column-wrapper.ourmenu{ margin: 54px -15px 0; width: auto;}
 	.secondary_menu .menutabs ul{ padding: 0; margin: 15px 0 -1px;}
 	.menulist-items .btn{line-height: 20px;}
-	.menulist-items .columnsdivider .col-lg-4{ margin-bottom: 100px;}
+	.menulist-items .columnsdivider .col-lg-4{ margin-bottom: 25px;}
+	.menulist-items .columnsdivider .col-lg-4:last-child{ margin-bottom: 100px;}
 	.menulist-items .tab-content .menuTabdetails{margin: 0px;}
 	.menulist-items h2{ font-size: 25px; line-height: 30px; margin: 5px 0;}
 	.menulist-items h4{ font-size: 20px; line-height: 25px; margin: 5px 0; min-height: 0px;}
@@ -3883,7 +3884,7 @@ header.navigation ul.links.mobile li a img {width: 25px;margin-right: 5px;}
     
     
 	.menu_innertabs{ border: none; background: #7a9c49; border-radius: 5px; padding: 10px 0; white-space: nowrap; overflow-x: auto; margin: 0 0 15px;}
-    .menu_innertabs_mobile{ width: 100%; border: none; background: #7a9c49; border-radius: 5px; padding: 10px 0; margin: 0 auto 15px; text-transform: uppercase; color: #fff; text-align: center; font-family: "bureaueaglebookregular"; font-size: 1.500em; padding: 10px 25px;} 
+    .menu_innertabs_mobile{ width: 100%; border: none; background: #7a9c49; border-radius: 5px; margin: 0 auto 15px; text-transform: uppercase; color: #fff; text-align: center; font-family: "bureaueaglebookregular"; font-size: 1.500em; padding: 10px 25px;} 
     
 	.menu_innertabs li{ font-size: 18px; line-height: 25px;}
 	.menu_innertabs li a{ color: #fff; border: none; padding: 0 20px;}
@@ -3895,10 +3896,10 @@ header.navigation ul.links.mobile li a img {width: 25px;margin-right: 5px;}
     .secondary_menu .container-fluid{padding-right: 15px; padding-left: 15px;}
 	.secondary_menu .dropdown_rightmenu{ position: fixed; width: 100%; left: 0; bottom: 0; z-index: 9; background: #911c28;}
 	.secondary_menu{ margin: 0 0 15px; top: 53px; z-index: 999;}
-	.secondary_menu .dropdown_rightmenu ul{width: 100%; height: 60px; display: table;}
+	.secondary_menu .dropdown_rightmenu ul{width: 100%; display: table;}
 	.secondary_menu .dropdown_rightmenu li{float: none; display: table-cell;}
 	.secondary_menu .dropdown_rightmenu li:last-child a{ border: none; padding: 10px;}
-	.secondary_menu .dropdown_rightmenu li a{ color: #fff; text-transform: uppercase; text-align: center; height: 100%; padding: 10px 5px; border-right: 1px solid #fff; font-size: 14px; line-height: 16px; font-family: "proxima_nova_rgregular"; display: block;}
+	.secondary_menu .dropdown_rightmenu li a{ color: #fff; text-align: center; border-right: 1px solid #fff; line-height: 13px; font-family: "proxima_nova_rgregular"; display: table-cell; text-transform: capitalize; height: 60px; padding: 5px; vertical-align: middle;}
 	.secondary_menu .dropdown_rightmenu li a span{text-transform: none;}
 	.secondary_menu .dropdown_rightmenu li.checkout{ width: 19%;}
 	.secondary_menu .dropdown_rightmenu li.checkout strong{ padding: 0; font-size: 13px; line-height: 20px; margin: 0; background: none; border:none; text-transform: capitalize;}
