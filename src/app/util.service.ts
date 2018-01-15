@@ -816,7 +816,7 @@ export class UtilService {
   
   filterPlucode(modifer){
     let plu = [];
-    if(modifer.length){
+    if(typeof modifer != 'undefined'  && modifer.length){
     for(var i = 0; i < modifer.length; i++){
       plu.push(modifer[i].PLU);
       }

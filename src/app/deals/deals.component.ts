@@ -86,7 +86,6 @@ export class DealsComponent implements OnInit {
    // console.log('deallllllll',data);
     this.dealData = data;
     this.dealCode = data['code'];
-    console.log(this.dealData);
     this.getAllCategories();
     this.filterDealmodifier();
     //}); 
@@ -682,6 +681,9 @@ export class DealsComponent implements OnInit {
         this.items = [];
         this.dataService.setLocalStorageData('allItems', 'null');
         alert('No items remaining in your cart!');
+        this.netCost = 0;
+        this.totalCost =0;
+        this.showViewCart = false;
       }
 
       var addedItems = JSON.stringify(this.items);
@@ -725,13 +727,14 @@ export class DealsComponent implements OnInit {
 
   checkForDealArray(productId, pluCode, catId) {
     let prodArr = this.dealData.categories[this.selectedDealMenuCatIndex].products;
+    let catIds=this.dealData.categories[this.selectedDealMenuCatIndex].catList;
     if (prodArr != null && prodArr.length > 0) {
       if (prodArr.indexOf(productId) > -1) {
         return true;
       } else {
         return false;
       }
-    } else if (this.dealData.categories[this.selectedDealMenuCatIndex].id == catId) {
+    } else if (catIds.indexOf(catId) > -1 || this.dealData.categories[this.selectedDealMenuCatIndex].id == catId) {
       return true;
     } else {
       return false;

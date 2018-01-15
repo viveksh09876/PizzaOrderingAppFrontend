@@ -316,6 +316,10 @@ export class MenuComponent implements OnInit {
             this.items = [];
             this.dataService.setLocalStorageData('allItems', 'null');
             alert('No items remaining in your cart!');
+            this.netCost = 0;
+            this.totalCost =0;
+            this.showViewCart = false;
+
           }
          
       }  

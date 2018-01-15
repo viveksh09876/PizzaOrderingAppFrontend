@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
             this.dataService.getIp().subscribe(data => {
               let countryName = data.geoplugin_countryName;
               //redirect to uk based
-              if (countryName.toLowerCase() == 'united kingdom') {
+              if (countryName !=null && countryName.toLowerCase() == 'united kingdom') {
                 if(urlArr.indexOf('uk') < 0) {
                   window.location.href = '/uk';
                 }  
@@ -117,14 +117,14 @@ export class AppComponent implements OnInit {
             let countryName = data.geoplugin_countryName;
             let userCountryCode = data.geoplugin_countryCode;
 
-            if(countryName.toLowerCase() == 'bahrain'){
+            if(countryName !=null && countryName.toLowerCase() == 'bahrain'){
               this.orderUrl = 'http://www.nkdpizza.com/order-bh.html';
               this.followUsLinks = {
                 fb: 'https://www.facebook.com/nkdpizzabh/',
                 twitter: 'https://twitter.com/NKDPizzabh',
                 instagram: 'https://www.instagram.com/nkdpizzabh/'
               }
-            } else if (countryName.toLowerCase() == 'united kingdom') {
+            } else if (countryName !=null && countryName.toLowerCase() == 'united kingdom') {
               this.followUsLinks = {
                 fb: 'https://www.facebook.com/NKDPizzaScotland/',
                 twitter: 'https://twitter.com/nkdscotland',
