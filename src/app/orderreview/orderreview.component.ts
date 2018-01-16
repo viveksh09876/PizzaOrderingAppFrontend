@@ -160,17 +160,16 @@ export class OrderreviewComponent implements OnInit {
         if (this.order.address.state == '' || this.order.address.state == null) {
           this.order.address.state = 'UAE';
         }
-        if (orderDetails.selectedStore.StoreTime != undefined) {
-         this.StoreTime=orderDetails.selectedStore.StoreTime;
-        }
-      /*  let cDate = new Date();
+       
+        let cDate = new Date();
         let cDay = cDate.getDay();
         let storeTime = null;
         let storeFromTime = null;
         let storeToTime = null; 
 
         if (orderDetails.selectedStore.StoreTime != undefined) {
-          for (var j=0; j < orderDetails.selectedStore.StoreTime.length; j++) {
+          this.StoreTime=orderDetails.selectedStore.StoreTime;
+        /*  for (var j=0; j < orderDetails.selectedStore.StoreTime.length; j++) {
               if (orderDetails.selectedStore.StoreTime[j].from_day == cDay) {
                 storeTime = orderDetails.selectedStore.StoreTime[j];
               }
@@ -183,9 +182,9 @@ export class OrderreviewComponent implements OnInit {
           storeToTime = moment(storeToTime, 'HH:mm').format('hh:mm a');
           
           this.storeTimeObj.fromTime = storeFromTime;
-          this.storeTimeObj.toTime = storeToTime;
+          this.storeTimeObj.toTime = storeToTime;*/
         }
-        */
+        
         
         if (orderDetails.selectedStore != undefined && orderDetails.selectedStore.Store.id != undefined) {
           this.order.storeId = orderDetails.selectedStore.Store.store_id;
@@ -449,8 +448,8 @@ export class OrderreviewComponent implements OnInit {
     this.order.delivery_time = $("#DateTimeDel").val();
     this.dataService.setLocalStorageData('allItems', JSON.stringify(this.items));
     
-    /*tVal = this.order.delivery_time
-    
+    tVal = this.order.delivery_time
+    /*
     let cTime = moment(tVal, 'YYYY-MM-DD HH:mm A').format('hh:mm a');
     
     let inTimeRange = true;

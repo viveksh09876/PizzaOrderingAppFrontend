@@ -701,7 +701,8 @@ export class DealsComponent implements OnInit {
       let remainingItems = [];
 
       for (var i = 0; i < allItems.length; i++) {
-        if (allItems[i].Product.dealId == undefined || (allItems[i].Product.dealId != dealId && allItems[i].Product.comboUniqueId != comboUniqueId)) {
+       // if (allItems[i].Product.dealId == undefined || (allItems[i].Product.dealId != dealId && allItems[i].Product.comboUniqueId != comboUniqueId)) {
+       if (allItems[i].Product.dealId == undefined || (!(allItems[i].Product.dealId == dealId && allItems[i].Product.comboUniqueId == comboUniqueId))) {
           remainingItems.push(allItems[i]);
         }
       }
@@ -719,6 +720,9 @@ export class DealsComponent implements OnInit {
         this.items = [];
         this.dataService.setLocalStorageData('allItems', 'null');
         alert('No items remaining in your cart!');
+        this.netCost = 0;
+        this.totalCost =0;
+        this.showViewCart = false;
       }
     }
 
