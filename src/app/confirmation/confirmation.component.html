@@ -106,6 +106,7 @@
                 {{orderData.address.state}} - {{orderData.address.postal_code}}<br>
                 Phone: {{orderData.user.phone}}</p>
                     </address>
+                <ng-container *ngIf="storeData">
                     <address class="r-add">
                         <strong>restaurant address</strong>
                         <p><span>{{storeData.Store.store_name}} <br></span>
@@ -113,6 +114,7 @@
                         {{storeData.Store.state}} {{storeData.Store.zip}}<br>
                         Phone: {{storeData.Store.store_phone}}</p>
                     </address>
+                </ng-container>
                     <ul>
                         <li><a [routerLink]="['/menu']" class="another-order">Start a new Order</a></li>
                         <!--<li><a><img src="assets/images/face.png" alt=""></a></li>

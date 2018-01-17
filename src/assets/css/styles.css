@@ -286,7 +286,7 @@ a.cta-btn {
 	text-decoration: none;
 	display: inline-block;
 	text-align: center;
-	color: #fff;
+	color: #911c27;
 	padding: 6px 1em;
 	border-radius: 3px;
 	-moz-transition-duration: .5s;
@@ -298,6 +298,21 @@ a.cta-btn {
 	-webkit-transition-timing-function: ease-in-out;
 	transition-timing-function: ease-in-out;
 	will-change: transform
+}
+
+a.cta-btn.inactive {
+
+  cursor: not-allowed;
+}
+
+a.cta-btn.inactive:hover {
+	background-color: #fff;
+	color: #911c27;	
+}
+
+a.cta-btn:hover {
+	color: #fff;
+	
 }
 a.addBtn {
 	background: #911c27;
@@ -320,7 +335,7 @@ a.addBtn:hover {
     border-width: medium medium 2px;
 }
 a.greenBtn {
-	background-color: #789c48;
+	background-color: #fff;
 	font: 17px "proxima_nova_rgbold"
 }
 a.greenBtn:hover {
@@ -1194,24 +1209,26 @@ header.navigation{z-index: 9999;}
 	color: #fff;
 	font-size: 3.750rem;
 	display: block;
-	font-family: 'proxima_nova_ltlight';
+	font-family: 'bureaueaglebookregular';
 }
 .banner-wrapper .leftButtons {
 	float: right;
 	width: 51%;
-	margin: 10px 0;
+	margin: 11px 0;
 	position: relative;
 	text-align: right
 }
 .banner-wrapper .leftButtons.buttons span.cost {
 	pointer-events: none;
-	background-color: #65646a;
+	background-color: #911c27;
 	display: inline-block;
-	padding:6px 10px;
+	padding:7px 10px;
 	color: #fff;
 	margin: 0 -6px;
     position: relative;
     z-index: 9999;
+	border-left:1px solid #000;
+	border-right:1px solid #000;
 }
 .banner-wrapper .leftButtons.buttons a.greenBtn.btn-sm {
 	width: 175px;
@@ -1325,7 +1342,8 @@ header.navigation{z-index: 9999;}
 	font-size: 4.125em
 }
 .banner-wrapper h1 span {
-	font-size: 2rem
+	font-size: 2rem;
+	font-family: 'bureaueaglebookregular';
 }
 }
 
@@ -1501,7 +1519,7 @@ header.navigation{z-index: 9999;}
 	background: #789c48;
 }
 .inside-column-container.thirdCol .control-group .control.checkbox .circle.half {
-	right: 35px;
+	right: 34px;
 }
 .inside-column-container.thirdCol .control-group .control.checkbox .circle.half.right {
 	right: 0;
@@ -1839,7 +1857,8 @@ button.close:hover,button.close:focus{opacity: 1;}
     font-size: 20px; }
 .cartbox .item_pic .img-control a .icon-edit:before{font-size:18px;}
 .cartbox .item-action{margin-top: 10px;display: inline-block;width: 100%;}
-.cartbox .quantity{float:left; text-align:center;}	
+.cartbox .quantity{float:left; text-align:center;}
+.cartbox .to-right{float: right;}
 .cartbox .quantity a{ border: 1px solid #911c27;; color: #911c27;; width: 25px; height: 20px; line-height: 19px; display: inline-block;  text-decoration:none; font-size: 20px;}
 .cartbox .quantity .num{ border-left: 0; border-right: 0; line-height: 22px; background: #ffffff; color: #911c27;  display: inline-block;  width: 25px; height: 20px; vertical-align: top;}
 .cartbox .quantity a:first-child{ border-radius: 3px;}
@@ -2274,14 +2293,14 @@ width:100%; vertical-align: middle; color: #fff; font: 1.625em "bureaueaglebookr
     font-size: 18px;
     white-space: inherit;}
 .menulist-items.fullview .deal-bar{width: 95.7%;}
-.deal-bar{padding: 0px 0 22px 0; background: #fff; display: table; margin: 0px; height: 100px; position: fixed; width:71.2%; z-index: 98;}
+.deal-bar{padding: 0px 0 22px 0; background: #fff; display: table; margin: 0px; position: fixed; width:71.2%; z-index: 98;}
 .deal-bar a{ background: #911c27;  vertical-align: middle;  color: #ffffff;  display: table-cell;  border-right: 10px solid #fff;
     text-align: center; width: 45px;}
 .deal-bar a span{font-size: 46px;}  
-.deal-bar p{background: #5b5a56; display: table-cell;  text-align: left;
+.deal-bar p{background: #789c48; display: table-cell;  text-align: left;
     color: #fff !important; padding:10px; vertical-align: middle;}
-.deal-bar p strong{display: block; font-family: "bureaueaglebookregular"; font-size: 1.2em; text-transform: lowercase;
-    font-weight: 400;}
+.deal-bar p strong{display: block; font-family: "bureaueaglebookregular"; font-size: 2em; text-transform: lowercase;
+    font-weight: 400; line-height: 31px;}
 .deal-bar p span{display: block; font-size: 1em;}
 .customize-uk .deal-bar{position: static; padding: 0px; width: 100%; margin: 0 0 10px 0;}
 .customize-uk .deal-bar a{border:none;}
@@ -2751,24 +2770,35 @@ color:#fff
 	
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container a.grayBtn {
-	background-color: #aaaaa9;
+	background-color: #fff;
 	display: block;
 	font: 15px "proxima_nova_rgregular";
 	max-width: 90px;
-	padding: 4px;
 	margin-top: 4px;
+	border: 1px solid #911c28;
+	color: #911c28;
+	text-transform: capitalize;
+}
+
+.three-column-wrapper .inside-column-container .content-wrapper .content-container a.grayBtn:hover {
+	background-color: #911c28;
+	color: #fff;
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container a.grayBtn.add_extra {
 	padding: 0;
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container a.grayBtn.add_extra span{
 	display: inline-block;
-    padding: 4px;
+    padding: 2px;
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container a.grayBtn.add_extra span.remove{
 	background: #911c27;
-	margin-left: 3px;
+	margin-left: 9px;
 	position: absolute;
+	padding: 3px;
+	top: -1px;
+	color: #fff;
+	
 }
 
 .three-column-wrapper .inside-column-container .content-wrapper .content-container h5 {
@@ -2875,7 +2905,8 @@ color:#fff
 	content: none
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control.checkbox.extra a.cta-btn {
-	background-color: #789c48
+	background-color: #789c48;
+	color: #fff;
 }
 .three-column-wrapper .inside-column-container .content-wrapper .content-container .control-group .control input {
 	position: absolute;
@@ -2951,18 +2982,18 @@ color:#fff
 }
 .three-column-wrapper .inside-column-container h3 a.fav-icon {
 	position: absolute;
-	right: 0;
-	top: 0;
-	color: #fff;
-	display: block;
-	height: 100%;
-	width: 20%;
-	text-decoration: none;
-	text-align: center;
-	font: 15px "proxima_nova_rgbold";
-	padding: 1.5em 0;
+    right: 0;
+    top: 0;
+    color: #fff;
+    display: block;
+    height: 100%;
+    width: 20%;
+    text-decoration: none;
+    text-align: center;
+    font: 15px "proxima_nova_rgbold";
+    padding: 1.5em 0;
 }
-.three-column-wrapper .inside-column-container h3 a.fav-icon span.icon-favourite {
+.three-column-wrapper .inside-column-container h3 a.fav-icon span.icon-favorite {
 	margin: auto;
 	font-size: 20px;
 	line-height: 32px;
@@ -3109,7 +3140,7 @@ color:#fff
 
 
 /*========step page css start here======*/
-.steprow ul{ display: inline-block; width: 70%; padding: 0; margin: 40px 0; list-style: none; font-family: "proxima_nova_rgbold";}
+.steprow ul{ display: none; width: 70%; padding: 0; margin: 40px 0; list-style: none; font-family: "proxima_nova_rgbold";}
 .steprow ul li{ display: inline-block; position: relative; color: #a7a7a7; font-size: 13px; line-height: 20px; padding: 0 12%; margin: 0 -2px; text-transform: uppercase;}
 .steprow ul li:first-child{ padding-left: 0;}
 .steprow ul li:first-child:after{ left: 20%;}
@@ -3119,8 +3150,7 @@ color:#fff
 .steprow ul li small{ display: block; background: #fff; margin: 0 auto 10px; color:#a7a7a7; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #dfdfdf; line-height: 50px; font-size: 25px; position: relative; z-index: 9;}
 .steprow ul li.active small{background: #5b5a56; border-color: #5b5a56; color: #fff;}
 .steprow ul li.active{ color: #a7a7a7;}
-
-.reviewbox{ background: #F4F4F4; padding: 15px; min-height: 215px;}
+.stepboxes .green-title .reviewbox{ background: #F4F4F4; padding: 15px; min-height: 215px;}
 .reviewbox h5{font-family: "proxima_nova_ltsemibold"; font-size: 18px; line-height: 20px; margin: 0 0 10px; color: #5B5A56; text-transform: uppercase; min-height: 40px;}
 .reviewbox h5 input[type="radio"]{ margin-right: 5px;}
 .reviewbox h5 input[type="radio"] ~ input[type="radio"]{ margin-left: 30px;}
@@ -3157,7 +3187,7 @@ color:#fff
 
 
 /*=============New step design css==========*/
-.stepboxes .green-title{background: #789c48; color: #ffffff; font-size: 22px; line-height: 30px; font-family: 'proxima_nova_rgbold'; padding: 10px 20px;}
+.stepboxes .green-title{background: #789c48; color: #ffffff; font-size: 22px; line-height: 30px; font-family: 'proxima_nova_rgbold'; padding: 10px 20px; margin-top:10px; }
 .stepboxes .green-title.gray{ color: #5b5a56; background: #f4f4f4;}
 
 .stepboxes .green-title .clear-cart { float: right;  color: #fff;  background: #911c28; text-align: center; font-weight: 300;  border-radius: 5px;
