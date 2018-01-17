@@ -93,7 +93,7 @@ export class DealsComponent implements OnInit {
 
   validateDealItems(allItems) {
     allItems = JSON.parse(allItems);
-    if (allItems != null) {
+    if (allItems != null && this.dealData) {
 
       let categoriesArr = this.dealData.categories;
       let keepCats = [];      //cats for which products added
@@ -190,9 +190,11 @@ export class DealsComponent implements OnInit {
 
     } else {
 
+      if(this.dealData){
       for (var i = 0; i < this.dealData.categories.length; i++) {
         this.dealData.categories[i].isEnable = true;
       }
+    }
 
       this.selectedDealMenuCatIndex = 0;
       this.selectedDealMenuCatId = this.dealData.categories[0].id;

@@ -53,12 +53,12 @@ export class DataService {
   }
 
   setLocalStorageData(key, data) {
-    let prefix = 'uae_';
+    let prefix = 'uaenew_';
     localStorage.setItem(prefix + key, data);
   }
  
   getLocalStorageData(key) {
-    let prefix = 'uae_';
+    let prefix = 'uaenew_';
     return localStorage.getItem(prefix + key);
   }
 
@@ -516,8 +516,7 @@ export class DataService {
 		  let type = dealCode;
 		
         let dealData = this.getDealTypeData(type);
-
-        let categoriesArr = dealData['categories'];
+        let categoriesArr = (typeof dealData['categories'] != 'undefined')?dealData['categories']:[];
         let keepCats = [];      //cats for which products added
         let atLeastoneEnable = false;
         let isExistArr = [];

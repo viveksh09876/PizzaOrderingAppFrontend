@@ -20,7 +20,7 @@
             </ul>
         </div>
         <div class="visible-xs mobileallergens">
-            <a class="" target="_blank" href="assets/images/nkd-nutrition-information.pdf"><i class="fa fa-chevron-left"></i> <!-- <i class="fa fa-close"></i> -->Allergens</a>
+            <!--<a class="" target="_blank" href="assets/images/nkd-nutrition-information.pdf"><i class="fa fa-chevron-left"></i>Allergens</a>-->
             <!-- <ul class="menu_type">
                 <li><a _ngcontent-c0><img src="assets/images/vegeterian.png" alt="">Vegetarian</a></li>
                 <li><a _ngcontent-c0><img src="assets/images/gluten.png" alt="">Gluten Free</a></li>
@@ -65,7 +65,7 @@
                          <div role="tabpanel"  *ngIf="data.type != 'deal'" [ngClass]="{'active': (data.name == selectedMenuCat)}"  class="tab_content fadeIn animated" id="{{data.name}}">
                              <div class="row hidden-xs">
                                 <div class="col-md-12 text-right">
-                                    <a target="_blank" href="assets/images/nkd-nutrition-information.pdf" class="allergens">Allergens Information</a>
+                                   <!-- <a target="_blank" href="assets/images/nkd-nutrition-information.pdf" class="allergens">Allergens Information</a>-->
                                     <ul class="menu_type">
                                         <li><img src="assets/images/vegeterian.png" alt="">Vegetarian</li>
                                         <li><img src="assets/images/gluten.png" alt="">Gluten Free</li>
@@ -80,7 +80,8 @@
                                 <ng-container *ngFor="let prod of data.products; let y=index;">
                                     <div class="col-md-6 col-sm-6 col-lg-4" *ngIf="prod.is_price_mapped==1">
                                         <div class="imgbox">
-                                            <img src="{{cmsApiPath + '/' + prod.image}}" alt="" class="img-responsive">
+                                                <img *ngIf="!prod.image" src="{{cmsApiPath + '/' + prod.thumb_image}}" alt="" class="img-responsive">
+                                                <img *ngIf="prod.image" src="{{cmsApiPath + '/' + prod.image}}" alt="" class="img-responsive">
                                             
                                             <img  class="nutrision" src="assets/images/vegeterian.png" *ngIf="prod.groupv == 1" popover="Vegetarian" [popoverOnHover]="true" />
                                             <img  class="nutrision" src="assets/images/hot.png" *ngIf="prod.grouph == 1" popover="Hot" [popoverOnHover]="true"/>
@@ -135,7 +136,8 @@
                                             <div class="col-md-6 col-sm-6 col-lg-4"  *ngFor="let subProducts of subCt.value">
                                              <ng-container *ngFor="let subProd of subProducts.products">
                                                     <div class="imgbox">
-                                                        <img src="{{cmsApiPath + '/' + subProd.image}}" alt="" class="img-responsive">
+                                                        <img *ngIf="!subProd.image" src="{{cmsApiPath + '/' + subProd.thumb_image}}" alt="" class="img-responsive">
+                                                        <img *ngIf="subProd.image" src="{{cmsApiPath + '/' + subProd.image}}" alt="" class="img-responsive">
                                                         <!--<small *ngIf="subCt.key!='signature'">{{subCt.key}}</small> -->
                                                         <img  class="nutrision" src="assets/images/vegeterian.png" *ngIf="subProd.groupv == 1" popover="Vegetarian" [popoverOnHover]="true" />
                                                         <img  class="nutrision" src="assets/images/hot.png" *ngIf="subProd.grouph == 1" popover="Hot" [popoverOnHover]="true"/>

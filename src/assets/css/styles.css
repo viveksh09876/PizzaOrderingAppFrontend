@@ -1,6 +1,6 @@
 body, html {
 	height: 100%;
-	font-size: 16px
+	font-size: 16px;
 	-webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2293,26 +2293,26 @@ width:100%; vertical-align: middle; color: #fff; font: 1.625em "bureaueaglebookr
     font-size: 18px;
     white-space: inherit;}
 .menulist-items.fullview .deal-bar{width: 95.7%;}
-.deal-bar{padding: 0px 0 22px 0; background: #fff; display: table; margin: 0px; position: fixed; width:71.2%; z-index: 98;}
-.deal-bar a{ background: #911c27;  vertical-align: middle;  color: #ffffff;  display: table-cell;  border-right: 10px solid #fff;
+.deal-bar{padding: 0px 0 15px 0; background: #fff; display: table; margin: 0px; position: fixed; width:71.2%; z-index: 98;}
+.deal-bar a{ background: #911c27;  vertical-align: middle;  color: #ffffff;  display: table-cell;  border-right:0px solid #fff;
     text-align: center; width: 45px;}
 .deal-bar a span{font-size: 46px;}  
 .deal-bar p{background: #789c48; display: table-cell;  text-align: left;
     color: #fff !important; padding:10px; vertical-align: middle;}
-.deal-bar p strong{display: block; font-family: "bureaueaglebookregular"; font-size: 2em; text-transform: lowercase;
+.deal-bar p strong{display: block; font-family: "bureaueaglebookregular"; font-size: 1.5em; text-transform: lowercase;
     font-weight: 400; line-height: 31px;}
 .deal-bar p span{display: block; font-size: 1em;}
 .customize-uk .deal-bar{position: static; padding: 0px; width: 100%; margin: 0 0 10px 0;}
 .customize-uk .deal-bar a{border:none;}
 
-.deal-content{margin-top: 104px; display: inline-block; width: 100%;}
+.deal-content{display: inline-block; width: 100%;}
 .card{display: block;}
 .card .card-header{background: #f4f4f4; border-color: currentcolor currentcolor #d8d8d8;
     border-image: none;
     border-radius: 3px;
     border-style: none none solid;
     border-width: medium medium 2px; display: block; margin-bottom: 10px;}
-.card .card-header a{color: #acadaf; font-size: 1.2em;padding: 10px;  text-decoration: none; font-family: "bureaueaglebookregular"; display: block;}
+.card .card-header a{color: #acadaf; font-size: 1.5em;padding: 10px;  text-decoration: none; font-family: "bureaueaglebookregular"; display: block;}
 .card .card-header.active a{color: #646569;}
 .card .card-header.fill a{color: #7a9c49;}
 .card .card-header a .panel-heading{border: none; padding: 0px; border-radius: 0px;}

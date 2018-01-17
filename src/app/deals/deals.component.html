@@ -133,7 +133,8 @@
                             <ng-container *ngIf="data.subCatsName.length == 0">
                               <div class="col-md-6 col-sm-6 col-lg-4" *ngIf="prod.is_price_mapped==1 && checkForDealArray(prod.id, prod.plu_code, prod.category_id)">
                                 <div class="imgbox">
-                                  <img src="{{cmsApiPath + '/' + prod.image}}" alt="" class="img-responsive">
+                                    <img *ngIf="!prod.image" src="{{cmsApiPath + '/' + prod.thumb_image}}" alt="" class="img-responsive">
+                                    <img *ngIf="prod.image" src="{{cmsApiPath + '/' + prod.image}}" alt="" class="img-responsive">
                                   <img class="nutrision" src="assets/images/vegeterian.png" *ngIf="prod.groupv == 1" popover="Vegetarian" [popoverOnHover]="true"
                                   />
                                   <img class="nutrision" src="assets/images/hot.png" *ngIf="prod.grouph == 1" popover="Hot" [popoverOnHover]="true" />
@@ -192,7 +193,8 @@
                                   <ng-container *ngFor="let subProd of subProducts.products">
                                     <div class="col-md-6 col-sm-6 col-lg-4" *ngIf="subProd.is_price_mapped==1 && checkForDealArray(subProd.id, subProd.plu_code, subProd.category_id)">
                                       <div class="imgbox">
-                                        <img src="{{cmsApiPath + '/' + subProd.image}}" alt="" class="img-responsive">
+                                          <img *ngIf="!subProd.image" src="{{cmsApiPath + '/' + subProd.thumb_image}}" alt="" class="img-responsive">
+                                          <img *ngIf="subProd.image" src="{{cmsApiPath + '/' + subProd.image}}" alt="" class="img-responsive">
                                         <!--<small *ngIf="subCt.key!='signature'">{{subCt.key}}</small>-->
                                         <img class="nutrision" src="assets/images/vegeterian.png" *ngIf="subProd.groupv == 1" popover="Vegetarian" [popoverOnHover]="true"
                                         />
