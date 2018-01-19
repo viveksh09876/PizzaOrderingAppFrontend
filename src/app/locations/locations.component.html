@@ -50,7 +50,7 @@
 									
                                     <li *ngIf="store.StoreTime[currDay] else elseBlock">
                                         <i class="fa fa-clock-o"></i>
-                                        <span>Open now: {{timeFormate(store.StoreTime[this.currDay].from_time,store.StoreTime[this.currDay].from_minutes,store.StoreTime[this.currDay].to_time,store.StoreTime[this.currDay].to_minutes)}}</span>
+                                        <span> {{timeFormate(store.StoreTime[this.currDay].from_time,store.StoreTime[this.currDay].from_minutes,store.StoreTime[this.currDay].to_time,store.StoreTime[this.currDay].to_minutes)}}</span>
                                     </li>
 									<ng-template #elseBlock>
 										<li>

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, AfterContentInit } from '@angular/core';
 import { DataService } from '../data.service';
+import { UtilService } from '../util.service';
 import { Http, Response, Jsonp  } from '@angular/http';
 
 declare var window: any;
@@ -12,7 +13,7 @@ declare var mapboxgl:any;
 })
 export class LocationsComponent implements OnInit {
 
-  constructor(private dataService: DataService,private http: Http) { }
+  constructor(private dataService: DataService,private http: Http,private utilService:UtilService) { }
 allCountry:any=[];
 allUpCountry:any=[];
   hasAllCountry=false;
@@ -49,7 +50,7 @@ days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 	 this.hascount=true;
 	 this.showEmail=true;
 	   mapboxgl.accessToken = 'pk.eyJ1IjoicHVzaHBlbmRyYXJhaiIsImEiOiJjajRwYzFtOTYxeWd0MzJwbDdsaGNzOTZiIn0.a9BUA890Vtyeqy21AaLClQ';
-	  let url = 'https://nkdpizza.com/dev';
+		let url = 'https://nkdpizza.com/dev';
 	 //let url = 'http://localhost/nkdDevUK';
 	  let directionUrl = 'http://maps.google.com/';
 	  this.selectedCountry='';
@@ -107,27 +108,32 @@ days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 											toMin = ("0" + toMin).slice(-2);
 										}
 										if(fromHr <=11){
-											var fromTime=fromHr+':'+fromMin+'AM';
+											var fromTime=fromHr+':'+fromMin+' AM';
 										}else{
 											if(fromHr==12){
-												var fromTime=fromHr+':'+fromMin+'PM';
+												var fromTime=fromHr+':'+fromMin+' PM';
 											}else{
-												var fromTime=fromHr-12+':'+fromMin+'PM';
+												var fromTime=fromHr-12+':'+fromMin+' PM';
 											}
 										}
 										if(toHr<=11){
-											var toTime=toHr+':'+toMin+'AM';
+											var toTime=toHr+':'+toMin+' AM';
 										}else{
 											if(toHr==12){
-												var toTime=toHr+':'+toMin+'PM';
+												var toTime=toHr+':'+toMin+' PM';
 											}else if(toHr==24){
-												var toTime=toHr-12+':'+toMin+'AM';
+												var toTime=toHr-12+':'+toMin+' AM';
 											}else{
-												var toTime=toHr-12+':'+toMin+'PM';
+												var toTime=toHr-12+':'+toMin+' PM';
 											}
 										}
 										
-										timeSlot='<li><a><i class="icon icon-time"></i><span>Open now: '+fromTime+'–'+toTime+'<span/></a></li>';
+										let rng=this.utilService.inTimeRange('now',fromTime,toTime);
+										if(rng){
+											timeSlot='<li><a><i class="icon icon-time"></i><span>Open now: '+fromTime+'–'+toTime+'<span/></a></li>';
+										}else{
+											timeSlot='<li><a><i class="icon icon-time"></i><span>Store closed<span/></a></li>';
+										}
 									}else{
 										timeSlot='<li><a><i class="icon icon-time"></i><span>Store closed<span/></a></li>';
 									}
@@ -249,27 +255,33 @@ days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 											toMin = ("0" + toMin).slice(-2);
 										}
 										if(fromHr <=11){
-											var fromTime=fromHr+':'+fromMin+'AM';
+											var fromTime=fromHr+':'+fromMin+' AM';
 										}else{
 											if(fromHr==12){
-												var fromTime=fromHr+':'+fromMin+'PM';
+												var fromTime=fromHr+':'+fromMin+' PM';
 											}else if(toHr==24){
-												var toTime=toHr-12+':'+toMin+'AM';
+												var toTime=toHr-12+':'+toMin+' AM';
 											}else{
-												var fromTime=fromHr-12+':'+fromMin+'PM';
+												var fromTime=fromHr-12+':'+fromMin+' PM';
 											}
 										}
 										if(toHr<=11){
-											var toTime=toHr+':'+toMin+'AM';
+											var toTime=toHr+':'+toMin+' AM';
 										}else{
 											if(toHr==12){
-												var toTime=toHr+':'+toMin+'PM';
+												var toTime=toHr+':'+toMin+' PM';
 											}else{
-												var toTime=toHr-12+':'+toMin+'PM';
+												var toTime=toHr-12+':'+toMin+' PM';
 											}
 										}
 										
-										timeSlot='<li><a><i class="icon icon-time"></i><span>Open now: '+fromTime+'–'+toTime+'<span/></a></li>';
+										let rng=this.utilService.inTimeRange('now',fromTime,toTime);
+										if(rng){
+											timeSlot='<li><a><i class="icon icon-time"></i><span>Open now: '+fromTime+'–'+toTime+'<span/></a></li>';
+										}else{
+											timeSlot='<li><a><i class="icon icon-time"></i><span>Store closed<span/></a></li>';
+										}
+									
 									}else{
 										timeSlot='<li><a><i class="icon icon-time"></i><span>Store closed<span/></a></li>';
 									}
@@ -439,28 +451,32 @@ days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 											toMin = ("0" + toMin).slice(-2);
 										}
 										if(fromHr <=11){
-											var fromTime=fromHr+':'+fromMin+'AM';
+											var fromTime=fromHr+':'+fromMin+' AM';
 										}else{
 											if(fromHr==12){
-												var fromTime=fromHr+':'+fromMin+'PM';
+												var fromTime=fromHr+':'+fromMin+' PM';
 											}else{
-												var fromTime=fromHr-12+':'+fromMin+'PM';
+												var fromTime=fromHr-12+':'+fromMin+' PM';
 											}
 										}
 										if(toHr<=11){
-											var toTime=toHr+':'+toMin+'AM';
+											var toTime=toHr+':'+toMin+' AM';
 										}else{
 											if(toHr==12){
-												var toTime=toHr+':'+toMin+'PM';
+												var toTime=toHr+':'+toMin+' PM';
 											}else if(toHr==24){
-												var toTime=toHr-12+':'+toMin+'AM';
+												var toTime=toHr-12+':'+toMin+' AM';
 											}else{
-												var toTime=toHr-12+':'+toMin+'PM';
+												var toTime=toHr-12+':'+toMin+' PM';
 											}
 										}
 										
-										
-										timeSlot='<li><a><i class="icon icon-time"></i><span>Open now: '+fromTime+'–'+toTime+'<span/></a></li>';
+										let rng=this.utilService.inTimeRange('now',fromTime,toTime);
+										if(rng){
+											timeSlot='<li><a><i class="icon icon-time"></i><span>Open now: '+fromTime+'–'+toTime+'<span/></a></li>';
+										}else{
+											timeSlot='<li><a><i class="icon icon-time"></i><span>Store closed<span/></a></li>';
+										}
 									}else{
 										timeSlot='<li><a><i class="icon icon-time"></i><span>Store closed<span/></a></li>';
 									}	
@@ -519,6 +535,7 @@ days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 	}
 	
 	timeFormate(fromHr,fromMin,toHr,toMin){
+			
 		if (fromHr < 10) {
 			fromHr = ("0" + fromHr).slice(-2);
 		}
@@ -532,26 +549,32 @@ days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 			toMin = ("0" + toMin).slice(-2);
 		}
 		if(fromHr <=11){
-			var fromTime=fromHr+':'+fromMin+'AM';
+			var fromTime=fromHr+':'+fromMin+' AM';
 		}else{
 			if(fromHr==12){
-				var fromTime=fromHr+':'+fromMin+'PM';
+				var fromTime=fromHr+':'+fromMin+' PM';
 			}else{
-				var fromTime=fromHr-12+':'+fromMin+'PM';
+				var fromTime=fromHr-12+':'+fromMin+' PM';
 			}
 		}
 		if(toHr<=11){
-			var toTime=toHr+':'+toMin+'AM';
+			var toTime=toHr+':'+toMin+' AM';
 			
 		}else{
 			if(toHr==12){
-				var toTime=toHr+':'+toMin+'PM';
+				var toTime=toHr+':'+toMin+' PM';
 			}else if(toHr==24){
-				var toTime=toHr-12+':'+toMin+'AM';
+				var toTime=toHr-12+':'+toMin+' AM';
 			}else{
-				var toTime=toHr-12+':'+toMin+'PM';
+				var toTime=toHr-12+':'+toMin+' PM';
 			}
 		}
-		return fromTime+'–'+toTime;
+		let rng=this.utilService.inTimeRange('now',fromTime,toTime);
+		if(rng){
+		    return 'Open now: '+fromTime+'–'+toTime;
+		}else{
+			return 'Store closed';
+		}
+		
 	}
 }

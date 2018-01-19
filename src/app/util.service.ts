@@ -208,13 +208,24 @@ export class UtilService {
 
       var iHourCheck = parseInt(sHour);
 
-      if (iHourCheck > 12) {
+   /*   if (iHourCheck > 12) {
           sAMPM = "PM";
           sHour = (iHourCheck - 12).toString();
       }
       else if (iHourCheck === 0) {
           sHour = "12";
       }
+*/
+      if (iHourCheck == 12) {
+              sAMPM = 'PM';
+            } else if (iHourCheck == 0) {
+              sHour = "12";
+            } else if (iHourCheck > 12) {
+              sHour = (iHourCheck - 12).toString();
+              sAMPM = 'PM';
+            }
+
+
 
       sHour = this.padValue(sHour);
 
