@@ -839,6 +839,13 @@ export class UtilService {
         totalCost=Number(totalCost)/tax;
         return Number(totalCost.toFixed(2));
       }
+
+
+      subtractTime(fromTime, min) {
+        let d2 = new Date(fromTime);
+        d2.setMinutes(fromTime.getMinutes() - parseInt(min));
+        return d2;
+      }
     
 
 }

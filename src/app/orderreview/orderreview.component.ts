@@ -485,7 +485,7 @@ export class OrderreviewComponent implements OnInit {
 				  this.order['is_meal_deal'] = 'MEALDEAL';
 			  }
 
-              if(this.order.order_type == 'delivery' && this.order.delivery_time_type == 'defer') {
+            /*  if(this.order.order_type == 'delivery' && this.order.delivery_time_type == 'defer') {
                 
                 orderData.defer = {
                   print_time: new Date().toString(),
@@ -504,7 +504,29 @@ export class OrderreviewComponent implements OnInit {
 
               if(this.order.delivery_time_type == 'asap') {
                 delete orderData.defer;
+              }*/
+              if(this.order.delivery_time_type == 'defer') {
+                let rTime = new Date(tVal);
+                let pTime = this.utilService.subtractTime(rTime, 20);
+                 orderData.defer = {
+                  print_time: pTime.toString(),
+                  required_time: rTime.toString()
+                }
+                console.log(orderData.defer);
+                orderData.defer.print_time = this.utilService.toISOString(orderData.defer.print_time);
+                orderData.defer.required_time = this.utilService.toISOString(orderData.defer.required_time);
+              } 
+              if(this.order.order_type == 'pickup') {
+                //orderData.delivery_time;
+                //delete orderData.delivery_time_type;
+                delete orderData.address;
+                //delete orderData.defer;
               }
+
+              if(this.order.delivery_time_type == 'asap') {
+                delete orderData.defer;
+              }
+              
 
               this.order.order_details = this.prepareFinalOrderData(this.items);
               this.order['latlong'] = this.dataService.getLocalStorageData('latlong');
