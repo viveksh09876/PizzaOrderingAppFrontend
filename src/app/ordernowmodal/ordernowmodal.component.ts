@@ -114,6 +114,27 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
       }
     }
 
+  // code for default selection and open time popup only when user click oon time change 
+    let orderNowDetails = JSON.parse(this.dataService.getLocalStorageData('order-now')); 
+    //console.log('odert',orderNowDetails);
+    if(orderNowDetails!=null && orderNowDetails!='null'){
+      this.cityVal=orderNowDetails.address.city;
+      this.storeList = JSON.parse(this.dataService.getLocalStorageData('storeList')); 
+      if(this.storeList==null){
+        this.getStores(this.areaVal);
+      }
+
+
+      if(this.storeList != null){
+      this.selectedStore.val=orderNowDetails.selectedStore.Store.id;
+      this.setSelectedStore(this.selectedStore.val);
+      let timeselector_click = JSON.parse(this.dataService.getLocalStorageData('timeselector-click')); 
+      if(timeselector_click=='time'){
+        this.order.delivery_time_type=orderNowDetails.delivery_time_type;
+        this.goTotimeModal();
+       }
+     }
+    }
   }
 
 
@@ -220,7 +241,8 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
                     this.storeList = data;
                     this.selectedStore.val = data[0].Store.id;
                     this.setSelectedStore(data[0].Store.id);
-                    this.showStoreLoading = false;                 
+                    this.showStoreLoading = false;
+                    this.dataService.setLocalStorageData('storeList', JSON.stringify(data));
                 }); 
   }
   
@@ -250,7 +272,8 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
          if(stores[i].Store.id == id) {
            this.selectedStore.info = stores[i];
 
-           if (stores[i].StoreTime != undefined) {
+          /* if (stores[i].StoreTime != undefined) {
+
               for (var j=0; j < stores[i].StoreTime.length; j++) {
                   if (stores[i].StoreTime[j].from_day == cDay) {
                     storeTime = stores[i].StoreTime[j];
@@ -265,7 +288,7 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
               
               this.storeTimeObj.fromTime = storeFromTime;
               this.storeTimeObj.toTime = storeToTime;
-           }
+           }*/
            
 
            //inTimeRange = this.utilService.inTimeRange(cTime, storeFromTime, storeToTime);
@@ -284,17 +307,9 @@ export class OrdernowmodalComponent extends DialogComponent<OrdernowModal, boole
 
 
   checkTimeRange(delivery_time) {
-    
-      let inTimeRange = true;
-      
-      let cTime = moment(delivery_time, 'YYYY-MM-DD HH:mm A').format('hh:mm a');
-      
-      if (this.storeTimeObj.fromTime != undefined && this.storeTimeObj.toTime != undefined) {
-          inTimeRange = this.utilService.inTimeRange(cTime, this.storeTimeObj.fromTime, this.storeTimeObj.toTime);
-          this.isInTimeRange = inTimeRange;
-      }
-
-      return inTimeRange;
+        
+      this.isInTimeRange=this.utilService.getAllDateRange(this.selectedStore.info.StoreTime,delivery_time);
+      return this.isInTimeRange;
   }
 
 

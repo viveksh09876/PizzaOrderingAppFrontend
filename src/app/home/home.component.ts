@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
   ngOnInit() {
     //check if user logged In
     let user = this.dataService.getLocalStorageData('isLoggedIn');
-    this.dataService.setLocalStorageData('order-now', null);
+    //this.dataService.setLocalStorageData('order-now', null);
     if(user != undefined && user == 'true') {
       this.showLogin = false;
     } 
@@ -63,12 +63,12 @@ export class HomeComponent implements OnInit, AfterContentInit {
           this.countryName = countryName;
       
           this.setStore();
-          if(countryName.toLowerCase() == 'bahrain'){
+          if(countryName !=null &&  countryName.toLowerCase() == 'bahrain'){
             this.getFbFeeds('nkdpizzabh');
             this.getIgFeeds('nkdpizzabh');
             this.getTwitterFeeds('NKDPizzabh');
             this.twitterScreenName = 'NKDPizzabh';
-          } else if (countryName.toLowerCase() == 'united kingdom') {
+          } else if (countryName !=null && countryName.toLowerCase() == 'united kingdom') {
             this.getFbFeeds('NKDPizzaScotland');
             this.getIgFeeds('nkdpizzascotland');
             this.getTwitterFeeds('nkdscotland');

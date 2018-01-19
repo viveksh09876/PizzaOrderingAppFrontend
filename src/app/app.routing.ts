@@ -36,6 +36,7 @@ const appRoutes: Routes = [
     { path: 'confirmation', component: ConfirmationComponent },
     { path: 'bahrain-order', component: BahrainComponent },
     { path: 'privacy', component: PrivacyComponent },
+    { path: 'terms', component: TermsComponent },
     { path: 'deals/:dealId/:comboUniqueId', component: DealsComponent },
     { path: 'locations', component: LocationsComponent }
 

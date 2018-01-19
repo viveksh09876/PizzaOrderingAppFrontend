@@ -1,7 +1,7 @@
 <!--Banner-->
 <div class="banner-wrapper">
 <div class="container" style="background-image:url(assets/images/cater-banner.jpg)">
-  <h1><span>choose your order</span></h1>
+  <h1><span> Order Review</span></h1>
   <div class="leftButtons buttons"><a [routerLink]="['/menu']" class="whiteBtn cta-btn">Back To Menu</a></div>
   <!--<div class="leftButtons searchBox">
     <input type="text" class="form-control" placeholder="">
@@ -101,7 +101,7 @@
                                         </div>
                                         <img *ngIf="item.Product.thumb_image == null" src="assets/images/pizza-images/2.jpg" alt="" class="item">
                                         <img *ngIf="item.Product.thumb_image != null" src="{{cmsApiPath + '/' + item.Product.thumb_image}}" alt="" class="item">
-                                        <div class="quantity"><a (click)="updateQuantity(0, item.Product.plu_code, i)">-</a><span class="num">{{item.Product.qty}}</span><a (click)="updateQuantity(1, item.Product.plu_code, i)">+</a></div>
+                                        <div class="quantity to-right"><a (click)="updateQuantity(0, item.Product.plu_code, i)">-</a><span class="num">{{item.Product.qty}}</span><a (click)="updateQuantity(1, item.Product.plu_code, i)">+</a></div>
                                     </div>
                                 
                                   

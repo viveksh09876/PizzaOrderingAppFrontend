@@ -896,7 +896,11 @@ export class ItemComponent implements OnInit {
 
 
   checkout() {    
+    if(this.netCost>0){
     this.router.navigate(['/order-review']);
+    }else{
+      return false;
+    }
   }
 
 
